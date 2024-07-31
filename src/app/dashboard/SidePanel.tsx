@@ -2,41 +2,52 @@
 
 import React from 'react';
 import { Drawer, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
-import { Dashboard, People, LocalHospital, Work, CalendarToday, Edit, BarChart, Apartment } from '@mui/icons-material';
+import { Dashboard, People, LocalHospital, Work, CalendarToday, Edit, BarChart } from '@mui/icons-material';
 import Image from 'next/image';
 import logo from "../../../public/logo.jpg";
 
 const drawerWidth = 200;
 
-const SidePanel = ({ open }: any) => {
+interface SidePanelProps {
+  onLogoMouseEnter: () => void;
+  onLogoMouseLeave: () => void;
+  isPanelHovered: boolean;
+}
+
+const SidePanel: React.FC<SidePanelProps> = ({ onLogoMouseEnter, onLogoMouseLeave, isPanelHovered }) => {
   return (
     <Drawer
       variant="permanent"
       style={{
-        width: open ? drawerWidth : 60,
+        width: isPanelHovered ? drawerWidth : 60,
         transition: 'width 0.3s',
         background: "#fff",
         position: 'fixed',
         top: 30,
         left: 30,
         height: 'calc(100% - 180px)',
-        borderRadius: "30px"
+        borderRadius: "30px",
+        zIndex: 1000
       }}
       PaperProps={{
         style: {
-          width: open ? drawerWidth : 60,
+          width: isPanelHovered ? drawerWidth : 60,
           overflowX: 'hidden',
           transition: 'width 0.3s',
           background: "#fff",
           position: 'relative',
           height: '100%',
-          borderRadius: "30px"
+          borderRadius: "30px",
         }
       }}
     >
-      <div style={{ display: 'flex', justifyContent: 'center', padding: '10px 0' }}>
-        <Image src={logo} alt="Logo" width={50} height={50} />
-      </div>
+      <div style={{ display: 'flex', flexDirection: "column", alignItems: 'center', padding: '10px 0' }} onMouseEnter={onLogoMouseEnter} 
+          onMouseLeave={onLogoMouseLeave}>
+        
+  
+          <Image src={logo} alt="Logo" width={50} height={50} /> 
+</div>
+      
       <List>
         {[
           { text: 'Dashboard', icon: <Dashboard /> },
@@ -46,7 +57,6 @@ const SidePanel = ({ open }: any) => {
           { text: 'Appointments', icon: <CalendarToday /> },
           { text: 'Content', icon: <Edit /> },
           { text: 'Stats', icon: <BarChart /> },
-        //   { text: 'Organization', icon: <Apartment /> },
         ].map((item, index) => (
           <ListItem
             button
@@ -54,7 +64,7 @@ const SidePanel = ({ open }: any) => {
             className='listItem'
           >
             <ListItemIcon className='listItemIcon'>{item.icon}</ListItemIcon>
-            <ListItemText primary={item.text} style={{ display: open ? 'block' : 'none' }} />
+            <ListItemText primary={item.text} style={{ display: isPanelHovered ? 'block' : 'none' }} />
           </ListItem>
         ))}
       </List>
