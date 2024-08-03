@@ -1,47 +1,38 @@
 import React from 'react';
-import { Container, Row, Col, Card } from 'react-bootstrap';
 
 const DashboardStats = ({ isPanelHovered }: any) => {
   const stats = [
-    { value: '324', label: 'Appoin. this month', icon: '👥' },
+    { value: '324', label: 'Appointments this month', icon: '👥' },
     { value: '22', label: 'Certified Consultants', icon: '👨‍⚕️' },
     { value: '4000', label: 'Registered Users', icon: '👥' },
     { value: '40', label: 'Blog Posts', icon: '📝' },
-    { value: '383821 Rs.', label: 'Earning this Month', icon: '💰' },
-    { value: '10.4 M Rs.', label: 'Total Earning till Now', icon: '🏦' },
+    { value: '383,821 Rs.', label: 'Earning this Month', icon: '💰' },
+    { value: '10.4 M Rs.', label: 'Total Earnings till Now', icon: '🏦' },
   ];
 
   return (
     <>
       <h1 className="mb-4" style={{
-        marginLeft: "120px",
+        marginLeft: "130px",
         transform: isPanelHovered ? 'translateX(150px)' : 'translateX(0)',
-        transition: 'transform 0.3s ease-in-out', 
+        transition: 'transform 0.3s ease-in-out',
         fontSize: "1.5rem"
       }}>
         Welcome Back, <span style={{ color: '#ff6600' }}>Kanika</span>
       </h1>
-      <Container
-        className="p-3"
-        style={{
-          background: 'transparent',
-          display: isPanelHovered ? 'none' : 'block',
-          transition: 'transform 0.3s ease-in-out',
-        }}
-      >
-        <Row className="g-3 justify-content-center">
+      <div className="dashboard-container" style={{ display: isPanelHovered ? 'none' : 'flex' }}>
+        <div className="stats-row">
           {stats.map((stat, index) => (
-            <Col key={index} xs={12} sm={6} md={4} lg={2} className="d-flex">
-              <Card className="text-left stat-card">
-                <Card.Body>
-                  <Card.Title className="display-10">{stat.icon} {stat.value}</Card.Title>
-                  <Card.Text className="text-muted">{stat.label}</Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
+            <div key={index} className="stat-card">
+              <div className="stat-content">
+                <div className="stat-value" style={{color: "#2C297E"}}>{stat?.value}</div>
+                <div className="stat-icon">{stat.icon}</div>
+              </div>
+              <div className="stat-label">{stat.label}</div>
+            </div>
           ))}
-        </Row>
-      </Container>
+        </div>
+      </div>
     </>
   );
 };

@@ -1,5 +1,5 @@
 
-import Dashboard from "./dashboard/page";
+
 
 
 
@@ -7,7 +7,7 @@ import Dashboard from "./dashboard/page";
 export default function Home() {
   return (
    <>
-    <Dashboard />
+    <h1>Hello</h1>
    </>
   );
 }

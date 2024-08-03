@@ -1,48 +1,39 @@
 'use client';
 
 import React, { useState } from 'react';
-import DashboardHeader from './DashboardHeader';
+
 import RecentTickets from './RecentTickets';
-import SidePanel from './SidePanel';
+
 import TopConsultants from './TopConsultants';
 import DashboardStats from './DashboardStats';
+import DynamicChart from './DynamicChart';
+import TopSessions from './TopSessions';
 
-export default function Dashboard() {
-  const [isPanelHovered, setIsPanelHovered] = useState(false);
+import './customScrollbar.css'; // Import custom scrollbar styles
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-  const handleLogoMouseEnter = () => {
-    setIsPanelHovered(true);
-  };
 
-  const handleLogoMouseLeave = () => {
-    setIsPanelHovered(false);
-  };
+export default function Dashboard({sampleData} : any) {
 
   return (
-    <div style={{ display: 'flex' }}>
-      <SidePanel 
-        onLogoMouseEnter={handleLogoMouseEnter} 
-        onLogoMouseLeave={handleLogoMouseLeave}
-        isPanelHovered={isPanelHovered}
-      />
+     
       <div style={{ width: '100%' }}>
-        <DashboardHeader isPanelHovered={isPanelHovered} />
-        <DashboardStats isPanelHovered={isPanelHovered} />
-        <div 
-          className="dashboard-grid-container" 
-          style={{ 
-            opacity: isPanelHovered ? 0 : 1, 
-            transition: 'opacity 0.3s ease-in-out'
-          }}
-        >
+        
+        <DashboardStats />
+        <div className="dashboard-grid-container" >
           <div>
             <RecentTickets />
           </div>
           <div>
             <TopConsultants />
           </div>
+          <div>
+            <DynamicChart />
+          </div>
+          <div>
+            <TopSessions />
+          </div>
         </div>
       </div>
-    </div>
   );
 }

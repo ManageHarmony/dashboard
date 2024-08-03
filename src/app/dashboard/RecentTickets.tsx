@@ -7,8 +7,8 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-  CardFooter,
 } from "@/components/ui/card";
+import '../dashboard/customScrollbar.css'
 
 const ticketsData = [
   {
@@ -50,62 +50,65 @@ export default function RecentTickets() {
   const [showAll, setShowAll] = useState(false);
 
   return (
-    
-    
-        <Card className="recent-tickets-container">
-          <CardHeader className="cardHeader">
-            <CardTitle>Recent <span className="text-orange-600">Tickets</span></CardTitle>
-            <button
-              onClick={() => setShowAll(!showAll)}
-              className="text-sm text-orange-600 flex items-center"
-            >
-              {showAll ? "Show Less" : "See All"}{" "}
-              <svg
-                className="ml-1 w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d={
-                    showAll
-                      ? "M5 15l7-7 7 7"
-                      : "M19 9l-7 7-7-7"
-                  }
-                ></path>
-              </svg>
-            </button>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {(showAll ? ticketsData : ticketsData.slice(0, 3)).map(
-                (ticket) => (
-                  <div key={ticket.id} className="flex items-start">
-                    <img
-                      src={ticket.avatar}
-                      alt={ticket.name}
-                      className="w-10 h-10 rounded-full mr-4"
-                    />
-                    <div>
-                      <CardTitle className="text-sm font-medium">
-                        {ticket.name}
-                      </CardTitle>
-                      <CardDescription className="text-xs text-orange-600">
-                        {ticket.description}
-                      </CardDescription>
-                      <p className="text-gray-500 text-xs">{ticket.date}</p>
-                      <p className="text-sm">{ticket.message}</p>
-                    </div>
+
+
+    <Card className="recent-tickets-container">
+      <CardHeader className="cardHeader">
+        <CardTitle>Recent <span className="text-orange-600">Tickets</span></CardTitle>
+        <button
+          onClick={() => setShowAll(!showAll)}
+          className="text-sm text-orange-600 flex items-center"
+        >
+          {showAll ? "Show Less" : "See All"}{" "}
+          <svg
+            className="ml-1 w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d={
+                showAll
+                  ? "M5 15l7-7 7 7"
+                  : "M19 9l-7 7-7-7"
+              }
+            ></path>
+          </svg>
+        </button>
+      </CardHeader>
+      <CardContent >
+        <div>
+          {(showAll ? ticketsData : ticketsData.slice(0, 3)).map(
+            (ticket) => (
+              <div key={ticket.id} className="flex items-start scrollable-content">
+                <img
+                  src={ticket.avatar}
+                  alt={ticket.name}
+                  className="w-10 h-10 rounded-full mr-4"
+                />
+                <div style={{ borderBottom: "1px solid #ffecd4", marginBottom: "15px"}}>
+                  <div style={{ display: "flex", justifyContent: "space-around" }}>
+                    <CardTitle className="text-sm font-medium">
+                      {ticket.name}
+                    </CardTitle>
+                    <span>~</span>
+                    <CardDescription className="text-xs text-orange-600">
+                      {ticket.description}
+                    </CardDescription>
                   </div>
-                )
-              )}
-            </div>
-          </CardContent>
-        </Card>
-    
+                  <p className="text-gray-500 text-xs">{ticket.date}</p>
+                  <p className="text-sm">{ticket.message}</p>
+                </div>
+              </div>
+            )
+          )}
+        </div>
+      </CardContent>
+    </Card>
+
   );
 }
