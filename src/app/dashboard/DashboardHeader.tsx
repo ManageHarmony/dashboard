@@ -8,12 +8,12 @@ import profilePic from "../../../public/logo.jpg"
 
 const DashboardHeader = ({isPanelHovered} : any) => {
   return (
-    <Navbar bg="transparent" className="d-flex justify-content-between w-100 p-3 header">
-      <Container className="d-flex justify-content-between align-items-center">
-        <Form style={{
-          position: 'relative',
-          width: '300px',  // Adjust width as necessary
-          transform: isPanelHovered ? 'translateX(160px)' : 'translateX(0)',
+    <Navbar bg='transparent' className="d-flex justify-content-between w-100 p-3 header bg-white">
+      <Form style={{
+        
+          width: '250px',  // Adjust width as necessary
+          marginLeft: "110px",
+          transform: isPanelHovered ? 'translateX(150px)' : 'translateX(0)',
           transition: 'transform 0.3s ease-in-out',
         }}>
           <FormControl
@@ -27,7 +27,7 @@ const DashboardHeader = ({isPanelHovered} : any) => {
             style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', color: '#6c757d' }}
           />
         </Form>
-        <div className="d-flex align-items-center" style={{ marginRight: "-100px" }}>
+        <div className="d-flex align-items-center">
           <div style={{ position: 'relative', marginRight: '10px' }}>
             <FaBell size={40} style={{ color: '#000',background: "#fff", borderRadius: '10px', padding: "10px" }} />
             <span style={{
@@ -64,7 +64,6 @@ const DashboardHeader = ({isPanelHovered} : any) => {
             </NavDropdown>
           </div>
         </div>
-      </Container>
     </Navbar>
   );
 };

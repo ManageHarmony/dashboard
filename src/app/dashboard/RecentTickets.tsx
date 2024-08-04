@@ -81,7 +81,7 @@ export default function RecentTickets() {
         </button>
       </CardHeader>
       <CardContent >
-        <div>
+        <div className="space-y-0">
           {(showAll ? ticketsData : ticketsData.slice(0, 3)).map(
             (ticket) => (
               <div key={ticket.id} className="flex items-start scrollable-content">
@@ -90,7 +90,7 @@ export default function RecentTickets() {
                   alt={ticket.name}
                   className="w-10 h-10 rounded-full mr-4"
                 />
-                <div style={{ borderBottom: "1px solid #ffecd4", marginBottom: "15px"}}>
+                <div style={{ borderBottom: "1px solid #ffecd4", marginBottom: "0px"}}>
                   <div style={{ display: "flex", justifyContent: "space-around" }}>
                     <CardTitle className="text-sm font-medium">
                       {ticket.name}

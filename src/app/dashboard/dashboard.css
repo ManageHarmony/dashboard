@@ -7,6 +7,7 @@ body {
   background-color:  #c7ebf0 !important;
   margin: 0;
 }
+
 .listItem {
   display: flex;
   justify-content: center;
@@ -50,7 +51,7 @@ body {
 
 .listItemTextOpen {
   display: flex;
-  /* margin-left: 12px; */
+  /**/
 }
 
 
@@ -61,7 +62,7 @@ body {
   margin-top: 10px;
 }
 .dashboard-container {
-  margin-left: 120px;
+
   margin-bottom: 20px;
   transition: transform 0.3s ease-in-out;
 }
@@ -128,7 +129,7 @@ body {
 .dashboard-grid-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  margin-left: 120px;
+
   padding-top: 10px;
   padding-bottom: 20px;
 }
@@ -166,4 +167,46 @@ body {
     height: 450px;
     overflow-y: auto;
     background-color: #fff;
+}
+
+.doctor-application-container {
+  width: 600px;
+  height: 850px;
+  overflow-y: auto;
+  background-color: #fff;
+}
+.doctor-ratings-container {
+  width: 600px;
+    height: 550px;
+    overflow-y: auto;
+    background-color: #fff;
+}
+.recent-doctors-container {
+  width: 600px;
+  height: 520px;
+  overflow-y: auto;
+  background-color: #fff;
+  margin-top: 20px;
+}
+
+.top-article-container {
+  width: 600px;
+  height: 450px;
+  overflow-y: auto;
+  background-color: #fff;
+  margin-top: 20px;
+}
+.most-posted-container {
+  width: 600px;
+  height: 350px;
+  overflow-y: auto;
+  background-color: #fff;
+  margin-top: 20px;
+}
+.top-blogs-container {
+  width: 600px;
+  height: 460px;
+  overflow-y: auto;
+  background-color: #fff;
+  margin-top: 20px;
 }

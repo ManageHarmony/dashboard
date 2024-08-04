@@ -42,7 +42,7 @@ const SidePanel: React.FC<SidePanelProps> = ({ onPanelHover, isPanelHovered }) =
       transition: 'width 0.3s',
       background: "#fff",
       position: 'fixed',
-      top: 30,
+      top: 35,
       left: 30,
       height: 'calc(100% - 70px)',
       borderRadius: "30px",

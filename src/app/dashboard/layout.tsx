@@ -15,7 +15,7 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-
+    
     const [isPanelHovered, setIsPanelHovered] = useState(false);
 
     const handlePanelHover = (hovered: boolean) => {
@@ -32,7 +32,7 @@ export default function RootLayout({
                    
                 <DashboardHeader isPanelHovered={isPanelHovered} />
               
-                <div style={{ display: isPanelHovered ? 'none' : 'block' }}>
+                <div style={{ display: isPanelHovered ? 'none' : 'block', marginLeft: "120px" }}>
                     {children}
                 </div>
             </body>

@@ -35,14 +35,14 @@ const ticketsData = [
     message: "I booked a Session with Doctor Sushmita Singh but she cancelled it just before the session timing starts.",
     avatar: "/assets/avatar.jpg",
   },
-  {
-    id: 4,
-    name: "Rashmi Sharma",
-    description: "My Payment Done Appointment Cancelled by Doctor",
-    date: "11:25AM, June 28, 2024",
-    message: "I booked a Session with Doctor Sushmita Singh but she cancelled it just before the session timing starts.",
-    avatar: "/assets/avatar.jpg",
-  },
+  // {
+  //   id: 4,
+  //   name: "Rashmi Sharma",
+  //   description: "My Payment Done Appointment Cancelled by Doctor",
+  //   date: "11:25AM, June 28, 2024",
+  //   message: "I booked a Session with Doctor Sushmita Singh but she cancelled it just before the session timing starts.",
+  //   avatar: "/assets/avatar.jpg",
+  // },
   // Add more ticket objects here
 ];
 

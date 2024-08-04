@@ -1,26 +1,21 @@
 import React from 'react';
+import ContentDynamicChart from './ContentDynamicChart';
+import TopArticleContent from './TopArticleContent';
 
-const DashboardStats = ({ isPanelHovered }: any) => {
+const ContentStats = () => {
   const stats = [
     { value: '324', label: 'Appointments this month', icon: '👥' },
     { value: '22', label: 'Certified Consultants', icon: '👨‍⚕️' },
     { value: '4000', label: 'Registered Users', icon: '👥' },
-    { value: '40', label: 'Blog Posts', icon: '📝' },
-    { value: '383,821 Rs.', label: 'Earning this Month', icon: '💰' },
-    { value: '10.4 M Rs.', label: 'Total Earnings till Now', icon: '🏦' },
+    { value: '324', label: 'Appointments this month', icon: '👥' },
+    { value: '22', label: 'Certified Consultants', icon: '👨‍⚕️' },
+    { value: '4000', label: 'Registered Users', icon: '👥' },
   ];
 
   return (
     <>
-      <h1 className="mb-4" style={{
-      
-        transform: isPanelHovered ? 'translateX(150px)' : 'translateX(0)',
-        transition: 'transform 0.3s ease-in-out',
-        fontSize: "1.5rem"
-      }}>
-        Welcome Back, <span style={{ color: '#ff6600' }}>Kanika</span>
-      </h1>
-      <div className="dashboard-container" style={{ display: isPanelHovered ? 'none' : 'flex' }}>
+      <div style={{width: "600px"}}>
+      <div className="dashboard-container">
         <div className="stats-row">
           {stats.map((stat, index) => (
             <div key={index} className="stat-card">
@@ -33,8 +28,11 @@ const DashboardStats = ({ isPanelHovered }: any) => {
           ))}
         </div>
       </div>
+      <ContentDynamicChart />
+      <TopArticleContent />
+      </div>
     </>
   );
 };
 
-export default DashboardStats;
+export default ContentStats;

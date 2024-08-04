@@ -17,7 +17,7 @@ import {
   } from "@/components/ui/table"
  
   
-  const topConsultantsData = [
+  const topSessionsData = [
     { id: 1, name: "Dr. Naseem Ahmad", times: 45 },
     { id: 2, name: "Kanika Jindal", times: 35 },
     { id: 3, name: "Shubham Solanki", times: 31 },
@@ -25,13 +25,13 @@ import {
     { id: 5, name: "Rishi Kumar", times: 18 },
   ];
   
-  export default function TopConsultants() {
+  export default function TopSessions() {
     return (
     
         <Card className="top-sessions">
         <CardHeader className="cardHeader">
           <CardTitle>
-            <span className="font-bold text-lg">Top 5 Consultants Picks</span>{" "}
+            <span className="font-bold text-lg">Top 5 Sessions Picks</span>{" "}
             <span className="font-normal text-lg">by Users</span>
           </CardTitle>
           <a
@@ -67,7 +67,7 @@ import {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {topConsultantsData.map((consultant, index) => (
+              {topSessionsData.map((consultant, index) => (
                 <TableRow key={consultant.id}>
                   <TableCell>{index + 1}</TableCell>
                   <TableCell>{consultant.name}</TableCell>
