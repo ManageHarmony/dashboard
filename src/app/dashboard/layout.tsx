@@ -1,5 +1,6 @@
 'use client';
 
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import SidePanel from "./SidePanel";
@@ -18,12 +19,12 @@ export default function RootLayout({
     const [showNotifications, setShowNotifications] = useState(false);
     const [showDropdown, setShowDropdown] = useState(false); // State for dropdown visibility
     const pathname = usePathname();
-    
+
     // Function to generate the page title and breadcrumb based on the route
     const generatePageInfo = (pathname: string) => {
         const pathParts = pathname.split('/').filter(Boolean); // Split and filter out empty parts
         const pageTitle = pathParts[pathParts.length - 1]?.charAt(0).toUpperCase() + pathParts[pathParts.length - 1]?.slice(1);
-        
+
         const breadcrumb = pathParts.map((part, index) => {
             const path = '/' + pathParts.slice(0, index + 1).join('/');
             return (
@@ -33,7 +34,7 @@ export default function RootLayout({
                 </span>
             );
         });
-        
+
         return { pageTitle, breadcrumb };
     };
 
@@ -56,16 +57,16 @@ export default function RootLayout({
             <body>
                 <SidePanel
                     onPanelHover={handlePanelHover}
-                    isPanelHovered={isPanelHovered} 
+                    isPanelHovered={isPanelHovered}
                 />
-                <DashboardHeader 
-                    isPanelHovered={isPanelHovered} 
+                <DashboardHeader
+                    isPanelHovered={isPanelHovered}
                     onShowNotifications={handleShowNotifications}
                     showNotifications={showNotifications}
                     onShowDropdown={handleShowDropdown} // Pass the handler
                     showDropdown={showDropdown} // Pass the state
                 />
-              
+
                 <div style={{ display: isPanelHovered || showNotifications || showDropdown ? 'none' : 'block', marginLeft: "120px" }}>
                     <div className="page-info">
                         {pathname === '/dashboard' ? (
@@ -90,7 +91,9 @@ export default function RootLayout({
                             </>
                         )}
                     </div>
-                    {children}
+                    <AppRouterCacheProvider>
+                        {children}
+                    </AppRouterCacheProvider>
                 </div>
             </body>
         </html>
