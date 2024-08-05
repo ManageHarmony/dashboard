@@ -8,7 +8,7 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
-import '../dashboard/customScrollbar.css'
+import './customScrollbar.css'
 
 const ticketsData = [
   {
