@@ -119,8 +119,8 @@ const StaffDetail: React.FC = () => {
                 </Grid>
                 <Grid item>
                     <DetailCard>
-                        <CardContent style={{display: "flex", flexDirection: "column", gap: "7px", height: "18rem"}}>
-                            <Typography variant="h6" component="div" sx={{ color: '#404040', fontWeight: 'bold', fontSize: "18px" }}>
+                        <CardContent style={{ display: "flex", flexDirection: "column", gap: "7px", height: "18rem" }}>
+                            <Typography variant="h6" component="div" sx={{ color: 'black', fontWeight: 'bold', fontSize: "18px" }}>
                                 Details
                             </Typography>
                             <Typography variant="body2" component="p" sx={{ color: '#606060', fontSize: "16px" }}>
@@ -154,31 +154,35 @@ const StaffDetail: React.FC = () => {
                 <Grid item>
                     <DetailCard>
                         <CardContent>
-                            <Typography variant="h6" component="div" sx={{ color: '#2C297D', fontWeight: 'bold' }}>
+                            <Typography variant="h6" component="div" sx={{ color: '#101010', fontWeight: 'bold', marginBottom: "10px" }}>
                                 Manager for
                             </Typography>
-                            <Typography variant="body2" component="p" sx={{ color: '#2C297D' }}>
-                                Service Categories:
+                            <Typography variant="body2" component="p" sx={{ color: '#101010', fontWeight: "bold", fontSize: "1.06rem", marginBottom: "8px" }}>
+                                Service Categories
                             </Typography>
-                            {staffData.serviceCategories.map((category, index) => (
-                                <Typography key={index} variant="body2" component="p" sx={{ color: '#2C297D' }}>
-                                    {index + 1}. {category}
-                                </Typography>
-                            ))}
-                            <Typography variant="body2" component="p" sx={{ color: '#2C297D' }}>
+                            <div style={{ marginLeft: "10px" }}>
+                                {staffData.serviceCategories.map((category, index) => (
+                                    <Typography key={index} variant="body2" component="p" sx={{ color: '#404040', fontSize: "1rem" }}>
+                                        {index + 1}. {category}
+                                    </Typography>
+                                ))}
+                            </div>
+                            <Typography variant="body2" component="p" sx={{ color: '#101010', fontWeight: "bold", fontSize: "1.06rem", marginBottom: "8px", marginTop: "5px"  }}>
                                 Assigned Creators:
                             </Typography>
-                            {staffData.assignedCreators.map((creator, index) => (
-                                <Typography key={index} variant="body2" component="p" sx={{ color: '#2C297D' }}>
-                                    {index + 1}. {creator}
-                                </Typography>
-                            ))}
+                            <div style={{ marginLeft: "10px", }}>
+                                {staffData.assignedCreators.map((creator, index) => (
+                                    <Typography key={index} variant="body2" component="p" sx={{ color: '#404040', fontSize: "1rem"  }}>
+                                        {index + 1}. {creator}
+                                    </Typography>
+                                ))}
+                            </div>
                         </CardContent>
                     </DetailCard>
                 </Grid>
             </Grid>
 
-            <Typography variant="h6" component="div" sx={{ color: '#2C297D', fontWeight: 'bold', marginTop: '20px' }}>
+            <Typography variant="h6" component="div" sx={{ color: '#202020', fontWeight: 'bold', marginTop: '20px' }}>
                 Assigned Consultants
             </Typography>
             <Grid container spacing={2}>
@@ -193,10 +197,10 @@ const StaffDetail: React.FC = () => {
                                 title={consultant.name}
                             />
                             <CardContent>
-                                <Typography gutterBottom variant="h6" component="div" sx={{ color: '#2C297D', fontWeight: 'bold' }}>
+                                <Typography gutterBottom variant="h6" component="div" sx={{ color: '#202020', fontWeight: 'bold' }}>
                                     {consultant.name}
                                 </Typography>
-                                <Typography variant="body2" color="textSecondary" component="p" sx={{ color: '#2C297D' }}>
+                                <Typography variant="body2" color="textSecondary" component="p" sx={{ color: '#202020' }}>
                                     {consultant.role}
                                 </Typography>
                             </CardContent>

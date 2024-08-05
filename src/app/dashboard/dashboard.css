@@ -4,7 +4,7 @@
 
 /* SidePanel.module.css */
 body {
-  background-color:  #c7ebf0 !important;
+  background-color:  #def9ff7e !important;
   margin: 0;
 }
 
@@ -152,7 +152,7 @@ body {
   height: 350px;
   overflow-y: auto;
   background-color: #fff;
-  margin-top: 30px;
+  margin: 30px 0;
 }
 
 .top-sessions {
@@ -160,7 +160,7 @@ body {
   height: 350px;
   overflow-y: auto;
   background-color: #fff;
-  margin-top: 30px;
+  margin: 30px 0;
 }
 .recent-rating-container {
     width: 600px;
@@ -210,3 +210,116 @@ body {
   background-color: #fff;
   margin-top: 20px;
 }
+
+/* dashboard.css */
+
+.page-info {
+  margin: 0 8px;
+}
+
+.page-info h1 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #242425;
+  margin-bottom: 5px;
+}
+
+.page-info .breadcrumb {
+  font-size: 14px;
+  color: #57575f;
+}
+
+.page-info .breadcrumb a {
+  color: #57575f;
+  text-decoration: none;
+}
+
+.page-info .breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.welcome-container, .heading-container {
+  position: relative;
+  display: inline-block;
+}
+
+.heading-underline {
+  width: 50%;
+  height: 2px;
+  background-color: #ff6600; /* Red color */
+  position: absolute;
+  bottom: 0; /* Adjust based on the spacing you need */
+  left: 0;
+  margin-bottom: 6px;
+}
+
+.notification-card {
+  background-color: #fff;
+  border-radius: 15px;
+  
+  margin: 15px 0px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 5px;
+  padding-bottom: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+ 
+}
+
+.notification-card-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.heading-underline-org {
+  width: 25%;
+  height: 2px;
+  background-color: #ff6600; /* Red color */
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  
+}
+
+.notification-item {
+  display: flex;
+  align-items: center;
+ 
+  display: flex;
+   padding: 8px;
+   border-radius: 15px;
+   margin-top: 12px;
+
+}
+
+.notification-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+.notification-content h3 {
+  font-size: 1rem;
+  margin: 0;
+  font-weight: bold;
+}
+
+.notification-content p {
+  font-size: 0.75rem;
+  margin: 0;
+  color: #6c757d;
+  margin-top: 5px
+}
+
+.notifications-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  width: 680px;
+  padding: 20px 10px;
+  margin: 20px 0;
+}
+

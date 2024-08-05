@@ -28,10 +28,10 @@ const StaffCard: React.FC<{ name: string; role: string; imageUrl: string }> = ({
         title={name}
       />
       <CardContent>
-        <Typography gutterBottom variant="h6" component="div" sx={{ color: '#2C297D', fontWeight: 'bold' }}>
+        <Typography gutterBottom variant="h6" component="div" sx={{ color: '#202020', fontWeight: 'bold' }}>
           {name}
         </Typography>
-        <Typography variant="body2" color="textSecondary" component="p" sx={{ color: '#2C297D' }}>
+        <Typography variant="body2" color="textSecondary" component="p" sx={{ color: '#202020' }}>
           {role}
         </Typography>
       </CardContent>

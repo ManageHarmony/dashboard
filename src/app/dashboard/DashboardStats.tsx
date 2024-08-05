@@ -12,14 +12,6 @@ const DashboardStats = ({ isPanelHovered }: any) => {
 
   return (
     <>
-      <h1 className="mb-4" style={{
-      
-        transform: isPanelHovered ? 'translateX(150px)' : 'translateX(0)',
-        transition: 'transform 0.3s ease-in-out',
-        fontSize: "1.5rem"
-      }}>
-        Welcome Back, <span style={{ color: '#ff6600' }}>Kanika</span>
-      </h1>
       <div className="dashboard-container" style={{ display: isPanelHovered ? 'none' : 'flex' }}>
         <div className="stats-row">
           {stats.map((stat, index) => (

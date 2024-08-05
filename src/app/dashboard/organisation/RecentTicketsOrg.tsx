@@ -51,17 +51,17 @@ export default function RecentTicketsOrg() {
 
   return (
     <>
-     <div>
-     <div className="action-bar text-lg font-semibold mb-2">Action Bar</div>
-      <div className="flex space-x-4 mb-4">
-        <button className="text-orange-600 py-2 px-4 rounded flex items-center" style={{ background: "#fff" }}>
-          All Notifications <FiBell className="ml-2" />
-        </button>
-        <button className="text-orange-600 py-2 px-4 rounded flex items-center" style={{ background: "#fff" }}>
-          <FiPlus className="mr-2" /> Add New Notifications
-        </button>
+      <div>
+        <div className="action-bar text-lg font-semibold mb-2">Action Bar</div>
+        <div className="flex space-x-4 mb-4">
+          <button className="text-orange-600 py-2 px-4 rounded flex items-center" style={{ background: "#fff" }}>
+            All Notifications <FiBell className="ml-2" />
+          </button>
+          <button className="text-orange-600 py-2 px-4 rounded flex items-center" style={{ background: "#fff" }}>
+            <FiPlus className="mr-2" /> Add New Notifications
+          </button>
+        </div>
       </div>
-     </div>
       <Card className="recent-tickets-container">
         <CardHeader className="cardHeader flex justify-between items-center">
           <CardTitle>

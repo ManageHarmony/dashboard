@@ -68,8 +68,8 @@ const StaffTable: React.FC = () => {
     };
 
     return (
-        <div style={{ paddingRight: "20px" }}>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '15px', padding: "10px 0px" }}>
+        <div style={{ paddingRight: "20px", paddingBottom: "20px" }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '15px', paddingBottom: "10px" }}>
                 <Button
                     variant="contained"
                     startIcon={<AddIcon sx={{ color: '#2C297D' }} />}
