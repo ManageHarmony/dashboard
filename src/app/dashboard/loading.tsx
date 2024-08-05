@@ -8,11 +8,11 @@ export default function Loading() {
 
 
 
-            <div className="d-flex justify-content-center align-items-center vh-100">
+            <div className="d-flex justify-content-center align-items-center vh-100 mx-2">
                 <Spinner animation="border" role="status">
                     <span className="visually-hidden">Loading...</span>
                 </Spinner>
-                <h2>Loading..</h2>
+                <h4>Loading..</h4>
             </div>
 
         </>

@@ -6,8 +6,8 @@ import SidePanel from "./SidePanel";
 import DashboardHeader from "./DashboardHeader";
 import Link from "next/link";
 
-import '../dashboard/dashboard.css';
-import '../dashboard/customScrollbar.css';
+import './dashboard.css';
+import './customScrollbar.css';
 
 export default function RootLayout({
     children,
