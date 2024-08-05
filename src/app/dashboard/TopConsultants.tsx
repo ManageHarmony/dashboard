@@ -16,7 +16,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import '../dashboard/customScrollbar.css'
+import './customScrollbar.css'
 
 const topConsultantsData = [
   { id: 1, name: "Dr. Naseem Ahmad", times: 45 },
@@ -33,6 +33,12 @@ export default function TopConsultants() {
         <CardTitle>
           <span className="font-bold text-lg">Top 5 Consultants Picks</span>{" "}
           <span className="font-normal text-lg">by Users</span>
+          <div style={{
+            width: "40%",
+            height: "2px",
+            backgroundColor: "#ff6600",
+            display: "block"
+          }}></div>
         </CardTitle>
         <a
           href="#see-all"
@@ -68,7 +74,7 @@ export default function TopConsultants() {
           </TableHeader>
           <TableBody>
             {topConsultantsData.map((consultant, index) => (
-              <TableRow key={consultant.id}>
+              <TableRow key={consultant.id} className="table-row">
                 <TableCell>{index + 1}</TableCell>
                 <TableCell>{consultant.name}</TableCell>
                 <TableCell>{consultant.times}</TableCell>

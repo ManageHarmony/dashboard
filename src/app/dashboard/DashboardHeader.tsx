@@ -12,17 +12,17 @@ const DashboardHeader = ({ isPanelHovered, onShowNotifications, showNotification
     {
       title: 'Smriti Sharma as Doctor',
       description: 'is Now Registered on Phoenix and Approved by Jay Rawat',
-      image: '/path/to/image.jpg',
+      image: '/assets/avatar.jpg',
     },
     {
       title: 'Smriti Sharma as Doctor',
       description: 'on 60 character break the content and need show .............',
-      image: '/path/to/image.jpg',
+      image: '/assets/avatar.jpg',
     },
     {
       title: 'Smriti Sharma as Doctor',
       description: 'on 60 character break the content and need show .............',
-      image: '/path/to/image.jpg',
+      image: '/assets/avatar.jpg',
     },
   ]);
 

@@ -254,13 +254,13 @@ body {
   padding-bottom: 20px;
 }
 .recent-tickets-container {
-  width: 600px;
+  width: 95%;
   height: 350px;
   overflow-y: auto;
   background-color: #fff;
 }
 .top-consultants-container {
-  width: 600px;
+  width: 95%;
   height: 350px;
   overflow-y: auto;
   background-color: #fff;
@@ -268,7 +268,7 @@ body {
 
 
 .dynamicChart {
-  width: 600px;
+  width: 95%;
   height: 350px;
   overflow-y: auto;
   background-color: #fff;
@@ -276,33 +276,33 @@ body {
 }
 
 .top-sessions {
-  width: 600px;
+  width: 95%;
   height: 350px;
   overflow-y: auto;
   background-color: #fff;
   margin: 30px 0;
 }
 .recent-rating-container {
-    width: 600px;
+    width: 95%;
     height: 450px;
     overflow-y: auto;
     background-color: #fff;
 }
 
 .doctor-application-container {
-  width: 600px;
+  width: 95%;
   height: 850px;
   overflow-y: auto;
   background-color: #fff;
 }
 .doctor-ratings-container {
-  width: 600px;
+  width: 95%;
     height: 550px;
     overflow-y: auto;
     background-color: #fff;
 }
 .recent-doctors-container {
-  width: 600px;
+  width: 95%;
   height: 520px;
   overflow-y: auto;
   background-color: #fff;
@@ -310,21 +310,21 @@ body {
 }
 
 .top-article-container {
-  width: 600px;
+  width: 95%;
   height: 450px;
   overflow-y: auto;
   background-color: #fff;
   margin-top: 20px;
 }
 .most-posted-container {
-  width: 600px;
+  width: 95%;
   height: 350px;
   overflow-y: auto;
   background-color: #fff;
   margin-top: 20px;
 }
 .top-blogs-container {
-  width: 600px;
+  width: 95%;
   height: 460px;
   overflow-y: auto;
   background-color: #fff;

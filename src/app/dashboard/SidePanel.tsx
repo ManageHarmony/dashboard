@@ -29,6 +29,7 @@ const SidePanel: React.FC<SidePanelProps> = ({ onPanelHover, isPanelHovered }) =
 
   const handleNavigation = (href: string) => {
     setSelectedItem(href);
+    onPanelHover(false);
     router.push(href);
   };
 

@@ -2,11 +2,11 @@
 
 import React, { useEffect, useState } from 'react';
 import { Line, Bar } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend, ChartOptions } from 'chart.js';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend, ChartOptions, LineController, BarController } from 'chart.js';
 import { Card, CardContent, CardHeader, Typography } from '@mui/material';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, BarElement,LineController, BarController, PointElement, LineElement, Title, Tooltip, Legend);
 
 interface Dataset {
   type: 'line' | 'bar';
@@ -59,7 +59,7 @@ const ContentDynamicChart: React.FC = () => {
     fetchData().then((chartData) => setData(chartData));
   }, []);
 
-  const options: ChartOptions<'bar'> = {
+  const options: ChartOptions<'line' | 'bar'> = {
     responsive: true,
     plugins: {
       legend: {

@@ -57,7 +57,10 @@ export default function RatingsAndWords() {
     <Card className="recent-rating-container">
       <CardHeader className="d-flex flex-row justify-between items-center">
         <div>
-          <CardTitle>Ratings & Words</CardTitle>         
+          <CardTitle>
+            Ratings & Words
+            
+            </CardTitle>         
           
         </div>
         <CardDescription><span style={{fontSize: "1.2rem", fontWeight: "600", color: "#000000"}}>Average Rating: {averageRating}/5</span> </CardDescription>
