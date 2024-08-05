@@ -14,8 +14,9 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    
     const [isPanelHovered, setIsPanelHovered] = useState(false);
+    const [showNotifications, setShowNotifications] = useState(false);
+    const [showDropdown, setShowDropdown] = useState(false); // State for dropdown visibility
     const pathname = usePathname();
     
     // Function to generate the page title and breadcrumb based on the route
@@ -42,6 +43,14 @@ export default function RootLayout({
         setIsPanelHovered(hovered);
     };
 
+    const handleShowNotifications = (show: boolean) => {
+        setShowNotifications(show);
+    };
+
+    const handleShowDropdown = (show: boolean) => {
+        setShowDropdown(show);
+    };
+
     return (
         <html lang="en">
             <body>
@@ -49,9 +58,15 @@ export default function RootLayout({
                     onPanelHover={handlePanelHover}
                     isPanelHovered={isPanelHovered} 
                 />
-                <DashboardHeader isPanelHovered={isPanelHovered} />
+                <DashboardHeader 
+                    isPanelHovered={isPanelHovered} 
+                    onShowNotifications={handleShowNotifications}
+                    showNotifications={showNotifications}
+                    onShowDropdown={handleShowDropdown} // Pass the handler
+                    showDropdown={showDropdown} // Pass the state
+                />
               
-                <div style={{ display: isPanelHovered ? 'none' : 'block', marginLeft: "120px" }}>
+                <div style={{ display: isPanelHovered || showNotifications || showDropdown ? 'none' : 'block', marginLeft: "120px" }}>
                     <div className="page-info">
                         {pathname === '/dashboard' ? (
                             <div className="welcome-container">

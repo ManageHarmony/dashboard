@@ -12,6 +12,7 @@ export default function Loading() {
                 <Spinner animation="border" role="status">
                     <span className="visually-hidden">Loading...</span>
                 </Spinner>
+                <h2>Loading..</h2>
             </div>
 
         </>

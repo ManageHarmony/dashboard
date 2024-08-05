@@ -4,9 +4,129 @@
 
 /* SidePanel.module.css */
 body {
-  background-color:  #def9ff7e !important;
+  background-color:  #daf7fd7e !important;
   margin: 0;
 }
+
+/* header */
+.header-notification-card {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 350px;
+  position: absolute;
+  top: 50px;
+  right: 0;
+  z-index: 1000;
+  overflow: hidden; /* Add this line to remove sharp corners */
+}
+
+.notification-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-notification-card-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.see-all {
+  font-size: 0.875rem;
+  color: #ff6600;
+  text-decoration: none;
+}
+
+.header-notification-filters {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.filter-button {
+  background: none;
+  border: none;
+  font-size: 0.875rem;
+  padding: 5px 10px;
+  cursor: pointer;
+  background-color: #daf7fd7e;
+}
+
+.filter-button.active {
+  font-weight: bold;
+  color: #fff;
+  background-color: #2C297E;
+  border-radius: 5px;
+}
+
+.header-notification-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.header-notification-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+.header-notification-content h3 {
+  font-size: 1rem;
+  margin: 0;
+  font-weight: bold;
+}
+
+.notification-content p {
+  font-size: 0.875rem;
+  margin: 0;
+  color: #6c757d;
+}
+
+.custom-dropdown .dropdown-menu {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 25px;
+  right: 0 !important;
+  left: auto !important;
+  width: 220px; /* Adjust width as needed */
+  top: 15px; /* Added space from the top */
+}
+
+.dropdown-card {
+  border-radius: 10px 10px 0 10px;
+}
+
+.custom-dropdown .dropdown-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px; /* Adjust padding for more space */
+  color: #000;
+  font-weight: bold;
+  border-radius: 10px; /* Initial border-radius */
+}
+
+.custom-dropdown .dropdown-item .me-2 {
+  margin-right: 10px;
+  color: #FF6600;
+}
+
+.custom-dropdown .dropdown-item:hover {
+  background-color: #ffbda2;
+  color: white;
+  border-radius: 10px; /* Border-radius on hover */
+}
+
+.custom-dropdown .dropdown-item:hover .me-2 {
+  color: white;
+}
+
+
+/*.......*/
 
 .listItem {
   display: flex;
