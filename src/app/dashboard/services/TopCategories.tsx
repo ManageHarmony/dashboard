@@ -1,21 +1,7 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
 
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
 import ServiceActionBar from "./ServiceActionBar";
 
 
@@ -36,62 +22,43 @@ const topCategoriesData = [
 export default function TopCategories() {
     return (
         <>
-            <div style={{width: "600px"}}>
+            <div style={{ width: "100%" }}>
                 <ServiceActionBar />
-                <Card className="doctor-application-container">
-                    <CardHeader className="cardHeader">
-                        <CardTitle>
-                            <span className="font-bold text-lg">Doctor Applications</span>
-                        </CardTitle>
-                        <a
-                            href="#see-all"
-                            className="text-sm text-orange-600 flex items-center"
-                        >
-                            See All{" "}
-                            <svg
-                                className="ml-1 w-4 h-4"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="M19 9l-7 7-7-7"
-                                ></path>
+                <div className="doctor-application-container bg-white rounded shadow p-4">
+                    <div className="flex justify-between items-center mb-4">
+                        <span className="font-bold text-lg">Doctor Applications</span>
+                        <a href="#see-all" className="text-sm text-orange-600 flex items-center">
+                            See All
+                            <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
                             </svg>
                         </a>
-                    </CardHeader>
-                    <CardContent>
-                        <Table>
-                            {/* <TableCaption>Top 5 Consultants Picks by Users</TableCaption> */}
-                            <TableHeader>
-                                <TableRow className="bg-orange-100">
-                                    <TableHead className="text-left">Sr. No</TableHead>
-                                    <TableHead className="text-left">Therapist Name</TableHead>
-                                    <TableHead className="text-left">Times</TableHead>
-                                    <TableHead className="text-left">Action</TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {topCategoriesData.map((consultant, index) => (
-                                    <TableRow key={consultant.id}>
-                                        <TableCell>{index + 1}</TableCell>
-                                        <TableCell>{consultant.name}</TableCell>
-                                        <TableCell>{consultant.times}</TableCell>
-                                        <TableCell>
-                                            <button className="text-orange-600 flex items-center">
-                                                <FontAwesomeIcon icon={faEye} className="w-4 h-4" />
-                                            </button>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </CardContent>
-                </Card>
+                    </div>
+                    <table className="table-auto w-full border-collapse">
+                        <thead className="bg-orange-100 rounded-t-lg">
+                            <tr>
+                                <th className="text-left p-2 text-gray-600 rounded-tl-lg">Sr. No</th>
+                                <th className="text-left p-2 text-gray-600">Therapist Name</th>
+                                <th className="text-left p-2 text-gray-600">Applied on</th>
+                                <th className="text-left p-2 text-gray-600 rounded-tr-lg">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {topCategoriesData.map((consultant, index) => (
+                                <tr key={consultant.id} className="border-b border-gray-300">
+                                    <td className="p-2 text-black">{index + 1}</td>
+                                    <td className="p-2 text-black">{consultant.name}</td>
+                                    <td className="p-2 text-black">{consultant.times}</td>
+                                    <td className="p-2">
+                                        <button className="text-orange-600 flex items-center">
+                                            <FontAwesomeIcon icon={faEye} className="w-4 h-4" />
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </>
     );

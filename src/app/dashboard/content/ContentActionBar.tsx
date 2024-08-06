@@ -5,7 +5,7 @@ import TopBlogs from "./TopBlogs";
 export default function ContentActionBar() {
     return (
         <>
-            <div style={{ width: "600px" }}>
+            <div style={{ width: "100%" }}>
                 <div style={{ backgroundColor: "#fff", padding: "10px 15px", borderRadius: "10px", marginBottom: "20px" }}>
                     <div style={{ display: "flex", justifyContent: "space-between",}}>
                         <div className="action-bar fs-4 font-semibold mb-2">Action Bar</div>

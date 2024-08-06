@@ -12,7 +12,7 @@ const DashboardStats = ({ isPanelHovered }: any) => {
 
   return (
     <>
-      <div className="dashboard-container" style={{ display: isPanelHovered ? 'none' : 'flex' }}>
+      <div className="dashboard-container" style={{ display: isPanelHovered ? 'none' : 'flex', width: "98%", marginLeft: "20px" }}>
         <div className="stats-row">
           {stats.map((stat, index) => (
             <div key={index} className="stat-card">

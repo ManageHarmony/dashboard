@@ -2,7 +2,7 @@ import { FiBell } from "react-icons/fi";
 
 export default function ServiceActionBar() {
     return (
-        <div style={{ backgroundColor: "#fff", padding: "10px 15px", borderRadius: "10px", marginBottom: "20px" }}>
+        <div style={{ backgroundColor: "#fff", padding: "10px 15px", borderRadius: "10px", marginBottom: "20px", width: "100%" }}>
             <div style={{display: "flex", justifyContent: "space-between"}}>
                 <div className="action-bar fs-4 font-semibold mb-2">Action Bar</div>
                 <button className="text-orange-600 py-2 px-3 mx-2 rounded flex items-center" style={{ background: "#fff", border: "1px dashed orange" }}>

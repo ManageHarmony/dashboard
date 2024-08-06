@@ -28,9 +28,9 @@ const topConsultantsData = [
 
 export default function TopConsultants() {
   return (
-    <Card className="top-consultants-container">
-      <CardHeader className="cardHeader">
-        <CardTitle>
+    <div className="top-consultants-container bg-white rounded shadow p-4">
+      <div className="flex justify-between items-center mb-3">
+      <CardTitle>
           <span className="font-bold text-lg">Top 5 Consultants Picks</span>{" "}
           <span className="font-normal text-lg">by Users</span>
           <div style={{
@@ -40,54 +40,37 @@ export default function TopConsultants() {
             display: "block"
           }}></div>
         </CardTitle>
-        <a
-          href="#see-all"
-          className="text-sm text-orange-600 flex items-center"
-        >
-          See All{" "}
-          <svg
-            className="ml-1 w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M19 9l-7 7-7-7"
-            ></path>
+        <a href="#see-all" className="text-sm text-orange-600 flex items-center">
+          See All
+          <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
           </svg>
         </a>
-      </CardHeader>
-      <CardContent>
-        <Table>
-          {/* <TableCaption>Top 5 Consultants Picks by Users</TableCaption> */}
-          <TableHeader>
-            <TableRow className="bg-orange-100">
-              <TableHead className="text-left">Sr. No</TableHead>
-              <TableHead className="text-left">Therapist Name</TableHead>
-              <TableHead className="text-left">Times</TableHead>
-              <TableHead className="text-left">Action</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {topConsultantsData.map((consultant, index) => (
-              <TableRow key={consultant.id} className="table-row">
-                <TableCell>{index + 1}</TableCell>
-                <TableCell>{consultant.name}</TableCell>
-                <TableCell>{consultant.times}</TableCell>
-                <TableCell>
-                  <button className="text-orange-600 flex items-center">
-                    <FontAwesomeIcon icon={faEye} className="w-4 h-4" />
-                  </button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </CardContent>
-    </Card>
+      </div>
+      <table className="table-auto w-full border-collapse">
+        <thead className="bg-orange-100 rounded-t-lg">
+          <tr>
+            <th className="text-left p-2 text-gray-600 rounded-tl-lg">Sr. No</th>
+            <th className="text-left p-2 text-gray-600">Therapist Name</th>
+            <th className="text-left p-2 text-gray-600">Applied on</th>
+            <th className="text-left p-2 text-gray-600 rounded-tr-lg">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {topConsultantsData.map((consultant, index) => (
+            <tr key={consultant.id} className="border-b border-gray-300">
+              <td className="p-2 text-black">{index + 1}</td>
+              <td className="p-2 text-black">{consultant.name}</td>
+              <td className="p-2 text-black">{consultant.times}</td>
+              <td className="p-2">
+                <button className="text-orange-600 flex items-center">
+                  <FontAwesomeIcon icon={faEye} className="w-4 h-4" />
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }

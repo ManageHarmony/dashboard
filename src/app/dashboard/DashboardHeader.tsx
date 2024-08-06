@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Navbar, Nav, Form, FormControl, NavDropdown } from 'react-bootstrap';
 import { FaBell, FaSearch, FaUser, FaCog, FaSignOutAlt } from 'react-icons/fa';
 import Image from 'next/image';
-import profilePic from "../../../public/logo.jpg";
+import profilePic from "../../../public/assets/avatar.jpg";
 import HeaderNotificationCard from './HeaderNotification';
 
 const DashboardHeader = ({ isPanelHovered, onShowNotifications, showNotifications, onShowDropdown, showDropdown }: any) => {

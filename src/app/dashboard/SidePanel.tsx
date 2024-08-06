@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Drawer, List, ListItem, ListItemIcon, ListItemText, styled } from '@mui/material';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import logo from "../../../public/logo.jpg";
+import logo from '../../../public/logo.jpg'
 import ContentIcon from '@/components/icons/ContentIcon';
 import DashboardIcon from '@/components/icons/DashboardIcon';
 import OrganizationIcon from '@/components/icons/OrganizationIcon';

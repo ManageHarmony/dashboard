@@ -30,7 +30,7 @@ const Stats = () => {
 
   return (
     <>
-      <div style={{width: "600px"}}>
+      <div style={{width: "50%"}}>
       <div className="dashboard-container">
         <div className="stats-row">
           {stats.map((stat, index) => (

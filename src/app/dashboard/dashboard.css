@@ -192,12 +192,12 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: 15px;
+  gap: 20px;
 }
 
 .stat-card {
   width: calc(100% / 6 -60px); /* Three cards per row */
-  min-width: 180px;
+  min-width: 160px;
   height: 100px;
   display: flex;
   flex-direction: column;
@@ -250,17 +250,18 @@ body {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
 
-  padding-top: 10px;
-  padding-bottom: 20px;
+  padding: 10px 20px;
+ padding-bottom: 0;
+  gap: 20px;
 }
 .recent-tickets-container {
-  width: 95%;
+  width: 100%;
   height: 350px;
   overflow-y: auto;
   background-color: #fff;
 }
 .top-consultants-container {
-  width: 95%;
+  width: 100%;
   height: 350px;
   overflow-y: auto;
   background-color: #fff;
@@ -268,63 +269,63 @@ body {
 
 
 .dynamicChart {
-  width: 95%;
+  width: 100%;
   height: 350px;
   overflow-y: auto;
   background-color: #fff;
   margin: 30px 0;
 }
 
-.top-sessions {
-  width: 95%;
+.top-sessions-container {
+  width: 100%;
   height: 350px;
   overflow-y: auto;
-  background-color: #fff;
+  background-color: #ffffff;
   margin: 30px 0;
 }
 .recent-rating-container {
-    width: 95%;
+    width: 100%;
     height: 450px;
     overflow-y: auto;
     background-color: #fff;
 }
 
 .doctor-application-container {
-  width: 95%;
-  height: 850px;
+  width: 100%;
+  height: 550px;
   overflow-y: auto;
   background-color: #fff;
 }
 .doctor-ratings-container {
-  width: 95%;
+  width: 100%;
     height: 550px;
     overflow-y: auto;
     background-color: #fff;
 }
 .recent-doctors-container {
-  width: 95%;
-  height: 520px;
+  width: 100%;
+  height: 400px;
   overflow-y: auto;
   background-color: #fff;
   margin-top: 20px;
 }
 
 .top-article-container {
-  width: 95%;
+  width: 100%;
   height: 450px;
   overflow-y: auto;
   background-color: #fff;
   margin-top: 20px;
 }
 .most-posted-container {
-  width: 95%;
+  width: 100%;
   height: 350px;
   overflow-y: auto;
   background-color: #fff;
   margin-top: 20px;
 }
 .top-blogs-container {
-  width: 95%;
+  width: 100%;
   height: 460px;
   overflow-y: auto;
   background-color: #fff;
@@ -338,7 +339,7 @@ body {
 }
 
 .page-info h1 {
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: bold;
   color: #242425;
   margin-bottom: 5px;
@@ -438,7 +439,7 @@ body {
   display: flex;
   justify-content: space-between;
   gap: 20px;
-  width: 680px;
+  width: 55%;
   padding: 20px 10px;
   margin: 20px 0;
 }

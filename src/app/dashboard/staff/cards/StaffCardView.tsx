@@ -25,7 +25,7 @@ const DropdownMenu = ({ anchorEl, handleClose }: any) => {
     >
       <MenuItem onClick={() => {
         handleClose();
-        router.push('/dashboard/staff'); 
+        router.push('/dashboard/staff');
       }}>
         <ListItemIcon sx={{ color: '#2C297D' }}>
           <ViewListIcon fontSize="small" />
@@ -55,37 +55,37 @@ const StaffCardView: React.FC = () => {
   };
 
   const staffData = [
-    { name: 'Naseem Ahmad', role: 'Manager for Mental Psychology', imageUrl: '/logo.jpg' },
-    { name: 'Shubham Solanki', role: 'Creator for Marketing', imageUrl: '/logo.jpg' },
-    { name: 'Naseem Ahmad', role: 'Manager for Mental Psychology', imageUrl: '/logo.jpg' },
-    { name: 'Shubham Solanki', role: 'Creator for Marketing', imageUrl: '/logo.jpg' },
-    { name: 'Naseem Ahmad', role: 'Manager for Mental Psychology', imageUrl: '/logo.jpg' },
-    { name: 'Shubham Solanki', role: 'Creator for Marketing', imageUrl: '/logo.jpg' },
-    { name: 'Naseem Ahmad', role: 'Manager for Mental Psychology', imageUrl: '/logo.jpg' },
-    { name: 'Shubham Solanki', role: 'Creator for Marketing', imageUrl: '/logo.jpg' },
-    
+    { name: 'Naseem Ahmad', role: 'Manager for Mental Psychology', imageUrl: '/assets/avatar.jpg' },
+    { name: 'Shubham Solanki', role: 'Creator for Marketing', imageUrl: '/assets/avatar.jpg' },
+    { name: 'Naseem Ahmad', role: 'Manager for Mental Psychology', imageUrl: '/assets/avatar.jpg' },
+    { name: 'Shubham Solanki', role: 'Creator for Marketing', imageUrl: '/assets/avatar.jpg' },
+    { name: 'Naseem Ahmad', role: 'Manager for Mental Psychology', imageUrl: '/assets/avatar.jpg' },
+    { name: 'Shubham Solanki', role: 'Creator for Marketing', imageUrl: '/assets/avatar.jpg' },
+    { name: 'Naseem Ahmad', role: 'Manager for Mental Psychology', imageUrl: '/assets/avatar.jpg' },
+    { name: 'Shubham Solanki', role: 'Creator for Marketing', imageUrl: '/assets/avatar.jpg' },
+
     // Add more staff data as needed
   ];
 
   return (
-    <div style={{ padding: '10px' }}>
+    <div style={{ padding: '10px 10px', width: "100%" }}>
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '15px' }}>
-      <div >
-        <StyledButton variant="contained" className='bg-white'>Creators</StyledButton>
-        <StyledButton variant="contained" className='bg-white'>View All</StyledButton>
-        <StyledButton variant="contained" className='bg-white'>Managers</StyledButton>
-      </div>
-      <div>
-      <Button
-          variant="contained"
-          startIcon={<IdCardIcon sx={{ color: '#2C297D' }} />}
-          sx={{ color: '#2C297D', borderColor: '#2C297D', backgroundColor: "#fff" }}
-          onClick={handleClick}
-        >
-          View
-        </Button>
-        <DropdownMenu anchorEl={anchorEl} handleClose={handleClose} />
-      </div>
+        <div >
+          <StyledButton variant="contained" className='bg-white'>Creators</StyledButton>
+          <StyledButton variant="contained" className='bg-white'>View All</StyledButton>
+          <StyledButton variant="contained" className='bg-white'>Managers</StyledButton>
+        </div>
+        <div>
+          <Button
+            variant="contained"
+            startIcon={<IdCardIcon sx={{ color: '#2C297D' }} />}
+            sx={{ color: '#2C297D', borderColor: '#2C297D', backgroundColor: "#fff" }}
+            onClick={handleClick}
+          >
+            View
+          </Button>
+          <DropdownMenu anchorEl={anchorEl} handleClose={handleClose} />
+        </div>
       </div>
       <Grid container spacing={3}>
         {staffData.map((staff, index) => (

@@ -68,7 +68,7 @@ const StaffTable: React.FC = () => {
     };
 
     return (
-        <div style={{ paddingRight: "20px", paddingBottom: "20px" }}>
+        <div style={{ padding: "0px 30px", paddingBottom: "20px", width: "100%"}}>
             <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '15px', paddingBottom: "10px" }}>
                 <Button
                     variant="contained"

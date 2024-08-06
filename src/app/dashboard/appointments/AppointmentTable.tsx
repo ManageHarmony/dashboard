@@ -53,7 +53,7 @@ const AppointmentTable: React.FC = () => {
 
 
     return (
-        <div style={{ paddingRight: "20px" }}>
+        <div style={{ padding: "20px 30px", width: "100%"}}>
 
 
             <TableContainer component={Paper} style={{ padding: '20px', borderRadius: '15px' }}>

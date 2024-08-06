@@ -55,7 +55,7 @@ const StaffDetail: React.FC = () => {
     const staffData = {
         name: 'Naseem Ahmad',
         role: 'Manager for Mental Psychology',
-        imageUrl: '/logo.jpg',
+        imageUrl: '/assets/avatar.jpg',
         fullName: 'Naseem Ahmad',
         username: 'naseem01',
         email: 'naseem@hotmail.com',
@@ -67,15 +67,15 @@ const StaffDetail: React.FC = () => {
         serviceCategories: ['Mental Support', 'Online Classes', 'Mental Workshop'],
         assignedCreators: ['Shubham Solanki', 'Aman Niranjan', 'Ritik Singh'],
         assignedConsultants: [
-            { name: 'Christine Michelle', role: 'Consultant in Workshop', imageUrl: '/logo.jpg' },
-            { name: 'Mitali Taneja', role: 'Consultant in Mental Health', imageUrl: '/logo.jpg' },
-            { name: 'Sirina Roger', role: 'Consultant in Online therapy', imageUrl: '/logo.jpg' },
-            { name: 'Sushma Singh', role: 'Consultant in Personal Coach', imageUrl: '/logo.jpg' },
+            { name: 'Christine Michelle', role: 'Consultant in Workshop', imageUrl: '/assets/avatar.jpg' },
+            { name: 'Mitali Taneja', role: 'Consultant in Mental Health', imageUrl: '/assets/avatar.jpg' },
+            { name: 'Sirina Roger', role: 'Consultant in Online therapy', imageUrl: '/assets/avatar.jpg' },
+            { name: 'Sushma Singh', role: 'Consultant in Personal Coach', imageUrl: '/assets/avatar.jpg' },
         ],
     };
 
     return (
-        <div style={{ padding: '10px' }}>
+        <div style={{ padding: '10px 0px', width: "100%" }}>
             <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: '15px' }}>
                 <Button
                     variant="contained"

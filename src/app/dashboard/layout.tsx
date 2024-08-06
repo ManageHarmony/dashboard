@@ -67,8 +67,8 @@ export default function RootLayout({
                     showDropdown={showDropdown} // Pass the state
                 />
 
-                <div style={{ display: isPanelHovered || showNotifications || showDropdown ? 'none' : 'block', marginLeft: "120px" }}>
-                    <div className="page-info">
+                <div style={{ display: isPanelHovered || showNotifications || showDropdown ? 'none' : 'block', marginLeft: "110px" }}>
+                    <div className="page-info " style={{marginLeft: "15px"}}>
                         {pathname === '/dashboard' ? (
                             <div className="welcome-container">
                                 <h1 className="mb-4" style={{
