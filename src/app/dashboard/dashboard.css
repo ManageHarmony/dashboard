@@ -453,7 +453,7 @@ body {
 }
 
 .stats-card {
-  min-width: 170px;
+  min-width: 180px;
   display: flex;
   flex-direction: column;
   justify-content: center;

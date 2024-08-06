@@ -1,6 +1,6 @@
 'use client';
 
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
+import { Poppins } from 'next/font/google'
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import SidePanel from "./SidePanel";
@@ -9,6 +9,11 @@ import Link from "next/link";
 
 import './dashboard.css';
 import './customScrollbar.css';
+
+const poppins = Poppins({
+    weight: '400',
+    subsets: ['latin'],
+  })
 
 export default function RootLayout({
     children,
@@ -55,6 +60,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body>
+                <main className={poppins.className}>
                 <SidePanel
                     onPanelHover={handlePanelHover}
                     isPanelHovered={isPanelHovered}
@@ -91,10 +97,12 @@ export default function RootLayout({
                             </>
                         )}
                     </div>
-                    <AppRouterCacheProvider>
+                    
                         {children}
-                    </AppRouterCacheProvider>
+                    
                 </div>
+                </main>
+                
             </body>
         </html>
     );
