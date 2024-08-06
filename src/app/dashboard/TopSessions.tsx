@@ -20,7 +20,7 @@ const topSessionsData = [
 export default function TopSessions() {
   return (
 
-    <div className="top-sessions-container bg-white rounded shadow p-4">
+    <div style={{ width: "100%", height: "350px", backgroundColor: "white", borderRadius: "20px", padding: "20px", overflow: "hidden", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}>
       <div className="flex justify-between items-center mb-3">
         <CardTitle>
           <span className="font-bold text-lg">Top 5 Sessions</span>{" "}

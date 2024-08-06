@@ -85,7 +85,7 @@ const DynamicChart: React.FC = () => {
   };
 
   return (
-    <Card className="dynamicChart" style={{ padding: '0px', overflow: 'hidden'}}>
+    <Card className="dynamicChart" style={{ width: "100%", height: "350px", backgroundColor: "white", borderRadius: "20px", overflow: "hidden", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}>
       <CardHeader title={<Typography variant="h6">Chart Title</Typography>} />
       <CardContent>
         <div className="chart-container" style={{ height: '300px', paddingBottom: '30px' }}>

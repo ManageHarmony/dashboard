@@ -14,7 +14,7 @@ const ContentStats = () => {
 
   return (
     <>
-      <div style={{width: "100%"}}>
+      <div style={{width: "100%", paddingBottom: "30px"}}>
       <div className="dashboard-container">
         <div className="stats-row">
           {stats.map((stat, index) => (

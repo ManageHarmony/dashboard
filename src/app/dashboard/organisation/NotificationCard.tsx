@@ -19,7 +19,7 @@ interface NotificationCardProps {
 const NotificationCard: React.FC<NotificationCardProps> = ({ title, notifications }) => {
     return (
         <>
-            <div>
+            <div style={{marginLeft: "30px"}}>
                 <h2 className="notification-card-title">
                     {title} <span className="heading-underline-org"></span>
                 </h2>

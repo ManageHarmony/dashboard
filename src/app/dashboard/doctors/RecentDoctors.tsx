@@ -1,21 +1,7 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
 
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
 
 const doctorApplicationData = [
     { id: 1, name: "Dr. Naseem Ahmad", times: 45 },
@@ -29,7 +15,7 @@ const doctorApplicationData = [
 export default function RecentDoctors() {
     return (
         <>
-            <div className="recent-doctors-container  bg-white rounded shadow p-4">
+            <div style={{ width: "100%", backgroundColor: "white", borderRadius: "20px", padding: "20px", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", marginTop: "20px" }}>
                     <div className="flex justify-between items-center mb-4">
                         <span className="font-bold text-lg">Top Picks</span>
                         <a href="#see-all" className="text-sm text-orange-600 flex items-center">
@@ -39,7 +25,7 @@ export default function RecentDoctors() {
                             </svg>
                         </a>
                     </div>
-                    <table className="table-auto w-full border-collapse">
+                    <table className=" w-full border-collapse" style={{overflowY: "auto"}}>
                         <thead className="bg-orange-100 rounded-t-lg">
                             <tr>
                                 <th className="text-left p-2 text-gray-600 rounded-tl-lg">Sr. No</th>

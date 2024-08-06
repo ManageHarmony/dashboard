@@ -39,7 +39,7 @@ export default function DoctorApplication() {
             <div style={{width: "100%"}}>
                 <DoctorStats />
                 <ActionBarDoctors />
-                <div className="doctor-application-container bg-white rounded shadow p-4">
+                <div style={{ width: "100%", backgroundColor: "white", borderRadius: "20px", padding: "20px", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}>
                     <div className="flex justify-between items-center mb-4">
                         <span className="font-bold text-lg">Top Picks</span>
                         <a href="#see-all" className="text-sm text-orange-600 flex items-center">
