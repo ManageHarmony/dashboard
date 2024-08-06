@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Drawer, List, ListItem, ListItemIcon, ListItemText, styled } from '@mui/material';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -27,12 +27,21 @@ const SidePanel: React.FC<SidePanelProps> = ({ onPanelHover, isPanelHovered }) =
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const router = useRouter();
 
+  useEffect(() => {
+    const currentPath = window.location.pathname;
+    if (currentPath === '/dashboard') {
+      setSelectedItem('/dashboard');
+    } else {
+      setSelectedItem(null);
+    }
+  }, []);
+
   const handleNavigation = (href: string) => {
     setSelectedItem(href);
     onPanelHover(false);
     router.push(href);
   };
-
+ 
   return (
     <Drawer
     variant="permanent"
@@ -124,13 +133,13 @@ const SidePanel: React.FC<SidePanelProps> = ({ onPanelHover, isPanelHovered }) =
               onClick={() => handleNavigation(item.href)}
               onMouseEnter={() => setHoveredItem(item.href)}
               onMouseLeave={() => setHoveredItem(null)}
-              className={`listItem ${selectedItem === item.href ? 'selected' : ''}`}
+              className={`listItem ${selectedItem === item.href  ? 'selected' : ''}`}
             >
               <ListItemText
                 primary={item.text}
                 className={isPanelHovered ? 'listItemTextOpen' : 'listItemText'}
               />
-              <ListItemIcon className={`listItemIcon ${selectedItem === item.href ? 'selected' : ''}`}>
+              <ListItemIcon className={`listItemIcon ${selectedItem === item.href  ? 'selected' : ''}`}>
                 {item.icon}
               </ListItemIcon>
 

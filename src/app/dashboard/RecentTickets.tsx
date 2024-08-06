@@ -67,7 +67,7 @@ export default function RecentTickets() {
           </svg>
         </button>
       </div>
-      <div style={{ maxHeight: "calc(100% - 48px)", overflowY: "auto", paddingRight: "4px" }} className="scrollable-content">
+      <div style={{ maxHeight: "calc(100% - 48px)", overflowY: "auto", paddingRight: "16px" }} className="scrollable-content">
         {(showAll ? ticketsData : ticketsData.slice(0, 3)).map(
           (ticket) => (
             <div key={ticket.id} style={{ display: "flex", alignItems: "start", marginBottom: "8px", paddingBottom: "8px", borderBottom: "1px solid #ffecd4" }}>
