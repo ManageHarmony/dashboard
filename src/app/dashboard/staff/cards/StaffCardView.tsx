@@ -89,7 +89,7 @@ const StaffCardView: React.FC = () => {
       </div>
       <Grid container spacing={3}>
         {staffData.map((staff, index) => (
-          <Grid item key={index}>
+          <Grid item xs={12} sm={6} md={4} lg={3} key={index} style={{ display: 'flex', justifyContent: 'center' }}>
             <StaffCard name={staff.name} role={staff.role} imageUrl={staff.imageUrl} />
           </Grid>
         ))}

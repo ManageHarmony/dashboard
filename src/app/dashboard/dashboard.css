@@ -442,12 +442,25 @@ body {
 /* stats */
 
 .stats-container {
+  width: 100%;
+  padding: 20px 20px;
+}
+
+.stats-container-stats {
   width: 60%;
   padding: 20px 20px;
 }
 
 .stats-wrapper {
   display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.stats-wrapper-stats {
+  display: flex;
+  justify-content: space-between;
   flex-wrap: wrap;
   gap: 20px;
 }
@@ -463,6 +476,19 @@ body {
   background-color: #ffffff;
   transition: transform 0.3s, box-shadow 0.3s;
 }
+
+.stats-card-stats {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem;
+  box-shadow: 0px 0px 15px rgba(228, 225, 225, 0.5);
+  border-radius: 15px;
+  background-color: #ffffff;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
 
 .stats-card:hover {
   transform: translateY(-5px);
@@ -516,5 +542,6 @@ body {
     gap: 2px;
   }
 }
+
 
 
