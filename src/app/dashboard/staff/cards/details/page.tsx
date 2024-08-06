@@ -118,67 +118,67 @@ const StaffDetail: React.FC = () => {
                     <StaffCard name={staffData.name} role={staffData.role} imageUrl={staffData.imageUrl} />
                 </Grid>
                 <Grid item>
-                <DetailCard>
-    <CardContent style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: "7px 16px", padding: "16px" }}>
-        <Typography variant="h6" component="div" sx={{ color: 'black', fontWeight: 'bold', fontSize: "18px", gridColumn: "span 2" }}>
-            Details
-        </Typography>
-        <Typography variant="body2" component="p" sx={{ color: 'black', fontWeight: 'bold', fontSize: "16px" }}>
-            Full Name:
-        </Typography>
-        <Typography variant="body2" component="p" sx={{ color: '#606060', fontSize: "16px" }}>
-            {staffData.fullName}
-        </Typography>
-        <Typography variant="body2" component="p" sx={{ color: 'black', fontWeight: 'bold', fontSize: "16px" }}>
-            Username:
-        </Typography>
-        <Typography variant="body2" component="p" sx={{ color: '#606060', fontSize: "16px" }}>
-            {staffData.username}
-        </Typography>
-        <Typography variant="body2" component="p" sx={{ color: 'black', fontWeight: 'bold', fontSize: "16px" }}>
-            Email:
-        </Typography>
-        <Typography variant="body2" component="p" sx={{ color: '#606060', fontSize: "16px" }}>
-            {staffData.email}
-        </Typography>
-        <Typography variant="body2" component="p" sx={{ color: 'black', fontWeight: 'bold', fontSize: "16px" }}>
-            Contact:
-        </Typography>
-        <Typography variant="body2" component="p" sx={{ color: '#606060', fontSize: "16px" }}>
-            {staffData.contact}
-        </Typography>
-        <Typography variant="body2" component="p" sx={{ color: 'black', fontWeight: 'bold', fontSize: "16px" }}>
-            Language:
-        </Typography>
-        <Typography variant="body2" component="p" sx={{ color: '#606060', fontSize: "16px" }}>
-            {staffData.language}
-        </Typography>
-        <Typography variant="body2" component="p" sx={{ color: 'black', fontWeight: 'bold', fontSize: "16px" }}>
-            States:
-        </Typography>
-        <Typography variant="body2" component="p" sx={{ color: '#606060', fontSize: "16px" }}>
-            {staffData.states}
-        </Typography>
-        <Typography variant="body2" component="p" sx={{ color: 'black', fontWeight: 'bold', fontSize: "16px" }}>
-            Countries:
-        </Typography>
-        <Typography variant="body2" component="p" sx={{ color: '#606060', fontSize: "16px" }}>
-            {staffData.countries}
-        </Typography>
-        <Typography variant="body2" component="p" sx={{ color: 'black', fontWeight: 'bold', fontSize: "16px" }}>
-            Password:
-        </Typography>
-        <Typography variant="body2" component="p" sx={{ color: '#606060', fontSize: "16px" }}>
-            {staffData.password}
-        </Typography>
-    </CardContent>
-</DetailCard>
+                    <DetailCard>
+                        <CardContent style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: "7px 16px", padding: "16px" }}>
+                            <Typography variant="h6" component="div" sx={{ color: 'black', fontWeight: 'bold', fontSize: "18px", gridColumn: "span 2" }}>
+                                Details
+                            </Typography>
+                            <Typography variant="body2" component="p" sx={{ color: 'black', fontWeight: 'bold', fontSize: "16px" }}>
+                                Full Name:
+                            </Typography>
+                            <Typography variant="body2" component="p" sx={{ color: '#606060', fontSize: "16px" }}>
+                                {staffData.fullName}
+                            </Typography>
+                            <Typography variant="body2" component="p" sx={{ color: 'black', fontWeight: 'bold', fontSize: "16px" }}>
+                                Username:
+                            </Typography>
+                            <Typography variant="body2" component="p" sx={{ color: '#606060', fontSize: "16px" }}>
+                                {staffData.username}
+                            </Typography>
+                            <Typography variant="body2" component="p" sx={{ color: 'black', fontWeight: 'bold', fontSize: "16px" }}>
+                                Email:
+                            </Typography>
+                            <Typography variant="body2" component="p" sx={{ color: '#606060', fontSize: "16px" }}>
+                                {staffData.email}
+                            </Typography>
+                            <Typography variant="body2" component="p" sx={{ color: 'black', fontWeight: 'bold', fontSize: "16px" }}>
+                                Contact:
+                            </Typography>
+                            <Typography variant="body2" component="p" sx={{ color: '#606060', fontSize: "16px" }}>
+                                {staffData.contact}
+                            </Typography>
+                            <Typography variant="body2" component="p" sx={{ color: 'black', fontWeight: 'bold', fontSize: "16px" }}>
+                                Language:
+                            </Typography>
+                            <Typography variant="body2" component="p" sx={{ color: '#606060', fontSize: "16px" }}>
+                                {staffData.language}
+                            </Typography>
+                            <Typography variant="body2" component="p" sx={{ color: 'black', fontWeight: 'bold', fontSize: "16px" }}>
+                                States:
+                            </Typography>
+                            <Typography variant="body2" component="p" sx={{ color: '#606060', fontSize: "16px" }}>
+                                {staffData.states}
+                            </Typography>
+                            <Typography variant="body2" component="p" sx={{ color: 'black', fontWeight: 'bold', fontSize: "16px" }}>
+                                Countries:
+                            </Typography>
+                            <Typography variant="body2" component="p" sx={{ color: '#606060', fontSize: "16px" }}>
+                                {staffData.countries}
+                            </Typography>
+                            <Typography variant="body2" component="p" sx={{ color: 'black', fontWeight: 'bold', fontSize: "16px" }}>
+                                Password:
+                            </Typography>
+                            <Typography variant="body2" component="p" sx={{ color: '#606060', fontSize: "16px" }}>
+                                {staffData.password}
+                            </Typography>
+                        </CardContent>
+                    </DetailCard>
 
 
 
                 </Grid>
                 <Grid item>
-                    <DetailCard>
+                    <DetailCard sx={{ maxWidth: '350px' }}>
                         <CardContent>
                             <Typography variant="h6" component="div" sx={{ color: '#101010', fontWeight: 'bold', marginBottom: "10px" }}>
                                 Manager for
@@ -196,7 +196,7 @@ const StaffDetail: React.FC = () => {
                             <Typography variant="body2" component="p" sx={{ color: '#101010', fontWeight: "bold", fontSize: "1.06rem", marginBottom: "8px", marginTop: "5px" }}>
                                 Assigned Creators:
                             </Typography>
-                            <div style={{ marginLeft: "10px", }}>
+                            <div style={{ marginLeft: "10px" }}>
                                 {staffData.assignedCreators.map((creator, index) => (
                                     <Typography key={index} variant="body2" component="p" sx={{ color: '#404040', fontSize: "1rem" }}>
                                         {index + 1}. {creator}
@@ -205,6 +205,7 @@ const StaffDetail: React.FC = () => {
                             </div>
                         </CardContent>
                     </DetailCard>
+
                 </Grid>
             </Grid>
 
