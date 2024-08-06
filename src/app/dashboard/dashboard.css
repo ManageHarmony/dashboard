@@ -189,24 +189,26 @@ body {
 
 
 .stats-row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr); /* Create 6 equal columns */
+  gap: 20px; /* Equal gaps between cards */
+  padding-right: 10px;
+  justify-content: center; /* Center the grid */
+  margin-left: 25px; /* Center the grid horizontally */
+  width: 100%; /* Ensure the grid takes up the full width */
+  max-width: 1440px; /* Set a maximum width for larger screens */
 }
 
 .stat-card {
-  width: calc(100% / 6 -60px); /* Three cards per row */
-  min-width: 160px;
-  height: 100px;
+  height: 80px; /* Fixed height */
+  min-width: 180px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
   padding: 1rem;
   box-shadow: 0px 0px 15px rgba(228, 225, 225, 0.5);
-  border-radius: 20px;
-  background-color: #fff;
+  border-radius: 15px;
+  background-color: #ffffff;
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
@@ -224,7 +226,7 @@ body {
 }
 
 .stat-value {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: 600;
 }
 
@@ -236,6 +238,31 @@ body {
 .stat-label {
   font-size: 0.875rem;
   color: #6c757d;
+}
+
+/* Responsive styles */
+@media (max-width: 1200px) {
+  .stats-row {
+    grid-template-columns: repeat(6, 1fr); /* Still 6 cards per row */
+  }
+}
+
+@media (max-width: 992px) {
+  .stats-row {
+    grid-template-columns: repeat(3, 1fr); /* 3 cards per row on smaller screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .stats-row {
+    grid-template-columns: repeat(2, 1fr); /* 2 cards per row on mobile screens */
+  }
+}
+
+@media (max-width: 576px) {
+  .stats-row {
+    grid-template-columns: 1fr; /* 1 card per row on very small screens */
+  }
 }
 
 
@@ -286,28 +313,17 @@ body {
     background-color: #fff;
 }
 .recent-doctors-container {
-  width: 100%;
-  height: 400px;
-  background-color: #fff;
+ 
   margin-top: 20px;
 }
 
 .top-article-container {
-  width: 100%;
-  height: 450px;
-  background-color: #fff;
   margin-top: 20px;
 }
 .most-posted-container {
-  width: 100%;
-  height: 350px;
-  background-color: #fff;
   margin-top: 20px;
 }
 .top-blogs-container {
-  width: 100%;
-  height: 460px;
-  background-color: #fff;
   margin-top: 20px;
 }
 
@@ -422,4 +438,83 @@ body {
   padding: 20px 10px;
   margin: 20px 0;
 }
+
+/* stats */
+
+.stats-container {
+  width: 60%;
+  padding: 20px 20px;
+}
+
+.stats-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.stats-card {
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem;
+  box-shadow: 0px 0px 15px rgba(228, 225, 225, 0.5);
+  border-radius: 15px;
+  background-color: #ffffff;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.stats-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+}
+
+.stats-content {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.stats-value {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.stats-icon {
+  font-size: 2rem;
+  color: #ff6600;
+}
+
+.stats-label {
+  font-size: 0.875rem;
+  color: #6c757d;
+}
+
+/* Responsive styles */
+@media (max-width: 1200px) {
+  .stats-wrapper {
+    gap: 15px;
+  }
+}
+
+@media (max-width: 992px) {
+  .stats-wrapper {
+    gap: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .stats-wrapper {
+    gap: 5px;
+  }
+}
+
+@media (max-width: 576px) {
+  .stats-wrapper {
+    gap: 2px;
+  }
+}
+
 

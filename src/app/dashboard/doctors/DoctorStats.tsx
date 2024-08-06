@@ -2,15 +2,15 @@ import React from 'react';
 
 const DoctorStats = ({ isPanelHovered }: any) => {
   const stats = [
-    { value: '324', label: 'Appointments this month', icon: '👥' },
-    { value: '22', label: 'Certified Consultants', icon: '👨‍⚕️' },
-    { value: '4000', label: 'Registered Users', icon: '👥' },
+    { value: '324', label: 'Appointments this month', icon: '' },
+    { value: '22', label: 'Certified Consultants', icon: '' },
+    { value: '4000', label: 'Registered Users', icon: '' },
   ];
 
   return (
     <>
-      <div className="dashboard-container">
-        <div className="stats-row">
+      <div style={{width: "100%"}}>
+        <div style={{display: "flex", justifyContent: "space-between", marginBottom: "20px"}}>
           {stats.map((stat, index) => (
             <div key={index} className="stat-card">
               <div className="stat-content">

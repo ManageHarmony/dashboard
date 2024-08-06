@@ -30,20 +30,18 @@ const Stats = () => {
 
   return (
     <>
-      <div style={{width: "50%", padding: "0 20px"}}>
-      <div className="dashboard-container">
-        <div className="stats-row">
+      <div className="stats-container">
+        <div className="stats-wrapper">
           {stats.map((stat, index) => (
-            <div key={index} className="stat-card">
-              <div className="stat-content">
-                <div className="stat-value" style={{color: "#2C297E"}}>{stat?.value}</div>
-                <div className="stat-icon">{stat.icon}</div>
+            <div key={index} className="stats-card">
+              <div className="stats-content">
+                <div className="stats-value" style={{ color: "#2C297E" }}>{stat?.value}</div>
+                <div className="stats-icon">{stat.icon}</div>
               </div>
-              <div className="stat-label">{stat.label}</div>
+              <div className="stats-label">{stat.label}</div>
             </div>
           ))}
         </div>
-      </div>
       </div>
     </>
   );

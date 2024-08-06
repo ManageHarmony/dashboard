@@ -15,8 +15,8 @@ const ContentStats = () => {
   return (
     <>
       <div style={{width: "100%", paddingBottom: "30px"}}>
-      <div className="dashboard-container">
-        <div className="stats-row">
+      <div style={{marginBottom: "20px"}}>
+        <div className="stats-wrapper">
           {stats.map((stat, index) => (
             <div key={index} className="stat-card">
               <div className="stat-content">

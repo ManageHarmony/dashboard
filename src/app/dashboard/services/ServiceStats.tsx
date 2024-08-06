@@ -12,8 +12,8 @@ const ServiceStats = () => {
 
   return (
     <>
-      <div className="dashboard-container">
-        <div className="stats-row">
+      <div style={{width: "100%"}}>
+        <div  className="stats-wrapper">
           {stats.map((stat, index) => (
             <div key={index} className="stat-card">
               <div className="stat-content">
