@@ -29,8 +29,8 @@ const SidePanel: React.FC<SidePanelProps> = ({ onPanelHover, isPanelHovered }) =
 
   useEffect(() => {
     const currentPath = window.location.pathname;
-    if (currentPath === '/dashboard') {
-      setSelectedItem('/dashboard');
+    if (currentPath === '/admin') {
+      setSelectedItem('/admin');
     } else {
       setSelectedItem(null);
     }
@@ -80,51 +80,51 @@ const SidePanel: React.FC<SidePanelProps> = ({ onPanelHover, isPanelHovered }) =
           {[
             {
               text: 'Dashboard', icon: <DashboardIcon
-                hovered={hoveredItem === '/dashboard'}
-                selected={selectedItem === '/dashboard'}
-              />, href: '/dashboard'
+                hovered={hoveredItem === '/admin'}
+                selected={selectedItem === '/admin'}
+              />, href: '/admin'
             },
             {
               text: 'Staff', icon: <StaffIcon
-                hovered={hoveredItem === '/dashboard/staff'}
-                selected={selectedItem === '/dashboard/staff'}
-              />, href: '/dashboard/staff'
+                hovered={hoveredItem === '/admin/staff'}
+                selected={selectedItem === '/admin/staff'}
+              />, href: '/admin/staff'
             },
             {
               text: 'Doctors', icon: <DoctorsIcon
-                hovered={hoveredItem === '/dashboard/doctors'}
-                selected={selectedItem === '/dashboard/doctors'}
-              />, href: '/dashboard/doctors'
+                hovered={hoveredItem === '/admin/doctors'}
+                selected={selectedItem === '/admin/doctors'}
+              />, href: '/admin/doctors'
             },
             {
               text: 'Services', icon: <ServicesIcon
-                hovered={hoveredItem === '/dashboard/services'}
-                selected={selectedItem === '/dashboard/services'}
-              />, href: '/dashboard/services'
+                hovered={hoveredItem === '/admin/services'}
+                selected={selectedItem === '/admin/services'}
+              />, href: '/admin/services'
             },
             {
               text: 'Appointments', icon: <AppointmentsIcon
-                hovered={hoveredItem === '/dashboard/appointments'}
-                selected={selectedItem === '/dashboard/appointments'}
-              />, href: '/dashboard/appointments'
+                hovered={hoveredItem === '/admin/appointments'}
+                selected={selectedItem === '/admin/appointments'}
+              />, href: '/admin/appointments'
             },
             {
               text: 'Content', icon: <ContentIcon
-                hovered={hoveredItem === '/dashboard/content'}
-                selected={selectedItem === '/dashboard/content'}
-              />, href: '/dashboard/content'
+                hovered={hoveredItem === '/admin/content'}
+                selected={selectedItem === '/admin/content'}
+              />, href: '/admin/content'
             },
             {
               text: 'Stats', icon: <StatsIcon
-                hovered={hoveredItem === '/dashboard/stats'}
-                selected={selectedItem === '/dashboard/stats'}
-              />, href: '/dashboard/stats'
+                hovered={hoveredItem === '/admin/stats'}
+                selected={selectedItem === '/admin/stats'}
+              />, href: '/admin/stats'
             },
             {
               text: 'Organization', icon: <OrganizationIcon
-                hovered={hoveredItem === '/dashboard/organisation'}
-                selected={selectedItem === '/dashboard/organisation'}
-              />, href: '/dashboard/organisation'
+                hovered={hoveredItem === '/admin/organisation'}
+                selected={selectedItem === '/admin/organisation'}
+              />, href: '/admin/organisation'
             },
           ].map((item) => (
             <ListItem

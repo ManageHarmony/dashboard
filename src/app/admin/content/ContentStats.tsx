@@ -4,10 +4,10 @@ import TopArticleContent from './TopArticleContent';
 
 const ContentStats = () => {
   const stats = [
-    { value: '324', label: 'Appoin. this month', icon: '👥' },
+    { value: '324', label: 'Appointment. this month', icon: '👥' },
     { value: '22', label: 'Certified Consultants', icon: '👨‍⚕️' },
     { value: '4000', label: 'Registered Users', icon: '👥' },
-    { value: '324', label: 'Appoin. this month', icon: '👥' },
+    { value: '324', label: 'Appointment. this month', icon: '👥' },
     { value: '22', label: 'Certified Consultants', icon: '👨‍⚕️' },
     { value: '4000', label: 'Registered Users', icon: '👥' },
   ];

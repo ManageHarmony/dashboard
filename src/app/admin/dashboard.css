@@ -91,11 +91,13 @@ body {
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 25px;
-  right: 0 !important;
-  left: auto !important;
+  position: absolute;
+  right: 0;
+  z-index: 1000;
   width: 220px; /* Adjust width as needed */
-  top: 15px; /* Added space from the top */
+  top: 70px; /* Increased space from the top */
 }
+
 
 .dropdown-card {
   border-radius: 10px 10px 0 10px;
@@ -460,7 +462,7 @@ body {
 
 .stats-wrapper-stats {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   flex-wrap: wrap;
   gap: 20px;
 }
