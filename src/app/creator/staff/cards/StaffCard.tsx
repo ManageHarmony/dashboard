@@ -15,23 +15,24 @@ const StaffCard: React.FC<{ name: string; role: string; imageUrl: string }> = ({
   const router = useRouter();
 
   const handleClick = () => {
-    router.push('/dashboard/staff/cards/details');
+    router.push('/creator/staff/cards/details');
   };
 
   return (
-    <StyledCard onClick={handleClick}>
+    <StyledCard onClick={handleClick} style={{padding: "10px"}}>
       <CardMedia
         component="img"
         alt={name}
         height="120"
         image={imageUrl}
         title={name}
+        style={{borderRadius: "10px"}}
       />
       <CardContent>
-        <Typography gutterBottom variant="h6" component="div" sx={{ color: '#202020', fontWeight: 'bold' }}>
+        <Typography gutterBottom variant="h6" component="div" sx={{ color: '#202020', fontWeight: 'bold', textAlign: "center" }}>
           {name}
         </Typography>
-        <Typography variant="body2" color="textSecondary" component="p" sx={{ color: '#202020' }}>
+        <Typography variant="body2" color="textSecondary" component="p" sx={{ color: '#202020', textAlign: "center", fontSize: "0.9rem" }}>
           {role}
         </Typography>
       </CardContent>

@@ -126,7 +126,7 @@ body {
   border-radius: 10px; /* Initial border-radius */
 }
 
-.custom-dropdown .dropdown-item .me-2 {
+.custom-dropdown .dropdown-item {
   margin-right: 10px;
   color: #FF6600;
 }
@@ -140,6 +140,7 @@ body {
 .custom-dropdown .dropdown-item:hover .me-2 {
   color: white;
 }
+
 
 
 /*.......*/

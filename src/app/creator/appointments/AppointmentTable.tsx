@@ -1,41 +1,62 @@
-'use client';
+'use client'
 
-import * as React from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, tableCellClasses, Button, Menu, MenuItem, ListItemIcon, ListItemText } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
+import React, { useState } from 'react';
+import {
+    ColumnDef,
+    ColumnFiltersState,
+    SortingState,
+    flexRender,
+    getCoreRowModel,
+    getFilteredRowModel,
+    getPaginationRowModel,
+    getSortedRowModel,
+    useReactTable,
+} from "@tanstack/react-table";
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+    Button,
+} from "@/components/ui/button";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import {
+    Input,
+} from "@/components/ui/input";
+import {
+    ChevronLeftIcon,
+    ChevronRightIcon,
+    DoubleArrowLeftIcon,
+    DoubleArrowRightIcon,
+} from "@radix-ui/react-icons";
+import { FaEye } from 'react-icons/fa';
 
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-        backgroundColor: '#2C297D',
-        color: theme.palette.common.white,
-        fontWeight: 'bold',
-        borderBottom: 'none',
-        padding: '8px 16px',
-    },
-    [`&.${tableCellClasses.body}`]: {
-        fontSize: 16,
-        borderBottom: 'none',
-        padding: '8px 16px',
-        backgroundColor: '#fff', // Set table cell background to white
-    },
-}));
+interface Appointment {
+    srNo: number;
+    name: string;
+    serviceName: string;
+    customerReview: string;
+    timeStarted: string;
+}
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    '&:nth-of-type(odd)': {
-        backgroundColor: '#f9f9f9', // Light grey for odd rows
-    },
-    '&:nth-of-type(even)': {
-        backgroundColor: '#fff', // White for even rows
-    },
-    '&:last-child td, &:last-child th': {
-        border: 0,
-    },
-}));
-
-const data = [
+const defaultData: Appointment[] = [
     { srNo: 1, name: 'Naseem Ahmad', serviceName: 'Mental Support', customerReview: '4/5 - Nice Discussion', timeStarted: '10:00 Am, 20th July', },
     { srNo: 2, name: 'Shubham Solanki', serviceName: 'Child Mental Health', customerReview: '4/5 - Nice Discussion', timeStarted: '10:00 Am, 20th July', },
     { srNo: 3, name: 'Vineet Singh', serviceName: 'Psychological Help', customerReview: '4/5 - Nice Discussion', timeStarted: '10:00 Am, 20th July', },
@@ -48,57 +69,127 @@ const data = [
     { srNo: 10, name: 'Vipin Sharma', serviceName: 'Workshop Simplified', customerReview: '4/5 - Nice Discussion', timeStarted: '10:00 Am, 20th July ', },
 ];
 
+const columns: ColumnDef<Appointment>[] = [
+    { accessorKey: 'srNo', header: 'Sr. No' },
+    { accessorKey: 'name', header: 'Name' },
+    { accessorKey: 'serviceName', header: 'Service Name' },
+    { accessorKey: 'customerReview', header: 'Customer Review' },
+    { accessorKey: 'timeStarted', header: 'Time Started' },
+    {
+        id: 'actions',
+        header: 'Actions',
+        cell: ({ row }) => (
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="sm">
+                        <FaEye />
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                    <DropdownMenuItem onClick={() => console.log(`View details for ${row.original.name}`)}>
+                        View Details
+                    </DropdownMenuItem>
+                    {/* Additional row actions can be added here */}
+                </DropdownMenuContent>
+            </DropdownMenu>
+        ),
+    },
+];
+
 const AppointmentTable: React.FC = () => {
+    const [data, setData] = useState(defaultData);
+    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+    const [sorting, setSorting] = useState<SortingState>([]);
+    const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
 
-
+    const table = useReactTable({
+        data,
+        columns,
+        state: {
+            columnFilters,
+            sorting,
+            pagination,
+        },
+        onColumnFiltersChange: setColumnFilters,
+        onSortingChange: setSorting,
+        onPaginationChange: setPagination,
+        getCoreRowModel: getCoreRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
+        getSortedRowModel: getSortedRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
+    });
 
     return (
-        <div style={{ padding: "20px 30px", width: "100%"}}>
+        <div className="p-4 w-full">
+            <div className="flex justify-between mb-4">
+                <Input
+                    placeholder="Search..."
+                    value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
+                    onChange={e => table.getColumn('name')?.setFilterValue(e.target.value)}
+                    className="max-w-xs"
+                />
+            </div>
 
-
-            <TableContainer component={Paper} style={{ padding: '20px', borderRadius: '15px' }}>
-                <Table sx={{ minWidth: 700 }} aria-label="customized table">
-                    <TableHead
-                        sx={{
-                            borderTopLeftRadius: '15px',
-                            borderTopRightRadius: '15px',
-                            backgroundColor: '#2C297D',
-                            '.MuiTableRow-root': {
-                                borderTopLeftRadius: '15px',
-                                borderTopRightRadius: '15px',
-                            },
-                        }}
-                    >
-                        <TableRow>
-                            <StyledTableCell>Sr. No</StyledTableCell>
-                            <StyledTableCell>Name</StyledTableCell>
-                            <StyledTableCell>Service Name</StyledTableCell>
-                            <StyledTableCell>Customer Review</StyledTableCell>
-                            <StyledTableCell>Time Started</StyledTableCell>
-                            <StyledTableCell>Action</StyledTableCell>
+            <Table className="bg-white">
+                <TableHeader style={{backgroundColor: '#2C297E'}}>
+                    {table.getHeaderGroups().map(headerGroup => (
+                        <TableRow key={headerGroup.id}>
+                            {headerGroup.headers.map(header => (
+                                <TableHead key={header.id} className="text-white">
+                                    {flexRender(header.column.columnDef.header, header.getContext())}
+                                </TableHead>
+                            ))}
                         </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {data.map((row) => (
-                            <StyledTableRow key={row.srNo}>
-                                <StyledTableCell component="th" scope="row">
-                                    {row.srNo}
-                                </StyledTableCell>
-                                <StyledTableCell>{row.name}</StyledTableCell>
-                                <StyledTableCell>{row.serviceName}</StyledTableCell>
-                                <StyledTableCell>{row.customerReview}</StyledTableCell>
-                                <StyledTableCell>{row.timeStarted}</StyledTableCell>
-                                <StyledTableCell>
-                                    <button className="text-orange-600 flex items-center">
-                                        <FontAwesomeIcon icon={faEye} className="w-5 h-5" />
-                                    </button></StyledTableCell>
-                            </StyledTableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                    ))}
+                </TableHeader>
+                <TableBody>
+                    {table.getRowModel().rows.map(row => (
+                        <TableRow key={row.id} className="bg-white text-black">
+                            {row.getVisibleCells().map(cell => (
+                                <TableCell key={cell.id} className="bg-white text-black">
+                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                </TableCell>
+                            ))}
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+
+            <div className="flex items-center justify-between mt-4">
+                <div className="flex items-center space-x-2">
+                    <Button onClick={() => table.setPageIndex(0)} disabled={!table.getCanPreviousPage()}>
+                        <DoubleArrowLeftIcon />
+                    </Button>
+                    <Button onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
+                        <ChevronLeftIcon />
+                    </Button>
+                    <Button onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+                        <ChevronRightIcon />
+                    </Button>
+                    <Button onClick={() => table.setPageIndex(table.getPageCount() - 1)} disabled={!table.getCanNextPage()}>
+                        <DoubleArrowRightIcon />
+                    </Button>
+                </div>
+                <span>
+                    Page <strong>{table.getState().pagination.pageIndex + 1} of {table.getPageCount()}</strong>
+                </span>
+                <div>
+                    <Select value={`${table.getState().pagination.pageSize}`} onValueChange={value => table.setPageSize(Number(value))}>
+                        <SelectTrigger className="w-32">
+                            <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {[10, 20, 30, 40, 50].map(pageSize => (
+                                <SelectItem key={pageSize} value={`${pageSize}`}>
+                                    Show {pageSize}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                </div>
+            </div>
         </div>
     );
-}
+};
 
 export default AppointmentTable;

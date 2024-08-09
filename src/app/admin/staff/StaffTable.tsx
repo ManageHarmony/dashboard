@@ -268,7 +268,7 @@ const StaffTable: React.FC = () => {
                 </TableHeader>
                 <TableBody style={{ backgroundColor: '#fff' }}>
                     {table.getRowModel().rows.map(row => (
-                        <TableRow key={row.id} style={{ height: "40px" }}>
+                        <TableRow key={row.id} style={{ height: "20p"}}>
                             {row.getVisibleCells().map(cell => (
                                 <TableCell key={cell.id} style={{ padding: "8px" }}>
                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}

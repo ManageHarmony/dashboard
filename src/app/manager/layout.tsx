@@ -13,7 +13,7 @@ import './customScrollbar.css';
 const poppins = Poppins({
     weight: '400',
     subsets: ['latin'],
-  })
+})
 
 export default function RootLayout({
     children,
@@ -22,7 +22,7 @@ export default function RootLayout({
 }>) {
     const [isPanelHovered, setIsPanelHovered] = useState(false);
     const [showNotifications, setShowNotifications] = useState(false);
-    const [showDropdown, setShowDropdown] = useState(false); // State for dropdown visibility
+    const [showDropdown, setShowDropdown] = useState(false);
     const pathname = usePathname();
 
     // Function to generate the page title and breadcrumb based on the route
@@ -34,9 +34,9 @@ export default function RootLayout({
             const path = '/' + pathParts.slice(0, index + 1).join('/');
             return (
                 <span key={path} className="breadcrumb-item">
-                <Link href={path}>{part.charAt(0).toUpperCase() + part.slice(1)}</Link>
-                {index < pathParts.length - 1 && <span className="breadcrumb-separator"></span>}
-              </span>
+                    <Link href={path}>{part.charAt(0).toUpperCase() + part.slice(1)}</Link>
+                    {index < pathParts.length - 1 && <span className="breadcrumb-separator"></span>}
+                </span>
             );
         });
 
@@ -61,48 +61,49 @@ export default function RootLayout({
         <html lang="en">
             <body>
                 <main className={poppins.className}>
-                <SidePanel
-                    onPanelHover={handlePanelHover}
-                    isPanelHovered={isPanelHovered}
-                />
-                <DashboardHeader
-                    isPanelHovered={isPanelHovered}
-                    onShowNotifications={handleShowNotifications}
-                    showNotifications={showNotifications}
-                    onShowDropdown={handleShowDropdown} // Pass the handler
-                    showDropdown={showDropdown} // Pass the state
-                />
+                    <SidePanel
+                        onPanelHover={handlePanelHover}
+                        isPanelHovered={isPanelHovered}
+                    />
+                    <DashboardHeader
+                        isPanelHovered={isPanelHovered}
+                        onShowNotifications={handleShowNotifications}
+                        showNotifications={showNotifications}
+                        onShowDropdown={handleShowDropdown}
+                        showDropdown={showDropdown}
+                    />
 
-                <div style={{ display: isPanelHovered || showNotifications || showDropdown ? 'none' : 'block', marginLeft: "7%" }}>
-                    <div className="page-info " style={{marginLeft: "20px"}}>
-                        {pathname === '/dashboard' ? (
-                            <div className="welcome-container">
-                                <h1 className="mb-4" style={{
-                                    transform: isPanelHovered ? 'translateX(150px)' : 'translateX(0)',
-                                    transition: 'transform 0.3s ease-in-out',
-                                    fontSize: "1.5rem"
-                                }}>
-                                    Welcome Back, <span style={{ color: '#ff6600' }}>Kanika</span>
-                                </h1>
-                            </div>
-                        ) : (
-                            <>
-                                <div className="heading-container">
-                                    <h1>{pageTitle}</h1>
-                                    <div className="heading-underline"></div>
+                    <div 
+                        style={{ 
+                            marginLeft: "7%",
+                            filter: isPanelHovered || showNotifications || showDropdown ? 'blur(3px)' : 'none',
+                            transition: 'filter 0.2s ease-in-out'
+                        }}
+                    >
+                        <div className="page-info" style={{marginLeft: "20px"}}>
+                            {pathname === '/dashboard' ? (
+                                <div className="welcome-container">
+                                    <h1 className="mb-4" style={{ fontSize: "1.5rem" }}>
+                                        Welcome Back, <span style={{ color: '#ff6600' }}>Kanika</span>
+                                    </h1>
                                 </div>
-                                <div className="breadcrumb">
-                                    {breadcrumb}
-                                </div>
-                            </>
-                        )}
-                    </div>
-                    
+                            ) : (
+                                <>
+                                    <div className="heading-container">
+                                        <h1>{pageTitle}</h1>
+                                        <div className="heading-underline"></div>
+                                    </div>
+                                    <div className="breadcrumb">
+                                        {breadcrumb}
+                                    </div>
+                                </>
+                            )}
+                        </div>
+                        
                         {children}
-                    
-                </div>
+                        
+                    </div>
                 </main>
-                
             </body>
         </html>
     );

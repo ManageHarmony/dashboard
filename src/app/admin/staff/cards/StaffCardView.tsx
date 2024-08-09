@@ -25,7 +25,7 @@ const DropdownMenu = ({ anchorEl, handleClose }: any) => {
     >
       <MenuItem onClick={() => {
         handleClose();
-        router.push('/dashboard/staff');
+        router.push('/admin/staff');
       }}>
         <ListItemIcon sx={{ color: '#2C297D' }}>
           <ViewListIcon fontSize="small" />
@@ -70,10 +70,10 @@ const StaffCardView: React.FC = () => {
   return (
     <div style={{ padding: '10px 10px', width: "100%" }}>
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '15px' }}>
-        <div >
-          <StyledButton variant="contained" className='bg-white'>Creators</StyledButton>
-          <StyledButton variant="contained" className='bg-white'>View All</StyledButton>
-          <StyledButton variant="contained" className='bg-white'>Managers</StyledButton>
+        <div style={{display: "flex"}}>
+          <StyledButton variant="contained" className='bg-white mx-0'>Creators</StyledButton>
+          <StyledButton variant="contained" className='mx-0 text-white' style={{backgroundColor: "#2C297D"}}>View All</StyledButton>
+          <StyledButton variant="contained" className='bg-white '>Managers</StyledButton>
         </div>
         <div>
           <Button
@@ -87,7 +87,7 @@ const StaffCardView: React.FC = () => {
           <DropdownMenu anchorEl={anchorEl} handleClose={handleClose} />
         </div>
       </div>
-      <Grid container spacing={3}>
+      <Grid container spacing={1}>
         {staffData.map((staff, index) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={index} style={{ display: 'flex', justifyContent: 'center' }}>
             <StaffCard name={staff.name} role={staff.role} imageUrl={staff.imageUrl} />
