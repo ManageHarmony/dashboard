@@ -1,11 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Navbar, Nav, Form, FormControl, NavDropdown } from 'react-bootstrap';
+import { Navbar, Form, FormControl } from 'react-bootstrap';
 import { FaBell, FaSearch, FaUser, FaCog, FaSignOutAlt } from 'react-icons/fa';
 import Image from 'next/image';
 import profilePic from "../../../public/assets/avatar.jpg";
 import HeaderNotificationCard from './HeaderNotification';
+import { ChevronDownIcon } from '@radix-ui/react-icons';
 
 const DashboardHeader = ({ isPanelHovered, onShowNotifications, showNotifications, onShowDropdown, showDropdown }: any) => {
   const [notifications] = useState([
@@ -28,12 +29,15 @@ const DashboardHeader = ({ isPanelHovered, onShowNotifications, showNotification
 
   const notificationsCount = notifications.length;
 
-  const handleNotificationClick = () => {
-    onShowNotifications(!showNotifications);
+  const [showCard, setShowCard] = useState(false);
+
+  const handleButtonClick = () => {
+    setShowCard(!showCard);
+    onShowDropdown(!showDropdown); // Toggle dropdown state
   };
 
-  const handleDropdownClick = () => {
-    onShowDropdown(!showDropdown);
+  const handleNotificationClick = () => {
+    onShowNotifications(!showNotifications);
   };
 
   return (
@@ -89,30 +93,33 @@ const DashboardHeader = ({ isPanelHovered, onShowNotifications, showNotification
             height={40}
             className=""
             style={{ marginRight: '10px' }}
-            onClick={handleDropdownClick}
           />
           <span className="mx-1" style={{ color: '#000', fontWeight: 'bold' }}>Kanika</span>
-          <NavDropdown
-            title={<span></span>}
-            id="basic-nav-dropdown"
-            align="end"
-            className="custom-dropdown"
-            show={showDropdown}
-            onToggle={handleDropdownClick}
-          >
-            <div className="dropdown-card">
-              <NavDropdown.Item href="#profile">
-                <FaUser className="me-2" /> My Profile
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#settings">
-                <FaCog className="me-2" /> Settings
-              </NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#logout">
-                <FaSignOutAlt className="me-2" /> Logout
-              </NavDropdown.Item>
-            </div>
-          </NavDropdown>
+          <div className="relative">
+            {/* Button with Dropdown Icon */}
+            <button
+              onClick={handleButtonClick}
+              className="rounded-full flex items-center"
+            >
+              <ChevronDownIcon />
+            </button>
+
+            {/* Dropdown Card */}
+            {showCard && (
+              <div className="custom-dropdown dropdown-card absolute top-8 right-5 mt-2 w-48 bg-white shadow-lg rounded-lg p-4 z-10">
+                <a href="#profile" className="dropdown-item flex items-center py-2 px-3">
+                  <FaUser className="me-2" /> My Profile
+                </a>
+                <a href="#settings" className="dropdown-item flex items-center py-2 px-3">
+                  <FaCog className="me-2" /> Settings
+                </a>
+                <hr className="my-2" />
+                <a href="#logout" className="dropdown-item flex items-center py-2 px-3">
+                  <FaSignOutAlt className="me-2" /> Logout
+                </a>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </Navbar>
