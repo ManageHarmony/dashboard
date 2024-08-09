@@ -33,10 +33,10 @@ export default function RootLayout({
         const breadcrumb = pathParts.map((part, index) => {
             const path = '/' + pathParts.slice(0, index + 1).join('/');
             return (
-                <span key={path}>
-                    <Link href={path}>{part.charAt(0).toUpperCase() + part.slice(1)}</Link>
-                    {index < pathParts.length - 1 && ' > '}
-                </span>
+                <span key={path} className="breadcrumb-item">
+                <Link href={path}>{part.charAt(0).toUpperCase() + part.slice(1)}</Link>
+                {index < pathParts.length - 1 && <span className="breadcrumb-separator"></span>}
+              </span>
             );
         });
 

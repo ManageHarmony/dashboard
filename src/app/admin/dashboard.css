@@ -7,6 +7,20 @@ body {
   background-color:  #daf7fd7e !important;
   margin: 0;
 }
+.breadcrumb {
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumb-item {
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumb-separator {
+  margin: 0 5px; /* Adjust the value for desired spacing */
+  color: #666; /* Optional: change the color of the separator */
+}
 
 /* header */
 .header-notification-card {

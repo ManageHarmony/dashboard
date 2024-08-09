@@ -48,7 +48,7 @@ const ratingsData = [
 ];
 
 export default function DoctorRatings() {
-    const [showAllRatings, setShowAllRatings] = useState(false);
+    const [showAll, setShowAll] = useState(false);
 
     const averageRating = 4.2; // Assuming you have a way to calculate this
 
@@ -61,32 +61,28 @@ export default function DoctorRatings() {
                 </div>
                 <div style={{ fontSize: "1rem", color: "#101010", fontWeight: "600" }}>Average Rating: {averageRating}/5</div>
                 <button
-                    onClick={() => setShowAllRatings(!showAllRatings)}
-                    style={{ fontSize: "0.875rem", color: "#ff6500", display: "flex", alignItems: "center", background: "none", border: "none", cursor: "pointer" }}
-                >
-                    {showAllRatings ? "Show Less" : "See All"}
-                    <svg
-                        style={{ marginLeft: "4px", width: "16px", height: "16px" }}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d={
-                                showAllRatings
-                                    ? "M5 15l7-7 7 7"
-                                    : "M19 9l-7 7-7-7"
-                            }
-                        ></path>
-                    </svg>
-                </button>
+                            onClick={() => setShowAll(!showAll)}
+                            style={{ fontSize: "0.875rem", color: "#ff6500", display: "flex", alignItems: "center", background: "none", cursor: "pointer", border: "1px dashed #ffecd4", padding: "5px 10px", borderRadius: "8px" }}
+                        >
+                            {showAll ? "Show Less" : "See All"}{" "}
+                            <svg
+                                style={{ marginLeft: "4px", width: "16px", height: "16px" }}
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d={showAll ? "M5 15l7-7 7 7" : "M19 9l-7 7-7-7"}
+                                ></path>
+                            </svg>
+                        </button>
             </div>
             <div style={{ maxHeight: "300px", overflowY: "auto", paddingRight: "4px" }} className="scrollable-content">
-                {(showAllRatings ? ratingsData : ratingsData.slice(0, 5)).map(
+                {(showAll ? ratingsData : ratingsData.slice(0, 5)).map(
                     (rating) => (
                         <div key={rating.id} style={{ display: "flex", alignItems: "start", marginBottom: "8px", paddingBottom: "8px", borderBottom: "1px solid #ffecd4" }}>
                             <img
