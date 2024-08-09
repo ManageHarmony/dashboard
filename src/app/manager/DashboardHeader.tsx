@@ -85,7 +85,7 @@ const DashboardHeader = ({ isPanelHovered, onShowNotifications, showNotification
             </div>
           )}
         </div>
-        <div className="d-flex align-items-center bg-transparent">
+        <div className="d-flex align-items-center bg-white p-1" style={{borderRadius: "10px"}}>
           <Image
             src={profilePic}
             alt="Profile"
