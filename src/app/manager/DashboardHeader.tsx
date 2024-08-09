@@ -92,7 +92,7 @@ const DashboardHeader = ({ isPanelHovered, onShowNotifications, showNotification
             width={40}
             height={40}
             className=""
-            style={{ marginRight: '10px' }}
+            style={{ marginRight: '10px', borderRadius: "10px" }}
           />
           <span className="mx-1" style={{ color: '#000', fontWeight: 'bold' }}>Kanika</span>
           <div className="relative">

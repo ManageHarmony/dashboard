@@ -559,6 +559,37 @@ body {
     gap: 2px;
   }
 }
+/* staff's table dropdown to show number of rows */
+.select-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  cursor: pointer;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+.select-item:hover {
+  color: white;
+  background-color: #343a40;
+}
+.dropdown{
+  display: flex;
+  align-items: center;
+  justify-content:center;
+  padding: 12px;
+}
+.dropdown-content{
+  position: absolute;
+  top: 40px;
+  right: 12px;
+  z-index: 99;
+  
+}
+.table-dropdown-item:hover{
+  background-color: #2C297E;
+  color: white;
+  
+}
 
 
 
