@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react';
+import "../dashboard.css"
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -21,22 +22,11 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 import {
     Button,
 } from "@/components/ui/button";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
+
 import {
     Input,
 } from "@/components/ui/input"; // Assume there's an Input component in your project
@@ -72,16 +62,16 @@ const data: StaffData[] = [
     { srNo: 8, name: 'Riyaj Mohd', role: 'Creator', contact: '4587458963', email: 'riyaj@gmail.com', location: 'Mumbai', status: 'Inactive', remarks: 'Remarks' },
     { srNo: 9, name: 'Kaushal Kumar', role: 'Creator', contact: '7844785698', email: 'kaushal@gmail.com', location: 'Chennai', status: 'Off Temp', remarks: 'Remarks' },
     { srNo: 10, name: 'Vipin Sharma', role: 'Creator', contact: '9514758263', email: 'vipin@gmail.com', location: 'Rune', status: 'Active', remarks: 'Remarks' },
-    { srNo: 1, name: 'Naseem Ahmad', role: 'Manager', contact: '9874597450', email: 'naseem@gmail.com', location: 'Delhi', status: 'Active', remarks: 'Remarks' },
-    { srNo: 2, name: 'Shubham Solanki', role: 'Creator', contact: '6547998741', email: 'shubham@gmail.com', location: 'New York', status: 'Active', remarks: 'Remarks' },
-    { srNo: 3, name: 'Vineet Singh', role: 'Creator', contact: '2658745897', email: 'vineet@gmail.com', location: 'California', status: 'Active', remarks: 'Remarks' },
-    { srNo: 4, name: 'Nishu Singla', role: 'Creator', contact: '9857458745', email: 'nishu@gmail.com', location: 'Dubai', status: 'Leave', remarks: 'Remarks' },
-    { srNo: 5, name: 'Kunal Taneja', role: 'Manager', contact: '9999525287', email: 'kunal@gmail.com', location: 'Qatar', status: 'Inactive', remarks: 'Remarks' },
-    { srNo: 6, name: 'Aditya Tiwari', role: 'Manager', contact: '4478523659', email: 'aditya@gmail.com', location: 'Noida', status: 'Active', remarks: 'Remarks' },
-    { srNo: 7, name: 'Mohit Keer', role: 'Creator', contact: '8745896314', email: 'mohit@gmail.com', location: 'Gurugram', status: 'Active', remarks: 'Remarks' },
-    { srNo: 8, name: 'Riyaj Mohd', role: 'Creator', contact: '4587458963', email: 'riyaj@gmail.com', location: 'Mumbai', status: 'Inactive', remarks: 'Remarks' },
-    { srNo: 9, name: 'Kaushal Kumar', role: 'Creator', contact: '7844785698', email: 'kaushal@gmail.com', location: 'Chennai', status: 'Off Temp', remarks: 'Remarks' },
-    { srNo: 10, name: 'Vipin Sharma', role: 'Creator', contact: '9514758263', email: 'vipin@gmail.com', location: 'Rune', status: 'Active', remarks: 'Remarks' },
+    { srNo: 11, name: 'Naseem ', role: 'Manager', contact: '9874597450', email: 'naseem@gmail.com', location: 'Delhi', status: 'Active', remarks: 'Remarks' },
+    { srNo: 12, name: 'Shubham ', role: 'Creator', contact: '6547998741', email: 'shubham@gmail.com', location: 'New York', status: 'Active', remarks: 'Remarks' },
+    { srNo: 13, name: 'Vineet ', role: 'Creator', contact: '2658745897', email: 'vineet@gmail.com', location: 'California', status: 'Active', remarks: 'Remarks' },
+    { srNo: 14, name: 'Nishu ', role: 'Creator', contact: '9857458745', email: 'nishu@gmail.com', location: 'Dubai', status: 'Leave', remarks: 'Remarks' },
+    { srNo: 15, name: 'Kunal ', role: 'Manager', contact: '9999525287', email: 'kunal@gmail.com', location: 'Qatar', status: 'Inactive', remarks: 'Remarks' },
+    { srNo: 16, name: 'Aditya ', role: 'Manager', contact: '4478523659', email: 'aditya@gmail.com', location: 'Noida', status: 'Active', remarks: 'Remarks' },
+    { srNo: 17, name: 'Mohit ', role: 'Creator', contact: '8745896314', email: 'mohit@gmail.com', location: 'Gurugram', status: 'Active', remarks: 'Remarks' },
+    { srNo: 18, name: 'Riyaj ', role: 'Creator', contact: '4587458963', email: 'riyaj@gmail.com', location: 'Mumbai', status: 'Inactive', remarks: 'Remarks' },
+    { srNo: 19, name: 'Kaushal ', role: 'Creator', contact: '7844785698', email: 'kaushal@gmail.com', location: 'Chennai', status: 'Off Temp', remarks: 'Remarks' },
+    { srNo: 20, name: 'Vipin ', role: 'Creator', contact: '9514758263', email: 'vipin@gmail.com', location: 'Rune', status: 'Active', remarks: 'Remarks' },
     // Add more data...
 ];
 
@@ -126,23 +116,7 @@ const columns: ColumnDef<StaffData>[] = [
         header: 'Remarks',
         cell: ({ getValue }) => getValue(),
     },
-    {
-        id: 'actions',
-        header: '',
-        cell: ({ row }) => (
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button variant="ghost">
-                        <DotsHorizontalIcon />
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                    <DropdownMenuItem onClick={() => alert(`Editing ${row.original.name}`)}>Edit</DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => alert(`Deleting ${row.original.name}`)}>Delete</DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
-        ),
-    },
+    
 ];
 
 const StaffTable: React.FC = () => {
@@ -152,7 +126,10 @@ const StaffTable: React.FC = () => {
     const [rowSelection, setRowSelection] = React.useState({});
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const router = useRouter();
+    const [isOpen, setIsOpen] = useState(false);
 
+
+    console.log("renderedf")
     const table = useReactTable({
         data,
         columns,
@@ -182,7 +159,7 @@ const StaffTable: React.FC = () => {
 
     const handleNavigation = (url: string) => {
         // Add your navigation logic here
-        router.push("/creator/staff/cards")
+        router.push(url)
         handleClose();
     };
 
@@ -210,23 +187,58 @@ const StaffTable: React.FC = () => {
                         <FaTable style={{ marginRight: "8px", color: '#2C297D' }} />
                         View
                     </Button>
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost">
-                                <DotsHorizontalIcon />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                            <DropdownMenuItem >
-                                <FaListUl style={{ marginRight: "8px", color: '#2C297D' }} />
-                                View
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleNavigation('/cards')}>
-                                <FaIdCard style={{ marginRight: "8px", color: '#2C297D' }} />
-                                Cards
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                    <div className="dropdown">
+                        <button
+                            className="dropdown-trigger"
+                            style={{ border: "none", background: "none" }}
+                            onClick={() => setIsOpen(!isOpen)}
+                        >
+                            <DotsHorizontalIcon />
+                        </button>
+                        {isOpen && (
+                            <div
+                                className="dropdown-content"
+                                style={{
+                                    position: "absolute",
+                                    backgroundColor: "#fff",
+                                    boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
+                                    borderRadius: "4px",
+                                    padding: "8px",
+                                    marginTop: "4px",
+                                }}
+                            >
+                                <div
+                                    className="table-dropdown-item"
+                                    style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        padding: "8px 12px",
+                                        cursor: "pointer",
+                                    }}
+                                    onClick={() => setIsOpen(false)}
+                                >
+                                    <FaListUl className='table-dropdown-item' style={{marginRight:"8px"}} />
+                                    View
+                                </div>
+                                <div
+                                    className="table-dropdown-item"
+                                    style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        padding: "8px 12px",
+                                        cursor: "pointer",
+                                    }}
+                                    onClick={() => {
+                                        handleNavigation("/creator/staff/cards");
+                                        setIsOpen(false);
+                                    }}
+                                >
+                                    <FaIdCard className='table-dropdown-item' style={{marginRight:"8px"}}  />
+                                    Cards
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
 
@@ -270,23 +282,10 @@ const StaffTable: React.FC = () => {
                         <DoubleArrowRightIcon />
                     </Button>
                 </div>
-                <span>
-                    Page <strong>{table.getState().pagination.pageIndex + 1} of {table.getPageCount()}</strong>
-                </span>
                 <div>
-                    <Select value={`${table.getState().pagination.pageSize}`} onValueChange={value => table.setPageSize(Number(value))}>
-                        <SelectTrigger className="w-32">
-                            <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                            {[10, 20, 30, 40, 50].map(pageSize => (
-                                <SelectItem key={pageSize} value={`${pageSize}`}>
-                                    Show {pageSize}
-                                </SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
+                    Page <strong>{table.getState().pagination.pageIndex + 1} of {table.getPageCount()}</strong>
                 </div>
+               
             </div>
         </div>
     );

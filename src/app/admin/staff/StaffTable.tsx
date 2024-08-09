@@ -22,22 +22,11 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 import {
     Button,
 } from "@/components/ui/button";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
+
 import {
     Input,
 } from "@/components/ui/input"; // Assume there's an Input component in your project
@@ -167,7 +156,6 @@ const StaffTable: React.FC = () => {
     const handleClose = () => {
         setAnchorEl(null);
     };
-    const [hoveredItem, setHoveredItem] = useState(null);
 
     const handleNavigation = (url: string) => {
         // Add your navigation logic here
