@@ -212,22 +212,23 @@ const StaffDetail: React.FC = () => {
             <Typography variant="h6" component="div" sx={{ color: '#202020', fontWeight: 'bold', marginTop: '20px' }}>
                 Assigned Consultants
             </Typography>
-            <Grid container spacing={3}>
+            <Grid container spacing={2}>
                 {staffData.assignedConsultants.map((consultant, index) => (
                     <Grid item xs={12} sm={6} md={3} key={index}>
-                        <AssignedConsultantsCard>
+                        <AssignedConsultantsCard style={{padding: "10px"}}>
                             <CardMedia
                                 component="img"
                                 alt={consultant.name}
                                 height="140"
                                 image={consultant.imageUrl}
                                 title={consultant.name}
+                                style={{borderRadius: "10px"}}
                             />
                             <CardContent>
-                                <Typography gutterBottom variant="h6" component="div" sx={{ color: '#202020', fontWeight: 'bold' }}>
+                                <Typography gutterBottom variant="h6" component="div" sx={{ color: '#202020', fontWeight: 'bold', textAlign: "center" }}>
                                     {consultant.name}
                                 </Typography>
-                                <Typography variant="body2" color="textSecondary" component="p" sx={{ color: '#202020' }}>
+                                <Typography variant="body2" color="textSecondary" component="p" sx={{ color: '#202020', textAlign: "center" }}>
                                     {consultant.role}
                                 </Typography>
                             </CardContent>
