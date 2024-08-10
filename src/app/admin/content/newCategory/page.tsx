@@ -19,8 +19,19 @@ const NewCategoryPage: React.FC = () => {
     const handleImageUpload = (e: any) => {
         setContentCategoryImage(e.target.files[0]);
     };
-    const showToast = (message: string) => {
+    const showToastError = (message: string) => {
         toast.error(message, {
+            position: "top-center",
+            autoClose: 3000, // Auto dismiss after 3 seconds
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+    };
+    const showToastSuccess = (message: string) => {
+        toast.success(message, {
             position: "top-center",
             autoClose: 3000, // Auto dismiss after 3 seconds
             hideProgressBar: false,
@@ -38,7 +49,7 @@ const NewCategoryPage: React.FC = () => {
         if (!contentCategoryImage) missingFields.push('Image');
 
         if (missingFields.length > 0) {
-            showToast(`Please fill in the following fields: ${missingFields.join(', ')}`);
+            showToastError(`Please fill in the following fields: ${missingFields.join(', ')}`);
             return;
         }
         setLoading(true);
@@ -60,7 +71,7 @@ const NewCategoryPage: React.FC = () => {
             const firstWord = result.message.split(' ')[0];
 
 
-            showToast('Category Created Successfully');
+            showToastSuccess(`Category ${firstWord} Created Successfully`);
 
             setCategory('');
             setDescription('');
