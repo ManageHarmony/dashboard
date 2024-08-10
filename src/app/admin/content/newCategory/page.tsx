@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const NewCategoryPage: React.FC = () => {
     const [category, setCategory] = useState("");
     const [description, setDescription] = useState("");
-    const [contentCategoryImage, setContentCategoryImage] = useState('');
+    const [contentCategoryImage, setContentCategoryImage] = useState<File | string>('');
     console.log(contentCategoryImage)
     const [loading, setLoading] = useState<boolean>(false);
 
@@ -101,14 +101,14 @@ const NewCategoryPage: React.FC = () => {
                         </div>
                     </div>
                     <div style={styles.inputGroup}>
-                        <label style={{ marginLeft: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between', width:'100%' }} >
+                        <label style={{ marginLeft: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }} >
                             <input
                                 type="file"
                                 onChange={handleImageUpload}
                                 style={{ display: 'none' }}
                             />
 
-                            {contentCategoryImage === '' ? 'Choose a file' : contentCategoryImage?.name}
+                            {contentCategoryImage === '' ? 'Choose a file' : (typeof contentCategoryImage === 'string' ? contentCategoryImage : contentCategoryImage.name)}
                             <div>
                                 <FiFilePlus style={styles.icon} />
 
