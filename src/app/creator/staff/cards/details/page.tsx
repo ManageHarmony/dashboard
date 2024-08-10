@@ -39,7 +39,8 @@ const DetailCard = styled(Card)(({ theme }) => ({
 const AssignedConsultantsCard = styled(Card)(({ theme }) => ({
     borderRadius: '15px',
     margin: '10px',
-    maxWidth: 270,
+    padding: "10px",
+    maxWidth: 300,
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
 }));
 
@@ -93,16 +94,16 @@ const StaffDetail: React.FC = () => {
                 >
                     <MenuItem onClick={handleClose}>
                         <ListItemIcon>
-                            <CircleIcon fontSize="small" sx={{ color: 'green' }} />
+                            <CircleIcon fontSize="small" sx={{ color: 'red' }} />
                         </ListItemIcon>
-                        <ListItemText primary="xxx" />
+                        <ListItemText primary="Inactive" />
                     </MenuItem>
-                    <MenuItem onClick={handleClose}>
+                    {/* <MenuItem onClick={handleClose}>
                         <ListItemIcon>
                             <CircleIcon fontSize="small" sx={{ color: 'red' }} />
                         </ListItemIcon>
                         <ListItemText primary="yyy" />
-                    </MenuItem>
+                    </MenuItem> */}
                 </Menu>
                 <Button
                     variant="contained"
@@ -215,7 +216,7 @@ const StaffDetail: React.FC = () => {
             <Grid container spacing={2}>
                 {staffData.assignedConsultants.map((consultant, index) => (
                     <Grid item xs={12} sm={6} md={3} key={index}>
-                        <AssignedConsultantsCard style={{padding: "10px"}}>
+                        <AssignedConsultantsCard>
                             <CardMedia
                                 component="img"
                                 alt={consultant.name}

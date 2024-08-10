@@ -6,7 +6,8 @@ import { useRouter } from 'next/navigation';
 const StyledCard = styled(Card)(({ theme }) => ({
   borderRadius: '15px',
   margin: '10px',
-  maxWidth: 260,
+  maxWidth: 300,
+  padding: '10px',
   boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
   cursor: 'pointer',  // Make the card look clickable
 }));
@@ -19,7 +20,7 @@ const StaffCard: React.FC<{ name: string; role: string; imageUrl: string }> = ({
   };
 
   return (
-    <StyledCard onClick={handleClick} style={{padding: "10px"}}>
+    <StyledCard onClick={handleClick}>
       <CardMedia
         component="img"
         alt={name}

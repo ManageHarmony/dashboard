@@ -1,6 +1,7 @@
 import React from 'react';
 import ContentDynamicChart from './ContentDynamicChart';
 import TopArticleContent from './TopArticleContent';
+import StaffIcon from '@/components/icons/StaffIcon';
 
 const ContentStats = () => {
   const stats = [
