@@ -383,7 +383,7 @@ body {
   position: absolute;
   bottom: 0; /* Adjust based on the spacing you need */
   left: 0;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .notification-card {
