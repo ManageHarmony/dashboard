@@ -11,6 +11,7 @@ export default function MostCategories() {
 
     useEffect(() => {
         const fetchData = async () => {
+            console.log("hi there")
             try {
                 const response = await fetch('https://harmony-backend-z69j.onrender.com/api/all/content/categories', {
                     method: 'GET',
@@ -20,11 +21,15 @@ export default function MostCategories() {
                 }
                 const data = await response.json();
                 console.log('Fetched data:', data); // Log the full response
-                console.log('Categories:', data.allCategory); // Log the specific data you're using
-                setTopMostCategories(data.allCategory || []);
+                console.log('Categories:', data?.data?.allCategory); // Log the specific data you're using
+                setTopMostCategories(data?.data?.allCategory || []);
+                setLoading(false);
+
             } catch (error) {
                 console.error('Error fetching data:', error);
                 setTopMostCategories([]);
+                setLoading(false);
+
             } finally {
                 setLoading(false);
             }
