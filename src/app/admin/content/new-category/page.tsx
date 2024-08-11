@@ -4,7 +4,7 @@
 import React, { useState } from 'react';
 import { FiUser, FiFilePlus, FiLoader } from 'react-icons/fi';
 import { AiOutlineUserAdd } from 'react-icons/ai'; // Importing a new icon for adding contact
-import { Alert, Spinner } from 'react-bootstrap';
+import { Spinner } from 'react-bootstrap';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
