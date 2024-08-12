@@ -159,8 +159,7 @@ export default function MostCategories() {
                                     <td className="p-2 text-black">{index + 1}</td>
                                     <td className="p-2 text-black">{data.category}</td>
                                     <td className="p-2 text-black">{data.description}</td>
-                                    <td className="p-2">
-                                        <Dropdown>
+                                    <Dropdown>
                                             <Dropdown.Toggle
                                                 as="button"
                                                 className="text-orange-600 flex items-center border-0 bg-transparent p-0"
@@ -182,7 +181,6 @@ export default function MostCategories() {
                                                 </Dropdown.Item>
                                             </Dropdown.Menu>
                                         </Dropdown>
-                                    </td>
                                 </tr>
                             ))
                         ) : (
