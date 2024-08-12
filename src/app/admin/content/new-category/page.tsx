@@ -1,28 +1,76 @@
 'use client';
 
+import React, { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import Dropdown from 'react-bootstrap/Dropdown';
 
-import React, { useState } from 'react';
-import { FiUser, FiFilePlus, FiLoader } from 'react-icons/fi';
-import { AiOutlineUserAdd } from 'react-icons/ai'; // Importing a new icon for adding contact
-import { Spinner } from 'react-bootstrap';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const NewCategoryPage: React.FC = () => {
-    const [category, setCategory] = useState("");
-    const [description, setDescription] = useState("");
-    const [contentCategoryImage, setContentCategoryImage] = useState<File | string>('');
-    console.log(contentCategoryImage)
-    const [loading, setLoading] = useState<boolean>(false);
 
 
-    const handleImageUpload = (e: any) => {
-        setContentCategoryImage(e.target.files[0]);
+export default function MostCategories() {
+    const [showAll, setShowAll] = useState(false);
+    const [topMostCategories, setTopMostCategories] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch('https://harmony-backend-z69j.onrender.com/api/all/content/categories', {
+                    method: 'GET',
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                setTopMostCategories(data?.data?.allCategory || []);
+                setLoading(false);
+
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                setTopMostCategories([]);
+                setLoading(false);
+
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    const handleDelete = async (id: string) => {
+        try {
+            const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/admin/delete/category/${id}`, {
+                method: "DELETE",
+            });
+    
+            if (!response.ok) {
+                throw new Error('Failed to delete the category.');
+            }
+    
+            setTopMostCategories((prevCategories) =>
+                prevCategories.filter((category) => category.id !== id)
+            );
+            console.log('Deleting category with ID:', id);
+
+    
+            showToastSuccess('Category deleted successfully.');
+    
+        } catch (error) {
+            console.error('Error deleting category:', error);
+            showToastError('Failed to delete the category.');
+        }
     };
+    
+    
+
     const showToastError = (message: string) => {
         toast.error(message, {
             position: "top-center",
-            autoClose: 3000, // Auto dismiss after 3 seconds
+            autoClose: 3000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -30,10 +78,11 @@ const NewCategoryPage: React.FC = () => {
             progress: undefined,
         });
     };
+
     const showToastSuccess = (message: string) => {
         toast.success(message, {
             position: "top-center",
-            autoClose: 3000, // Auto dismiss after 3 seconds
+            autoClose: 3000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -42,186 +91,109 @@ const NewCategoryPage: React.FC = () => {
         });
     };
 
-    const handleSubmit = async () => {
-        const missingFields = [];
-        if (!category) missingFields.push('Category');
-        if (!description) missingFields.push('Description');
-        if (!contentCategoryImage) missingFields.push('Image');
-
-        if (missingFields.length > 0) {
-            showToastError(`Please fill in the following fields: ${missingFields.join(', ')}`);
-            return;
-        }
-        setLoading(true);
-        const formData = new FormData();
-        console.log("clicked")
-        formData.append("category", category);
-        formData.append("description", description);
-        formData.append("contentCategoryImage", contentCategoryImage);
-
-        try {
-            console.log("entered")
-            const response = await fetch('https://harmony-backend-z69j.onrender.com/api/admin/create/content/category', {
-                method: 'POST',
-                body: formData,
-            });
-
-            const result = await response.json();
-            console.log("result", result);
-            const firstWord = result.message.split(' ')[0];
-
-
-            showToastSuccess(`Category ${firstWord} Created Successfully`);
-
-            setCategory('');
-            setDescription('');
-            setContentCategoryImage('');
-            setLoading(false);
-
-
-        } catch (error) {
-            console.error("Error:", error);
-            setLoading(false);
-        }
-    };
-    return (
-        <>
-            <div style={styles.formContainer}>
-                <div style={styles.row}>
-                    <div style={styles.inputGroup}>
-                        <input
-                            type="text"
-                            placeholder="Category"
-                            value={category}
-                            onChange={(e) => setCategory(e.target.value)}
-                            style={styles.input}
-                        />
-                        <div>
-                            <FiUser style={styles.icon} />
-                        </div>
-                    </div>
-                    <div style={styles.inputGroup}>
-                        <label style={{ marginLeft: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }} >
-                            <input
-                                type="file"
-                                onChange={handleImageUpload}
-                                style={{ display: 'none' }}
-                            />
-
-                            {contentCategoryImage === '' ? 'Choose a file' : (typeof contentCategoryImage === 'string' ? contentCategoryImage : contentCategoryImage.name)}
-                            <div>
-                                <FiFilePlus style={styles.icon} />
-
-                            </div>
-
-                        </label>
-
-
-                    </div>
-                </div>
-                <div style={{
-                    width: "100%",
-                    height: '300px',
-                    backgroundColor: "#fff",
-                    padding: "10px",
-                    borderRadius: "10px",
-                    border: '1px solid #ddd',
-                    display: "flex",
-                    justifyContent: "space-between",
-                    resize: 'none'
-                }}>
-                    <textarea
-                        placeholder="Description"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        style={styles.input}
-                    />
-                    <div className='flex-end'>
-                        <FiUser style={styles.icon} />
-                    </div>
-                </div>
-                <button style={styles.saveButton} onClick={handleSubmit}>
-                    {!loading ?
-                        <div style={{ display: 'flex' }}>Save <AiOutlineUserAdd style={{ ...styles.buttonIcon, fontSize: '1.5rem' }} /></div> : <Spinner className='' animation="border" role="status">
-                            <span className="visually-hidden">Loading...</span>
-                        </Spinner>
-                    }
-                </button>
-
+    if (loading) {
+        return (
+            <div className="text-center p-4">
+                <p>Loading...</p>
             </div>
-            <ToastContainer />
-        </>
+        );
+    }
+
+    return (
+        <div style={{
+            width: "100%",
+            height: "330px",
+            backgroundColor: "white",
+            borderRadius: "20px",
+            padding: "20px",
+            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+            marginTop: "20px"
+        }}>
+            <div className="flex justify-between items-center mb-4">
+                <span className="font-bold text-lg">Top Category</span>
+                <button
+                    onClick={() => setShowAll(!showAll)}
+                    style={{
+                        fontSize: "0.875rem",
+                        color: "#ff6500",
+                        display: "flex",
+                        alignItems: "center",
+                        background: "none",
+                        cursor: "pointer",
+                        border: "1px dashed #ffecd4",
+                        padding: "5px 10px",
+                        borderRadius: "8px"
+                    }}
+                >
+                    {showAll ? "Show Less" : "See All"}{" "}
+                    <svg
+                        style={{ marginLeft: "4px", width: "16px", height: "16px" }}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d={showAll ? "M5 15l7-7 7 7" : "M19 9l-7 7-7-7"}
+                        ></path>
+                    </svg>
+                </button>
+            </div>
+            <div style={{
+                height: showAll ? "calc(280px - 40px)" : "calc(280px - 40px)",
+                overflowY: showAll ? "auto" : "hidden",
+                borderRadius: "10px"
+            }}>
+                <table className="table-auto w-full border-collapse">
+                    <thead className="bg-orange-100 rounded-t-lg">
+                        <tr>
+                            <th className="text-left p-2 text-gray-600 rounded-tl-lg">Sr. No</th>
+                            <th className="text-left p-2 text-gray-600">Category Name</th>
+                            <th className="text-left p-2 text-gray-600">Description</th>
+                            <th className="text-left p-2 text-gray-600 rounded-tr-lg">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {topMostCategories.length > 0 ? (
+                            topMostCategories.map((data, index) => (
+                                <tr key={data.id} className="border-b border-gray-300">
+                                    <td className="p-2 text-black">{index + 1}</td>
+                                    <td className="p-2 text-black">{data.category}</td>
+                                    <td className="p-2 text-black">{data.description}</td>
+                                    <td className="p-2">
+                                        <Dropdown>
+                                            <Dropdown.Toggle
+                                                as="button"
+                                                className="text-orange-600 flex items-center border-0 bg-transparent p-0"
+                                            >
+                                                <FontAwesomeIcon icon={faEye} className="w-4 h-4" />
+                                            </Dropdown.Toggle>
+
+                                            <Dropdown.Menu className="p-0 shadow-lg" style={{ width: 'auto', minWidth: '120px' }}>
+                                                <Dropdown.Item href="#/edit" className="flex items-center text-sm p-2">
+                                                    <FontAwesomeIcon icon={faEdit} className="mr-2" style={{ color: '#ff6600' }} />
+                                                    Edit
+                                                </Dropdown.Item>
+                                                <Dropdown.Item  className="flex items-center text-sm p-2" onClick={() => handleDelete(data.id)}>
+                                                    <FontAwesomeIcon icon={faTrash} className="mr-2" style={{ color: '#ff6600' }} />
+                                                    Delete
+                                                </Dropdown.Item>
+                                            </Dropdown.Menu>
+                                        </Dropdown>
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan={4} className="text-center p-4">No data available</td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     );
 }
-
-const styles = {
-
-    formContainer: {
-        backgroundColor: '#fff',
-        borderRadius: '15px',
-        margin: "20px 25px",
-        padding: '20px',
-        width: '56%',
-        // maxWidth: '1200px', // Increase the max-width for the container
-        // boxSizing: 'border-box' as const,
-        display: 'flex',
-        flexDirection: 'column' as const,
-        justifyContent: "space-evenly",
-        minHeight: '60vh', // Increase the height of the main div
-    },
-    row: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        gap: "40px",
-        width: '100%',
-        marginBottom: '20px',
-    },
-    inputGroup: {
-        display: 'flex',
-        justifyContent: "space-between",
-        alignItems: 'center',
-        width: '60%', // Each input group takes half of the available width in the row
-        backgroundColor: '#fff',
-        border: '1px solid #ddd',
-        borderRadius: '10px',
-    },
-    input: {
-        width: '80%', // Leave space for the icon
-        padding: '10px 15px',
-        border: 'none',
-        borderRadius: '10px',
-        fontSize: '1rem',
-        boxSizing: 'border-box' as const,
-        outline: 'none',
-        backgroundColor: 'transparent', // Ensure the input blends with the container
-    },
-
-
-    icon: {
-        color: '#ff8a00',
-        fontSize: '2rem',
-        marginRight: "5px"
-    },
-    saveButton: {
-        backgroundColor: '#ff8a00',
-        color: '#fff',
-
-        borderRadius: '10px',
-        border: 'none',
-        cursor: 'pointer',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontSize: '1rem',
-        marginTop: '20px',
-        alignSelf: 'center', // Center the button
-        width: '100px',
-        height: '50px'
-    },
-    buttonIcon: {
-        marginLeft: '10px',
-        fontSize: "2rem"
-    },
-};
-
-export default NewCategoryPage;

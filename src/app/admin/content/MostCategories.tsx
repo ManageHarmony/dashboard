@@ -2,7 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 
 export default function MostCategories() {
     const [showAll, setShowAll] = useState(false);
@@ -37,6 +39,25 @@ export default function MostCategories() {
 
         fetchData();
     }, []);
+
+    const handleDelete = async (id: string) => {
+        try {
+            const response = await fetch('https://harmony-backend-z69j.onrender.com/api/admin/delete/category/:CategoryId', {
+                method: "DELETE",
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to delete the category.');
+            }
+
+            setTopMostCategories((prevCategories) =>
+                prevCategories.filter((category) => category.id !== id)
+            );
+
+        } catch (error) {
+            console.error('Error deleting category:', error);
+        }
+    };
 
     if (loading) {
         return (
@@ -90,7 +111,7 @@ export default function MostCategories() {
                 </button>
             </div>
             <div style={{
-                height: showAll ? "calc(270px - 40px)" : "calc(270px - 40px)", 
+                height: showAll ? "calc(280px - 40px)" : "calc(280px - 40px)",
                 overflowY: showAll ? "auto" : "hidden",
                 borderRadius: "10px"
             }}>
@@ -110,11 +131,25 @@ export default function MostCategories() {
                                     <td className="p-2 text-black">{index + 1}</td>
                                     <td className="p-2 text-black">{data.category}</td>
                                     <td className="p-2 text-black">{data.description}</td>
-                                    <td className="p-2">
-                                        <button className="text-orange-600 flex items-center">
+                                    <Dropdown>
+                                        <Dropdown.Toggle
+                                            as="button"
+                                            className="text-orange-600 flex items-center border-0 bg-transparent p-0"
+                                        >
                                             <FontAwesomeIcon icon={faEye} className="w-4 h-4" />
-                                        </button>
-                                    </td>
+                                        </Dropdown.Toggle>
+
+                                        <Dropdown.Menu className="p-0 shadow-lg" style={{ width: 'auto', minWidth: '120px' }}>
+                                            <Dropdown.Item className="flex items-center text-sm p-2">
+                                                <FontAwesomeIcon icon={faEdit} className="mr-2" style={{ color: '#ff6600' }} />
+                                                Edit
+                                            </Dropdown.Item>
+                                            <Dropdown.Item  className="flex items-center text-sm p-2"  onClick={() => handleDelete(data.id)}>
+                                                <FontAwesomeIcon icon={faTrash} className="mr-2" style={{ color: '#ff6600' }} />
+                                                Delete
+                                            </Dropdown.Item>
+                                        </Dropdown.Menu>
+                                    </Dropdown>
                                 </tr>
                             ))
                         ) : (
