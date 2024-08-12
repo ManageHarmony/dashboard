@@ -2,7 +2,13 @@
 
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import Dropdown from 'react-bootstrap/Dropdown';
+
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 export default function MostCategories() {
     const [showAll, setShowAll] = useState(false);
@@ -11,7 +17,6 @@ export default function MostCategories() {
 
     useEffect(() => {
         const fetchData = async () => {
-            console.log("hi there")
             try {
                 const response = await fetch('https://harmony-backend-z69j.onrender.com/api/all/content/categories', {
                     method: 'GET',
@@ -20,8 +25,6 @@ export default function MostCategories() {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-                console.log('Fetched data:', data); // Log the full response
-                console.log('Categories:', data?.data?.allCategory); // Log the specific data you're using
                 setTopMostCategories(data?.data?.allCategory || []);
                 setLoading(false);
 
@@ -37,6 +40,52 @@ export default function MostCategories() {
 
         fetchData();
     }, []);
+
+    const handleDelete = async (id: string) => {
+        try {
+            const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/admin/delete/category/${id}`, {
+                method: "DELETE",
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to delete the category.');
+            }
+
+            setTopMostCategories((prevCategories) =>
+                prevCategories.filter((category) => category.id !== id)
+            );
+
+            showToastSuccess('Category deleted successfully.');
+
+        } catch (error) {
+            console.error('Error deleting category:', error);
+            showToastError('Failed to delete the category.');
+        }
+    };
+
+    const showToastError = (message: string) => {
+        toast.error(message, {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+    };
+
+    const showToastSuccess = (message: string) => {
+        toast.success(message, {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+    };
 
     if (loading) {
         return (
@@ -90,7 +139,7 @@ export default function MostCategories() {
                 </button>
             </div>
             <div style={{
-                height: showAll ? "calc(270px - 40px)" : "calc(270px - 40px)", 
+                height: showAll ? "calc(280px - 40px)" : "calc(280px - 40px)",
                 overflowY: showAll ? "auto" : "hidden",
                 borderRadius: "10px"
             }}>
@@ -110,11 +159,25 @@ export default function MostCategories() {
                                     <td className="p-2 text-black">{index + 1}</td>
                                     <td className="p-2 text-black">{data.category}</td>
                                     <td className="p-2 text-black">{data.description}</td>
-                                    <td className="p-2">
-                                        <button className="text-orange-600 flex items-center">
-                                            <FontAwesomeIcon icon={faEye} className="w-4 h-4" />
-                                        </button>
-                                    </td>
+                                                                            <Dropdown>
+                                            <Dropdown.Toggle
+                                                as="button"
+                                                className="text-orange-600 flex items-center border-0 bg-transparent p-0"
+                                            >
+                                                <FontAwesomeIcon icon={faEye} className="w-4 h-4" />
+                                            </Dropdown.Toggle>
+
+                                            <Dropdown.Menu className="p-0 shadow-lg" style={{ width: 'auto', minWidth: '120px' }}>
+                                                <Dropdown.Item  className="flex items-center text-sm p-2">
+                                                    <FontAwesomeIcon icon={faEdit} className="mr-2" style={{ color: '#ff6600' }} />
+                                                    Edit
+                                                </Dropdown.Item>
+                                                <Dropdown.Item className="flex items-center text-sm p-2" onClick={() => handleDelete(data.id)}>
+                                                    <FontAwesomeIcon icon={faTrash} className="mr-2" style={{ color: '#ff6600' }} />
+                                                    Delete
+                                                </Dropdown.Item>
+                                            </Dropdown.Menu>
+                                        </Dropdown>
                                 </tr>
                             ))
                         ) : (
@@ -125,6 +188,7 @@ export default function MostCategories() {
                     </tbody>
                 </table>
             </div>
+            <ToastContainer />
         </div>
     );
 }
