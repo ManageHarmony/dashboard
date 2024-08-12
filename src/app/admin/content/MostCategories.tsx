@@ -140,6 +140,7 @@ export default function MostCategories() {
             </div>
             <div style={{
                 height: showAll ? "calc(280px - 40px)" : "calc(280px - 40px)",
+                height: showAll ? "calc(280px - 40px)" : "calc(280px - 40px)",
                 overflowY: showAll ? "auto" : "hidden",
                 borderRadius: "10px"
             }}>
@@ -159,6 +160,11 @@ export default function MostCategories() {
                                     <td className="p-2 text-black">{index + 1}</td>
                                     <td className="p-2 text-black">{data.category}</td>
                                     <td className="p-2 text-black">{data.description}</td>
+                                    <Dropdown>
+                                        <Dropdown.Toggle
+                                            as="button"
+                                            className="text-orange-600 flex items-center border-0 bg-transparent p-0"
+                                        >
                                     <Dropdown>
                                         <Dropdown.Toggle
                                             as="button"
