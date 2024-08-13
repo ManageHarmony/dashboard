@@ -15,7 +15,7 @@ export default function ContentActionBar() {
                                 Pending Posts <FiBell className="ml-2" />
                             </button>
 
-                            <Link href="/admin/content/new-category" style={{ textDecoration: "none" }}>
+                            <Link href="/admin/content/newCategory" style={{ textDecoration: "none" }}>
                                 <button className="text-orange-600 py-2 px-3  rounded flex items-center" style={{ background: "#fff", border: "1px dashed orange" }}>
                                     Add New Category <FiBell className="ml-2" />
                                 </button>
