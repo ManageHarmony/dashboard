@@ -28,8 +28,15 @@ export default function RootLayout({
     // Function to generate the page title and breadcrumb based on the route
     const generatePageInfo = (pathname: string) => {
         const pathParts = pathname.split('/').filter(Boolean); // Split and filter out empty parts
-        const pageTitle = pathParts[pathParts.length - 1]?.charAt(0).toUpperCase() + pathParts[pathParts.length - 1]?.slice(1);
-
+    
+        // Custom heading for the specific route
+        let pageTitle;
+        if (pathname === '/admin/content/newCategory') {
+            pageTitle = 'New Category';
+        } else {
+            pageTitle = pathParts[pathParts.length - 1]?.charAt(0).toUpperCase() + pathParts[pathParts.length - 1]?.slice(1);
+        }
+    
         const breadcrumb = pathParts.map((part, index) => {
             const path = '/' + pathParts.slice(0, index + 1).join('/');
             return (
@@ -39,9 +46,10 @@ export default function RootLayout({
                 </span>
             );
         });
-
+    
         return { pageTitle, breadcrumb };
     };
+    
 
     const { pageTitle, breadcrumb } = generatePageInfo(pathname);
 
@@ -81,7 +89,7 @@ export default function RootLayout({
                         }}
                     >
                         <div className="page-info" style={{marginLeft: "20px"}}>
-                            {pathname === '/dashboard' ? (
+                            {pathname === '/admin' ? (
                                 <div className="welcome-container">
                                     <h1 className="mb-4" style={{ fontSize: "1.5rem" }}>
                                         Welcome Back, <span style={{ color: '#ff6600' }}>Kanika</span>
