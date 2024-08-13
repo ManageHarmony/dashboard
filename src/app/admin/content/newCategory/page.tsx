@@ -70,8 +70,11 @@ const NewCategoryPage: React.FC = () => {
             console.log("result", result);
             const firstWord = result.message.split(' ')[0];
 
-
-            showToastSuccess(`Category ${firstWord} Created Successfully`);
+            if(result.message != `${category} has been added in Content Categories`) {
+                setLoading(false)
+                return showToastError(result.message);
+            }
+            showToastSuccess(`${result.message}`);
 
             setCategory('');
             setDescription('');
