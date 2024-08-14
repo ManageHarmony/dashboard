@@ -8,7 +8,7 @@ import { Spinner } from 'react-bootstrap';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const NewCategoryPage: React.FC = () => {
+const EditCategoryPage: React.FC = () => {
     const [category, setCategory] = useState('');
     const [description, setDescription] = useState('');
     const [id, setId] = useState(null);
@@ -243,4 +243,4 @@ const styles = {
     },
 };
 
-export default NewCategoryPage;
+export default EditCategoryPage;

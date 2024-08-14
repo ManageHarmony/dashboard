@@ -7,6 +7,7 @@ import ViewListIcon from '@mui/icons-material/ViewList';
 import IdCardIcon from '@mui/icons-material/Badge'; // Using Badge icon as an example for ID card
 import StaffCard from './StaffCard'; // Adjust the path if needed
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 const StyledButton = styled(Button)(({ theme }) => ({
   color: '#2C297D',
@@ -44,7 +45,7 @@ const DropdownMenu = ({ anchorEl, handleClose }: any) => {
 
 const StaffCardView: React.FC = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const router = useRouter(); // Correctly use useRouter here
+
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -70,9 +71,9 @@ const StaffCardView: React.FC = () => {
   return (
     <div style={{ padding: '10px 10px', width: "100%" }}>
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '15px' }}>
-        <div style={{display: "flex"}}>
+        <div style={{ display: "flex" }}>
           <StyledButton variant="contained" className='bg-white mx-0'>Creators</StyledButton>
-          <StyledButton variant="contained" className='mx-0 text-white' style={{backgroundColor: "#2C297D"}}>View All</StyledButton>
+          <StyledButton variant="contained" className='mx-0 text-white' style={{ backgroundColor: "#2C297D" }}>View All</StyledButton>
           <StyledButton variant="contained" className='bg-white '>Managers</StyledButton>
         </div>
         <div>
@@ -90,7 +91,9 @@ const StaffCardView: React.FC = () => {
       <Grid container spacing={1}>
         {staffData.map((staff, index) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={index} style={{ display: 'flex', justifyContent: 'center' }}>
-            <StaffCard name={staff.name} role={staff.role} imageUrl={staff.imageUrl} />
+            <Link href='/admin/staff/cards/details'>
+              <StaffCard name={staff.name} role={staff.role} imageUrl={staff.imageUrl} />
+            </Link>
           </Grid>
         ))}
       </Grid>

@@ -39,6 +39,7 @@ import {
 } from "@radix-ui/react-icons";
 import { FaIdCard, FaListUl, FaPlus, FaTable } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 interface StaffData {
     srNo: number;
@@ -116,7 +117,7 @@ const columns: ColumnDef<StaffData>[] = [
         header: 'Remarks',
         cell: ({ getValue }) => getValue(),
     },
-    
+
 ];
 
 const StaffTable: React.FC = () => {
@@ -155,12 +156,6 @@ const StaffTable: React.FC = () => {
 
     const handleClose = () => {
         setAnchorEl(null);
-    };
-
-    const handleNavigation = (url: string) => {
-        // Add your navigation logic here
-        router.push(url)
-        handleClose();
     };
 
     return (
@@ -217,25 +212,23 @@ const StaffTable: React.FC = () => {
                                     }}
                                     onClick={() => setIsOpen(false)}
                                 >
-                                    <FaListUl className='table-dropdown-item' style={{marginRight:"8px"}} />
+                                    <FaListUl className='table-dropdown-item' style={{ marginRight: "8px" }} />
                                     View
                                 </div>
-                                <div
-                                    className="table-dropdown-item"
-                                    style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        padding: "8px 12px",
-                                        cursor: "pointer",
-                                    }}
-                                    onClick={() => {
-                                        handleNavigation("/admin/staff/cards");
-                                        setIsOpen(false);
-                                    }}
-                                >
-                                    <FaIdCard className='table-dropdown-item' style={{marginRight:"8px"}}  />
-                                    Cards
-                                </div>
+                                <Link href='/admin/staff/cards'>
+                                    <div
+                                        className="table-dropdown-item"
+                                        style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            padding: "8px 12px",
+                                            cursor: "pointer",
+                                        }}
+                                    >
+                                        <FaIdCard className='table-dropdown-item' style={{ marginRight: "8px" }} />
+                                        Cards
+                                    </div>
+                                </Link>
                             </div>
                         )}
                     </div>
@@ -256,7 +249,7 @@ const StaffTable: React.FC = () => {
                 </TableHeader>
                 <TableBody style={{ backgroundColor: '#fff' }}>
                     {table.getRowModel().rows.map(row => (
-                        <TableRow key={row.id} style={{ height: "20p"}}>
+                        <TableRow key={row.id} style={{ height: "20p" }}>
                             {row.getVisibleCells().map(cell => (
                                 <TableCell key={cell.id} style={{ padding: "8px" }}>
                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -285,7 +278,7 @@ const StaffTable: React.FC = () => {
                 <div>
                     Page <strong>{table.getState().pagination.pageIndex + 1} of {table.getPageCount()}</strong>
                 </div>
-               
+
             </div>
         </div>
     );

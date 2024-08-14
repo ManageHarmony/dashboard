@@ -41,42 +41,42 @@ const SidePanel: React.FC<SidePanelProps> = ({ onPanelHover, isPanelHovered }) =
     onPanelHover(false);
     router.push(href);
   };
- 
+
   return (
     <Drawer
-    variant="permanent"
-    onMouseEnter={() => onPanelHover(true)}
-    onMouseLeave={() => onPanelHover(false)}
-    style={{
-      width: isPanelHovered ? drawerWidth : 70,
-      transition: 'width 0.3s',
-      background: "#fff",
-      position: 'fixed',
-      top: 35,
-      left: 30,
-      height: 'calc(100% - 70px)',
-      borderRadius: "30px",
-      zIndex: 1000,
-    }}
-    PaperProps={{
-      style: {
+      variant="permanent"
+      onMouseEnter={() => onPanelHover(true)}
+      onMouseLeave={() => onPanelHover(false)}
+      style={{
         width: isPanelHovered ? drawerWidth : 70,
-        overflowX: 'hidden',
         transition: 'width 0.3s',
         background: "#fff",
-        position: 'relative',
-        height: '100%',
+        position: 'fixed',
+        top: 35,
+        left: 30,
+        height: 'calc(100% - 70px)',
         borderRadius: "30px",
-      }
-    }}
+        zIndex: 1000,
+      }}
+      PaperProps={{
+        style: {
+          width: isPanelHovered ? drawerWidth : 70,
+          overflowX: 'hidden',
+          transition: 'width 0.3s',
+          background: "#fff",
+          position: 'relative',
+          height: '100%',
+          borderRadius: "30px",
+        }
+      }}
 
-  >
-   <div style={{display: "flex", flexDirection: "column",justifyContent:"center", width: "100%"}}>
-   <div className="logoContainer">
-        <Image src={logo} alt="Logo" width={50} height={50} />
-      </div>
+    >
+      <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", width: "100%" }}>
+        <div className="logoContainer">
+          <Image src={logo} alt="Logo" width={50} height={50} />
+        </div>
 
-      <List>
+        <List>
           {[
             {
               text: 'Dashboard', icon: <DashboardIcon
@@ -133,21 +133,21 @@ const SidePanel: React.FC<SidePanelProps> = ({ onPanelHover, isPanelHovered }) =
               onClick={() => handleNavigation(item.href)}
               onMouseEnter={() => setHoveredItem(item.href)}
               onMouseLeave={() => setHoveredItem(null)}
-              className={`listItem ${selectedItem === item.href  ? 'selected' : ''}`}
+              className={`listItem ${selectedItem === item.href ? 'selected' : ''}`}
             >
               <ListItemText
                 primary={item.text}
                 className={isPanelHovered ? 'listItemTextOpen' : 'listItemText'}
               />
-              <ListItemIcon className={`listItemIcon ${selectedItem === item.href  ? 'selected' : ''}`}>
+              <ListItemIcon className={`listItemIcon ${selectedItem === item.href ? 'selected' : ''}`}>
                 {item.icon}
               </ListItemIcon>
 
             </ListItem>
           ))}
         </List>
-   </div>
-  </Drawer>
+      </div>
+    </Drawer>
   );
 };
 

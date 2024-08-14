@@ -13,14 +13,9 @@ const StyledCard = styled(Card)(({ theme }) => ({
 }));
 
 const StaffCard: React.FC<{ name: string; role: string; imageUrl: string }> = ({ name, role, imageUrl }) => {
-  const router = useRouter();
-
-  const handleClick = () => {
-    router.push('/admin/staff/cards/details');
-  };
 
   return (
-    <StyledCard onClick={handleClick}>
+    <StyledCard>
       <CardMedia
         component="img"
         alt={name}
