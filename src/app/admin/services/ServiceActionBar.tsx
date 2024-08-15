@@ -1,4 +1,5 @@
 
+import Link from "next/link";
 import { FiBell } from "react-icons/fi";
 
 export default function ServiceActionBar() {
@@ -14,9 +15,11 @@ export default function ServiceActionBar() {
                 <button className="text-orange-600 py-2 px-3 rounded flex items-center" style={{ background: "#fff", border: "1px dashed orange" }}>
                     All Services <FiBell className="ml-2" />
                 </button>
-                <button className="text-orange-600 py-2 px-3 rounded flex items-center" style={{ background: "#fff", border: "1px dashed orange" }}>
-                    Add New Service <FiBell className="ml-2" />
-                </button>
+                <Link href='/admin/services/new-service'>
+                    <button className="text-orange-600 py-2 px-3 rounded flex items-center" style={{ background: "#fff", border: "1px dashed orange" }}>
+                        Add New Service <FiBell className="ml-2" />
+                    </button>
+                </Link>
 
                 <button className="text-orange-600 py-2 px-3 rounded flex items-center" style={{ background: "#fff", border: "1px dashed orange" }}>
                     All Categories <FiBell className="ml-2" />
