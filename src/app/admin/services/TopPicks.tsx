@@ -29,8 +29,10 @@ export default function TopPicks() {
     const [showAll, setShowAll] = useState(false)
     return (
         <>
-            <div style={{ width: "100%" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "20px", width: "100%" }}>
+                <div>
                 <ServiceStats />
+                </div>
                 <div style={{
                     width: "100%",
                     height: "540px",
@@ -38,7 +40,6 @@ export default function TopPicks() {
                     borderRadius: "20px",
                     padding: "20px",
                     boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                    marginTop: "20px"
                 }}>
                     <div className="flex justify-between items-center mb-4">
                         <span className="font-bold text-lg">Top Category</span>

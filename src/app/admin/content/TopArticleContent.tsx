@@ -33,7 +33,6 @@ export default function TopArticleContent() {
       borderRadius: "20px",
       padding: "20px",
       boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-      marginTop: "20px"
   }}>
       <div className="flex justify-between items-center mb-4">
           <span className="font-bold text-lg">Top Blog</span>
