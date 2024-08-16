@@ -35,6 +35,8 @@ export default function RootLayout({
             pageTitle = 'New Category';
         } else if (pathname === '/admin/services/new-service') {
             pageTitle = 'New Service';
+        } if (pathname === '/admin/services/new-service-category') {
+            pageTitle = 'New Service Category';
         } else {
             pageTitle = pathParts[pathParts.length - 1]?.charAt(0).toUpperCase() + pathParts[pathParts.length - 1]?.slice(1);
         }

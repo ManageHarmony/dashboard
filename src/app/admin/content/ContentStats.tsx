@@ -15,22 +15,26 @@ const ContentStats = () => {
 
   return (
     <>
-      <div style={{width: "100%", paddingBottom: "30px"}}>
-      <div style={{marginBottom: "20px"}}>
-        <div className="stats-wrapper">
-          {stats.map((stat, index) => (
-            <div key={index} className="stat-card">
-              <div className="stat-content">
-                <div className="stat-value" style={{color: "#2C297E"}}>{stat?.value}</div>
-                <div className="stat-icon">{stat.icon}</div>
+      <div style={{display: "flex", flexDirection: "column", gap: "20px", width: "100%", paddingBottom: "30px" }}>
+        <div >
+          <div className="stats-wrapper">
+            {stats.map((stat, index) => (
+              <div key={index} className="stat-card">
+                <div className="stat-content">
+                  <div className="stat-value" style={{ color: "#2C297E" }}>{stat?.value}</div>
+                  <div className="stat-icon">{stat.icon}</div>
+                </div>
+                <div className="stat-label">{stat.label}</div>
               </div>
-              <div className="stat-label">{stat.label}</div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
-      <ContentDynamicChart />
-      <TopArticleContent />
+        <div>
+          <ContentDynamicChart />
+        </div>
+        <div>
+          <TopArticleContent />
+        </div>
       </div>
     </>
   );

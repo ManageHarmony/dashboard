@@ -30,8 +30,10 @@ export default function TopCategories() {
     const [showAll, setShowAll] = useState(false)
     return (
         <>
-            <div style={{ width: "100%" }}>
-                <ServiceActionBar />
+            <div style={{display: "flex", flexDirection: "column", gap: "20px", width: "100%"  }}>
+                <div>
+                    <ServiceActionBar />
+                </div>
                 <div style={{
                     width: "100%",
                     height: "570px",

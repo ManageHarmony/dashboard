@@ -6,8 +6,8 @@ import Link from "next/link";
 export default function ContentActionBar() {
     return (
         <>
-            <div style={{ width: "100%" }}>
-                <div style={{ backgroundColor: "#fff", padding: "10px 20px", borderRadius: "10px", marginBottom: "20px" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "20px", width: "100%", paddingBottom: "30px"  }}>
+                <div style={{ backgroundColor: "#fff", padding: "10px 20px", borderRadius: "10px" }}>
                     <div style={{ display: "flex", justifyContent: "space-between", }}>
                         <div className="action-bar fs-4 font-semibold mb-2">Action Bar</div>
                         <div style={{ display: "flex", gap: "10px" }}>
@@ -35,8 +35,12 @@ export default function ContentActionBar() {
                     </div>
                 </div>
 
-                <TopBlogs />
+               <div>
+               <TopBlogs />
+               </div>
+                <div>
                 <MostCategories />
+                </div>
             </div>
         </>
     )
