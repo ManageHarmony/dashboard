@@ -1,23 +1,48 @@
-'use client'
+'use client';
 
 import { useState } from 'react';
-import { FiUser, FiFilePlus } from 'react-icons/fi';
+import { FiFilePlus } from 'react-icons/fi';
 import { AiOutlineUserAdd } from 'react-icons/ai';
-import { Spinner, ToastContainer } from 'react-bootstrap';
+import { Spinner } from 'react-bootstrap';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const NewServicePage = () => {
     const [serviceImage, setServiceImage] = useState<File | string>('');
     const [description, setDescription] = useState<string>('');
     const [title, setTitle] = useState<string>('');
-    const [tags, setTags] = useState<string[]>([]);
-    const [subtitle, setSubtitle] = useState<string[]>([]);
-    const [whatWeWillDiscuss, setWhatWeWillDiscuss] = useState<string[]>([]);
-    const [benefits, setBenefits] = useState<string[]>([]);
-    const [languages, setLanguages] = useState<string[]>([]);
-
+    const [tags, setTags] = useState<string>(''); // Store as string
+    const [subtitle, setSubtitle] = useState<string>(''); // Store as string
+    const [whatWeWillDiscuss, setWhatWeWillDiscuss] = useState<string>(''); // Store as string
+    const [benefits, setBenefits] = useState<string>(''); // Store as string
+    const [languages, setLanguages] = useState<string>(''); // Store as string
     const [duration, setDuration] = useState<number | ''>('');
     const [price, setPrice] = useState<number | ''>('');
     const [loading, setLoading] = useState<boolean>(false);
+
+    const showToastError = (message: string) => {
+        toast.error(message, {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+    };
+
+    const showToastSuccess = (message: string) => {
+        toast.success(message, {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+    };
 
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
@@ -25,41 +50,64 @@ const NewServicePage = () => {
         }
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         setLoading(true);
-        // Implement submit logic here
+        const formData = new FormData();
+    
+        // Split the strings into arrays
+        const tagsArray = tags.split(',').map(tag => tag.trim());
+        const subtitleArray = subtitle.split(',').map(sub => sub.trim());
+        const discussArray = whatWeWillDiscuss.split(',').map(item => item.trim());
+        const benefitsArray = benefits.split(',').map(benefit => benefit.trim());
+        const languagesArray = languages.split(',').map(lang => lang.trim());
+    
+        // Append form fields
+        formData.append('serviceImage', serviceImage);
+        formData.append('title', title);
+        formData.append('description', description);
+    
+        // Append arrays to FormData (converting each array element to string or other accepted format)
+        tagsArray.forEach(tag => formData.append('tags[]', tag));
+        subtitleArray.forEach(sub => formData.append('subtitle[]', sub));
+        discussArray.forEach(item => formData.append('what_we_will_discuss[]', item));
+        benefitsArray.forEach(benefit => formData.append('benefits[]', benefit));
+        languagesArray.forEach(lang => formData.append('languages[]', lang));
+    
+        formData.append('duration', duration.toString());
+    
+        try {
+            const response = await fetch('https://harmony-backend-z69j.onrender.com/api/admin/create/service', {
+                method: 'POST',
+                body: formData,
+            });
+    
+            const result = await response.json();
+            console.log(result);
+            if (response.ok) {
+                showToastSuccess('Service Created Successfully!');
+                setLoading(false);
+                setDescription('');
+                setTitle('');
+                setTags('');
+                setServiceImage('');
+                setBenefits('');
+                setDuration('');
+                setLanguages('');
+                setWhatWeWillDiscuss('');
+                setSubtitle('');
+            } else {
+                showToastError(`Failed to create service: ${result.message}`);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            showToastError('An error occurred while creating the service.');
+        } finally {
+            setLoading(false);
+        }
     };
-
-    const handleTagsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const inputTags = e.target.value.split(',').map(tag => tag.trim());
-        setTags(inputTags);
-    };
-
-    const handleSubtitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const inputSubtitles = e.target.value.split(',').map(subtitle => subtitle.trim());
-        setSubtitle(inputSubtitles);
-    };
-
-    const handleWhatWeWillDiscussChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const inputDiscussions = e.target.value.split(',').map(discussion => discussion.trim());
-        setWhatWeWillDiscuss(inputDiscussions);
-    };
-
-    const handleBenefitsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const inputBenefits = e.target.value.split(',').map(benefit => benefit.trim());
-        setBenefits(inputBenefits);
-    };
-
-    const handleLanguagesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const inputLanguages = e.target.value.split(',').map(language => language.trim());
-        setLanguages(inputLanguages);
-    };
-
-
     return (
         <>
             <div style={styles.formContainer}>
-
                 <div style={styles.row}>
                     <div style={styles.inputGroup}>
                         <input
@@ -91,78 +139,71 @@ const NewServicePage = () => {
                         style={styles.textarea}
                     />
                 </div>
+                <div style={styles.row}>
+                    <div style={styles.inputGroup}>
+                        <input
+                            type="text"
+                            value={tags}
+                            placeholder="Tags (comma separated)"
+                            onChange={(e) => setTags(e.target.value)}
+                            style={styles.input}
+                        />
+                    </div>
 
-
-             
-                <div style={styles.inputGroup}>
-                    <input
-                        type="text"
-                        placeholder="Tags"
-                        onChange={handleTagsChange}
-                        style={styles.input}
-                    />
+                    <div style={styles.inputGroup}>
+                        <input
+                            type="text"
+                            value={subtitle}
+                            placeholder="Subtitle (comma separated)"
+                            onChange={(e) => setSubtitle(e.target.value)}
+                            style={styles.input}
+                        />
+                    </div>
                 </div>
 
-               
-                <div style={styles.inputGroup}>
-                    <input
-                        type="text"
-                        placeholder="Subtitle"
-                        onChange={handleSubtitleChange}
-                        style={styles.input}
-                    />
+                <div style={styles.row}>
+                    <div style={styles.inputGroup}>
+                        <input
+                            type="text"
+                            value={benefits}
+                            placeholder="Benefits (comma separated)"
+                            onChange={(e) => setBenefits(e.target.value)}
+                            style={styles.input}
+                        />
+                    </div>
+
+                    <div style={styles.inputGroup}>
+                        <input
+                            type="text"
+                            placeholder="Languages (comma separated)"
+                            value={languages}
+                            onChange={(e) => setLanguages(e.target.value)}
+                            style={styles.input}
+                        />
+                    </div>
                 </div>
 
-                
-                <div style={styles.inputGroup}>
-                    <input
-                        type="text"
-                        placeholder="What We Will Discuss"
-                        onChange={handleWhatWeWillDiscussChange}
-                        style={styles.input}
-                    />
+                <div style={styles.row}>
+                    <div style={styles.inputGroup}>
+                        <input
+                            type="number"
+                            placeholder="Duration (in minutes)"
+                            value={duration}
+                            onChange={(e) => setDuration(Number(e.target.value))}
+                            style={styles.input}
+                        />
+                    </div>
+                    <div style={styles.inputGroup}>
+                        <input
+                            type="text"
+                            value={whatWeWillDiscuss}
+                            placeholder="What We Will Discuss (comma separated)"
+                            onChange={(e) => setWhatWeWillDiscuss(e.target.value)}
+                            style={styles.input}
+                        />
+                    </div>
                 </div>
 
-               
-                <div style={styles.inputGroup}>
-                    <input
-                        type="text"
-                        placeholder="Benefits"
-                        onChange={handleBenefitsChange}
-                        style={styles.input}
-                    />
-                </div>
-
-
-                <div style={styles.inputGroup}>
-                    <input
-                        type="text"
-                        placeholder="Languages"
-                        onChange={handleLanguagesChange}
-                        style={styles.input}
-                    />
-                </div>
-
-                <div style={styles.inputGroup}>
-                    <input
-                        type="number"
-                        placeholder="Duration (in minutes)"
-                        value={duration}
-                        onChange={(e) => setDuration(Number(e.target.value))}
-                        style={styles.input}
-                    />
-                </div>
-
-
-                <div style={styles.inputGroup}>
-                    <input
-                        type="number"
-                        placeholder="Price"
-                        value={price}
-                        onChange={(e) => setPrice(Number(e.target.value))}
-                        style={styles.input}
-                    />
-                </div>
                 <button style={styles.saveButton} onClick={handleSubmit} disabled={loading}>
                     {!loading ?
                         <div style={{ display: 'flex' }}>Save <AiOutlineUserAdd style={styles.buttonIcon} /></div> :
@@ -176,14 +217,13 @@ const NewServicePage = () => {
         </>
     );
 }
-
 const styles: { [key: string]: React.CSSProperties } = {
     formContainer: {
         backgroundColor: '#fff',
         borderRadius: '15px',
         margin: "20px 25px",
         padding: '20px',
-        width: '56%',
+        width: '90%',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: "space-evenly",
@@ -261,8 +301,8 @@ const styles: { [key: string]: React.CSSProperties } = {
         height: '50px',
     },
     buttonIcon: {
+        fontSize: '20px',
         marginLeft: '10px',
-        fontSize: "1.5rem",
     },
 };
 
