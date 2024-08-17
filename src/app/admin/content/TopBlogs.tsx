@@ -79,7 +79,7 @@ export default function TopBlogs() {
                                         <td className="p-2 text-black">{index + 1}</td>
                                         <td className="p-2 text-black">{consultant.name}</td>
                                         <td className="p-2 text-black">{consultant.times}</td>
-                                        <td className="p-2">
+                                        <td className="p-2"  style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                                             <button className="text-orange-600 flex items-center">
                                                 <FontAwesomeIcon icon={faEye} className="w-4 h-4" />
                                             </button>

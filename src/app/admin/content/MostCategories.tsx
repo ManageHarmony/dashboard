@@ -7,7 +7,6 @@ import Dropdown from 'react-bootstrap/Dropdown';
 
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 
@@ -16,7 +15,7 @@ export default function MostCategories() {
     const [showAll, setShowAll] = useState(false);
     const [topMostCategories, setTopMostCategories] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
-const router = useRouter();
+    const router = useRouter();
     useEffect(() => {
         const fetchData = async () => {
             try {

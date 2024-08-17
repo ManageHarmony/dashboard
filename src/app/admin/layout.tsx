@@ -29,13 +29,13 @@ export default function RootLayout({
     const generatePageInfo = (pathname: string) => {
         const pathParts = pathname.split('/').filter(Boolean); // Split and filter out empty parts
     
-        // Custom heading for the specific route
+        // Custom heading for specific routes
         let pageTitle;
         if (pathname === '/admin/content/newCategory') {
             pageTitle = 'New Category';
         } else if (pathname === '/admin/services/new-service') {
             pageTitle = 'New Service';
-        } if (pathname === '/admin/services/new-service-category') {
+        } else if (pathname === '/admin/services/new-service-category') {
             pageTitle = 'New Service Category';
         } else {
             pageTitle = pathParts[pathParts.length - 1]?.charAt(0).toUpperCase() + pathParts[pathParts.length - 1]?.slice(1);
