@@ -6,7 +6,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, PointElement,
 import { Card, CardContent, CardHeader, Typography } from '@mui/material';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-ChartJS.register(CategoryScale, LinearScale, BarElement,LineController, BarController, PointElement, LineElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, BarElement, LineController, BarController, PointElement, LineElement, Title, Tooltip, Legend);
 
 interface Dataset {
   type: 'line' | 'bar';
@@ -75,10 +75,10 @@ const ContentDynamicChart: React.FC = () => {
   };
 
   return (
-    <Card className="dynamicChart" style={{ width: "100%", height: "350px", backgroundColor: "white", borderRadius: "20px", overflow: "hidden", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}>
-      <CardHeader title={<Typography variant="h6">Chart Title</Typography>} />
-      <CardContent>
-        <div className="chart-container" style={{ height: '300px', paddingBottom: '30px' }}>
+    <Card className="dynamicChart" style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent:  "center",  width: "100%", height: "350px", backgroundColor: "white", borderRadius: "20px", overflow: "hidden", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}>
+     <div style={{height: "10%", padding: "10px", width: "100%", display: "flex"}}><h3>Chart title</h3></div>
+      <CardContent style={{width: "100%", height: "90%"}}>
+        <div className="chart-container" style={{ paddingBottom: '30px'}}>
           {data ? <Bar options={options} data={data as any} /> : <div>Loading...</div>}
         </div>
       </CardContent>

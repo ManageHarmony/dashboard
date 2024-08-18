@@ -104,7 +104,7 @@ export default function TopPicks() {
                     boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
                 }}>
                     <div className="flex justify-between items-center mb-4">
-                        <span className="font-bold text-lg">Top <span className="text-orange-600">5 Picks</span> By User</span>
+                        <span className="font-bold text-lg">Top <span className="text-orange-600">5 Service Picks</span> By User</span>
                         <button
                             onClick={() => setShowAll(!showAll)}
                             style={{

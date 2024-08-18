@@ -2,13 +2,13 @@
 
 
 import React, { useState } from 'react';
-import { FiUser, FiFilePlus, FiLoader } from 'react-icons/fi';
+import { FiUser, FiFilePlus } from 'react-icons/fi';
 import { AiOutlineUserAdd } from 'react-icons/ai'; // Importing a new icon for adding contact
 import { Spinner } from 'react-bootstrap';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const NewServiceCategoryPage: React.FC = () => {
+const NewCategoryPage: React.FC = () => {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [serviceCategoryImage, setServiceCategoryImage] = useState<File | string>('');
@@ -47,46 +47,46 @@ const NewServiceCategoryPage: React.FC = () => {
         if (!name) missingFields.push('Name');
         if (!description) missingFields.push('Description');
         if (!serviceCategoryImage) missingFields.push('Image');
-
+    
         if (missingFields.length > 0) {
             showToastError(`Please fill in the following fields: ${missingFields.join(', ')}`);
             return;
         }
+    
         setLoading(true);
+    
         const formData = new FormData();
-        console.log("clicked")
         formData.append("name", name);
         formData.append("description", description);
         formData.append("serviceCategoryImage", serviceCategoryImage);
-
+    
         try {
-            console.log("entered")
-            const response = await fetch('https://harmony-backend-z69j.onrender.com/api/admin/create/content/name', {
+            const response = await fetch('https://harmony-backend-z69j.onrender.com/api/admin/create/service/:serviceId/category', {
                 method: 'POST',
                 body: formData,
             });
-
+    
             const result = await response.json();
-            console.log("result", result);
-            const firstWord = result.message.split(' ')[0];
-
-            if(result.message != `${name} has been added in Service Categories`) {
-                setLoading(false)
-                return showToastError(result.message);
+            console.log("API Response:", result);
+    
+            if (response.ok && result.message) {
+                showToastSuccess(`${name} service category has been added.`);
+                setName(''); 
+                setDescription(''); 
+                setServiceCategoryImage(''); 
+            } else {
+                showToastError(result.message || 'An error occurred. Please try again.');
             }
-            showToastSuccess(`${result.message}`);
-
-            setName('');
-            setDescription('');
-            setServiceCategoryImage('');
-            setLoading(false);
-
-
+    
         } catch (error) {
             console.error("Error:", error);
+            showToastError('An error occurred while adding the category.');
+        } finally {
             setLoading(false);
         }
     };
+    
+    
     return (
         <>
             <div style={styles.formContainer}>
@@ -227,4 +227,4 @@ const styles = {
     },
 };
 
-export default NewServiceCategoryPage;
+export default NewCategoryPage;
