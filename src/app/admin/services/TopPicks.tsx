@@ -2,18 +2,22 @@
 
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
-
+import { faEye, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import Dropdown from 'react-bootstrap/Dropdown';
 
 import ServiceStats from "./ServiceStats";
 import { Spinner } from "react-bootstrap";
 import { toast, ToastContainer } from "react-toastify";
+import { FaPlus } from "react-icons/fa";
+import { useRouter } from "next/navigation";
+
 
 
 export default function TopPicks() {
     const [showAll, setShowAll] = useState(false);
     const [topPicksByUser, setTopPicksByUser] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const router = useRouter();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -42,6 +46,13 @@ export default function TopPicks() {
         fetchData();
     }, []);
 
+    const addCategory = (data: any) => {
+        // Store data in sessionStorage before navigating
+        console.log('data we are getting to be saved', data);
+        sessionStorage.setItem('serviceCategoryData', JSON.stringify(data));
+        router.push('/admin/services/new-service-category');
+    }
+
     const handleDelete = async (id: string) => {
         try {
             const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/admin/delete/service/${id}`, {
@@ -56,7 +67,7 @@ export default function TopPicks() {
                 prevService.filter((service) => service.id !== id)
             );
 
-            showToastSuccess('Category deleted successfully.');
+            showToastSuccess('Service deleted successfully.');
 
         } catch (error) {
             console.error('Error deleting service:', error);
@@ -138,11 +149,11 @@ export default function TopPicks() {
                     </div>
                     {loading ? (
                         <div className="d-flex justify-content-center align-items-center">
-                        <Spinner animation="border" role="status">
-                            <span className="visually-hidden">Loading...</span>
-                        </Spinner>
-                        <h4 className="mx-2">Loading..</h4>
-                    </div>
+                            <Spinner animation="border" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </Spinner>
+                            <h4 className="mx-2">Loading..</h4>
+                        </div>
                     ) : (
                         <div style={{
                             height: showAll ? "calc(500px - 40px)" : "calc(500px - 40px)", // Fixed height, adjust if necessary
@@ -164,11 +175,30 @@ export default function TopPicks() {
                                             <td className="p-2 text-black">{index + 1}</td>
                                             <td className="p-2 text-black">{service.title}</td>
                                             <td className="p-2 text-black">{service.description}</td>
-                                            <td className="p-2"  style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
-                                                <button className="text-orange-600 flex items-center" style={{display: "flex", alignItems: "center", justifyContent: "center"}}  onClick={() => handleDelete(service.id)}>
-                                                    <FontAwesomeIcon icon={faTrash} className="mr-2" style={{ color: '#ff6600' }} />
-                                                </button>
-                                            </td>
+                                            <Dropdown>
+                                                <Dropdown.Toggle
+                                                    as="button"
+                                                    className="text-orange-600 flex items-center border-0 bg-transparent p-0"
+                                                >
+                                                    <FontAwesomeIcon icon={faEye} className="w-4 h-4" />
+                                                </Dropdown.Toggle>
+
+                                                <Dropdown.Menu className="p-0 shadow-lg" style={{ width: 'auto', minWidth: '120px' }}>
+
+                                                    <Dropdown.Item className="flex items-center text-sm p-2" onClick={() => addCategory(service)} >
+                                                        <FaPlus style={{ marginRight: "6px", color: '#2C297D' }} />
+                                                        Add Category
+
+                                                    </Dropdown.Item>
+                                                    <Dropdown.Item
+                                                        className="flex items-center text-sm p-2"
+                                                        onClick={() => handleDelete(service.id)}
+                                                    >
+                                                        <FontAwesomeIcon icon={faTrash} className="mr-2" style={{ color: '#2C297D' }} />
+                                                        Delete
+                                                    </Dropdown.Item>
+                                                </Dropdown.Menu>
+                                            </Dropdown>
                                         </tr>
                                     ))}
                                 </tbody>

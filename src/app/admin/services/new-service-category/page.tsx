@@ -1,7 +1,6 @@
 'use client';
 
-
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FiUser, FiFilePlus } from 'react-icons/fi';
 import { AiOutlineUserAdd } from 'react-icons/ai'; // Importing a new icon for adding contact
 import { Spinner } from 'react-bootstrap';
@@ -12,17 +11,24 @@ const NewCategoryPage: React.FC = () => {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [serviceCategoryImage, setServiceCategoryImage] = useState<File | string>('');
-    console.log(serviceCategoryImage)
     const [loading, setLoading] = useState<boolean>(false);
+    const [serviceData, setServiceData] = useState<any>(null);
 
+    useEffect(() => {
+        const storedData = sessionStorage.getItem('serviceCategoryData');
+        if (storedData) {
+            setServiceData(JSON.parse(storedData));
+        }
+    }, []);
 
     const handleImageUpload = (e: any) => {
         setServiceCategoryImage(e.target.files[0]);
     };
+
     const showToastError = (message: string) => {
         toast.error(message, {
             position: "top-center",
-            autoClose: 3000, // Auto dismiss after 3 seconds
+            autoClose: 3000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -30,10 +36,11 @@ const NewCategoryPage: React.FC = () => {
             progress: undefined,
         });
     };
+
     const showToastSuccess = (message: string) => {
         toast.success(message, {
             position: "top-center",
-            autoClose: 3000, // Auto dismiss after 3 seconds
+            autoClose: 3000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -59,9 +66,12 @@ const NewCategoryPage: React.FC = () => {
         formData.append("name", name);
         formData.append("description", description);
         formData.append("serviceCategoryImage", serviceCategoryImage);
-    
+
+        // Use serviceData.id for the service ID in the API request
+        const serviceId = serviceData?.id;
+
         try {
-            const response = await fetch('https://harmony-backend-z69j.onrender.com/api/admin/create/service/:serviceId/category', {
+            const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/admin/create/service/${serviceId}/category`, {
                 method: 'POST',
                 body: formData,
             });
@@ -86,7 +96,6 @@ const NewCategoryPage: React.FC = () => {
         }
     };
     
-    
     return (
         <>
             <div style={styles.formContainer}>
@@ -110,16 +119,11 @@ const NewCategoryPage: React.FC = () => {
                                 onChange={handleImageUpload}
                                 style={{ display: 'none' }}
                             />
-
                             {serviceCategoryImage === '' ? 'Choose a file' : (typeof serviceCategoryImage === 'string' ? serviceCategoryImage : serviceCategoryImage.name)}
                             <div>
                                 <FiFilePlus style={styles.icon} />
-
                             </div>
-
                         </label>
-
-
                     </div>
                 </div>
                 <div style={{
@@ -150,7 +154,6 @@ const NewCategoryPage: React.FC = () => {
                         </Spinner>
                     }
                 </button>
-
             </div>
             <ToastContainer />
         </>
@@ -158,19 +161,16 @@ const NewCategoryPage: React.FC = () => {
 }
 
 const styles = {
-
     formContainer: {
         backgroundColor: '#fff',
         borderRadius: '15px',
         margin: "20px 25px",
         padding: '20px',
         width: '56%',
-        // maxWidth: '1200px', // Increase the max-width for the container
-        // boxSizing: 'border-box' as const,
         display: 'flex',
         flexDirection: 'column' as const,
         justifyContent: "space-evenly",
-        minHeight: '60vh', // Increase the height of the main div
+        minHeight: '60vh',
     },
     row: {
         display: 'flex',
@@ -183,23 +183,21 @@ const styles = {
         display: 'flex',
         justifyContent: "space-between",
         alignItems: 'center',
-        width: '60%', // Each input group takes half of the available width in the row
+        width: '60%',
         backgroundColor: '#fff',
         border: '1px solid #ddd',
         borderRadius: '10px',
     },
     input: {
-        width: '80%', // Leave space for the icon
+        width: '80%',
         padding: '10px 15px',
         border: 'none',
         borderRadius: '10px',
         fontSize: '1rem',
         boxSizing: 'border-box' as const,
         outline: 'none',
-        backgroundColor: 'transparent', // Ensure the input blends with the container
+        backgroundColor: 'transparent',
     },
-
-
     icon: {
         color: '#ff8a00',
         fontSize: '2rem',
@@ -208,7 +206,6 @@ const styles = {
     saveButton: {
         backgroundColor: '#ff8a00',
         color: '#fff',
-
         borderRadius: '10px',
         border: 'none',
         cursor: 'pointer',
@@ -217,7 +214,7 @@ const styles = {
         justifyContent: 'center',
         fontSize: '1rem',
         marginTop: '20px',
-        alignSelf: 'center', // Center the button
+        alignSelf: 'center',
         width: '100px',
         height: '50px'
     },

@@ -1,10 +1,13 @@
 'use client'
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import ServiceActionBar from "./ServiceActionBar";
+import { useRouter } from "next/navigation";
+import { toast, ToastContainer } from "react-toastify";
+import { Spinner } from "react-bootstrap";
 
 
 
@@ -27,10 +30,89 @@ const topCategoriesData = [
 ];
 
 export default function TopCategories() {
-    const [showAll, setShowAll] = useState(false)
+    const [showAll, setShowAll] = useState(false);
+    const [topServiceCategory, setTopServiceCategory] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch('https://harmony-backend-z69j.onrender.com/api/admin/get/service/stats', {
+                    method: 'GET',
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                console.log("data recieved", data)
+                setTopServiceCategory(data?.data?.allCategory || []);
+                setLoading(false);
+
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                setTopServiceCategory([]);
+                setLoading(false);
+
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+
+
+    const handleDelete = async (categoryId: string, serviceId: string) => {
+        try {
+            const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/admin/delete/category/${serviceId}/${categoryId}`, {
+                method: "DELETE",
+            });
+    
+            if (!response.ok) {
+                throw new Error('Failed to delete the category.');
+            }
+    
+            setTopServiceCategory((prevService) =>
+                prevService.filter((service) => service.id !== categoryId)
+            );
+    
+            showToastSuccess('Service Category deleted successfully.');
+        } catch (error) {
+            console.error('Error deleting category:', error);
+            showToastError('Failed to delete the category.');
+        }
+    };
+    
+
+    const showToastError = (message: string) => {
+        toast.error(message, {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+    };
+
+    const showToastSuccess = (message: string) => {
+        toast.success(message, {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+    };
+
     return (
         <>
-            <div style={{display: "flex", flexDirection: "column", gap: "20px", width: "100%"  }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "20px", width: "100%" }}>
                 <div>
                     <ServiceActionBar />
                 </div>
@@ -75,36 +157,45 @@ export default function TopCategories() {
                             </svg>
                         </button>
                     </div>
-                    <div style={{
-                        height: showAll ? "calc(520px - 40px)" : "calc(520px - 40px)", // Fixed height, adjust if necessary
-                        overflowY: showAll ? "auto" : "hidden", // Enable scroll when showAll is true
-                        borderRadius: "10px"
-                    }}>
-                        <table className="table-auto w-full border-collapse">
-                            <thead className="bg-orange-100 rounded-t-lg">
-                                <tr>
-                                    <th className="text-left p-2 text-gray-600 rounded-tl-lg">Sr. No</th>
-                                    <th className="text-left p-2 text-gray-600">Therapist Name</th>
-                                    <th className="text-left p-2 text-gray-600">Applied on</th>
-                                    <th className="text-left p-2 text-gray-600 rounded-tr-lg">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {topCategoriesData.map((consultant, index) => (
-                                    <tr key={consultant.id} className="border-b border-gray-300">
-                                        <td className="p-2 text-black">{index + 1}</td>
-                                        <td className="p-2 text-black">{consultant.name}</td>
-                                        <td className="p-2 text-black">{consultant.times}</td>
-                                        <td className="p-2"  style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
-                                            <button className="text-orange-600 flex items-center">
-                                                <FontAwesomeIcon icon={faEye} className="w-4 h-4" />
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+                    {loading ? (<div className="d-flex justify-content-center align-items-center">
+                            <Spinner animation="border" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </Spinner>
+                            <h4 className="mx-2">Loading..</h4>
+                        </div>) : (
+                             <div style={{
+                                height: showAll ? "calc(520px - 40px)" : "calc(520px - 40px)", // Fixed height, adjust if necessary
+                                overflowY: showAll ? "auto" : "hidden", // Enable scroll when showAll is true
+                                borderRadius: "10px"
+                            }}>
+                                <table className="table-auto w-full border-collapse">
+                                    <thead className="bg-orange-100 rounded-t-lg">
+                                        <tr>
+                                            <th className="text-left p-2 text-gray-600 rounded-tl-lg">Sr. No</th>
+                                            <th className="text-left p-2 text-gray-600">Category Name</th>
+                                            <th className="text-left p-2 text-gray-600">service Id</th>
+                                            <th className="text-left p-2 text-gray-600 rounded-tr-lg">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {topServiceCategory.map((data, index) => (
+                                            <tr key={data.id} className="border-b border-gray-300">
+                                                <td className="p-2 text-black">{index + 1}</td>
+                                                <td className="p-2 text-black">{data.name}</td>
+                                                <td className="p-2 text-black">{data.serviceId}</td>
+                                                <td className="p-2" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                                    <button className="text-orange-600 flex items-center"  onClick={() => handleDelete(data.id, data.serviceId)}>
+                                                        <FontAwesomeIcon icon={faTrash} style={{ color: '#2C297D' }} />
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
+                   
+                    <ToastContainer />
                 </div>
             </div>
         </>
