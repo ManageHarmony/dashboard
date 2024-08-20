@@ -70,16 +70,9 @@ export default function RootLayout({
         setShowDropdown(show);
     };
 
-    if (isAuthenticated === null) {
-        // Loading state
-        return (
-            <div className='d-flex align-items-center justify-content-center'>
-                <h6>something went wrong</h6>
-            </div>
-        );
-    }
+  
 
-    if (isAuthenticated === false) {
+    if (isAuthenticated === false || isAuthenticated === null) {
         // Handle case when the user is not authenticated
         return (
             <div className='d-flex align-items-center justify-content-center'>
