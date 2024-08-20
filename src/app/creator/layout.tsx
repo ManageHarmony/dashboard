@@ -31,9 +31,9 @@ export default function RootLayout({
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (!token) {
-            router.push('/login');
+            router.push('/login'); 
         } else {
-            console.log("here we go", localStorage)
+            console.log("here we go",localStorage)
 
             setIsAuthenticated(true);
         }
@@ -70,15 +70,11 @@ export default function RootLayout({
         setShowDropdown(show);
     };
 
-  
-
-    if (isAuthenticated === false || isAuthenticated === null) {
-        // Handle case when the user is not authenticated
-        return (
-            <div className='d-flex align-items-center justify-content-center'>
-                <Spinner animation="border" />
-            </div>
-        );
+    if (!isAuthenticated) {
+        // return null; // Optionally return a loading spinner or similar while checking auth status
+        <div className='d-flex align-tems-center justify-content-center'>
+            <Spinner />
+        </div>
     }
 
     return (
@@ -97,14 +93,14 @@ export default function RootLayout({
                         showDropdown={showDropdown}
                     />
 
-                    <div
-                        style={{
+                    <div 
+                        style={{ 
                             marginLeft: "7%",
                             filter: isPanelHovered || showNotifications || showDropdown ? 'blur(3px)' : 'none',
                             transition: 'filter 0.2s ease-in-out'
                         }}
                     >
-                        <div className="page-info" style={{ marginLeft: "20px" }}>
+                        <div className="page-info" style={{marginLeft: "20px"}}>
                             {pathname === '/creator' ? (
                                 <div className="welcome-container">
                                     <h1 className="mb-4" style={{ fontSize: "1.5rem" }}>
@@ -123,9 +119,9 @@ export default function RootLayout({
                                 </>
                             )}
                         </div>
-
+                        
                         {children}
-
+                        
                     </div>
                 </main>
             </body>
