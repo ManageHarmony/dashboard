@@ -9,6 +9,7 @@ import Link from 'next/link';
 
 import './dashboard.css';
 import './customScrollbar.css';
+import { Spinner } from 'react-bootstrap';
 
 const poppins = Poppins({
     weight: '400',
@@ -70,7 +71,10 @@ export default function RootLayout({
     };
 
     if (!isAuthenticated) {
-        return null; // Optionally return a loading spinner or similar while checking auth status
+        //i fixed it mf smd
+         return <div className='d-flex align-items-center justify-content-center'>
+            <Spinner />
+        </div>
     }
 
     return (
