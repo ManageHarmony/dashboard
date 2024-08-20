@@ -1,8 +1,8 @@
 'use client';
 
 import { Poppins } from 'next/font/google'
-import { useState } from "react";
-import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import SidePanel from "./SidePanel";
 import DashboardHeader from "./DashboardHeader";
 import Link from "next/link";
@@ -23,7 +23,19 @@ export default function RootLayout({
     const [isPanelHovered, setIsPanelHovered] = useState(false);
     const [showNotifications, setShowNotifications] = useState(false);
     const [showDropdown, setShowDropdown] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+    const router = useRouter();
     const pathname = usePathname();
+
+    useEffect(() => {
+        // Check authentication status
+        const authStatus = localStorage.getItem('isAuthenticated');
+        if (authStatus !== 'true') {
+            router.push('/login'); // Redirect to login if not authenticated
+        } else {
+            setIsAuthenticated(true);
+        }
+    }, [router]);
 
     // Function to generate the page title and breadcrumb based on the route
     const generatePageInfo = (pathname: string) => {
@@ -56,6 +68,10 @@ export default function RootLayout({
     const handleShowDropdown = (show: boolean) => {
         setShowDropdown(show);
     };
+
+    if (!isAuthenticated) {
+        return null; // Optionally return a loading spinner or similar while checking auth status
+    }
 
     return (
         <html lang="en">
