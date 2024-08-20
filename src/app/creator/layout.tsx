@@ -70,11 +70,22 @@ export default function RootLayout({
         setShowDropdown(show);
     };
 
-    if (!isAuthenticated) {
-        //i fixed it mf
-         <div className='d-flex align-items-center justify-content-center'>
-            <Spinner />
-        </div>
+    if (isAuthenticated === null) {
+        // Loading state
+        return (
+            <div className='d-flex align-items-center justify-content-center'>
+                <Spinner animation="border" />
+            </div>
+        );
+    }
+
+    if (isAuthenticated === false) {
+        // Handle case when the user is not authenticated
+        return (
+            <div className='d-flex align-items-center justify-content-center'>
+                <p>You are not authenticated. Redirecting...</p>
+            </div>
+        );
     }
 
     return (
