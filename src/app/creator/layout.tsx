@@ -71,8 +71,8 @@ export default function RootLayout({
     };
 
     if (!isAuthenticated) {
-        //i fixed it mf smd
-         return <div className='d-flex align-items-center justify-content-center'>
+        //i fixed it mf
+         <div className='d-flex align-items-center justify-content-center'>
             <Spinner />
         </div>
     }
