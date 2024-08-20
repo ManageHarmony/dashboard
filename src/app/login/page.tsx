@@ -5,8 +5,9 @@ import { useState} from 'react';
 import { TextField, Button, Typography, Container, Box, Paper, Avatar } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useRouter } from 'next/navigation';
-import { Loader } from 'lucide-react';
 import { Spinner } from 'react-bootstrap';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -14,7 +15,17 @@ const LoginPage = () => {
   const [loading,setLoading] = useState(false);
   const router = useRouter();
 
-
+  const showToastError = (message: string) => {
+    toast.error(message, {
+        position: "bottom-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+    });
+};
  
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,9 +59,14 @@ const LoginPage = () => {
             router.push('/creator');
         } else {
             console.error('Login failed');
+            setLoading(false);
+            showToastError(`Login Failed`)
+
         }
     } catch (error) {
         console.error('Error during login:', error);
+        setLoading(false);
+        showToastError(`Login Failed`)
     }
 };
 
@@ -146,7 +162,9 @@ const LoginPage = () => {
           </Box>
         </Box>
       </Paper>
+      <ToastContainer />
     </Container>
+    
   );
 };
 
