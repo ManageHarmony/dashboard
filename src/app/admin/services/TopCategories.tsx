@@ -5,29 +5,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import ServiceActionBar from "./ServiceActionBar";
-import { useRouter } from "next/navigation";
 import { toast, ToastContainer } from "react-toastify";
 import { Spinner } from "react-bootstrap";
 
-
-
-const topCategoriesData = [
-    { id: 1, name: "Dr. Naseem Ahmad", times: 45 },
-    { id: 2, name: "Kanika Jindal", times: 35 },
-    { id: 3, name: "Shubham Solanki", times: 31 },
-    { id: 4, name: "Mikakshi Sisodia", times: 28 },
-    { id: 5, name: "Rishi Kumar", times: 18 },
-    { id: 1, name: "Dr. Naseem Ahmad", times: 45 },
-    { id: 2, name: "Kanika Jindal", times: 35 },
-    { id: 3, name: "Shubham Solanki", times: 31 },
-    { id: 4, name: "Mikakshi Sisodia", times: 28 },
-    { id: 5, name: "Rishi Kumar", times: 18 },
-    { id: 1, name: "Dr. Naseem Ahmad", times: 45 },
-    { id: 2, name: "Kanika Jindal", times: 35 },
-    { id: 3, name: "Shubham Solanki", times: 31 },
-    { id: 4, name: "Mikakshi Sisodia", times: 28 },
-    { id: 5, name: "Rishi Kumar", times: 18 },
-];
 
 export default function TopCategories() {
     const [showAll, setShowAll] = useState(false);
