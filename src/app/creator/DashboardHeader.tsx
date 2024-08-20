@@ -7,8 +7,10 @@ import Image from 'next/image';
 import profilePic from "../../../public/assets/avatar.jpg";
 import HeaderNotificationCard from './HeaderNotification';
 import { ChevronDownIcon } from '@radix-ui/react-icons';
+import { useRouter } from 'next/navigation';
 
 const DashboardHeader = ({ isPanelHovered, onShowNotifications, showNotifications, onShowDropdown, showDropdown }: any) => {
+  const router = useRouter();
   const [notifications] = useState([
     {
       title: 'Smriti Sharma as Doctor',
@@ -85,7 +87,7 @@ const DashboardHeader = ({ isPanelHovered, onShowNotifications, showNotification
             </div>
           )}
         </div>
-        <div className="d-flex align-items-center bg-white p-1" style={{borderRadius: "10px"}}>
+        <div className="d-flex align-items-center bg-white p-1" style={{ borderRadius: "10px" }}>
           <Image
             src={profilePic}
             alt="Profile"
@@ -114,7 +116,14 @@ const DashboardHeader = ({ isPanelHovered, onShowNotifications, showNotification
                   <FaCog className="me-2" /> Settings
                 </a>
                 <hr className="my-2" />
-                <a href="#logout" className="dropdown-item flex items-center py-2 px-3">
+                <a href="#logout" onClick={() => {
+                  // Clear the localStorage to log the user out
+                  localStorage.removeItem('token');
+                  localStorage.removeItem('isAuthenticated');
+
+                  // Optionally, you can redirect the user to the login page or home page after logout
+                  router.push('/login'); // or '/' for home page
+                }} className="dropdown-item flex items-center py-2 px-3">
                   <FaSignOutAlt className="me-2" /> Logout
                 </a>
               </div>

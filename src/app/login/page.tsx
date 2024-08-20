@@ -4,17 +4,56 @@ import { useState} from 'react';
 
 import { TextField, Button, Typography, Container, Box, Paper, Avatar } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { useRouter } from 'next/navigation';
+import { Loader } from 'lucide-react';
+import { Spinner } from 'react-bootstrap';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  
+  const [loading,setLoading] = useState(false);
+  const router = useRouter();
+
 
  
-const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-   
-  };
+
+    try {
+      setLoading(true);
+        const response = await fetch('https://harmony-backend-z69j.onrender.com/api/login/creator', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email,
+                password,
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Login failed');
+        }
+
+        const data = await response.json();
+
+        if (data.token) {
+            // Store token in localStorage
+            setLoading(false);
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('isAuthenticated', 'true');
+
+            // Redirect to /creator page
+            router.push('/creator');
+        } else {
+            console.error('Login failed');
+        }
+    } catch (error) {
+        console.error('Error during login:', error);
+    }
+};
+
   
   return (
     <Container component="main" maxWidth="xs">
@@ -102,7 +141,7 @@ const handleLogin = async (e: React.FormEvent) => {
                 },
               }}
             >
-              Log In
+              { loading ? <Spinner /> :'Log In'}
             </Button>
           </Box>
         </Box>

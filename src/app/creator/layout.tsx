@@ -28,16 +28,16 @@ export default function RootLayout({
     const pathname = usePathname();
 
     useEffect(() => {
-        // Check authentication status
-        const authStatus = localStorage.getItem('isAuthenticated');
-        if (authStatus !== 'true') {
-            router.push('/login'); // Redirect to login if not authenticated
+        const token = localStorage.getItem('token');
+        if (!token) {
+            router.push('/login'); 
         } else {
+            console.log("here we go",localStorage)
+
             setIsAuthenticated(true);
         }
     }, [router]);
 
-    // Function to generate the page title and breadcrumb based on the route
     const generatePageInfo = (pathname: string) => {
         const pathParts = pathname.split('/').filter(Boolean); // Split and filter out empty parts
         const pageTitle = pathParts[pathParts.length - 1]?.charAt(0).toUpperCase() + pathParts[pathParts.length - 1]?.slice(1);
