@@ -48,11 +48,13 @@ const LoginPage = () => {
         }
 
         const data = await response.json();
+        console.log("login data", data)
 
         if (data.token) {
             // Store token in localStorage
             setLoading(false);
             localStorage.setItem('token', data.token);
+            localStorage.setItem('creator id', data.id);
             localStorage.setItem('isAuthenticated', 'true');
 
             // Redirect to /creator page

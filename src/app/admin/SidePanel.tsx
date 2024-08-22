@@ -100,3 +100,4 @@ const SidePanel: React.FC<SidePanelProps> = ({ onPanelHover, isPanelHovered }) =
 };
 
 export default SidePanel;
+
