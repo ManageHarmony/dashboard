@@ -1,12 +1,12 @@
 'use client';
-
+import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react';
 import { Spinner } from 'react-bootstrap';
-import { AiOutlineUserAdd } from 'react-icons/ai';
-import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 const CreateBlog = () => {
 
