@@ -1,18 +1,20 @@
 'use client';
 
 import React, { useState } from 'react';
+import { Spinner } from 'react-bootstrap';
+import { AiOutlineUserAdd } from 'react-icons/ai';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const CreateBlog = () => {
-    const [heading, setHeading] = useState<string>('');
+
     const [content, setContent] = useState<string>('');
     const [tags, setTags] = useState<string>('');
     const [categories, setCategories] = useState<string>('');
-    const [blogImage, setBlogImage] = useState<File | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
+
 
 
     const showToastError = (message: string) => {
@@ -40,94 +42,60 @@ const CreateBlog = () => {
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
+        console.log("button clicked");
         e.preventDefault();
-
+    
+        setLoading(true);
+        
         // Convert comma-separated strings to arrays
         const tagsArray = tags.split(',').map(tag => tag.trim()).filter(tag => tag !== '');
         const categoriesArray = categories.split(',').map(category => category.trim()).filter(category => category !== '');
-
-        // Create a FormData object
-        const formData = new FormData();
-        formData.append('heading', heading);
-        formData.append('content', content);
-        
-
-        if (blogImage) {
-            formData.append('blogImage', blogImage);
-        }
-
-        // Append tags and categories as arrays
-        tagsArray.forEach(tag => formData.append('tags[]', tag));
-        categoriesArray.forEach(category => formData.append('categories[]', category));
-
+    
+        // Create a JSON object with the data
+        const data = {
+            content: content,
+            tags: tagsArray,
+            categories: categoriesArray
+        };
+    
         const id = localStorage.getItem('creator id');
-
+    
         if (id) {
             console.log("user id: ", id);
         }
-
+    
         try {
             const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/user/${id}/createBlogContent`, {
                 method: 'POST',
-                body: formData,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
             });
-
+    
             const result = await response.json();
-            console.log('Blog posted successfully:', result);
-
+    
             if (response.ok) {
                 showToastSuccess('Service Created Successfully!');
-                // Reset form fields after successful submission
-                setHeading('');
                 setContent('');
                 setTags('');
                 setCategories('');
-                setBlogImage(null);
-
-                // Ensure document is available before using it
-                if (typeof document !== 'undefined') {
-                    (document.querySelector('input[type="file"]') as HTMLInputElement).value = ''; // Clear file input
-                }
             } else {
                 showToastError(`Failed to create blog: ${result.message}`);
-                const errorText = await response.text();
-                console.error('Network response was not ok:', errorText);
-                throw new Error('Network response was not ok');
+                console.error('Network response was not ok:', result.message);
             }
         } catch (error) {
             console.error('Error posting blog:', error);
             showToastError('An error occurred while posting the blog');
+        } finally {
+            setLoading(false);
         }
     };
-
-    // Create a URL for the blog image if available
-    const imageUrl = blogImage ? URL.createObjectURL(blogImage) : '';
+    
 
     return (
         <div className="create-blog">
             <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label>Heading:</label>
-                    <input
-                        type="text"
-                        value={heading}
-                        onChange={(e) => setHeading(e.target.value)}
-                        placeholder="Enter the blog heading"
-                    />
-                </div>
-
-                <div className="form-group">
-                    <label>Blog Image:</label>
-                    <input
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => {
-                            if (e.target.files && e.target.files[0]) {
-                                setBlogImage(e.target.files[0]);
-                            }
-                        }}
-                    />
-                </div>
 
                 <div className="form-group">
                     <label>Blog Content:</label>
@@ -160,14 +128,17 @@ const CreateBlog = () => {
                     />
                 </div>
 
-                <button className='blog-button' type="submit">Create Blog</button>
+                <button className='blog-button' type="submit">
+                {!loading ?
+                    <div style={{ display: 'flex' }}>Create Blog</div> : <Spinner className='' animation="border" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                    }</button>
             </form>
 
             {/* Preview Section */}
             <div className="preview-section">
                 <h2>Blog Preview</h2>
-                {imageUrl && <img src={imageUrl} alt="Blog Preview" className="preview-image" />}
-                <h3>{heading}</h3>
                 <div className="preview-content" dangerouslySetInnerHTML={{ __html: content }}></div>
             </div>
             <ToastContainer />
