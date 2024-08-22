@@ -30,12 +30,18 @@ export default function RootLayout({
 
     useEffect(() => {
         const token = localStorage.getItem('token');
+        const hasReloaded = localStorage.getItem('hasReloaded'); // Check if the flag is set
+    
         if (!token) {
             router.push('/login'); 
         } else {
-            console.log("here we go",localStorage)
-
             setIsAuthenticated(true);
+    
+            // Reload the page once
+            if (!hasReloaded) {
+                localStorage.setItem('hasReloaded', 'true'); // Set the flag
+                window.location.reload(); // Reload the page
+            }
         }
     }, [router]);
 
