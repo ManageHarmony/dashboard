@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Spinner } from 'react-bootstrap';
 import { AiOutlineUserAdd } from 'react-icons/ai';
 import ReactQuill from 'react-quill';
@@ -14,6 +14,14 @@ const CreateBlog = () => {
     const [tags, setTags] = useState<string>('');
     const [categories, setCategories] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
+    const [creatorId, setCreatorId] = useState<string | null>(null);
+
+    useEffect(() => {
+        // Ensure this code only runs on the client
+        const id = localStorage.getItem('creator id');
+        setCreatorId(id);
+    }, []);
+
 
 
 
@@ -58,14 +66,15 @@ const CreateBlog = () => {
             categories: categoriesArray
         };
     
-        const id = localStorage.getItem('creator id');
-    
-        if (id) {
-            console.log("user id: ", id);
+        
+        if (!creatorId) {
+            showToastError('Creator ID is not available');
+            setLoading(false);
+            return;
         }
     
         try {
-            const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/user/${id}/createBlogContent`, {
+            const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/user/${creatorId}/createBlogContent`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
