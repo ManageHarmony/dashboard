@@ -27,21 +27,15 @@ export default function RootLayout({
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const router = useRouter();
     const pathname = usePathname();
-
     useEffect(() => {
         const token = localStorage.getItem('token');
-        const hasReloaded = localStorage.getItem('hasReloaded'); // Check if the flag is set
-    
+        
         if (!token) {
-            router.push('/login'); 
+            router.push('/login');
         } else {
             setIsAuthenticated(true);
-    
-            // Reload the page once
-            if (!hasReloaded) {
-                localStorage.setItem('hasReloaded', 'true'); // Set the flag
-                window.location.reload(); // Reload the page
-            }
+
+           
         }
     }, [router]);
 
@@ -77,7 +71,7 @@ export default function RootLayout({
     };
 
     // if (!isAuthenticated) {
-    //    return null
+    //     <Spinner />
     // }
 
     return (
@@ -96,14 +90,14 @@ export default function RootLayout({
                         showDropdown={showDropdown}
                     />
 
-                    <div 
-                        style={{ 
+                    <div
+                        style={{
                             marginLeft: "7%",
                             filter: isPanelHovered || showNotifications || showDropdown ? 'blur(3px)' : 'none',
                             transition: 'filter 0.2s ease-in-out'
                         }}
                     >
-                        <div className="page-info" style={{marginLeft: "20px"}}>
+                        <div className="page-info" style={{ marginLeft: "20px" }}>
                             {pathname === '/creator' ? (
                                 <div className="welcome-container">
                                     <h1 className="mb-4" style={{ fontSize: "1.5rem" }}>
@@ -122,9 +116,9 @@ export default function RootLayout({
                                 </>
                             )}
                         </div>
-                        
+
                         {children}
-                        
+
                     </div>
                 </main>
             </body>
