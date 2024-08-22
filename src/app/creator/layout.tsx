@@ -71,10 +71,7 @@ export default function RootLayout({
     };
 
     if (!isAuthenticated) {
-        // return null; // Optionally return a loading spinner or similar while checking auth status
-        <div className='d-flex align-tems-center justify-content-center'>
-            <Spinner />
-        </div>
+       return null
     }
 
     return (

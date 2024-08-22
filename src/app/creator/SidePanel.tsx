@@ -71,7 +71,7 @@ const SidePanel: React.FC<SidePanelProps> = ({ onPanelHover, isPanelHovered }) =
     }}
 
   >
-   <div style={{display: "flex", flexDirection: "column",justifyContent:"center", width: "100%"}}>
+   <div style={{display: "flex", flexDirection: "column",justifyContent:"center", width: "100%",alignItems:'center'}}>
    <div className="logoContainer">
         <Image src={logo} alt="Logo" width={50} height={50} />
       </div>

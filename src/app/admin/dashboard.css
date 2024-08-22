@@ -150,7 +150,7 @@ body {
   justify-content: center;
   align-items: center;
   color: #2C297E; 
-  
+  align-self: center;
   cursor: pointer;
                          
   transition: background-color 0.3s, color 0.3s;
