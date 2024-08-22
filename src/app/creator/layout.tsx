@@ -70,9 +70,9 @@ export default function RootLayout({
         setShowDropdown(show);
     };
 
-    if (!isAuthenticated) {
-       return null
-    }
+    // if (!isAuthenticated) {
+    //    return null
+    // }
 
     return (
         <html lang="en">
