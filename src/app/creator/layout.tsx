@@ -70,9 +70,13 @@ export default function RootLayout({
         setShowDropdown(show);
     };
 
-    // if (!isAuthenticated) {
-    //     <Spinner />
-    // }
+    if (!isAuthenticated) {
+        return (
+            <div className='vh-100 d-flex items-center justify-content-center'>
+                <Spinner />
+            </div>
+        )
+    }
 
     return (
         <html lang="en">

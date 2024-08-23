@@ -150,12 +150,9 @@ body {
   justify-content: center;
   align-items: center;
   color: #2C297E; 
-  
-  cursor: pointer;
-                         
+  cursor: pointer;                      
   transition: background-color 0.3s, color 0.3s;
-  margin-bottom: 8px;
-
+  margin-bottom: 0px;
 }
 
 .listItem.selected {
@@ -168,13 +165,17 @@ body {
   color: #fff;
 }
 
+.listItemContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px 10px;
+}
+
 .listItemIcon {
- 
-   /* Navy blue icon color */
   transition: color 0.3s;
-  
- align-self: center;
-  /* margin-top: 10px; */
+  align-self: center;
 }
 
 .listItemIcon.selected,
@@ -187,10 +188,8 @@ body {
 }
 
 .listItemTextOpen {
-  display: flex;
-  /**/
+  display: block;
 }
-
 
 .logoContainer {
   display: flex;
@@ -198,6 +197,8 @@ body {
   padding: 10px 0;
   margin-top: 10px;
 }
+
+
 .dashboard-container {
 
   margin-bottom: 20px;
