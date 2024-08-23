@@ -2,10 +2,12 @@
 import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react';
 import { Spinner } from 'react-bootstrap';
+import { Key } from '@react-types/shared';  // Ensure you import the correct type
+
 import 'react-quill/dist/quill.snow.css';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 const CreateBlog = () => {
@@ -13,13 +15,51 @@ const CreateBlog = () => {
     const [content, setContent] = useState<string>('');
     const [tags, setTags] = useState<string>('');
     const [categories, setCategories] = useState<string>('');
+    const [fetchedCategories, setFetchedCategories] = useState<string[]>([])
     const [loading, setLoading] = useState<boolean>(false);
     const [creatorId, setCreatorId] = useState<string | null>(null);
+    const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
+    let selectedValue = React.useMemo(
+        () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
+        [selectedKeys]
+    );
 
+
+    const handleSelectionChange = (keys: "all" | Set<Key>) => {
+        if (keys === "all") {
+            // Handle 'all' case, depending on your logic, maybe select all items?
+            setSelectedKeys(fetchedCategories.map((category: any) => category.category));
+        } else {
+            setSelectedKeys(Array.from(keys) as string[]);
+        }
+    };
+    console.log("FC", fetchedCategories)
     useEffect(() => {
         // Ensure this code only runs on the client
         const id = localStorage.getItem('creator id');
         setCreatorId(id);
+        const getCategories = async () => {
+            try {
+                const response = await fetch('https://harmony-backend-z69j.onrender.com/api/all/content/categories', {
+                    method: 'GET',
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                setFetchedCategories(data?.data?.allCategory || []);
+                setLoading(false);
+
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                setFetchedCategories([]);
+                setLoading(false);
+
+            } finally {
+                setLoading(false);
+            }
+        }
+        getCategories();
     }, []);
 
 
@@ -50,29 +90,40 @@ const CreateBlog = () => {
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
-        console.log("button clicked");
         e.preventDefault();
-    
+
         setLoading(true);
-        
+
         // Convert comma-separated strings to arrays
         const tagsArray = tags.split(',').map(tag => tag.trim()).filter(tag => tag !== '');
-        const categoriesArray = categories.split(',').map(category => category.trim()).filter(category => category !== '');
-    
+        const categoriesArray = selectedValue.split(',').map(category => category.trim()).filter(category => category !== '');
+        console.log("categoriesArray",categoriesArray.length)
+        if(categoriesArray.length <= 0){
+            console.log('entered')
+            showToastError('Atleast One Category Is Required');
+            setLoading(false)
+            return
+        }
+        if(content.length <= 0){
+            console.log('entered')
+            showToastError('Blog Is Empty');
+            setLoading(false)
+            return
+        }
         // Create a JSON object with the data
         const data = {
             content: content,
             tags: tagsArray,
-            categories: categoriesArray
+            category: categoriesArray
         };
-    
-        
+
+
         if (!creatorId) {
             showToastError('Creator ID is not available');
             setLoading(false);
             return;
         }
-    
+
         try {
             const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/user/${creatorId}/createBlogContent`, {
                 method: 'POST',
@@ -81,14 +132,15 @@ const CreateBlog = () => {
                 },
                 body: JSON.stringify(data),
             });
-    
+
             const result = await response.json();
-    
+
             if (response.ok) {
                 showToastSuccess('Blog Created Successfully!');
                 setContent('');
                 setTags('');
                 setCategories('');
+                setSelectedKeys([]);
             } else {
                 showToastError(`Failed to create blog: ${result.message}`);
                 console.error('Network response was not ok:', result.message);
@@ -100,7 +152,7 @@ const CreateBlog = () => {
             setLoading(false);
         }
     };
-    
+
 
     return (
         <div className="create-blog">
@@ -120,6 +172,16 @@ const CreateBlog = () => {
                 <div className="form-group">
                     <label>Tags:</label>
                     <input
+                        style={{
+                            position: 'relative',
+                            display: 'flex',
+                            width:'30%',
+                            alignItems: 'center',
+                            border: '1px solid gray',
+                            borderRadius: '12px',
+                            padding:'8px',
+                            backgroundColor: 'white',
+                        }}
                         type="text"
                         value={tags}
                         onChange={(e) => setTags(e.target.value)}
@@ -129,19 +191,61 @@ const CreateBlog = () => {
 
                 <div className="form-group">
                     <label>Categories:</label>
-                    <input
-                        type="text"
-                        value={categories}
-                        onChange={(e) => setCategories(e.target.value)}
-                        placeholder="Enter categories separated by commas"
-                    />
+
+                    <div
+                        style={{
+                            position: 'relative',
+                            display: 'flex',
+                            width:'30%',
+                            alignItems: 'center',
+                            border: '1px solid gray',
+                            borderRadius: '12px',
+                            backgroundColor: 'white',
+                        }}
+                    >
+                        <Dropdown style={{backgroundColor:'white', border:'1px solid gray'}}>
+                            <DropdownTrigger>
+                                <Button
+                                    variant="bordered"
+                                    style={{
+                                        textAlign: 'left',
+                                        width:"100%",
+                                        border: 'none',
+                                        boxShadow: 'none',
+                                        padding: 0,
+                                    }}
+                                >
+                                    {selectedKeys.length > 0 ? Array.from(selectedKeys).join(', ') : 'Select categories'}
+                                </Button>
+                            </DropdownTrigger>
+
+                            <DropdownMenu
+                                aria-label="Multiple selection example"
+                                style={{alignSelf:'center', cursor:'pointer'}}
+                                variant="flat"
+                                closeOnSelect={false}
+                                disallowEmptySelection
+                                selectionMode="multiple"
+                                selectedKeys={selectedKeys}
+                                onSelectionChange={handleSelectionChange}
+                            >
+                                {fetchedCategories.map((category:any) => (
+                                    <DropdownItem key={category.category}>
+                                        {category.category}
+                                    </DropdownItem>
+                                ))}
+                            </DropdownMenu>
+                        </Dropdown>
+                    </div>
                 </div>
 
+
+
                 <button className='blog-button' type="submit">
-                {!loading ?
-                    <div style={{ display: 'flex' }}>Create Blog</div> : <Spinner className='' animation="border" role="status">
-                        <span className="visually-hidden">Loading...</span>
-                    </Spinner>
+                    {!loading ?
+                        <div style={{ display: 'flex' }}>Create Blog</div> : <Spinner className='' animation="border" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                        </Spinner>
                     }</button>
             </form>
 

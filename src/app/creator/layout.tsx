@@ -79,9 +79,7 @@ export default function RootLayout({
     }
 
     return (
-        <html lang="en">
-            <body>
-                <main className={poppins.className}>
+                <div className={poppins.className}>
                     <SidePanel
                         onPanelHover={handlePanelHover}
                         isPanelHovered={isPanelHovered}
@@ -124,8 +122,6 @@ export default function RootLayout({
                         {children}
 
                     </div>
-                </main>
-            </body>
-        </html>
+                </div>
     );
 }
