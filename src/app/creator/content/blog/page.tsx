@@ -85,7 +85,7 @@ const CreateBlog = () => {
             const result = await response.json();
     
             if (response.ok) {
-                showToastSuccess('Service Created Successfully!');
+                showToastSuccess('Blog Created Successfully!');
                 setContent('');
                 setTags('');
                 setCategories('');
