@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import logo from '../../../public/logo.jpg';
 import ContentIcon from '@/components/icons/ContentIcon';
 import DashboardIcon from '@/components/icons/DashboardIcon';
@@ -21,24 +21,25 @@ interface SidePanelProps {
 }
 
 const SidePanel: React.FC<SidePanelProps> = ({ onPanelHover, isPanelHovered }) => {
-  const [selectedItem, setSelectedItem] = useState<string | null>(null);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const router = useRouter();
-
-  useEffect(() => {
-    const currentPath = window.location.pathname;
-    if (currentPath === '/manager') {
-      setSelectedItem('/manager');
-    } else {
-      setSelectedItem(null);
-    }
-  }, []);
+  const pathname = usePathname(); // Use usePathname to get the current URL path
 
   const handleNavigation = (href: string) => {
-    setSelectedItem(href);
     onPanelHover(false);
     router.push(href);
   };
+
+  const menuItems = [
+    { text: 'Dashboard', icon: <DashboardIcon hovered={hoveredItem === '/manager'} selected={pathname === '/manager'} />, href: '/manager' },
+    { text: 'Staff', icon: <StaffIcon hovered={hoveredItem === '/manager/staff'} selected={pathname === '/manager/staff'} />, href: '/manager/staff' },
+    { text: 'Doctors', icon: <DoctorsIcon hovered={hoveredItem === '/manager/doctors'} selected={pathname === '/manager/doctors'} />, href: '/manager/doctors' },
+    { text: 'Services', icon: <ServicesIcon hovered={hoveredItem === '/manager/services'} selected={pathname === '/manager/services'} />, href: '/manager/services' },
+    { text: 'Appointments', icon: <AppointmentsIcon hovered={hoveredItem === '/manager/appointments'} selected={pathname === '/manager/appointments'} />, href: '/manager/appointments' },
+    { text: 'Content', icon: <ContentIcon hovered={hoveredItem === '/manager/content'} selected={pathname === '/manager/content'} />, href: '/manager/content' },
+    { text: 'Stats', icon: <StatsIcon hovered={hoveredItem === '/manager/stats'} selected={pathname === '/manager/stats'} />, href: '/manager/stats' },
+    { text: 'Organization', icon: <OrganizationIcon hovered={hoveredItem === '/manager/organisation'} selected={pathname === '/manager/organisation'} />, href: '/manager/organisation' },
+  ];
 
   return (
     <div
@@ -56,43 +57,33 @@ const SidePanel: React.FC<SidePanelProps> = ({ onPanelHover, isPanelHovered }) =
         zIndex: 1000,
         display: 'flex',
         flexDirection: 'column',
-        
       }}
     >
       <div className="logoContainer">
         <Image src={logo} alt="Logo" width={50} height={50} />
       </div>
 
-      <ul style={{ listStyleType: 'none', padding: 0 , height: "80%", display: "flex", flexDirection: "column", justifyContent: "space-evenly"}}>
-        {[
-          { text: 'Dashboard', icon: <DashboardIcon hovered={hoveredItem === '/manager'} selected={selectedItem === '/manager'} />, href: '/manager' },
-          { text: 'Staff', icon: <StaffIcon hovered={hoveredItem === '/manager/staff'} selected={selectedItem === '/manager/staff'} />, href: '/manager/staff' },
-          { text: 'Doctors', icon: <DoctorsIcon hovered={hoveredItem === '/manager/doctors'} selected={selectedItem === '/manager/doctors'} />, href: '/manager/doctors' },
-          { text: 'Services', icon: <ServicesIcon hovered={hoveredItem === '/manager/services'} selected={selectedItem === '/manager/services'} />, href: '/manager/services' },
-          { text: 'Appointments', icon: <AppointmentsIcon hovered={hoveredItem === '/manager/appointments'} selected={selectedItem === '/manager/appointments'} />, href: '/manager/appointments' },
-          { text: 'Content', icon: <ContentIcon hovered={hoveredItem === '/manager/content'} selected={selectedItem === '/manager/content'} />, href: '/manager/content' },
-          { text: 'Stats', icon: <StatsIcon hovered={hoveredItem === '/manager/stats'} selected={selectedItem === '/manager/stats'} />, href: '/manager/stats' },
-          { text: 'Organization', icon: <OrganizationIcon hovered={hoveredItem === '/manager/organisation'} selected={selectedItem === '/manager/organisation'} />, href: '/manager/organisation' },
-        ].map((item) => (
+      <ul style={{ listStyleType: 'none', padding: 0, height: "80%", display: "flex", flexDirection: "column", justifyContent: "space-evenly" }}>
+        {menuItems.map((item) => (
           <li
-          key={item.text}
-          onClick={() => handleNavigation(item.href)}
-          onMouseEnter={() => setHoveredItem(item.href)}
-          onMouseLeave={() => setHoveredItem(null)}
-          className={`listItem ${selectedItem === item.href ? 'selected' : ''}`}
-          style={{
-            height: isPanelHovered ? '50px' : 'auto',
-          }}
-        >
-          <div className="listItemContent">
-            <span className={isPanelHovered ? 'listItemTextOpen' : 'listItemText'}>
-              {item.text}
-            </span>
-            <div className={`listItemIcon ${selectedItem === item.href ? 'selected' : ''}`}>
-              {item.icon}
+            key={item.text}
+            onClick={() => handleNavigation(item.href)}
+            onMouseEnter={() => setHoveredItem(item.href)}
+            onMouseLeave={() => setHoveredItem(null)}
+            className={`listItem ${pathname === item.href ? 'selected' : ''}`}
+            style={{
+              height: isPanelHovered ? '50px' : 'auto',
+            }}
+          >
+            <div className="listItemContent">
+              <span className={isPanelHovered ? 'listItemTextOpen' : 'listItemText'}>
+                {item.text}
+              </span>
+              <div className={`listItemIcon ${pathname === item.href ? 'selected' : ''}`}>
+                {item.icon}
+              </div>
             </div>
-          </div>
-        </li>
+          </li>
         ))}
       </ul>
     </div>
