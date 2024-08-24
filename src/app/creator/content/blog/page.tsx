@@ -96,14 +96,14 @@ const CreateBlog = () => {
         // Convert comma-separated strings to arrays
         const tagsArray = tags.split(',').map(tag => tag.trim()).filter(tag => tag !== '');
         const categoriesArray = selectedValue.split(',').map(category => category.trim()).filter(category => category !== '');
-        console.log("categoriesArray",categoriesArray.length)
-        if(categoriesArray.length <= 0){
+        console.log("categoriesArray", categoriesArray.length)
+        if (categoriesArray.length <= 0) {
             console.log('entered')
             showToastError('Atleast One Category Is Required');
             setLoading(false)
             return
         }
-        if(content.length <= 0){
+        if (content.length <= 0) {
             console.log('entered')
             showToastError('Blog Is Empty');
             setLoading(false)
@@ -173,11 +173,11 @@ const CreateBlog = () => {
                         style={{
                             position: 'relative',
                             display: 'flex',
-                            width:'30%',
+                            width: '30%',
                             alignItems: 'center',
                             border: '1px solid gray',
                             borderRadius: '12px',
-                            padding:'8px',
+                            padding: '8px',
                             backgroundColor: 'white',
                         }}
                         type="text"
@@ -194,20 +194,20 @@ const CreateBlog = () => {
                         style={{
                             position: 'relative',
                             display: 'flex',
-                            width:'30%',
+                            width: '30%',
                             alignItems: 'center',
                             border: '1px solid gray',
                             borderRadius: '12px',
                             backgroundColor: 'white',
                         }}
                     >
-                        <Dropdown style={{backgroundColor:'white', border:'1px solid gray'}}>
+                        <Dropdown style={{ backgroundColor: 'white', border: '1px solid gray' }}>
                             <DropdownTrigger>
                                 <Button
                                     variant="bordered"
                                     style={{
                                         textAlign: 'left',
-                                        width:"100%",
+                                        width: "100%",
                                         border: 'none',
                                         boxShadow: 'none',
                                         padding: 0,
@@ -219,7 +219,7 @@ const CreateBlog = () => {
 
                             <DropdownMenu
                                 aria-label="Multiple selection example"
-                                style={{alignSelf:'center', cursor:'pointer'}}
+                                style={{ alignSelf: 'center', cursor: 'pointer' }}
                                 variant="flat"
                                 closeOnSelect={false}
                                 disallowEmptySelection
@@ -227,7 +227,7 @@ const CreateBlog = () => {
                                 selectedKeys={selectedKeys}
                                 onSelectionChange={handleSelectionChange}
                             >
-                                {fetchedCategories.map((category:any) => (
+                                {fetchedCategories.map((category: any) => (
                                     <DropdownItem key={category.category}>
                                         {category.category}
                                     </DropdownItem>

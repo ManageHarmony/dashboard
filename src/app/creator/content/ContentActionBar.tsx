@@ -35,9 +35,11 @@ export default function ContentActionBar() {
                             { loading ? <Spinner /> :'Add New Blog'} <FiBell className="ml-2" />
                             </button>
                         </Link>
-                        <button className="text-orange-600 py-2 px-3 rounded flex items-center" style={{ background: "#fff", border: "1px dashed orange" }}>
-                            Add New Category <FiBell className="ml-2" />
-                        </button>
+                        <Link href='/creator/content/article' style={{textDecoration: "none"}}>
+                            <button className="text-orange-600 py-2 px-3 rounded flex items-center" style={{ background: "#fff", border: "1px dashed orange" }}>
+                            { loading ? <Spinner /> :'Add Article'} <FiBell className="ml-2" />
+                            </button>
+                        </Link>
                     </div>
                 </div>
 
