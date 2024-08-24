@@ -14,7 +14,6 @@ const CreateBlog = () => {
 
     const [content, setContent] = useState<string>('');
     const [tags, setTags] = useState<string>('');
-    const [categories, setCategories] = useState<string>('');
     const [fetchedCategories, setFetchedCategories] = useState<string[]>([])
     const [loading, setLoading] = useState<boolean>(false);
     const [creatorId, setCreatorId] = useState<string | null>(null);
@@ -139,7 +138,6 @@ const CreateBlog = () => {
                 showToastSuccess('Blog Created Successfully!');
                 setContent('');
                 setTags('');
-                setCategories('');
                 setSelectedKeys([]);
             } else {
                 showToastError(`Failed to create blog: ${result.message}`);
