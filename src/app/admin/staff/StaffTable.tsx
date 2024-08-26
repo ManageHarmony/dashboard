@@ -1,6 +1,9 @@
 'use client'
 
 import React, { useState } from 'react';
+import { ButtonGroup, Modal } from 'react-bootstrap';
+import AddManager from './AddManager';
+
 import "../dashboard.css"
 import {
     ColumnDef,
@@ -40,6 +43,8 @@ import {
 import { FaIdCard, FaListUl, FaPlus, FaTable } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { ToastContainer } from 'react-toastify';
+import AddCreator from './AddCreator';
 
 interface StaffData {
     srNo: number;
@@ -126,8 +131,42 @@ const StaffTable: React.FC = () => {
     const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
     const [rowSelection, setRowSelection] = React.useState({});
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const router = useRouter();
     const [isOpen, setIsOpen] = useState(false);
+
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [showAddCreatorModal, setShowAddCreatorModal] = useState(false);
+
+
+
+    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const handleAddManagerClick = () => {
+        setShowModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
+
+    const handleOpenAddCreatorModal = () => {
+        setShowAddCreatorModal(true);
+    };
+
+    const handleCloseAddCreatorModal = () => {
+        setShowAddCreatorModal(false);
+    };
+
+
+    const handleDropdownToggle = () => {
+        setIsDropdownOpen(!isDropdownOpen);
+    };
 
 
     console.log("renderedf")
@@ -150,25 +189,51 @@ const StaffTable: React.FC = () => {
         getPaginationRowModel: getPaginationRowModel(),
     });
 
-    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
     return (
         <div style={{ padding: "0px 30px", paddingBottom: "20px", width: "100%" }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px', paddingBottom: "10px" }}>
-                <Button
-                    variant="ghost"
-                    onClick={() => alert('Add new item')}
-                    style={{ color: '#2C297D', borderColor: '#2C297D', marginRight: '10px', backgroundColor: "#fff" }}
-                >
-                    <FaPlus style={{ marginRight: "8px", color: '#2C297D' }} />
-                    Add New
-                </Button>
+                <div style={{ position: 'relative' }}>
+                    <Button
+                        variant="ghost"
+                        onClick={handleDropdownToggle}
+                        style={{
+                            color: '#2C297D',
+                            borderColor: '#2C297D',
+                            marginRight: '10px',
+                            backgroundColor: "#fff",
+                        }}
+                    >
+                        <FaPlus style={{ marginRight: "8px", color: '#2C297D' }} />
+                        Add New
+                    </Button>
+
+                    {isDropdownOpen && (
+                        <ButtonGroup
+                            vertical
+                            style={{
+                                position: 'absolute',
+                                top: '100%',
+                                left: 0,
+                                zIndex: 1000,
+                                marginTop: '5px',
+                                backgroundColor: "#fff",
+                                boxShadow: "0px 0px 15px rgba(228, 225, 225, 0.5)",
+                            }}
+                        >
+                            <Button className="hover-effect" style={{ width: "100%" }} onClick={handleOpenAddCreatorModal}>
+                                <FaPlus style={{ marginRight: "8px" }} />
+                                Add Creator
+                            </Button>
+
+                            <Button className="hover-effect" onClick={handleAddManagerClick}>
+                                <FaPlus style={{ marginRight: "8px" }} />
+                                Add Manager
+                            </Button>
+                        </ButtonGroup>
+                    )}
+                </div>
+
+
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                     <Input
                         placeholder="Search staff..."
@@ -280,6 +345,76 @@ const StaffTable: React.FC = () => {
                 </div>
 
             </div>
+
+
+            <Modal
+                show={showModal}
+                onHide={handleCloseModal}
+                fullscreen={true} 
+                style={{
+                    backgroundColor: 'rgba(0, 0, 0, 0.6)', 
+                }}
+            >
+                <Modal.Body style={{
+                    backgroundColor: '#daf7fd7e',
+                    position: "relative",
+                    height: "100%",
+                    padding: "40px"
+                }}>
+                    <Button
+                       
+                        style={{
+                            position: "absolute",
+                            top: "20px",
+                            right: "20px",
+                            backgroundColor: "transparent",
+                            color: "#000000",
+                            border: "none",
+                            fontSize: "1.5rem",
+                            fontWeight: "bold"
+                        }}
+                        onClick={handleCloseModal}
+                    >
+                        &times;
+                    </Button>
+                    <AddManager />
+                </Modal.Body>
+            </Modal>
+
+            <Modal
+                show={showAddCreatorModal}
+                onHide={handleCloseAddCreatorModal}
+                fullscreen={true} 
+                style={{
+                    backgroundColor: 'rgba(0, 0, 0, 0.6)', 
+                }}
+            >
+                <Modal.Body style={{
+                    backgroundColor: '#daf7fd7e',
+                    position: "relative",
+                    height: "100%",
+                    padding: "40px"
+                }}>
+                    <Button
+                       
+                        style={{
+                            position: "absolute",
+                            top: "20px",
+                            right: "20px",
+                            backgroundColor: "transparent",
+                            color: "#000000",
+                            border: "none",
+                            fontSize: "1.5rem",
+                            fontWeight: "bold"
+                        }}
+                        onClick={handleCloseAddCreatorModal}
+                    >
+                        &times;
+                    </Button>
+                    <AddCreator />
+                </Modal.Body>
+            </Modal>
+
         </div>
     );
 };

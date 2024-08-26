@@ -589,5 +589,18 @@ body {
   
 }
 
+.hover-effect {
+  color: #2C297D;
+  background-color: #fff;
+  border: none;
+  /* padding: 10px 20px; */
+  text-align: left;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.hover-effect:hover {
+  background-color: #2C297D;
+  color: #fff;
+}
 
 
