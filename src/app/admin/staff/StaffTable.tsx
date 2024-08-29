@@ -1,7 +1,7 @@
 'use client'
 
-import React, { useState } from 'react';
-import { ButtonGroup, Modal } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { ButtonGroup, Modal, Spinner } from 'react-bootstrap';
 import AddManager from './AddManager';
 
 import "../dashboard.css"
@@ -41,9 +41,9 @@ import {
     DotsHorizontalIcon,
 } from "@radix-ui/react-icons";
 import { FaIdCard, FaListUl, FaPlus, FaTable } from 'react-icons/fa';
-import { useRouter } from 'next/navigation';
+
 import Link from 'next/link';
-import { ToastContainer } from 'react-toastify';
+
 import AddCreator from './AddCreator';
 
 interface StaffData {
@@ -56,30 +56,6 @@ interface StaffData {
     status: string;
     remarks: string;
 }
-
-const data: StaffData[] = [
-    { srNo: 1, name: 'Naseem Ahmad', role: 'Manager', contact: '9874597450', email: 'naseem@gmail.com', location: 'Delhi', status: 'Active', remarks: 'Remarks' },
-    { srNo: 2, name: 'Shubham Solanki', role: 'Creator', contact: '6547998741', email: 'shubham@gmail.com', location: 'New York', status: 'Active', remarks: 'Remarks' },
-    { srNo: 3, name: 'Vineet Singh', role: 'Creator', contact: '2658745897', email: 'vineet@gmail.com', location: 'California', status: 'Active', remarks: 'Remarks' },
-    { srNo: 4, name: 'Nishu Singla', role: 'Creator', contact: '9857458745', email: 'nishu@gmail.com', location: 'Dubai', status: 'Leave', remarks: 'Remarks' },
-    { srNo: 5, name: 'Kunal Taneja', role: 'Manager', contact: '9999525287', email: 'kunal@gmail.com', location: 'Qatar', status: 'Inactive', remarks: 'Remarks' },
-    { srNo: 6, name: 'Aditya Tiwari', role: 'Manager', contact: '4478523659', email: 'aditya@gmail.com', location: 'Noida', status: 'Active', remarks: 'Remarks' },
-    { srNo: 7, name: 'Mohit Keer', role: 'Creator', contact: '8745896314', email: 'mohit@gmail.com', location: 'Gurugram', status: 'Active', remarks: 'Remarks' },
-    { srNo: 8, name: 'Riyaj Mohd', role: 'Creator', contact: '4587458963', email: 'riyaj@gmail.com', location: 'Mumbai', status: 'Inactive', remarks: 'Remarks' },
-    { srNo: 9, name: 'Kaushal Kumar', role: 'Creator', contact: '7844785698', email: 'kaushal@gmail.com', location: 'Chennai', status: 'Off Temp', remarks: 'Remarks' },
-    { srNo: 10, name: 'Vipin Sharma', role: 'Creator', contact: '9514758263', email: 'vipin@gmail.com', location: 'Rune', status: 'Active', remarks: 'Remarks' },
-    { srNo: 11, name: 'Naseem ', role: 'Manager', contact: '9874597450', email: 'naseem@gmail.com', location: 'Delhi', status: 'Active', remarks: 'Remarks' },
-    { srNo: 12, name: 'Shubham ', role: 'Creator', contact: '6547998741', email: 'shubham@gmail.com', location: 'New York', status: 'Active', remarks: 'Remarks' },
-    { srNo: 13, name: 'Vineet ', role: 'Creator', contact: '2658745897', email: 'vineet@gmail.com', location: 'California', status: 'Active', remarks: 'Remarks' },
-    { srNo: 14, name: 'Nishu ', role: 'Creator', contact: '9857458745', email: 'nishu@gmail.com', location: 'Dubai', status: 'Leave', remarks: 'Remarks' },
-    { srNo: 15, name: 'Kunal ', role: 'Manager', contact: '9999525287', email: 'kunal@gmail.com', location: 'Qatar', status: 'Inactive', remarks: 'Remarks' },
-    { srNo: 16, name: 'Aditya ', role: 'Manager', contact: '4478523659', email: 'aditya@gmail.com', location: 'Noida', status: 'Active', remarks: 'Remarks' },
-    { srNo: 17, name: 'Mohit ', role: 'Creator', contact: '8745896314', email: 'mohit@gmail.com', location: 'Gurugram', status: 'Active', remarks: 'Remarks' },
-    { srNo: 18, name: 'Riyaj ', role: 'Creator', contact: '4587458963', email: 'riyaj@gmail.com', location: 'Mumbai', status: 'Inactive', remarks: 'Remarks' },
-    { srNo: 19, name: 'Kaushal ', role: 'Creator', contact: '7844785698', email: 'kaushal@gmail.com', location: 'Chennai', status: 'Off Temp', remarks: 'Remarks' },
-    { srNo: 20, name: 'Vipin ', role: 'Creator', contact: '9514758263', email: 'vipin@gmail.com', location: 'Rune', status: 'Active', remarks: 'Remarks' },
-    // Add more data...
-];
 
 const columns: ColumnDef<StaffData>[] = [
     {
@@ -126,6 +102,7 @@ const columns: ColumnDef<StaffData>[] = [
 ];
 
 const StaffTable: React.FC = () => {
+    const [staffData, setStaffData] = useState<StaffData[]>([]);
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
@@ -136,16 +113,68 @@ const StaffTable: React.FC = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [showAddCreatorModal, setShowAddCreatorModal] = useState(false);
+    const [loading, setLoading] = useState<boolean>(false);
 
+    const fetchData = async () => {
+        setLoading(true);
+        try {
+            const response = await fetch('https://harmony-backend-z69j.onrender.com/api/admin/get/staff');
+            const data = await response.json();
 
+            console.log("data", data)
+
+            if (data && data.staff) {
+                const { creators, managers, doctors } = data.staff;
+
+                const combinedStaff = [
+                    ...creators.map((item: { username: string; contact_number: string; email: string; state: string; status: string; remarks: string; }, index: number) => ({
+                        srNo: index + 1,
+                        name: item.username,
+                        role: 'Creator',
+                        contact: item.contact_number,
+                        email: item.email,
+                        location: item.state,
+                        status: item.status,
+                        remarks: item.remarks || 'Remarks',
+                    })),
+                    ...managers.map((item: { name: string; contact_number: string; email: string; states: string[]; status: string; remarks: string; }, index: number) => ({
+                        srNo: creators.length + index + 1,
+                        name: item.name,
+                        role: 'Manager',
+                        contact: item.contact_number,
+                        email: item.email,
+                        location: item.states[0],
+                        status: item.status,
+                        remarks: item.remarks || 'Remarks',
+                    })),
+                    ...doctors.map((item: { doctor_name: string; contact_number: string; email: string; state: string; status: string; remarks: string; }, index: number) => ({
+                        srNo: creators.length + managers.length + index + 1,
+                        name: item.doctor_name,
+                        role: 'Doctor',
+                        contact: item.contact_number,
+                        email: item.email,
+                        location: item.state,
+                        status: item.status,
+                        remarks: item.remarks || 'Remarks',
+                    })),
+                ];
+
+                setStaffData(combinedStaff);
+            } else {
+                console.error('Unexpected data structure:', data);
+            }
+        } catch (error) {
+            console.error('Error fetching staff data:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
 
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+
 
     const handleAddManagerClick = () => {
         setShowModal(true);
@@ -163,15 +192,19 @@ const StaffTable: React.FC = () => {
         setShowAddCreatorModal(false);
     };
 
-
     const handleDropdownToggle = () => {
         setIsDropdownOpen(!isDropdownOpen);
     };
 
+    console.log("rendered");
+    useEffect(() => {
+        fetchData();
+    }, []);
+
 
     console.log("renderedf")
     const table = useReactTable({
-        data,
+        data: staffData, // Use the fetched data
         columns,
         state: {
             columnFilters,
@@ -189,6 +222,18 @@ const StaffTable: React.FC = () => {
         getPaginationRowModel: getPaginationRowModel(),
     });
 
+    
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+        <h4 className="mx-2">Loading..</h4>
+      </div>
+    );
+  }
+  
     return (
         <div style={{ padding: "0px 30px", paddingBottom: "20px", width: "100%" }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px', paddingBottom: "10px" }}>
@@ -237,7 +282,7 @@ const StaffTable: React.FC = () => {
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                     <Input
                         placeholder="Search staff..."
-                        onChange={(e: { target: { value: any; }; }) => setColumnFilters([{ id: 'name', value: e.target.value }])}
+                        onChange={(e: { target: { value: string; }; }) => setColumnFilters([{ id: 'name', value: e.target.value }])}
                     />
                     <Button
                         variant="ghost"
@@ -312,6 +357,7 @@ const StaffTable: React.FC = () => {
                         </TableRow>
                     ))}
                 </TableHeader>
+
                 <TableBody style={{ backgroundColor: '#fff' }}>
                     {table.getRowModel().rows.map(row => (
                         <TableRow key={row.id} style={{ height: "20p" }}>
@@ -323,6 +369,8 @@ const StaffTable: React.FC = () => {
                         </TableRow>
                     ))}
                 </TableBody>
+
+
             </Table>
 
             <div className="flex items-center justify-between mt-4">
@@ -350,9 +398,9 @@ const StaffTable: React.FC = () => {
             <Modal
                 show={showModal}
                 onHide={handleCloseModal}
-                fullscreen={true} 
+                fullscreen={true}
                 style={{
-                    backgroundColor: 'rgba(0, 0, 0, 0.6)', 
+                    backgroundColor: 'rgba(0, 0, 0, 0.6)',
                 }}
             >
                 <Modal.Body style={{
@@ -362,7 +410,7 @@ const StaffTable: React.FC = () => {
                     padding: "40px"
                 }}>
                     <Button
-                       
+
                         style={{
                             position: "absolute",
                             top: "20px",
@@ -384,9 +432,9 @@ const StaffTable: React.FC = () => {
             <Modal
                 show={showAddCreatorModal}
                 onHide={handleCloseAddCreatorModal}
-                fullscreen={true} 
+                fullscreen={true}
                 style={{
-                    backgroundColor: 'rgba(0, 0, 0, 0.6)', 
+                    backgroundColor: 'rgba(0, 0, 0, 0.6)',
                 }}
             >
                 <Modal.Body style={{
@@ -396,7 +444,7 @@ const StaffTable: React.FC = () => {
                     padding: "40px"
                 }}>
                     <Button
-                       
+
                         style={{
                             position: "absolute",
                             top: "20px",
