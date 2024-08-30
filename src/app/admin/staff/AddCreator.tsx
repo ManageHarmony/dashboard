@@ -71,22 +71,57 @@ const AddCreator = () => {
         setLanguages(value.split(',').map(language => language.trim()).filter(language => language !== ''));
     };
 
+    const validateInputs = () => {
+        const emptyFields = [];
+    
+        if (!creatorPicture) {
+            emptyFields.push('Creator Picture');
+        }
+        if (!username) {
+            emptyFields.push('Username');
+        }
+        if (!email) {
+            emptyFields.push('Email');
+        }
+        if (!country) {
+            emptyFields.push('Country');
+        }
+        if (!state) {
+            emptyFields.push('State');
+        }
+        if (!contactNumber) {
+            emptyFields.push('Contact Number');
+        }
+        if (languages.length === 0) {
+            emptyFields.push('Languages');
+        }
+        if (!password) {
+            emptyFields.push('Password');
+        }
+        if (!assignedManager) {
+            emptyFields.push('Assigned Manager');
+        }
+    
+        if (emptyFields.length > 1) {
+            showToastError('All fields are required.');
+            return false;
+        } else if (emptyFields.length === 1) {
+            showToastError(`${emptyFields[0]} is required.`);
+            return false;
+        }
+    
+        return true;
+    };
+    
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
-
-        if (!username || !email || !country || !contactNumber || !state || !password || !assignedManager) {
-            showToastError('All fields are required');
+    
+        if (!validateInputs()) {
             setLoading(false);
             return;
         }
-
-        if (languages.length === 0) {
-            showToastError('At least one language is required');
-            setLoading(false);
-            return;
-        }
-
+    
         const formData = new FormData();
         if (creatorPicture) {
             formData.append('creator_picture', creatorPicture);
@@ -98,15 +133,15 @@ const AddCreator = () => {
         formData.append('state', state);
         formData.append('password', password);
         formData.append('assignedManager', assignedManager);
-
+    
         languages.forEach(language => formData.append('languages[]', language));
-
+    
         try {
             const response = await fetch('https://harmony-backend-z69j.onrender.com/api/admin/creatorProfile', {
                 method: 'POST',
                 body: formData,
             });
-
+    
             const result = await response.json();
             if (response.ok) {
                 showToastSuccess('Creator added successfully!');
@@ -121,7 +156,7 @@ const AddCreator = () => {
                 setLanguages([]);
                 setPicturePreview(null);
             } else {
-                showToastError(`Failed to add creator: ${result.message}`);
+                showToastError("Please Enter Valid Manager's Username");
             }
         } catch (error) {
             console.error('Error:', error);
@@ -130,6 +165,7 @@ const AddCreator = () => {
             setLoading(false);
         }
     };
+    
 
     return (
         <>
@@ -208,32 +244,32 @@ const AddCreator = () => {
                                 <Form.Label>Languages</Form.Label>
                                 <Form.Control
                                     type="text"
-                                    placeholder="Enter languages"
+                                    placeholder="Enter languages (comma-separated)"
+                                    name="languages"
+                                    value={languages.join(', ')}
                                     onChange={handleLanguagesChange}
                                 />
                             </Form.Group>
-                            <div style={{ display: "flex", justifyContent: "space-between", gap: "20px" }}>
-                                <Form.Group controlId="formContactNumber" className="mb-3" style={{ width: "100%" }}>
-                                    <Form.Label>Contact Number</Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        placeholder="Enter contact number"
-                                        name="contact_number"
-                                        value={contactNumber}
-                                        onChange={handleChange}
-                                    />
-                                </Form.Group>
-                                <Form.Group controlId="formPassword" className="mb-3" style={{ width: "100%" }}>
-                                    <Form.Label>Password</Form.Label>
-                                    <Form.Control
-                                        type="password"
-                                        placeholder="Enter password"
-                                        name="password"
-                                        value={password}
-                                        onChange={handleChange}
-                                    />
-                                </Form.Group>
-                            </div>
+                            <Form.Group controlId="formContactNumber" className="mb-3">
+                                <Form.Label>Contact Number</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Enter contact number"
+                                    name="contact_number"
+                                    value={contactNumber}
+                                    onChange={handleChange}
+                                />
+                            </Form.Group>
+                            <Form.Group controlId="formPassword" className="mb-3">
+                                <Form.Label>Password</Form.Label>
+                                <Form.Control
+                                    type="password"
+                                    placeholder="Enter password"
+                                    name="password"
+                                    value={password}
+                                    onChange={handleChange}
+                                />
+                            </Form.Group>
                             <Form.Group controlId="formAssignedManager" className="mb-3">
                                 <Form.Label>Assigned Manager</Form.Label>
                                 <Form.Control
@@ -244,6 +280,7 @@ const AddCreator = () => {
                                     onChange={handleChange}
                                 />
                             </Form.Group>
+                            <div className="text-center">
                             <Button
                                 type="submit"
                                 variant="primary"
@@ -252,14 +289,12 @@ const AddCreator = () => {
                             >
                                 {loading ? <Spinner animation="border" size="sm" /> : 'Add Creator'}
                             </Button>
+                            </div>
                         </Form>
                     </Card>
                 </div>
             </Container>
-            <ToastContainer
-                position="top-center"
-                style={{ top: '10px' }} // Adjust position as needed
-            />
+            <ToastContainer />
         </>
     );
 };

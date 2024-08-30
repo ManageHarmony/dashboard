@@ -65,31 +65,39 @@ const AddManager = () => {
         if (name === 'countries') setCountries(value);
     };
 
+    const validateForm = () => {
+        const emptyFields: string[] = [];
+
+        if (!managerProfile) emptyFields.push('Manager profile image');
+        if (!name) emptyFields.push('Name');
+        if (!username) emptyFields.push('Username');
+        if (!email) emptyFields.push('Email');
+        if (!states) emptyFields.push('States');
+        if (!countries) emptyFields.push('Countries');
+        if (!contactNumber) emptyFields.push('Contact number');
+        if (!password) emptyFields.push('Password');
+
+        if (emptyFields.length > 1) {
+            showToastError('All fields are required.');
+        } else if (emptyFields.length === 1) {
+            showToastError(`${emptyFields[0]} is required.`);
+        }
+
+        return emptyFields.length === 0;
+    };
+
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        if (!validateForm()) {
+            return;
+        }
+
         setLoading(true);
 
-        // Convert comma-separated strings to arrays
         const statesArray = states.split(',').map(state => state.trim()).filter(state => state !== '');
         const countriesArray = countries.split(',').map(country => country.trim()).filter(country => country !== '');
-
-        if (statesArray.length <= 0) {
-            showToastError('At least one state is required');
-            setLoading(false);
-            return;
-        }
-
-        if (countriesArray.length <= 0) {
-            showToastError('At least one country is required');
-            setLoading(false);
-            return;
-        }
-
-        if (!username || !password) {
-            showToastError('Username and password are required');
-            setLoading(false);
-            return;
-        }
 
         const formData = new FormData();
         if (managerProfile) {
@@ -101,7 +109,6 @@ const AddManager = () => {
         formData.append('contact_number', contactNumber);
         formData.append('password', password);
 
-        // Append arrays to FormData
         statesArray.forEach(state => formData.append('states[]', state));
         countriesArray.forEach(country => formData.append('countries[]', country));
 
@@ -134,6 +141,7 @@ const AddManager = () => {
         }
     };
 
+
     return (
         <>
             <Container
@@ -164,7 +172,7 @@ const AddManager = () => {
                                 )}
                             </Form.Group>
                             <div style={{ display: "flex", justifyContent: "space-between", gap: "20px" }}>
-                                <Form.Group controlId="formName" className="mb-3"  style={{width: "100%"}}>
+                                <Form.Group controlId="formName" className="mb-3" style={{ width: "100%" }}>
                                     <Form.Label>Name</Form.Label>
                                     <Form.Control
                                         type="text"
@@ -174,7 +182,7 @@ const AddManager = () => {
                                         onChange={handleChange}
                                     />
                                 </Form.Group>
-                                <Form.Group controlId="formUsername" className="mb-3"  style={{width: "100%"}}>
+                                <Form.Group controlId="formUsername" className="mb-3" style={{ width: "100%" }}>
                                     <Form.Label>Username</Form.Label>
                                     <Form.Control
                                         type="text"
@@ -215,8 +223,8 @@ const AddManager = () => {
                                     onChange={handleChange}
                                 />
                             </Form.Group>
-                            <div style={{ display: "flex", justifyContent: "space-between", gap: "20px"}}>
-                                <Form.Group controlId="formContactNumber" className="mb-3" style={{width: "100%"}}>
+                            <div style={{ display: "flex", justifyContent: "space-between", gap: "20px" }}>
+                                <Form.Group controlId="formContactNumber" className="mb-3" style={{ width: "100%" }}>
                                     <Form.Label>Contact Number</Form.Label>
                                     <Form.Control
                                         type="text"
@@ -226,7 +234,7 @@ const AddManager = () => {
                                         onChange={handleChange}
                                     />
                                 </Form.Group>
-                                <Form.Group controlId="formPassword" className="mb-3" style={{width: "100%"}}>
+                                <Form.Group controlId="formPassword" className="mb-3" style={{ width: "100%" }}>
                                     <Form.Label>Password</Form.Label>
                                     <Form.Control
                                         type="password"
@@ -237,22 +245,21 @@ const AddManager = () => {
                                     />
                                 </Form.Group>
                             </div>
-                            <Button
-                                type="submit"
-                                variant="primary"
-                                style={{ backgroundColor: '#ff6600', borderColor: '#ff6600' }}
-                                disabled={loading}
-                            >
-                                {loading ? <Spinner animation="border" size="sm" /> : 'Add Manager'}
-                            </Button>
+                            <div className="text-center">
+                                <Button
+                                    type="submit"
+                                    variant="primary"
+                                    style={{ backgroundColor: '#ff6600', borderColor: '#ff6600' }}
+                                    disabled={loading}
+                                >
+                                    {loading ? <Spinner animation="border" size="sm" /> : 'Add Creator'}
+                                </Button>
+                            </div>
                         </Form>
                     </Card>
                 </div>
             </Container>
-            <ToastContainer
-                position="top-center"
-                style={{ top: '10px' }} // Adjust position as needed
-            />
+            <ToastContainer />
         </>
     );
 };

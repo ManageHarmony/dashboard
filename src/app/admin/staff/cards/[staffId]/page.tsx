@@ -5,22 +5,25 @@ import {
     Card,
     CardContent,
     Typography,
-    CardMedia,
     Grid,
     Button,
     Menu,
     MenuItem,
     ListItemIcon,
     ListItemText,
-    CircularProgress,
 } from '@mui/material';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { styled } from '@mui/material/styles';
 import StaffCard from '../StaffCard';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import EditIcon from '@mui/icons-material/Edit';
 import CircleIcon from '@mui/icons-material/Circle';
-import { useParams, useSearchParams } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { Spinner } from 'react-bootstrap';
+import { DeleteIcon } from 'lucide-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const StyledCard = styled(Card)(({ theme }) => ({
     borderRadius: '15px',
@@ -48,16 +51,39 @@ const AssignedConsultantsCard = styled(Card)(({ theme }) => ({
 
 const StaffDetail: React.FC = () => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [staffData, setStaffData] = useState<any>(null);
+    const [assignedCreators, setAssignedCreators] = useState<any>(null);
+    const [assignedServices, setAssignedServices] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
+    const router = useRouter();
     const searchParams = useSearchParams();
     const params = useParams();
     const staffId = params.staffId as string; // Extract staffId from route params
     const role = searchParams.get('role'); // Extract role from query params
 
-    // const [staffId, setStaffId] = useState(null);
-    // const [role, setRole] = useState('');
+    const showToastError = (message: string) => {
+        toast.error(message, {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+    };
 
-    const [staffData, setStaffData] = useState<any>(null);
-    const [loading, setLoading] = useState(true);
+    const showToastSuccess = (message: string) => {
+        toast.success(message, {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+    };
 
     useEffect(() => {
         console.log("ID: ", staffId); // Debugging ID
@@ -83,6 +109,8 @@ const StaffDetail: React.FC = () => {
                         const data = await response.json();
                         console.log("Details: ", data);
                         setStaffData(data?.manager);
+                        setAssignedCreators(data?.assignedCreators);
+                        setAssignedServices(data?.assignedServices)
                     } else if (role === 'Doctor') {
                         apiUrl = `https://harmony-backend-z69j.onrender.com/api/get/doctor/profile/${staffId}`;
                         console.log("API URL: ", apiUrl);
@@ -105,19 +133,56 @@ const StaffDetail: React.FC = () => {
         }
     }, [staffId, role]);
 
+    const handleDelete = async () => {
+        if (!staffId || !role) {
+            alert('Invalid staff ID or role');
+            return;
+        }
+
+        try {
+            let apiUrl = '';
+
+            if (role === 'Creator') {
+                apiUrl = `https://harmony-backend-z69j.onrender.com/api/admin/delete/creator/${staffId}`;
+            } else if (role === 'Manager') {
+                apiUrl = `https://harmony-backend-z69j.onrender.com/api/admin/delete/manager/${staffId}`;
+            } else if (role === 'Doctor') {
+                apiUrl = `https://harmony-backend-z69j.onrender.com/api/admin/delete/doctor/${staffId}`;
+            } else {
+                alert('Unknown role');
+                return;
+            }
+
+            const response = await fetch(apiUrl, {
+                method: 'DELETE',
+            });
+
+            if (response.ok) {
+                showToastSuccess('Staff member deleted successfully');
+                router.push('/admin/staff/cards');
+            } else {
+                showToastError('Failed to delete staff member');
+            }
+        } catch (error) {
+            console.error('Error deleting staff member:', error);
+            showToastError('Failed to delete staff member');
+        }
+    };
+
+
     if (loading) {
         return (
-          <div className="d-flex justify-content-center align-items-center vh-100">
-            <Spinner animation="border" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </Spinner>
-            <h4 className="mx-2">Loading..</h4>
-          </div>
+            <div className="d-flex justify-content-center align-items-center vh-100">
+                <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </Spinner>
+                <h4 className="mx-2">Loading..</h4>
+            </div>
         );
-      }
+    }
 
     if (!staffData) {
-        return <div>No data found</div>;
+        return <div className='d-flex justify-content-center items-center vh-100'>No data found</div>;
     }
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
@@ -126,31 +191,17 @@ const StaffDetail: React.FC = () => {
     const handleClose = () => {
         setAnchorEl(null);
     };
-    // const staffData = {
-    //     name: 'Naseem Ahmad',
-    //     role: 'Manager for Mental Psychology',
-    //     imageUrl: '/assets/avatar.jpg',
-    //     fullName: 'Naseem Ahmad',
-    //     username: 'naseem01',
-    //     email: 'naseem@hotmail.com',
-    //     contact: '+91 8076254785',
-    //     language: 'English, Hindi',
-    //     states: 'Delhi, Noida, Hyderabad',
-    //     countries: 'India, Qatar',
-    //     password: '@Naseem#01',
-    //     serviceCategories: ['Mental Support', 'Online Classes', 'Mental Workshop'],
-    //     assignedCreators: ['Shubham Solanki', 'Aman Niranjan', 'Ritik Singh'],
-    //     assignedConsultants: [
-    //         { name: 'Christine Michelle', role: 'Consultant in Workshop', imageUrl: '/assets/avatar.jpg' },
-    //         { name: 'Mitali Taneja', role: 'Consultant in Mental Health', imageUrl: '/assets/avatar.jpg' },
-    //         { name: 'Sirina Roger', role: 'Consultant in Online therapy', imageUrl: '/assets/avatar.jpg' },
-    //         { name: 'Sushma Singh', role: 'Consultant in Personal Coach', imageUrl: '/assets/avatar.jpg' },
-    //     ],
-    // };
+   
 
     return (
         <div style={{ padding: '10px 20px', width: "100%" }}>
             <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: '15px' }}>
+                <Button
+                    sx={{ color: '#d32f2f', borderColor: '#d32f2f', marginRight: '10px' }}
+                    onClick={handleDelete}
+                >
+                    <FontAwesomeIcon icon={faTrash} className="" style={{ color: '#2C297D', fontSize: "2rem" }} />
+                </Button>
                 <Button
                     variant="contained"
                     startIcon={<CircleIcon fontSize="small" sx={{ color: 'green' }} />}
@@ -189,7 +240,7 @@ const StaffDetail: React.FC = () => {
             </div>
             <Grid container spacing={4}>
                 <Grid item>
-                    <StaffCard name={staffData.name} role={staffData.role} imageUrl="/assets/avatar.jpg" />
+                    <StaffCard name={staffData.name ? staffData.name : staffData.username} role={staffData.role} imageUrl="/assets/avatar.jpg" />
                 </Grid>
                 <Grid item>
                     <DetailCard>
@@ -252,7 +303,7 @@ const StaffDetail: React.FC = () => {
 
                 </Grid>
                 <Grid item>
-                    {/* <DetailCard sx={{ maxWidth: '350px' }}>
+                    <DetailCard sx={{ maxWidth: '350px' }}>
                         <CardContent>
                             <Typography variant="h6" component="div" sx={{ color: '#101010', fontWeight: 'bold', marginBottom: "10px" }}>
                                 Manager for
@@ -261,24 +312,54 @@ const StaffDetail: React.FC = () => {
                                 Service Categories
                             </Typography>
                             <div style={{ marginLeft: "10px" }}>
-                                {staffData.serviceCategories.map((category, index) => (
-                                    <Typography key={index} variant="body2" component="p" sx={{ color: '#404040', fontSize: "1rem" }}>
-                                        {index + 1}. {category}
+                                {Array.isArray(assignedServices) && assignedServices.length > 0 ? (
+                                    assignedServices.map((service, index) => (
+                                        <Typography
+                                            key={index}
+                                            variant="body2"
+                                            component="p"
+                                            sx={{ color: '#404040', fontSize: "1rem" }}>
+                                            {(index + 1)}. {service}
+                                        </Typography>
+                                    ))
+                                ) : (
+                                    <Typography
+                                        variant="body2"
+                                        component="p"
+                                        sx={{ color: '#404040', fontSize: "1rem" }}>
+                                        No assigned services found.
                                     </Typography>
-                                ))}
+                                )}
                             </div>
+
+
                             <Typography variant="body2" component="p" sx={{ color: '#101010', fontWeight: "bold", fontSize: "1.06rem", marginBottom: "8px", marginTop: "5px" }}>
                                 Assigned Creators:
                             </Typography>
                             <div style={{ marginLeft: "10px" }}>
-                                {staffData.assignedCreators.map((creator: string | number | bigint | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined, index: React.Key | null | undefined) => (
-                                    <Typography key={index} variant="body2" component="p" sx={{ color: '#404040', fontSize: "1rem" }}>
-                                        {index + 1}. {creator}
+                                {Array.isArray(assignedCreators) && assignedCreators.length > 0 ? (
+                                    assignedCreators.map((creator, index) => (
+                                        <Typography
+                                            key={creator.id || index}
+                                            variant="body2"
+                                            component="p"
+                                            sx={{ color: '#404040', fontSize: "1rem" }}>
+                                            {index + 1}. {creator.username}
+                                        </Typography>
+                                    ))
+                                ) : (
+                                    <Typography
+                                        variant="body2"
+                                        component="p"
+                                        sx={{ color: '#404040', fontSize: "1rem" }}>
+                                        No assigned creators found.
                                     </Typography>
-                                ))}
+                                )}
                             </div>
+
+
                         </CardContent>
-                    </DetailCard> */}
+                    </DetailCard>
 
                 </Grid>
             </Grid>
@@ -310,6 +391,8 @@ const StaffDetail: React.FC = () => {
                     </Grid>
                 ))}
             </Grid> */}
+
+            <ToastContainer />
 
         </div>
     );

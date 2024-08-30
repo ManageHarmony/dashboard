@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react';
 import { Grid, Button, Menu, MenuItem, ListItemIcon, ListItemText } from '@mui/material';
-import { styled } from '@mui/material/styles';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import IdCardIcon from '@mui/icons-material/Badge'; // Using Badge icon as an example for ID card
 import StaffCard from './StaffCard'; // Adjust the path if needed
@@ -12,8 +11,7 @@ import { Spinner } from 'react-bootstrap';
 
 
 const DropdownMenu = ({ anchorEl, handleClose }: any) => {
-  const router = useRouter(); // Ensure useRouter is used within the component
-
+  const router = useRouter(); 
   return (
     <Menu
       anchorEl={anchorEl}

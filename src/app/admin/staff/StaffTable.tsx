@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react';
-import { ButtonGroup, Modal, Spinner } from 'react-bootstrap';
+import {  Modal, Spinner } from 'react-bootstrap';
 import AddManager from './AddManager';
 
 import "../dashboard.css"
@@ -45,6 +45,7 @@ import { FaIdCard, FaListUl, FaPlus, FaTable } from 'react-icons/fa';
 import Link from 'next/link';
 
 import AddCreator from './AddCreator';
+import { ButtonGroup } from '@nextui-org/react';
 
 interface StaffData {
     srNo: number;
@@ -254,23 +255,22 @@ const StaffTable: React.FC = () => {
 
                     {isDropdownOpen && (
                         <ButtonGroup
-                            vertical
                             style={{
-                                position: 'absolute',
-                                top: '100%',
-                                left: 0,
+                                position: "absolute",
+                                display: "flex",
+                                flexDirection: "column",
                                 zIndex: 1000,
                                 marginTop: '5px',
                                 backgroundColor: "#fff",
                                 boxShadow: "0px 0px 15px rgba(228, 225, 225, 0.5)",
                             }}
                         >
-                            <Button className="hover-effect" style={{ width: "100%" }} onClick={handleOpenAddCreatorModal}>
+                            <Button className="hover-effect" style={{ width: "100%", textDecoration: "none" }} onClick={handleOpenAddCreatorModal}>
                                 <FaPlus style={{ marginRight: "8px" }} />
                                 Add Creator
                             </Button>
 
-                            <Button className="hover-effect" onClick={handleAddManagerClick}>
+                            <Button className="hover-effect" style={{ width: "100%", textDecoration: "none" }} onClick={handleAddManagerClick}>
                                 <FaPlus style={{ marginRight: "8px" }} />
                                 Add Manager
                             </Button>
