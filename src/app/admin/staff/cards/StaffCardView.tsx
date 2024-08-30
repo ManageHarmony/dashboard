@@ -63,7 +63,7 @@ const StaffCardView: React.FC = () => {
           })),
           ...managers.map((item: any) => ({
             id: item.id,
-            name: item.username,
+            name: item.name,
             role: 'Manager',
             imageUrl: "/assets/avatar.jpg",
           })),
