@@ -28,7 +28,8 @@ export default function RootLayout({
     // Function to generate the page title and breadcrumb based on the route
     const generatePageInfo = (pathname: string) => {
         const pathParts = pathname.split('/').filter(Boolean); // Split and filter out empty parts
-    
+        // console.log("--->", pathParts)
+
         // Custom heading for specific routes
         let pageTitle;
         if (pathname === '/admin/content/newCategory') {
@@ -37,10 +38,18 @@ export default function RootLayout({
             pageTitle = 'New Service';
         } else if (pathname === '/admin/services/new-service-category') {
             pageTitle = 'New Service Category';
-        } else {
+        } else if (pathname === '/admin/content/allblogs') {
+            pageTitle = 'All Blogs'
+
+
+        }
+        else if (pathname.startsWith('/admin/content/allblogs/')) {
+            const lastPart = pathParts[pathParts.length - 1];
+            pageTitle = 'Blog ' + lastPart?.charAt(0).toUpperCase() + lastPart?.slice(1);}
+        else {
             pageTitle = pathParts[pathParts.length - 1]?.charAt(0).toUpperCase() + pathParts[pathParts.length - 1]?.slice(1);
         }
-    
+
         const breadcrumb = pathParts.map((part, index) => {
             const path = '/' + pathParts.slice(0, index + 1).join('/');
             return (
@@ -50,10 +59,10 @@ export default function RootLayout({
                 </span>
             );
         });
-    
+
         return { pageTitle, breadcrumb };
     };
-    
+
 
     const { pageTitle, breadcrumb } = generatePageInfo(pathname);
 
@@ -85,14 +94,14 @@ export default function RootLayout({
                         showDropdown={showDropdown}
                     />
 
-                    <div 
-                        style={{ 
+                    <div
+                        style={{
                             marginLeft: "7%",
                             filter: isPanelHovered || showNotifications || showDropdown ? 'blur(3px)' : 'none',
                             transition: 'filter 0.2s ease-in-out'
                         }}
                     >
-                        <div className="page-info" style={{marginLeft: "20px"}}>
+                        <div className="page-info" style={{ marginLeft: "20px" }}>
                             {pathname === '/admin' ? (
                                 <div className="welcome-container">
                                     <h1 className="mb-4" style={{ fontSize: "1.5rem" }}>
@@ -111,9 +120,9 @@ export default function RootLayout({
                                 </>
                             )}
                         </div>
-                        
+
                         {children}
-                        
+
                     </div>
                 </main>
             </body>
