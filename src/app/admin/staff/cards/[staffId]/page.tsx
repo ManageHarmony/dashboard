@@ -276,26 +276,26 @@ const StaffDetail: React.FC = () => {
                                 Language:
                             </Typography>
                             <Typography variant="body2" component="p" sx={{ color: '#606060', fontSize: "16px" }}>
-                                {staffData.language}
-                            </Typography>
+                            {staffData.language.join(', ')}                          
+                              </Typography>
                             <Typography variant="body2" component="p" sx={{ color: 'black', fontWeight: 'bold', fontSize: "16px" }}>
                                 States:
                             </Typography>
                             <Typography variant="body2" component="p" sx={{ color: '#606060', fontSize: "16px" }}>
-                                {staffData.states}
+                                {staffData.state}
                             </Typography>
                             <Typography variant="body2" component="p" sx={{ color: 'black', fontWeight: 'bold', fontSize: "16px" }}>
-                                Countries:
+                                Country:
                             </Typography>
                             <Typography variant="body2" component="p" sx={{ color: '#606060', fontSize: "16px" }}>
-                                {staffData.countries}
+                                {staffData.country}
                             </Typography>
-                            <Typography variant="body2" component="p" sx={{ color: 'black', fontWeight: 'bold', fontSize: "16px" }}>
+                            {/* <Typography variant="body2" component="p" sx={{ color: 'black', fontWeight: 'bold', fontSize: "16px" }}>
                                 Password:
                             </Typography>
                             <Typography variant="body2" component="p" sx={{ color: '#606060', fontSize: "16px" }}>
                                 {staffData.password}
-                            </Typography>
+                            </Typography> */}
                         </CardContent>
                     </DetailCard>
 

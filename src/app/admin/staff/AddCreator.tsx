@@ -18,7 +18,7 @@ const AddCreator = () => {
     const [country, setCountry] = useState('');
     const [contactNumber, setContactNumber] = useState('');
     const [state, setState] = useState('');
-    const [languages, setLanguages] = useState<string[]>([]);
+    const [languages, setLanguages] = useState<string>();
     const [password, setPassword] = useState('');
     console.log("PASSWORD",password)
 
@@ -64,13 +64,10 @@ const AddCreator = () => {
         if (name === 'state') setState(value);
         if (name === 'p') setPassword(value);
         if (name === 'assignedManager') setAssignedManager(value);
+        if (name === 'languages')  setLanguages(value);
     };
 
-    const handleLanguagesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { value } = e.target;
-        const languageArray = value.split(',').map(language => language.trim());
-        setLanguages(languageArray);
-    };
+
     const validateInputs = () => {
         const emptyFields = [];
 
@@ -92,7 +89,7 @@ const AddCreator = () => {
         if (!contactNumber) {
             emptyFields.push('Contact Number');
         }
-        if (languages.length === 0) {
+        if (languages?.length === 0) {
             emptyFields.push('Languages');
         }
         if (!password) {
@@ -133,8 +130,8 @@ const AddCreator = () => {
         formData.append('state', state);
         formData.append('password', password);
         formData.append('assignedManager', assignedManager);
-
-        languages.forEach(language => formData.append('language[]', language));
+        const languageArray = languages?.split(', ').map(language => language.trim());
+        languageArray?.forEach(language => formData.append('language[]', language));
 
         try {
             const response = await fetch('https://harmony-backend-z69j.onrender.com/api/admin/creatorProfile', {
@@ -244,13 +241,13 @@ const AddCreator = () => {
                                 </Form.Group>
                             </div>
                             <Form.Group controlId="formLanguages" className="mb-3">
-                                <Form.Label>Languagezz</Form.Label>
+                                <Form.Label>Language</Form.Label>
                                 <Form.Control
                                     type="text"
                                     placeholder="Enter languages (comma-separated)"
                                     name="languages"
                                     value={languages}
-                                    onChange={handleLanguagesChange}
+                                    onChange={handleChange}
                                 />
                             </Form.Group>
                             <Form.Group controlId="formContactNumber" className="mb-3">
