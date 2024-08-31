@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Form, Button, Card, Image, Spinner } from 'react-bootstrap';
 import { Poppins } from 'next/font/google';
 import { toast, ToastContainer } from 'react-toastify';
@@ -20,10 +20,11 @@ const AddCreator = () => {
     const [state, setState] = useState('');
     const [languages, setLanguages] = useState<string[]>([]);
     const [password, setPassword] = useState('');
+    console.log("PASSWORD",password)
+
     const [assignedManager, setAssignedManager] = useState('');
     const [loading, setLoading] = useState(false);
     const [picturePreview, setPicturePreview] = useState<string | null>(null);
-
     const showToastError = (message: string) => {
         toast.error(message, {
             position: "top-center",
@@ -54,26 +55,25 @@ const AddCreator = () => {
             setPicturePreview(URL.createObjectURL(e.target.files[0]));
         }
     };
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e) => {
         const { name, value } = e.target;
-        if (name === 'username') setUsername(value);
+        if (name === 'u') setUsername(value);
         if (name === 'email') setEmail(value);
         if (name === 'country') setCountry(value);
         if (name === 'contact_number') setContactNumber(value);
         if (name === 'state') setState(value);
-        if (name === 'password') setPassword(value);
+        if (name === 'p') setPassword(value);
         if (name === 'assignedManager') setAssignedManager(value);
     };
 
     const handleLanguagesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = e.target;
-        setLanguages(value.split(',').map(language => language.trim()).filter(language => language !== ''));
+        const languageArray = value.split(',').map(language => language.trim());
+        setLanguages(languageArray);
     };
-
     const validateInputs = () => {
         const emptyFields = [];
-    
+
         if (!creatorPicture) {
             emptyFields.push('Creator Picture');
         }
@@ -101,7 +101,7 @@ const AddCreator = () => {
         if (!assignedManager) {
             emptyFields.push('Assigned Manager');
         }
-    
+
         if (emptyFields.length > 1) {
             showToastError('All fields are required.');
             return false;
@@ -109,19 +109,19 @@ const AddCreator = () => {
             showToastError(`${emptyFields[0]} is required.`);
             return false;
         }
-    
+
         return true;
     };
-    
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
-    
-        if (!validateInputs()) {
-            setLoading(false);
-            return;
-        }
-    
+
+        // if (!validateInputs()) {
+        //     setLoading(false);
+        //     return;
+        // }
+
         const formData = new FormData();
         if (creatorPicture) {
             formData.append('creator_picture', creatorPicture);
@@ -133,16 +133,17 @@ const AddCreator = () => {
         formData.append('state', state);
         formData.append('password', password);
         formData.append('assignedManager', assignedManager);
-    
-        languages.forEach(language => formData.append('languages[]', language));
-    
+
+        languages.forEach(language => formData.append('language[]', language));
+
         try {
             const response = await fetch('https://harmony-backend-z69j.onrender.com/api/admin/creatorProfile', {
                 method: 'POST',
                 body: formData,
             });
-    
+
             const result = await response.json();
+            console.log(result);
             if (response.ok) {
                 showToastSuccess('Creator added successfully!');
                 setCreatorPicture('');
@@ -156,16 +157,18 @@ const AddCreator = () => {
                 setLanguages([]);
                 setPicturePreview(null);
             } else {
-                showToastError("Please Enter Valid Manager's Username");
+                showToastError("Something went wrong");
             }
         } catch (error) {
             console.error('Error:', error);
             showToastError('An error occurred while adding the creator.');
         } finally {
             setLoading(false);
+            setPassword('');
+
         }
     };
-    
+
 
     return (
         <>
@@ -202,7 +205,7 @@ const AddCreator = () => {
                                     <Form.Control
                                         type="text"
                                         placeholder="Enter username"
-                                        name="username"
+                                        name="u"
                                         value={username}
                                         onChange={handleChange}
                                     />
@@ -241,12 +244,12 @@ const AddCreator = () => {
                                 </Form.Group>
                             </div>
                             <Form.Group controlId="formLanguages" className="mb-3">
-                                <Form.Label>Languages</Form.Label>
+                                <Form.Label>Languagezz</Form.Label>
                                 <Form.Control
                                     type="text"
                                     placeholder="Enter languages (comma-separated)"
                                     name="languages"
-                                    value={languages.join(', ')}
+                                    value={languages}
                                     onChange={handleLanguagesChange}
                                 />
                             </Form.Group>
@@ -265,7 +268,7 @@ const AddCreator = () => {
                                 <Form.Control
                                     type="password"
                                     placeholder="Enter password"
-                                    name="password"
+                                    name="p"
                                     value={password}
                                     onChange={handleChange}
                                 />
@@ -281,14 +284,14 @@ const AddCreator = () => {
                                 />
                             </Form.Group>
                             <div className="text-center">
-                            <Button
-                                type="submit"
-                                variant="primary"
-                                style={{ backgroundColor: '#ff6600', borderColor: '#ff6600' }}
-                                disabled={loading}
-                            >
-                                {loading ? <Spinner animation="border" size="sm" /> : 'Add Creator'}
-                            </Button>
+                                <Button
+                                    type="submit"
+                                    variant="primary"
+                                    style={{ backgroundColor: '#ff6600', borderColor: '#ff6600' }}
+                                    disabled={loading}
+                                >
+                                    {loading ? <Spinner animation="border" size="sm" /> : 'Add Creator'}
+                                </Button>
                             </div>
                         </Form>
                     </Card>
