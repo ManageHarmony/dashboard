@@ -8,6 +8,8 @@ import 'react-quill/dist/quill.snow.css';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
+import { useDispatch, useSelector } from 'react-redux';
+import { saveCategory } from '@/app/redux/slices/exampleSlice';
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 const CreateBlog = () => {
@@ -18,11 +20,13 @@ const CreateBlog = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [creatorId, setCreatorId] = useState<string | null>(null);
     const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
+    const dispatch = useDispatch()
     let selectedValue = React.useMemo(
         () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
         [selectedKeys]
     );
-
+    const categoriesFromRedux = useSelector((state: any) => state.example.savedCategory);
+    console.log(categoriesFromRedux)
 
     const handleSelectionChange = (keys: "all" | Set<Key>) => {
         if (keys === "all") {
@@ -32,34 +36,49 @@ const CreateBlog = () => {
             setSelectedKeys(Array.from(keys) as string[]);
         }
     };
-    console.log("FC", fetchedCategories)
     useEffect(() => {
-        // Ensure this code only runs on the client
         const id = localStorage.getItem('creator id');
         setCreatorId(id);
-        const getCategories = async () => {
-            try {
-                const response = await fetch('https://harmony-backend-z69j.onrender.com/api/all/content/categories', {
-                    method: 'GET',
-                });
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
+    
+        // Get categories from Redux instead of making an API call
+        console.log("CFR---->",categoriesFromRedux)
+        if (categoriesFromRedux.length > 0) {
+            setFetchedCategories(categoriesFromRedux);
+            console.log("not making API call")
+            setLoading(false);
+        } else {
+            console.log("making api call")
+            const getCategories = async () => {
+                try {
+                    const response = await fetch('https://harmony-backend-z69j.onrender.com/api/all/content/categories', {
+                        method: 'GET',
+                    });
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    const data = await response.json();
+                    setFetchedCategories(data?.data?.allCategory || []);
+                    dispatch(saveCategory(data?.data?.allCategory))
+                    setLoading(false);
+    
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                    setFetchedCategories([]);
+                    setLoading(false);
+    
+                } finally {
+                    setLoading(false);
                 }
-                const data = await response.json();
-                setFetchedCategories(data?.data?.allCategory || []);
-                setLoading(false);
-
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                setFetchedCategories([]);
-                setLoading(false);
-
-            } finally {
-                setLoading(false);
             }
+            getCategories();
         }
-        getCategories();
     }, []);
+    // useEffect(() => {
+    //     // Ensure this code only runs on the client
+    //     const id = localStorage.getItem('creator id');
+    //     setCreatorId(id);
+       
+    // }, []);
 
 
 

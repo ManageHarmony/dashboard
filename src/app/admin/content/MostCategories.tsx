@@ -8,6 +8,8 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { saveCategory } from "@/app/redux/slices/exampleSlice";
 
 
 
@@ -15,6 +17,9 @@ export default function MostCategories() {
     const [showAll, setShowAll] = useState(false);
     const [topMostCategories, setTopMostCategories] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const dispatch = useDispatch();
+    const topCat = useSelector((state:any) => state.example.savedCategory);
+    console.log("COUNT",topCat)
     const router = useRouter();
     useEffect(() => {
         const fetchData = async () => {
@@ -28,6 +33,8 @@ export default function MostCategories() {
                 const data = await response.json();
                 setTopMostCategories(data?.data?.allCategory || []);
                 setLoading(false);
+                dispatch(saveCategory(data?.data?.allCategory));
+
 
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -58,9 +65,12 @@ export default function MostCategories() {
                 throw new Error('Failed to delete the category.');
             }
 
-            setTopMostCategories((prevCategories) =>
-                prevCategories.filter((category) => category.id !== id)
-            );
+            const updatedCategories = topMostCategories.filter((category) => category.id !== id);
+
+            setTopMostCategories(updatedCategories);
+    
+            dispatch(saveCategory(updatedCategories));
+            console.log("COUNT--->",topCat)
 
             showToastSuccess('Category deleted successfully.');
 
@@ -159,8 +169,8 @@ export default function MostCategories() {
                         </tr>
                     </thead>
                     <tbody>
-                        {topMostCategories.length > 0 ? (
-                            topMostCategories.map((data, index) => (
+                        {topCat.length > 0 ? (
+                            topCat.map((data:any, index:any) => (
                                 <tr key={data.id} className="border-b border-gray-300">
                                     <td className="p-2 text-black">{index + 1}</td>
                                     <td className="p-2 text-black">{data.category}</td>
