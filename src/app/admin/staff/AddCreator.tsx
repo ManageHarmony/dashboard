@@ -55,7 +55,7 @@ const AddCreator = () => {
             setPicturePreview(URL.createObjectURL(e.target.files[0]));
         }
     };
-    const handleChange = (e:any) => {
+    const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         if (name === 'u') setUsername(value);
         if (name === 'email') setEmail(value);
@@ -117,10 +117,10 @@ const AddCreator = () => {
         e.preventDefault();
         setLoading(true);
 
-        // if (!validateInputs()) {
-        //     setLoading(false);
-        //     return;
-        // }
+        if (!validateInputs()) {
+            setLoading(false);
+            return;
+        }
 
         const formData = new FormData();
         if (creatorPicture) {
