@@ -2,7 +2,7 @@ import { FiBell } from "react-icons/fi";
 import MostCategories from "./MostCategories";
 import TopBlogs from "./TopBlogs";
 import Link from "next/link";
-import { useRouter } from "next/router";
+
 
 export default function ContentActionBar() {
     return (
@@ -31,12 +31,16 @@ export default function ContentActionBar() {
                             </button>
                         </Link>
 
+                        <Link className = 'bar' href='/admin/content/allVideos' style={{ textDecoration: "none" }}>
                         <button className="text-orange-600 py-2 px-3 rounded flex items-center justify-content-between" style={{ border: "1px dashed orange", width: "200px" }}>
-                            Add Videos <FiBell className="ml-2" />
+                            All Videos <FiBell className="ml-2" />
                         </button>
+                        </Link>
+                        <Link className = 'bar' href='/admin/content/allArticles' style={{ textDecoration: "none" }}>
                         <button className="text-orange-600 py-2 px-3 rounded flex items-center justify-content-between" style={{ border: "1px dashed orange", width: "200px" }}>
                             All Articles <FiBell className="ml-2" />
                         </button>
+                        </Link>
                     </div>
                 </div>
 

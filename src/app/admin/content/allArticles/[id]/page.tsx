@@ -4,19 +4,22 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Spinner } from 'react-bootstrap';
 
-const BlogPost = () => {
-    const router = useRouter();
+const articlePost = () => {
+    
     const { id } = useParams();
-    const [blog, setBlog] = useState<any>(null);
+    const [article, setarticle] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [selectedOption, setSelectedOption] = useState('');
     console.log(selectedOption);
+
+
     const handleChange = async (event: any) => {
         const value = event.target.value;
         setSelectedOption(value);
-        console.log(value);
+        console.log(value, "value");
 
-        const url = `https://harmony-backend-z69j.onrender.com/api/blog/action/${blog?.blog_creatorId}/${id}?action=${encodeURIComponent(value)}`;
+
+        const url = `https://harmony-backend-z69j.onrender.com/api/article/action/${article.article_creatorId}/${id}?action=${encodeURIComponent(value)}`;
 
         try {
             const response = await fetch(url, {
@@ -40,21 +43,22 @@ const BlogPost = () => {
         console.log('Router ID:', id);
 
         if (id) {
-            const fetchBlog = async () => {
+            const fetcharticle = async () => {
                 try {
-                    const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/get/blog/${id}`);
-                    const { data } = await response.json();
-                    console.log("data verified--->", data?.verified);
-                    setBlog(data);
-                    setSelectedOption(data?.verified || '');
+                    const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/get/article/${id}`);
+                    const {article}  = await response.json();
+                    console.log(article, "data")
+                    console.log("data verified--->", article?.verified);
+                    setarticle(article);
+                    setSelectedOption(article?.verified || '');
                     setLoading(false);
                 } catch (error) {
-                    console.error('Error fetching blog data:', error);
+                    console.error('Error fetching article data:', error);
                     setLoading(false);
                 }
             };
 
-            fetchBlog();
+            fetcharticle();
         }
     }, [id]);
 
@@ -67,36 +71,33 @@ const BlogPost = () => {
                 </Spinner>
                 <h4 className="mx-2">Loading..</h4>
             </div>
-
-        </>
-             
+        </>             
         )
     }
 
-    if (!blog) {
-        return <div>Blog not found.</div>;
+    if (!article) {
+        return <div>article not found.</div>;
     }
 
     return (
-        <div className='d-flex justify-between'>
+        <div className='d-flex justify-between p-4'>
             <div className='each-blog'>
                 <div className="imageContainer d-flex align-items-center justify-center mb-4" style={{ border: "0.5px solid rgba(0,0,0,0.4)", borderRadius: '10px' }}>
                     <Image
-                        src={blog.data.images[0] ? blog.data.images[0] : "/public/assests/avatar.jpg"}
-                        alt="Blog Image"
+                        src={"/assets/blogimg.png"}
+                        alt="article Image"
                         width={300}
                         height={200}
                         objectFit="cover"
                     />
                 </div>
-                <div style={{ fontSize: '24px' }}>{blog?.data?.headings?.h1[0]}</div>
-                <div style={{ fontSize: '18px' }}>{blog?.data?.headings?.h1[1]}</div>
-
+                <div style={{ fontSize: '24px' }}>{article?.heading}</div>
+                
                 <p style={{
                     textAlign: 'justify',
                     marginTop: 10,
                     lineHeight: '1.6'
-                }}>{blog?.data?.paragraphs?.join(' ')}
+                }}>{article?.content}
                 </p>
             </div>
             <div className="blog-status">
@@ -118,4 +119,4 @@ const BlogPost = () => {
     );
 };
 
-export default BlogPost;
+export default articlePost;

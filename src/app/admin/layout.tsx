@@ -40,10 +40,11 @@ export default function RootLayout({
             pageTitle = 'New Service Category';
         } else if (pathname === '/admin/content/allblogs') {
             pageTitle = 'All Blogs'
-
-
-        }
-        else if (pathname.startsWith('/admin/content/allblogs/')) {
+        } else if (pathname === '/admin/content/allVideos') {
+            pageTitle = 'All Videos' 
+        } else if (pathname === '/admin/content/allArticles') {
+            pageTitle = 'All Articles' 
+        } else if (pathname.startsWith('/admin/content/allblogs/')) {
             const lastPart = pathParts[pathParts.length - 1];
             pageTitle = 'Blog ' + lastPart?.charAt(0).toUpperCase() + lastPart?.slice(1);}
         else {
