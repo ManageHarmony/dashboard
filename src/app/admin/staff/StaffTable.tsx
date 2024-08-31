@@ -46,6 +46,7 @@ import Link from 'next/link';
 
 import AddCreator from './AddCreator';
 import { ButtonGroup } from '@nextui-org/react';
+import { useRouter } from 'next/navigation';
 
 interface StaffData {
     srNo: number;
@@ -122,6 +123,7 @@ const StaffTable: React.FC = () => {
     const [showModal, setShowModal] = useState(false);
     const [showAddCreatorModal, setShowAddCreatorModal] = useState(false);
     const [loading, setLoading] = useState<boolean>(false);
+    const router = useRouter();
 
     const fetchData = async () => {
         setLoading(true);
@@ -378,15 +380,13 @@ const StaffTable: React.FC = () => {
                         const detailPath = `/admin/staff/cards/${id}?role=${encodeURIComponent(role)}`;
 
                         return (
-                            <TableRow key={row.id} style={{ height: "20px" }}>
+                            <TableRow  onClick={() => router.push(detailPath)} key={row.id} style={{ height: "20px" }}>
                                 {row.getVisibleCells().map((cell) => {
                                     return (
                                         <TableCell key={cell.id} style={{ padding: "8px" }}>
-                                            <Link href={detailPath} passHref>
                                                 <div style={{ textDecoration: 'none', color: 'inherit' }}>
                                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                                 </div>
-                                            </Link>
                                         </TableCell>
                                     );
                                 })}
