@@ -1,25 +1,29 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import BlogCard from '../../BlogCard'
 import { Card, Button } from "@nextui-org/react";
 import Link from 'next/link';
+import ArticleCard from '../../ArticleCard';
 import { Spinner } from 'react-bootstrap';
 
-function Page() {
-    const [blogData, setBlogData] = useState([]);
+function AllArticlePage() {
+    const [articleData, setArticleData] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState('all'); // 'all', 'publish', 'unpublish', 'rejected'
 
     useEffect(() => {
+        const userId = localStorage.getItem("creator id");
+
         const fetchData = async () => {
             try {
-                const response = await fetch('https://harmony-backend-z69j.onrender.com/api/user/get/blogs/3', {
+                const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/user/${userId}/getAllContent`, {
                     method: 'GET'
                 });
                 const data = await response.json();
-                setBlogData(data?.blogData);
-                setFilteredData(data?.blogData);
+                console.log(data)
+                console.log(data?.article_content)                
+                setArticleData(data?.article_content);
+                setFilteredData(data?.article_content);
                 setLoading(false);
 
             } catch (error) {
@@ -32,14 +36,15 @@ function Page() {
     }, []);
 
     useEffect(() => {
-        filterBlogs();
-    }, [filter, blogData]);
+        filterArticles();
+    }, [filter, articleData]);
 
-    const filterBlogs = () => {
+
+    const filterArticles = () => {
         if (filter === 'all') {
-            setFilteredData(blogData);
+            setFilteredData(articleData);
         } else {
-            const filtered = blogData.filter((data: any) => data?.verified === filter);
+            const filtered = articleData.filter((data: any) => data?.verified === filter);
             setFilteredData(filtered);
         }
     };
@@ -94,11 +99,12 @@ function Page() {
 
             <div className='row' style={{ width: "100%", paddingLeft:'60px' }}>
                 {filteredData?.map((data: any, index: number) => (
-                    <Link href={`/admin/content/allblogs/${data?.id}`} key={index} className="col-md-4 mb-4">
-                        <BlogCard 
-                            heading={data?.data.headings.h1[0]} 
-                            para={data?.data.paragraphs[0].length > 0 ? data?.data.paragraphs[0] : data?.data.paragraphs[1]} 
-                            image={data?.data.images[0]} 
+                    
+                    <Link href={`/admin/content/allArticles/${data?.id}`} key={index} className="col-md-4 mb-4">
+                        <ArticleCard 
+                            heading={data?.heading} 
+                            para={data?.content} 
+                            image={data?.articleImagePath[0]} 
                         />
                     </Link>
                 ))}
@@ -107,4 +113,4 @@ function Page() {
     )
 }
 
-export default Page;
+export default AllArticlePage;

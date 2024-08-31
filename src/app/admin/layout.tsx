@@ -42,6 +42,8 @@ export default function RootLayout({
             pageTitle = 'All Blogs'
         } else if (pathname === '/admin/content/allVideos') {
             pageTitle = 'All Videos' 
+        } else if (pathname === '/admin/content/allArticles') {
+            pageTitle = 'All Articles' 
         } else if (pathname.startsWith('/admin/content/allblogs/')) {
             const lastPart = pathParts[pathParts.length - 1];
             pageTitle = 'Blog ' + lastPart?.charAt(0).toUpperCase() + lastPart?.slice(1);}

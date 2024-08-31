@@ -9,7 +9,7 @@ interface VideoCardProps {
 const VideoCard: React.FC<VideoCardProps> = ({ iframe, heading, content }) => {
     return (
         <div className='videoCard' style={{ width: '560px', border: "0.5px solid rgba(11, 11, 11, 0.3)", borderRadius: "10px", marginBottom: '20px' }}>
-            <div className='video-container' style={{ position: 'relative', width: '100%', height: '315px' }}>
+            <div className='video-container' style={{ position: 'relative', width: '100%', height: '315px', borderRadius: "10px" }}>
                 <div dangerouslySetInnerHTML={{ __html: iframe }} />
             </div>
             <div

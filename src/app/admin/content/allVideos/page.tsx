@@ -61,7 +61,7 @@ const VideoContentList: React.FC = () => {
             display: 'flex',
             flexWrap: 'wrap',
             justifyContent: 'space-between',
-            padding: "30px"
+            padding: "30px",
         }}>
             {videoContents.length > 0 ? (
                 videoContents.map((content, index) => (
