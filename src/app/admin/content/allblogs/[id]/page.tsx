@@ -9,7 +9,7 @@ const BlogPost = () => {
     const [blog, setBlog] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [selectedOption, setSelectedOption] = useState('');
-console.log(selectedOption);
+    console.log(selectedOption);
     const handleChange = async (event: any) => {
         const value = event.target.value;
         setSelectedOption(value);
