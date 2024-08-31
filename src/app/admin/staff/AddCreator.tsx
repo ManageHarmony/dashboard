@@ -151,7 +151,7 @@ const AddCreator = () => {
                 setState('');
                 setPassword('');
                 setAssignedManager('');
-                setLanguages([]);
+                setLanguages('');
                 setPicturePreview(null);
             } else {
                 showToastError("Something went wrong");
