@@ -55,7 +55,7 @@ const AddCreator = () => {
             setPicturePreview(URL.createObjectURL(e.target.files[0]));
         }
     };
-    const handleChange = (e) => {
+    const handleChange = (e:any) => {
         const { name, value } = e.target;
         if (name === 'u') setUsername(value);
         if (name === 'email') setEmail(value);
