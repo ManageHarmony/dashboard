@@ -191,7 +191,7 @@ const StaffDetail: React.FC = () => {
     const handleClose = () => {
         setAnchorEl(null);
     };
-   
+
 
     return (
         <div style={{ padding: '10px 20px', width: "100%" }}>
@@ -272,12 +272,14 @@ const StaffDetail: React.FC = () => {
                             <Typography variant="body2" component="p" sx={{ color: '#606060', fontSize: "16px" }}>
                                 {staffData.contact_number}
                             </Typography>
-                            <Typography variant="body2" component="p" sx={{ color: 'black', fontWeight: 'bold', fontSize: "16px" }}>
-                                Language:
-                            </Typography>
-                            <Typography variant="body2" component="p" sx={{ color: '#606060', fontSize: "16px" }}>
-                            {staffData.language.join(', ')}                          
-                              </Typography>
+                            {role === 'Creator' ? <>
+                                <Typography variant="body2" component="p" sx={{ color: 'black', fontWeight: 'bold', fontSize: "16px" }}>
+                                    Language:
+                                </Typography>
+                                <Typography variant="body2" component="p" sx={{ color: '#606060', fontSize: "16px" }}>
+                                    {staffData.language.join(', ')}
+                                </Typography></> : <></>}
+
                             <Typography variant="body2" component="p" sx={{ color: 'black', fontWeight: 'bold', fontSize: "16px" }}>
                                 States:
                             </Typography>
