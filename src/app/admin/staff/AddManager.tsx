@@ -146,10 +146,10 @@ const AddManager = () => {
         <>
             <Container
                 className="d-flex justify-content-center align-items-center"
-                style={{ width: '100%', minHeight: '60vh', backgroundColor: '#daf7fd7e' }}
+                style={{ width: '100%', minHeight: '60vh', backgroundColor: 'transparent' }}
             >
-                <div style={{ maxWidth: '800px', width: '100%' }}>
-                    <Card className="p-4 shadow-sm" style={{ borderRadius: '10px', fontFamily: poppins.style.fontFamily }}>
+                <div style={{ maxWidth: '800px', width: '100%', borderRadius: '10px', backgroundColor: "rgba(0,0,0,0.4)" }}>
+                    <Card className="p-4 shadow-sm" style={{ borderRadius: '10px', fontFamily: poppins.style.fontFamily, backgroundColor: 'transparent' }}>
                         <h1 className="text-center mb-4">Add Manager</h1>
                         <Form onSubmit={handleSubmit}>
                             <Form.Group controlId="formProfileImage" className="mb-3">

@@ -206,10 +206,10 @@ const AddCreator = () => {
         <>
             <Container
                 className="d-flex justify-content-center align-items-center"
-                style={{ width: '100%', minHeight: '60vh', backgroundColor: '#daf7fd7e' }}
+                style={{ width: '100%', minHeight: '60vh', backgroundColor: 'transparent' }}
             >
-                <div style={{ maxWidth: '800px', width: '100%' }}>
-                    <Card className="p-4 shadow-sm" style={{ borderRadius: '10px', fontFamily: poppins.style.fontFamily }}>
+                <div style={{ maxWidth: '800px', width: '100%', backgroundColor: "rgba(0,0,0,0.4)" }}>
+                    <Card className="p-4 shadow-sm" style={{ borderRadius: '10px', fontFamily: poppins.style.fontFamily, backgroundColor: "transparent", color: "#fff" }}>
                         <h1 className="text-center mb-4">Add Creator</h1>
                         <Form onSubmit={handleSubmit}>
                             <Form.Group controlId="formCreatorPicture" className="mb-3">
@@ -308,7 +308,7 @@ const AddCreator = () => {
                             <Form.Group controlId="formAssignedManager" className="mb-3">
                                 <Form.Label>Assign Manager</Form.Label>
                                 <Dropdown onSelect={handleManagerSelect}>
-                                    <Dropdown.Toggle variant="outline-secondary" className="w-100 text-left">
+                                    <Dropdown.Toggle variant="outline-secondary" className="w-100 text-left text-white">
                                         {assignedManager || 'Select a manager'}
                                     </Dropdown.Toggle>
                                     <Dropdown.Menu>
