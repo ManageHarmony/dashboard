@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Container, Form, Button, Card, Image, Spinner } from 'react-bootstrap';
+import { Container, Form, Button, Card, Image, Spinner, Dropdown } from 'react-bootstrap';
 import { Poppins } from 'next/font/google';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -25,6 +25,35 @@ const AddCreator = () => {
     const [assignedManager, setAssignedManager] = useState('');
     const [loading, setLoading] = useState(false);
     const [picturePreview, setPicturePreview] = useState<string | null>(null);
+    const [fetchedManagers, setFetchedManagers] = useState<string[]>([]);
+
+    useEffect(() => {
+        const getManager = async () => {
+            try {
+                const response = await fetch("https://harmony-backend-z69j.onrender.com/api/admin/get/staff", {
+                    method: "GET"
+                });
+
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+
+                const data = await response.json();
+                console.log("data", data?.staff?.managers);
+    
+                const managers = data?.staff?.managers || [];
+                const managerNames = managers.map((manager: { username: any; name: any; }) => manager.username || manager.name);
+                setFetchedManagers(managerNames);
+
+            } catch (error) {
+                console.error("Error getting manager: ", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        getManager();
+    }, []);
+
     const showToastError = (message: string) => {
         toast.error(message, {
             position: "top-center",
@@ -108,6 +137,12 @@ const AddCreator = () => {
         }
 
         return true;
+    };
+
+    const handleManagerSelect = (eventKey: string | null) => {
+        if (eventKey) {
+            setAssignedManager(eventKey);
+        }
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -271,14 +306,23 @@ const AddCreator = () => {
                                 />
                             </Form.Group>
                             <Form.Group controlId="formAssignedManager" className="mb-3">
-                                <Form.Label>Assigned Manager</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    placeholder="Enter assigned manager"
-                                    name="assignedManager"
-                                    value={assignedManager}
-                                    onChange={handleChange}
-                                />
+                                <Form.Label>Assign Manager</Form.Label>
+                                <Dropdown onSelect={handleManagerSelect}>
+                                    <Dropdown.Toggle variant="outline-secondary" className="w-100 text-left">
+                                        {assignedManager || 'Select a manager'}
+                                    </Dropdown.Toggle>
+                                    <Dropdown.Menu>
+                                        {fetchedManagers.length > 0 ? (
+                                            fetchedManagers.map((manager, index) => (
+                                                <Dropdown.Item key={index} eventKey={manager}>
+                                                     {manager}
+                                                </Dropdown.Item>
+                                            ))
+                                        ) : (
+                                            <Dropdown.Item disabled>No managers available</Dropdown.Item>
+                                        )}
+                                    </Dropdown.Menu>
+                                </Dropdown>
                             </Form.Group>
                             <div className="text-center">
                                 <Button
