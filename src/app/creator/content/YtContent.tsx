@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Form, Button, Spinner } from 'react-bootstrap';
+import React, { useState, useEffect, useMemo } from 'react';
+import { Form, Button, Spinner, Dropdown } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -20,12 +20,22 @@ const CreateYTContent: React.FC = () => {
         category: ''
     });
     const [loading, setLoading] = useState(false);
+    const [fetchedCategories, setFetchedCategories] = useState<string[]>([]);
+    const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
     const [iframePreview, setIframePreview] = useState<string | null>(null);
+
+    const selectedValue = useMemo(() => Array.from(selectedKeys).join(", ").replace("_", " "), [selectedKeys]);
+
+    const handleChangeCategory = (category: string) => {
+        setSelectedKeys(prev =>
+            prev.includes(category)
+                ? prev.filter(key => key !== category)
+                : [...prev, category]
+        );
+    };
 
     useEffect(() => {
         const { youtubeUrl } = formData;
-
-        // Regular expression to extract YouTube video ID from the URL
         const videoIdMatch = youtubeUrl.match(/(?:youtube\.com\/(?:embed\/|v\/|v=)|youtu\.be\/)([^"&?\/\s]{11})/);
         const videoId = videoIdMatch ? videoIdMatch[1] : null;
 
@@ -36,9 +46,21 @@ const CreateYTContent: React.FC = () => {
         }
     }, [formData.youtubeUrl]);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
+    useEffect(() => {
+        const getCategory = async () => {
+            try {
+                const response = await fetch("https://harmony-backend-z69j.onrender.com/api/all/content/categories");
+                if (!response.ok) throw new Error('Network response was not ok');
+                const data = await response.json();
+                setFetchedCategories(data?.data?.allCategory || []);
+            } catch (error) {
+                console.error('Error getting Category:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        getCategory();
+    }, []);
 
     const showToastError = (message: string) => {
         toast.error(message, {
@@ -48,7 +70,6 @@ const CreateYTContent: React.FC = () => {
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
-            progress: undefined,
         });
     };
 
@@ -60,22 +81,56 @@ const CreateYTContent: React.FC = () => {
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
-            progress: undefined,
         });
     };
 
     const isFormValid = () => {
-        const { youtubeUrl, heading, content, tags, category } = formData;
-        return youtubeUrl && heading && content && tags && category && iframePreview;
+        const { youtubeUrl, heading, content, tags } = formData;
+        return youtubeUrl && heading && content && tags && selectedKeys.length > 0 && iframePreview;
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (!isFormValid()) {
-            showToastError('All fields are required and YouTube URL must be valid!');
+        
+        const { youtubeUrl, heading, content, tags } = formData;
+
+        // Validate YouTube URL
+        const videoIdMatch = youtubeUrl.match(/(?:youtube\.com\/(?:embed\/|v\/|v=)|youtu\.be\/)([^"&?\/\s]{11})/);
+        const videoId = videoIdMatch ? videoIdMatch[1] : null;
+        if (!videoId) {
+            showToastError('Invalid YouTube URL');
             return;
         }
-        
+
+        // Validate Heading
+        if (!heading) {
+            showToastError('Heading is required');
+            return;
+        }
+
+        // Validate Content
+        if (!content) {
+            showToastError('Content is required');
+            return;
+        }
+
+        // Validate Tags
+        if (!tags) {
+            showToastError('Tags are required');
+            return;
+        }
+
+        // Validate Category
+        if (!selectedKeys.length) {
+            showToastError('At least one category must be selected');
+            return;
+        }
+
+        if (!isFormValid()) {
+            showToastError('Please fill all the fields correctly.');
+            return;
+        }
+
         setLoading(true);
 
         const userId = localStorage.getItem("creator id");
@@ -86,16 +141,14 @@ const CreateYTContent: React.FC = () => {
             return;
         }
 
-        const { youtubeUrl, heading, content, tags, category } = formData;
-
         const iframe = `<iframe width="560" height="315" src="${iframePreview}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
 
         const dataToSend = {
             iframe,
             heading,
             content,
-            tags: tags.split(',').map(tag => tag.trim()),  
-            category: category.split(',').map(cat => cat.trim()),  
+            tags: tags.split(',').map(tag => tag.trim()).filter(tag => tag !== ''),  
+            category: selectedKeys  
         };
 
         try {
@@ -116,6 +169,7 @@ const CreateYTContent: React.FC = () => {
                     tags: '',
                     category: ''
                 });
+                setSelectedKeys([]);
             } else {
                 throw new Error('Failed to create YouTube content');
             }
@@ -127,91 +181,101 @@ const CreateYTContent: React.FC = () => {
     };
 
     return (
-        <div style={{ width: '100%', minHeight: '80vh', backgroundColor: '#daf7fd7e', display: "flex", justifyContent: "center", alignItems: "center" }}>
-            <Form onSubmit={handleSubmit} style={{ backgroundColor: '#daf7fd7e', padding: '20px', borderRadius: '8px', maxWidth: '800px', width: '100%' }}>
-            <Form.Group controlId="formYoutubeUrl">
-                <Form.Label>YouTube URL</Form.Label>
-                <Form.Control
-                    type="text"
-                    name="youtubeUrl"
-                    placeholder="Enter YouTube video URL"
-                    value={formData.youtubeUrl}
-                    onChange={handleChange}
-                />
-            </Form.Group>
-
-            {iframePreview && (
-                <div style={{ margin: '20px 0' }}>
-                    <h5>Preview:</h5>
-                    <iframe
-                        width="560"
-                        height="315"
-                        src={iframePreview}
-                        frameBorder="0"
-                        allow="autoplay; encrypted-media"
-                        allowFullScreen
-                        title="YouTube Preview"
+        <div style={{ width: '100%', minHeight: '100%', backgroundColor: 'transparent', display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <Form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", justifyContent: "space-evenly", backgroundColor: "rgba(0, 0, 0, 0.4)", padding: '20px', borderRadius: '8px', width: '60%', height: "100%" }}>
+                <Form.Group controlId="formYoutubeUrl">
+                    <Form.Label>YouTube URL</Form.Label>
+                    <Form.Control
+                        type="text"
+                        name="youtubeUrl"
+                        placeholder="Enter YouTube video URL"
+                        value={formData.youtubeUrl}
+                        onChange={e => setFormData({ ...formData, youtubeUrl: e.target.value })}
                     />
+                </Form.Group>
+
+                {iframePreview && (
+                    <div style={{ margin: '20px 0' }}>
+                        <h5>Preview:</h5>
+                        <iframe
+                            width="560"
+                            height="315"
+                            src={iframePreview}
+                            frameBorder="0"
+                            allow="autoplay; encrypted-media"
+                            allowFullScreen
+                            title="YouTube Preview"
+                        />
+                    </div>
+                )}
+
+                <Form.Group controlId="formHeading">
+                    <Form.Label>Heading</Form.Label>
+                    <Form.Control
+                        type="text"
+                        name="heading"
+                        placeholder="Enter heading"
+                        value={formData.heading}
+                        onChange={e => setFormData({ ...formData, heading: e.target.value })}
+                    />
+                </Form.Group>
+
+                <Form.Group controlId="formContent">
+                    <Form.Label>Content</Form.Label>
+                    <Form.Control
+                        as="textarea"
+                        name="content"
+                        placeholder="Enter content"
+                        rows={3}
+                        value={formData.content}
+                        onChange={e => setFormData({ ...formData, content: e.target.value })}
+                    />
+                </Form.Group>
+
+                <Form.Group controlId="formTags">
+                    <Form.Label>Tags</Form.Label>
+                    <Form.Control
+                        type="text"
+                        name="tags"
+                        placeholder="Enter tags (comma separated)"
+                        value={formData.tags}
+                        onChange={e => setFormData({ ...formData, tags: e.target.value })}
+                    />
+                </Form.Group>
+
+                <Form.Group controlId="formCategory">
+                    <Form.Label>Category</Form.Label>
+                    <Dropdown>
+                        <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                            {selectedKeys.length > 0 ? selectedKeys.join(', ') : 'Select categories'}
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                            {fetchedCategories.map((category: any) => (
+                                <Dropdown.Item
+                                    key={category.category} 
+                                    onClick={() => handleChangeCategory(category.category)}
+                                    active={selectedKeys.includes(category.category)}
+                                >
+                                    {category.category} 
+                                </Dropdown.Item>
+                            ))}
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </Form.Group>
+
+                <div className="text-center mt-3">
+                    <Button
+                        type="submit"
+                        variant="primary"
+                        style={{ backgroundColor: '#ff6600', borderColor: '#ff6600' }}
+                        // disabled={loading || !isFormValid()}
+                    >
+                        {loading ? <Spinner animation="border" size="sm" /> : 'Create YouTube Content'}
+                    </Button>
                 </div>
-            )}
-
-            <Form.Group controlId="formHeading">
-                <Form.Label>Heading</Form.Label>
-                <Form.Control
-                    type="text"
-                    name="heading"
-                    placeholder="Enter heading"
-                    value={formData.heading}
-                    onChange={handleChange}
-                />
-            </Form.Group>
-
-            <Form.Group controlId="formContent">
-                <Form.Label>Content</Form.Label>
-                <Form.Control
-                    as="textarea"
-                    name="content"
-                    placeholder="Enter content"
-                    rows={3}
-                    value={formData.content}
-                    onChange={handleChange}
-                />
-            </Form.Group>
-
-            <Form.Group controlId="formTags">
-                <Form.Label>Tags</Form.Label>
-                <Form.Control
-                    type="text"
-                    name="tags"
-                    placeholder="Enter tags (comma separated)"
-                    value={formData.tags}
-                    onChange={handleChange}
-                />
-            </Form.Group>
-
-            <Form.Group controlId="formCategory">
-                <Form.Label>Category</Form.Label>
-                <Form.Control
-                    type="text"
-                    name="category"
-                    placeholder="Enter category (comma separated)"
-                    value={formData.category}
-                    onChange={handleChange}
-                />
-            </Form.Group>
-
-            <div className="text-center mt-3">
-                <Button
-                    type="submit"
-                    variant="primary"
-                    style={{ backgroundColor: '#ff6600', borderColor: '#ff6600' }}
-                    disabled={loading || !isFormValid()}
-                >
-                    {loading ? <Spinner animation="border" size="sm" /> : 'Create YouTube Content'}
-                </Button>
-            </div>
-            <ToastContainer />
-        </Form>
+                <ToastContainer />
+            </Form>
         </div>
     );
 };
