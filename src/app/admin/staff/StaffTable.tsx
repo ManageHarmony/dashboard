@@ -101,11 +101,6 @@ const columns: ColumnDef<StaffData>[] = [
         header: 'Remarks',
         cell: ({ getValue }) => getValue(),
     },
-    {
-        accessorKey: 'id',
-        header: 'ID',
-        cell: ({ getValue }) => getValue(),
-    },
 
 
 ];
