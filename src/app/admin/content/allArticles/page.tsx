@@ -5,7 +5,7 @@ import Link from 'next/link';
 import ArticleCard from '../../ArticleCard';
 import { Spinner } from 'react-bootstrap';
 
-function AllArticlePage() {
+const AllArticlePage = () => {
     const [articleData, setArticleData] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
     const [loading, setLoading] = useState(true);

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Spinner } from 'react-bootstrap';
 
-const articlePost = () => {
+const ArticlePost = () => {
     
     const { id } = useParams();
     const [article, setarticle] = useState<any>(null);
@@ -119,4 +119,4 @@ const articlePost = () => {
     );
 };
 
-export default articlePost;
+export default ArticlePost;
