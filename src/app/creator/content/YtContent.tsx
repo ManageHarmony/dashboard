@@ -182,7 +182,7 @@ const CreateYTContent: React.FC = () => {
 
     return (
         <div style={{ width: '100%', minHeight: '100%', backgroundColor: 'transparent', display: "flex", justifyContent: "center", alignItems: "center" }}>
-            <Form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", justifyContent: "space-evenly", backgroundColor: "rgba(0, 0, 0, 0.4)", padding: '20px', borderRadius: '8px', width: '60%', height: "100%" }}>
+            <Form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "20px", justifyContent: "space-evenly", backgroundColor: "rgba(0, 0, 0, 0.4)", padding: '20px', borderRadius: '8px', width: '60%', height: "100%" }}>
                 <Form.Group controlId="formYoutubeUrl">
                     <Form.Label>YouTube URL</Form.Label>
                     <Form.Control
@@ -245,7 +245,7 @@ const CreateYTContent: React.FC = () => {
 
                 <Form.Group controlId="formCategory">
                     <Form.Label>Category</Form.Label>
-                    <Dropdown>
+                    <Dropdown style={{display: "flex", justifyContent: "flex-start"}}>
                         <Dropdown.Toggle variant="secondary" id="dropdown-basic">
                             {selectedKeys.length > 0 ? selectedKeys.join(', ') : 'Select categories'}
                         </Dropdown.Toggle>
