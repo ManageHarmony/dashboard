@@ -25,7 +25,7 @@ const VideoContentList: React.FC = () => {
                     throw new Error('User ID not found.');
                 }
 
-                const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/user/${userId}/getAllContent`);
+                const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/user/3/getAllContent`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch video content');
                 }
