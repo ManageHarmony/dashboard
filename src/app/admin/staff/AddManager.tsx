@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Container, Form, Button, Card, Image, Spinner } from 'react-bootstrap';
 import { Poppins } from 'next/font/google';
 import { toast, ToastContainer } from 'react-toastify';
@@ -13,6 +13,8 @@ const poppins = Poppins({
 
 const AddManager = () => {
     const [managerProfile, setManagerProfile] = useState<string | File>('');
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
+
     const [name, setName] = useState('');
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
@@ -130,6 +132,9 @@ const AddManager = () => {
                 setStates('');
                 setCountries('');
                 setProfilePreview(null);
+                if (fileInputRef.current) {
+                    fileInputRef.current.value = ''; 
+                }
             } else {
                 showToastError(`Failed to add manager: ${result.message}`);
             }
@@ -157,6 +162,8 @@ const AddManager = () => {
                                 <Form.Control
                                     type="file"
                                     name="managerProfile"
+                                    ref={fileInputRef}                                    
+
                                     onChange={handleImageUpload}
                                     accept="image/*"
                                 />

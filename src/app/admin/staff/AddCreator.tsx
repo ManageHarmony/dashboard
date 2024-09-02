@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Container, Form, Button, Card, Image, Spinner, Dropdown } from 'react-bootstrap';
 import { Poppins } from 'next/font/google';
 import { toast, ToastContainer } from 'react-toastify';
@@ -13,6 +13,8 @@ const poppins = Poppins({
 
 const AddCreator = () => {
     const [creatorPicture, setCreatorPicture] = useState<string | File>('');
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
+
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [country, setCountry] = useState('');
@@ -188,6 +190,9 @@ const AddCreator = () => {
                 setAssignedManager('');
                 setLanguages('');
                 setPicturePreview(null);
+                if (fileInputRef.current) {
+                    fileInputRef.current.value = ''; 
+                }
             } else {
                 showToastError("Something went wrong");
             }
@@ -217,6 +222,7 @@ const AddCreator = () => {
                                 <Form.Control
                                     type="file"
                                     name="creatorPicture"
+                                    ref={fileInputRef}                                    
                                     onChange={handleImageUpload}
                                     accept="image/*"
                                 />
