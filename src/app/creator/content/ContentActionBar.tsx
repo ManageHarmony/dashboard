@@ -34,9 +34,11 @@ export default function ContentActionBar() {
                             <button className="text-orange-600 py-2 px-3  rounded flex items-center" style={{ background: "#fff", border: "1px dashed orange", }}>
                                 All Categories <FiBell className="ml-2" />
                             </button>
-                            <button className="text-orange-600 py-2 px-3  rounded flex items-center" style={{ background: "#fff", border: "1px dashed orange" }}>
-                                All Categories <FiBell className="ml-2" />
-                            </button>
+                            <Link className="bar" href="/creator/content/allVideos" style={{ textDecoration: "none" }}>
+                                <button className="text-orange-600 py-2 px-3  rounded flex items-center" style={{ border: "1px dashed orange" }}>
+                                    All YT videos <FiBell className="ml-2" />
+                                </button>
+                            </Link>
                         </div>
                     </div>
                     <div className="flex space-x-3 mt-2">

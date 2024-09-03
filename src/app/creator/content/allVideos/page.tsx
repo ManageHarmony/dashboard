@@ -1,7 +1,7 @@
 'use client'
 
+import VideoCard from '@/app/admin/VideoCard';
 import React, { useState, useEffect, Suspense } from 'react';
-import VideoCard from '../../VideoCard';
 import { Spinner } from 'react-bootstrap';
 
 interface VideoContent {
@@ -21,15 +21,16 @@ const VideoContentList: React.FC = () => {
 
         const fetchVideoContents = async () => {
             try {
-                
+                if (!userId) {
+                    throw new Error('User ID not found.');
+                }
 
-                const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/admin/get/all/content`);
+                const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/user/${userId}/getAllContent`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch video content');
                 }
                 const data = await response.json();
-                console.log("Data",data);
-                setVideoContents(data.allYt || []); 
+                setVideoContents(data.yt_contents || []); 
             } catch (err: any) {
                 setError(err.message);
             } finally {
