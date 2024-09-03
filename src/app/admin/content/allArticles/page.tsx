@@ -12,18 +12,17 @@ const AllArticlePage = () => {
     const [filter, setFilter] = useState('all'); // 'all', 'publish', 'unpublish', 'rejected'
 
     useEffect(() => {
-        const userId = localStorage.getItem("creator id");
-
+       
         const fetchData = async () => {
             try {
-                const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/user/${userId}/getAllContent`, {
+                const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/admin/get/all/content`, {
                     method: 'GET'
                 });
                 const data = await response.json();
                 console.log(data)
-                console.log(data?.article_content)                
-                setArticleData(data?.article_content);
-                setFilteredData(data?.article_content);
+                console.log(data?.allArticle)                
+                setArticleData(data?.allArticle);
+                setFilteredData(data?.allArticle);
                 setLoading(false);
 
             } catch (error) {

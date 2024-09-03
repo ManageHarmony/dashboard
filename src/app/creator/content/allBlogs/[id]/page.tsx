@@ -1,6 +1,9 @@
 'use client';
 import { useParams, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import Dropdown from 'react-bootstrap/Dropdown';
 import Image from 'next/image';
 import { Spinner } from 'react-bootstrap';
 
@@ -9,33 +12,8 @@ const BlogPost = () => {
     const { id } = useParams();
     const [blog, setBlog] = useState<any>(null);
     const [loading, setLoading] = useState(true);
-    const [selectedOption, setSelectedOption] = useState('');
-    console.log(selectedOption);
-    const handleChange = async (event: any) => {
-        const value = event.target.value;
-        setSelectedOption(value);
-        console.log(value);
-
-        const url = `https://harmony-backend-z69j.onrender.com/api/blog/action/${blog?.blog_creatorId}/${id}?action=${encodeURIComponent(value)}`;
-
-        try {
-            const response = await fetch(url, {
-                method: 'PUT', // or 'GET', 'POST', etc., depending on your API's requirement
-
-            });
-
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-
-            const result = await response.json();
-            console.log('Success:', result);
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    };
-
-
+    const router = useRouter();
+   
     useEffect(() => {
         console.log('Router ID:', id);
 
@@ -44,9 +22,8 @@ const BlogPost = () => {
                 try {
                     const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/get/blog/${id}`);
                     const { data } = await response.json();
-                    console.log("data verified--->", data?.verified);
+                    console.log("data", data);
                     setBlog(data);
-                    setSelectedOption(data?.verified || '');
                     setLoading(false);
                 } catch (error) {
                     console.error('Error fetching blog data:', error);
@@ -57,6 +34,25 @@ const BlogPost = () => {
             fetchBlog();
         }
     }, [id]);
+
+    const handleDelete = async (id: string) => {
+        setLoading(true)
+        try {
+            const response = await fetch(``, {
+                method: "DELETE"
+            })
+
+            if (!response.ok) {
+                throw new Error('Failed to delete the blog');
+            } else {
+               router.push("/creator/content/allBlogs") 
+            }
+            setLoading(false)
+        } catch (error) {
+            console.error("Error deleting blog..")
+            setLoading(false)
+        }
+    }
 
     if (loading) {
         return (
@@ -100,19 +96,30 @@ const BlogPost = () => {
                 </p>
             </div>
             <div className="blog-status">
-                <select
-                    id="options"
-                    name="options"
-                    className="status-dropdown"
-                    value={selectedOption}
-                    onChange={handleChange}
-                >
-                    <option value="pending" disabled>{selectedOption ? selectedOption.toUpperCase() : 'PENDING: Set Status'}</option>
-                    <option value="publish">PUBLISH</option>
-                    <option value="unpublish">UNPUBLISH</option>
-                    <option value="rejected">REJECTED</option>
-                    {/* improvement has to be added */}
-                </select>
+            <Dropdown>
+                    <Dropdown.Toggle
+                        as="button"
+                        className="text-orange-600 flex items-center border-1 rounded-2 bg-white px-2 py-1"
+                    >
+                       Action <FontAwesomeIcon icon={faEye} className="w-4 h-4 mx-1" />
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu className="p-0 shadow-lg" style={{ width: 'auto', minWidth: '120px' }}>
+
+                        <Dropdown.Item className="flex items-center text-sm p-2">
+                            <FontAwesomeIcon icon={faEdit} className="mr-2" style={{ color: '#ff6600' }} />
+                            Edit
+
+                        </Dropdown.Item>
+                        <Dropdown.Item
+                            className="flex items-center text-sm p-2"
+                            onClick={() => handleDelete(blog?.id)}
+                        >
+                            <FontAwesomeIcon icon={faTrash} className="mr-2" style={{ color: '#ff6600' }} />
+                            Delete
+                        </Dropdown.Item>
+                    </Dropdown.Menu>
+                </Dropdown>
             </div>
         </div>
     );

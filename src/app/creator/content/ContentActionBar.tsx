@@ -31,9 +31,16 @@ export default function ContentActionBar() {
                     <div style={{ display: "flex", justifyContent: "space-between", }}>
                         <div className="action-bar fs-4 font-semibold mb-2">Action Bar</div>
                         <div style={{ display: "flex", gap: "10px" }}>
-                            <button className="text-orange-600 py-2 px-3  rounded flex items-center" style={{ background: "#fff", border: "1px dashed orange", }}>
-                                All Categories <FiBell className="ml-2" />
-                            </button>
+                            <Link className="bar" href="/creator/content/allBlogs" style={{ textDecoration: "none" }}>
+                                <button className="text-orange-600 py-2 px-3  rounded flex items-center" style={{ background: "#fff", border: "1px dashed orange", }}>
+                                    All Blogs <FiBell className="ml-2" />
+                                </button>
+                            </Link>
+                            <Link className="bar" href="/creator/content/allArticles" style={{ textDecoration: "none" }}>
+                                <button className="text-orange-600 py-2 px-3  rounded flex items-center" style={{ background: "#fff", border: "1px dashed orange", }}>
+                                    All Articles <FiBell className="ml-2" />
+                                </button>
+                            </Link>
                             <Link className="bar" href="/creator/content/allVideos" style={{ textDecoration: "none" }}>
                                 <button className="text-orange-600 py-2 px-3  rounded flex items-center" style={{ border: "1px dashed orange" }}>
                                     All YT videos <FiBell className="ml-2" />
@@ -42,17 +49,17 @@ export default function ContentActionBar() {
                         </div>
                     </div>
                     <div className="flex space-x-3 mt-2">
-                        <button 
-                            className="text-orange-600 py-2 px-3 rounded flex items-center" 
-                            style={{ background: "#fff", border: "1px dashed orange" }} 
+                        <button
+                            className="text-orange-600 py-2 px-3 rounded flex items-center"
+                            style={{ background: "#fff", border: "1px dashed orange" }}
                             onClick={handleCreateYTContentClick}
                         >
                             Create YT Content <FiBell className="ml-2" />
                         </button>
                         <Link href='/creator/content/blog' style={{ textDecoration: "none" }}>
-                            <button 
-                                className="text-orange-600 py-2 px-3 rounded flex items-center" 
-                                style={{ background: "#fff", border: "1px dashed orange" }} 
+                            <button
+                                className="text-orange-600 py-2 px-3 rounded flex items-center"
+                                style={{ background: "#fff", border: "1px dashed orange" }}
                                 onClick={handleClick}
                                 disabled={loading}
                             >
@@ -60,9 +67,9 @@ export default function ContentActionBar() {
                             </button>
                         </Link>
                         <Link href='/creator/content/article' style={{ textDecoration: "none" }}>
-                            <button 
-                                className="text-orange-600 py-2 px-3 rounded flex items-center" 
-                                style={{ background: "#fff", border: "1px dashed orange" }} 
+                            <button
+                                className="text-orange-600 py-2 px-3 rounded flex items-center"
+                                style={{ background: "#fff", border: "1px dashed orange" }}
                                 onClick={handleClick}
                                 disabled={loading}
                             >
@@ -75,52 +82,39 @@ export default function ContentActionBar() {
                 <TopBlogs />
                 <MostCategories />
 
-                {/* <Modal show={showModal} onHide={handleCloseModal}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Create YouTube Content</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <CreateYTContent />
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={handleCloseModal}>
-                            Close
-                        </Button>
-                    </Modal.Footer>
-                </Modal> */}
 
                 <Modal
-               show={showModal} onHide={handleCloseModal}
-                fullscreen={true}
-                style={{
-                    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-                }}
-            >
-                <Modal.Body style={{
-                    backgroundColor: '#daf7fd7e',
-                    position: "relative",
-                    height: "100%",
-                    padding: "40px"
-                }}>
-                    <Button
+                    show={showModal} onHide={handleCloseModal}
+                    fullscreen={true}
+                    style={{
+                        backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                    }}
+                >
+                    <Modal.Body style={{
+                        backgroundColor: '#daf7fd7e',
+                        position: "relative",
+                        height: "100%",
+                        padding: "40px"
+                    }}>
+                        <Button
 
-                        style={{
-                            position: "absolute",
-                            top: "20px",
-                            right: "20px",
-                            backgroundColor: "transparent",
-                            color: "#000000",
-                            border: "none",
-                            fontSize: "1.5rem",
-                            fontWeight: "bold"
-                        }}
-                        onClick={handleCloseModal}
-                    >
-                        &times;
-                    </Button>
-                    <CreateYTContent />
-                </Modal.Body>
-            </Modal>
+                            style={{
+                                position: "absolute",
+                                top: "20px",
+                                right: "20px",
+                                backgroundColor: "transparent",
+                                color: "#000000",
+                                border: "none",
+                                fontSize: "1.5rem",
+                                fontWeight: "bold"
+                            }}
+                            onClick={handleCloseModal}
+                        >
+                            &times;
+                        </Button>
+                        <CreateYTContent />
+                    </Modal.Body>
+                </Modal>
             </div>
         </>
     )

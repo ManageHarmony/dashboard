@@ -1,10 +1,12 @@
 'use client'
 
 import VideoCard from '@/app/admin/VideoCard';
+import Link from 'next/link';
 import React, { useState, useEffect, Suspense } from 'react';
 import { Spinner } from 'react-bootstrap';
 
 interface VideoContent {
+    id: any;
     iframe: string;
     heading: string;
     content: string;
@@ -30,6 +32,7 @@ const VideoContentList: React.FC = () => {
                     throw new Error('Failed to fetch video content');
                 }
                 const data = await response.json();
+                console.log("data", data)
                 setVideoContents(data.yt_contents || []); 
             } catch (err: any) {
                 setError(err.message);
@@ -66,12 +69,14 @@ const VideoContentList: React.FC = () => {
         }}>
             {videoContents.length > 0 ? (
                 videoContents.map((content, index) => (
-                    <VideoCard
+                    <Link href={`/creator/content/allVideos/${content?.id}`} key={index}>
+                      <VideoCard
                         key={index}
                         iframe={content.iframe}
                         heading={content.heading}
                         content={content.content}
                     />
+                    </Link>
                 ))
             ) : (
                 <div>No video content available</div>
