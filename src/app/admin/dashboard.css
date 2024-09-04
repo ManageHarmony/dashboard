@@ -588,12 +588,6 @@ body {
   color: white;
   
 }
-.bar > button:hover {
-  background-color: #FF6600;
-  color: #fff;
-  transition: background-color 0.5s;
-
-}
 
 
 .blogCard {

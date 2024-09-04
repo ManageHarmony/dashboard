@@ -41,7 +41,23 @@ export default function RootLayout({
 
     const generatePageInfo = (pathname: string) => {
         const pathParts = pathname.split('/').filter(Boolean); // Split and filter out empty parts
-        const pageTitle = pathParts[pathParts.length - 1]?.charAt(0).toUpperCase() + pathParts[pathParts.length - 1]?.slice(1);
+       
+        let pageTitle;
+        if (pathname === '/creator/content/newCategory') {
+            pageTitle = 'New Category';
+        } else if (pathname === '/creator/services/new-service') {
+            pageTitle = 'New Service';
+        } else if (pathname === '/creator/services/new-service-category') {
+            pageTitle = 'New Service Category';
+        } else if (pathname === '/creator/content/allBlogs') {
+            pageTitle = 'All Blogs'
+        } else if (pathname === '/creator/content/allVideos') {
+            pageTitle = 'All Videos' 
+        } else if (pathname === '/creator/content/allArticles') {
+            pageTitle = 'All Articles' 
+        } else {
+            pageTitle = pathParts[pathParts.length - 1]?.charAt(0).toUpperCase() + pathParts[pathParts.length - 1]?.slice(1);
+        }
 
         const breadcrumb = pathParts.map((part, index) => {
             const path = '/' + pathParts.slice(0, index + 1).join('/');

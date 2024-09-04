@@ -9,7 +9,7 @@ import { Spinner, Modal, Button } from "react-bootstrap";
 import CreateYTContent from "./YtContent";
 
 export default function ContentActionBar() {
-    const [loading, setLoading] = useState(false);
+    const [loadingButton, setLoadingButton] = useState<string | null>(null);
     const [showModal, setShowModal] = useState(false);
 
     const handleCreateYTContentClick = () => {
@@ -20,68 +20,123 @@ export default function ContentActionBar() {
         setShowModal(false);
     };
 
-    const handleClick = () => {
-        setLoading(true);
+    const handleClick = (buttonType: string) => {
+        setLoadingButton(buttonType);
     };
+
+   
+    const buttonStyle = {
+        background: "#fff",
+        border: "1px dashed orange",
+        color: "#ff5500",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        transition: "background-color 0.3s, color 0.3s, border 0.3s"
+    };
+
+    const buttonHoverStyle = {
+        background: "#ff5500",
+        border: "1px solid #ff5500",
+        color: "white"
+    };
+
+    const getButtonStyle = (isHovered: boolean) => {
+        return isHovered ? { ...buttonStyle, ...buttonHoverStyle } : buttonStyle;
+    };
+
+    const [hoveredButton, setHoveredButton] = useState<string | null>(null);
 
     return (
         <>
             <div style={{ width: "100%" }}>
                 <div style={{ backgroundColor: "#fff", padding: "10px 15px", borderRadius: "10px", marginBottom: "20px" }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", }}>
+                    <div style={{ display: "flex", justifyContent: "space-between" }}>
                         <div className="action-bar fs-4 font-semibold mb-2">Action Bar</div>
                         <div style={{ display: "flex", gap: "10px" }}>
-                            <Link className="bar" href="/creator/content/allBlogs" style={{ textDecoration: "none" }}>
-                                <button className="text-orange-600 py-2 px-3  rounded flex items-center" style={{ background: "#fff", border: "1px dashed orange", }}>
-                                    All Blogs <FiBell className="ml-2" />
-                                </button>
+                            <Link href="/creator/content/allBlogs" style={{ textDecoration: "none" }}>
+                                <Button
+                                    type="submit"
+                                    variant="primary"
+                                    onClick={() => handleClick('allBlogs')}
+                                    onMouseEnter={() => setHoveredButton('allBlogs')}
+                                    onMouseLeave={() => setHoveredButton(null)}
+                                    style={getButtonStyle(hoveredButton === 'allBlogs')}
+                                    disabled={loadingButton === 'allBlogs'}
+                                >
+                                    {loadingButton === 'allBlogs' ? <Spinner animation="border" size="sm" /> : 'All Blogs'} <FiBell className="ml-2" />
+                                </Button>
                             </Link>
-                            <Link className="bar" href="/creator/content/allArticles" style={{ textDecoration: "none" }}>
-                                <button className="text-orange-600 py-2 px-3  rounded flex items-center" style={{ background: "#fff", border: "1px dashed orange", }}>
-                                    All Articles <FiBell className="ml-2" />
-                                </button>
+                            <Link href="/creator/content/allArticles" style={{ textDecoration: "none" }}>
+                                <Button
+                                    type="submit"
+                                    variant="primary"
+                                    onClick={() => handleClick('allArticles')}
+                                    onMouseEnter={() => setHoveredButton('allArticles')}
+                                    onMouseLeave={() => setHoveredButton(null)}
+                                    style={getButtonStyle(hoveredButton === 'allArticles')}
+                                    disabled={loadingButton === 'allArticles'}
+                                >
+                                    {loadingButton === 'allArticles' ? <Spinner animation="border" size="sm" /> : 'All Articles'} <FiBell className="ml-2" />
+                                </Button>
                             </Link>
-                            <Link className="bar" href="/creator/content/allVideos" style={{ textDecoration: "none" }}>
-                                <button className="text-orange-600 py-2 px-3  rounded flex items-center" style={{ border: "1px dashed orange" }}>
-                                    All YT videos <FiBell className="ml-2" />
-                                </button>
+                            <Link href="/creator/content/allVideos" style={{ textDecoration: "none" }}>
+                                <Button
+                                    type="submit"
+                                    variant="primary"
+                                    onClick={() => handleClick('allYtVideos')}
+                                    onMouseEnter={() => setHoveredButton('allYtVideos')}
+                                    onMouseLeave={() => setHoveredButton(null)}
+                                    style={getButtonStyle(hoveredButton === 'allYtVideos')}
+                                    disabled={loadingButton === 'allYtVideos'}
+                                >
+                                    {loadingButton === 'allYtVideos' ? <Spinner animation="border" size="sm" /> : 'All Videos'} <FiBell className="ml-2" />
+                                </Button>
                             </Link>
                         </div>
                     </div>
                     <div className="flex space-x-3 mt-2">
-                        <button
-                            className="text-orange-600 py-2 px-3 rounded flex items-center"
-                            style={{ background: "#fff", border: "1px dashed orange" }}
+                        <Button
+                            type="submit"
+                            variant="primary"
                             onClick={handleCreateYTContentClick}
+                            onMouseEnter={() => setHoveredButton('createYtContent')}
+                            onMouseLeave={() => setHoveredButton(null)}
+                            style={getButtonStyle(hoveredButton === 'createYtContent')}
                         >
-                            Create YT Content <FiBell className="ml-2" />
-                        </button>
+                            Create Yt Content <FiBell className="ml-2" />
+                        </Button>
                         <Link href='/creator/content/blog' style={{ textDecoration: "none" }}>
-                            <button
-                                className="text-orange-600 py-2 px-3 rounded flex items-center"
-                                style={{ background: "#fff", border: "1px dashed orange" }}
-                                onClick={handleClick}
-                                disabled={loading}
+                            <Button
+                                type="submit"
+                                variant="primary"
+                                onClick={() => handleClick('newBlog')}
+                                onMouseEnter={() => setHoveredButton('newBlog')}
+                                onMouseLeave={() => setHoveredButton(null)}
+                                style={getButtonStyle(hoveredButton === 'newBlog')}
+                                disabled={loadingButton === 'newBlog'}
                             >
-                                {loading ? <Spinner animation="border" size="sm" /> : 'Add New Blog'} <FiBell className="ml-2" />
-                            </button>
+                                {loadingButton === 'newBlog' ? <Spinner animation="border" size="sm" /> : 'Add New Blog'} <FiBell className="ml-2" />
+                            </Button>
                         </Link>
                         <Link href='/creator/content/article' style={{ textDecoration: "none" }}>
-                            <button
-                                className="text-orange-600 py-2 px-3 rounded flex items-center"
-                                style={{ background: "#fff", border: "1px dashed orange" }}
-                                onClick={handleClick}
-                                disabled={loading}
+                            <Button
+                                type="submit"
+                                variant="primary"
+                                onClick={() => handleClick('newArticle')}
+                                onMouseEnter={() => setHoveredButton('newArticle')}
+                                onMouseLeave={() => setHoveredButton(null)}
+                                style={getButtonStyle(hoveredButton === 'newArticle')}
+                                disabled={loadingButton === 'newArticle'}
                             >
-                                {loading ? <Spinner animation="border" size="sm" /> : 'Add Article'} <FiBell className="ml-2" />
-                            </button>
+                                {loadingButton === 'newArticle' ? <Spinner animation="border" size="sm" /> : 'Add New Article'} <FiBell className="ml-2" />
+                            </Button>
                         </Link>
                     </div>
                 </div>
 
                 <TopBlogs />
                 <MostCategories />
-
 
                 <Modal
                     show={showModal} onHide={handleCloseModal}
@@ -97,7 +152,6 @@ export default function ContentActionBar() {
                         padding: "40px"
                     }}>
                         <Button
-
                             style={{
                                 position: "absolute",
                                 top: "20px",

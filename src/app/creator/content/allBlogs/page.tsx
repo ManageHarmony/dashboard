@@ -55,7 +55,7 @@ function AllBlogsPage() {
 
             <div className='row' style={{ width: "100%", paddingLeft: '60px' }}>
                 {blogData?.map((data: any, index: number) => (
-                    <Link href={`/creator/content/allblogs/${data?.id}`} key={index} className="col-md-4 mb-4">
+                    <Link href={`/creator/content/allBlogs/${data?.id}`} key={index} className="col-md-4 mb-4">
                         <BlogCard
                             heading={data?.data.headings.h1[0]}
                             para={data?.data.paragraphs[0].length > 0 ? data?.data.paragraphs[0] : data?.data.paragraphs[1]}
