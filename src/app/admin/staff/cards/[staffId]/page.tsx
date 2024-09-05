@@ -108,8 +108,8 @@ const StaffDetail: React.FC = () => {
                         const data = await response.json();
                         console.log("Details: ", data);
                         setStaffData(data?.manager);
-                        setAssignedCreators(data?.assignedCreators);
-                        setAssignedServices(data?.assignedServices)
+                        setAssignedCreators(data?.manager.creators);
+                        setAssignedServices(data?.manager.assignedCategory)
                         if (data?.manager) setStatus(data?.manager.status);
                     } else if (role === 'Doctor') {
                         apiUrl = `https://harmony-backend-z69j.onrender.com/api/get/doctor/profile/${staffId}`;
@@ -332,13 +332,13 @@ const StaffDetail: React.FC = () => {
                                 States:
                             </Typography>
                             <Typography variant="body2" component="p" sx={{ color: '#606060', fontSize: "16px" }}>
-                                {staffData.state}
+                                {staffData.state || staffData.states.join(', ')}
                             </Typography>
                             <Typography variant="body2" component="p" sx={{ color: 'black', fontWeight: 'bold', fontSize: "16px" }}>
                                 Country:
                             </Typography>
                             <Typography variant="body2" component="p" sx={{ color: '#606060', fontSize: "16px" }}>
-                                {staffData.country}
+                                {staffData.country || staffData.countries.join(', ')}
                             </Typography>
                             {/* <Typography variant="body2" component="p" sx={{ color: 'black', fontWeight: 'bold', fontSize: "16px" }}>
                                 Password:
