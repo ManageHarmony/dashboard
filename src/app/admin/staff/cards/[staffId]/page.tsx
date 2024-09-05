@@ -7,23 +7,20 @@ import {
     Typography,
     Grid,
     Button,
-    Menu,
-    MenuItem,
-    ListItemIcon,
-    ListItemText,
 } from '@mui/material';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { styled } from '@mui/material/styles';
 import StaffCard from '../StaffCard';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+
 import EditIcon from '@mui/icons-material/Edit';
-import CircleIcon from '@mui/icons-material/Circle';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { Spinner } from 'react-bootstrap';
 import { DeleteIcon } from 'lucide-react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEdit, faTrash, faPause, faCircle } from "@fortawesome/free-solid-svg-icons";
+import Dropdown from 'react-bootstrap/Dropdown';
+
 
 const StyledCard = styled(Card)(({ theme }) => ({
     borderRadius: '15px',
@@ -50,6 +47,7 @@ const AssignedConsultantsCard = styled(Card)(({ theme }) => ({
 }));
 
 const StaffDetail: React.FC = () => {
+    const [status, setStatus] = useState<'Active' | 'Inactive' | 'Temporary off' | null>(null);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [staffData, setStaffData] = useState<any>(null);
     const [assignedCreators, setAssignedCreators] = useState<any>(null);
@@ -101,6 +99,7 @@ const StaffDetail: React.FC = () => {
                         const data = await response.json();
                         console.log("Details: ", data);
                         setStaffData(data?.creator);
+                        if (data?.creator) setStatus(data?.creator.status);
                     } else if (role === 'Manager') {
                         apiUrl = `https://harmony-backend-z69j.onrender.com/api/get/manager/profile/${staffId}`;
                         console.log("API URL: ", apiUrl);
@@ -111,6 +110,7 @@ const StaffDetail: React.FC = () => {
                         setStaffData(data?.manager);
                         setAssignedCreators(data?.assignedCreators);
                         setAssignedServices(data?.assignedServices)
+                        if (data?.manager) setStatus(data?.manager.status);
                     } else if (role === 'Doctor') {
                         apiUrl = `https://harmony-backend-z69j.onrender.com/api/get/doctor/profile/${staffId}`;
                         console.log("API URL: ", apiUrl);
@@ -119,6 +119,7 @@ const StaffDetail: React.FC = () => {
                         const data = await response.json();
                         console.log("Details: ", data);
                         setStaffData(data?.doctor);
+                        if (data?.doctor) setStatus(data?.doctor.status);
                     }
 
 
@@ -169,6 +170,24 @@ const StaffDetail: React.FC = () => {
         }
     };
 
+    const handleStatusChange = async (newStatus: 'Active' | 'Inactive' | 'Temporary off') => {
+        try {
+            let endpoint = '';
+            if (role === 'Manager') {
+                endpoint = `https://harmony-backend-z69j.onrender.com/api/admin/manager/status/${newStatus.toLowerCase()}/${staffId}`;
+            } else if (role === 'Creator') {
+                endpoint = `https://harmony-backend-z69j.onrender.com/api/admin/creator/starus/${newStatus.toLowerCase()}/${staffId}`;
+            } 
+            const response = await fetch(endpoint, { method: "PUT" });
+
+            if (!response.ok) throw new Error(`Failed Updating ${newStatus}`);
+            setStatus(newStatus);
+            showToastSuccess(`Manager is set as ${newStatus}`);
+        } catch (error) {
+            console.error(`Failed to set as ${newStatus}: `, error);
+            showToastError(`Failed to set as ${newStatus}`);
+        }
+    };
 
     if (loading) {
         return (
@@ -184,51 +203,80 @@ const StaffDetail: React.FC = () => {
     if (!staffData) {
         return <div className='d-flex justify-content-center items-center vh-100'>No data found</div>;
     }
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
 
-    const handleClose = () => {
-        setAnchorEl(null);
+    const getStatusTextAndIcon = () => {
+        switch (status) {
+            case 'Active':
+                return { 
+                    icon: faCircle, 
+                    iconColor: 'green' 
+                };
+            case 'Inactive':
+                return { 
+                    icon: faCircle, 
+                    iconColor: 'red' 
+                };
+            case 'Temporary off':
+                return { 
+                    icon: faCircle, 
+                    iconColor: 'orange' 
+                };
+            default:
+                return {  
+                    icon: faCircle,
+                };
+        }
     };
+    
+    const { icon, iconColor } = getStatusTextAndIcon();
+
 
 
     return (
         <div style={{ padding: '10px 20px', width: "100%" }}>
             <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: '15px' }}>
                 <Button
-                    sx={{ color: '#d32f2f', borderColor: '#d32f2f', marginRight: '10px' }}
+                    sx={{ color: '#d32f2f', borderColor: '#d32f2f' }}
                     onClick={handleDelete}
                 >
                     <FontAwesomeIcon icon={faTrash} className="" style={{ color: '#2C297D', fontSize: "2rem" }} />
                 </Button>
-                <Button
-                    variant="contained"
-                    startIcon={<CircleIcon fontSize="small" sx={{ color: 'green' }} />}
-                    endIcon={<ArrowDropDownIcon />}
-                    sx={{ color: '#2C297D', backgroundColor: "#fff", marginRight: '10px' }}
-                    onClick={handleClick}
-                >
-                    Active
-                </Button>
-                <Menu
-                    anchorEl={anchorEl}
-                    open={Boolean(anchorEl)}
-                    onClose={handleClose}
-                >
-                    <MenuItem onClick={handleClose}>
-                        <ListItemIcon>
-                            <CircleIcon fontSize="small" sx={{ color: 'red' }} />
-                        </ListItemIcon>
-                        <ListItemText primary="Inactive" />
-                    </MenuItem>
-                    {/* <MenuItem onClick={handleClose}>
-                        <ListItemIcon>
-                            <CircleIcon fontSize="small" sx={{ color: 'red' }} />
-                        </ListItemIcon>
-                        <ListItemText primary="yyy" />
-                    </MenuItem> */}
-                </Menu>
+                <Dropdown>
+                    <Dropdown.Toggle
+                        as="button"
+                        className="flex items-center border-1 rounded-2 bg-white px-2 py-1"
+                        style={{ color: "#2C297E", fontSize: "1.2rem" }}
+                    >
+                        {status} <FontAwesomeIcon icon={icon} className="w-4 h-4 mx-1" style={{ color: iconColor }} />
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu className="p-0 shadow-lg" style={{ width: 'auto', minWidth: '120px' }}>
+                        <Dropdown.Item
+                            className={`flex items-center p-2 ${status === 'Active' ? 'bg-gray-200' : ''}`}
+                            onClick={() => handleStatusChange('Active')}
+                            style={{ color: "#2C297E", fontSize: "1rem" }}
+                        >
+                            <FontAwesomeIcon icon={faEdit} className="mr-2" style={{ color: '#2C297E' }} />
+                            Active
+                        </Dropdown.Item>
+                        <Dropdown.Item
+                            className={`flex items-center p-2 ${status === 'Inactive' ? 'bg-gray-200' : ''}`}
+                            onClick={() => handleStatusChange('Inactive')}
+                            style={{ color: "#2C297E", fontSize: "1rem" }}
+                        >
+                            <FontAwesomeIcon icon={faTrash} className="mr-2" style={{ color: '#2C297E' }} />
+                            Inactive
+                        </Dropdown.Item>
+                        <Dropdown.Item
+                            className={`flex items-center p-2 ${status === 'Temporary off' ? 'bg-gray-200' : ''}`}
+                            onClick={() => handleStatusChange('Temporary off')}
+                            style={{ color: "#2C297E", fontSize: "1rem" }}
+                        >
+                            <FontAwesomeIcon icon={faPause} className="mr-2" style={{ color: '#2C297E' }} />
+                            Temporarily off
+                        </Dropdown.Item>
+                    </Dropdown.Menu>
+                </Dropdown>
                 <Button
                     variant="contained"
                     startIcon={<EditIcon />}
