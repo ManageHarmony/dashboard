@@ -159,7 +159,7 @@ const StaffCardView: React.FC = () => {
         if (!response.ok) throw new Error(`Failed Updating ${option} Creator`);
         const data = await response.json();
         console.log("status data", data)
-        setStaffData(data?.data?.activeCreators || data?.data?.inactiveCreators)
+        setStaffData(data?.data?.activeCreators || data?.data?.inactiveCreators || data?.data?.offCreators)
       }
 
     } catch (error) {
@@ -257,7 +257,7 @@ const StaffCardView: React.FC = () => {
           >
             <MenuItem onClick={() => handleMenuOptionClick('active', menuRole)}>Active</MenuItem>
             <MenuItem onClick={() => handleMenuOptionClick('inactive', menuRole)}>Inactive</MenuItem>
-            <MenuItem onClick={() => handleMenuOptionClick('temporaryoff', menuRole)}>Temporary Off</MenuItem>
+            <MenuItem onClick={() => handleMenuOptionClick('off', menuRole)}>Temporary Off</MenuItem>
           </Menu>
           <div>
             <Button
