@@ -60,6 +60,20 @@ interface StaffData {
     id: number;
 }
 
+const buttonStyle = {
+    background: "#fff",
+    color: "#2C297E",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    transition: "background-color 0.3s, color 0.3s, border 0.3s"
+};
+
+const buttonHoverStyle = {
+    background: "#2C297E",
+    color: "white"
+};
+
 const columns: ColumnDef<StaffData>[] = [
     {
         accessorKey: 'srNo',
@@ -106,6 +120,7 @@ const columns: ColumnDef<StaffData>[] = [
 ];
 
 const StaffTable: React.FC = () => {
+    const [hoveredButton, setHoveredButton] = useState<string | null>(null);
     const [staffData, setStaffData] = useState<StaffData[]>([]);
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
     const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -206,6 +221,18 @@ const StaffTable: React.FC = () => {
         setIsDropdownOpen(!isDropdownOpen);
     };
 
+    const handleMouseEnter = (buttonType: string) => {
+        setHoveredButton(buttonType);
+    };
+
+    const handleMouseLeave = () => {
+        setHoveredButton(null);
+    };
+
+    const getButtonStyle = (buttonType: string) => {
+        return hoveredButton === buttonType ? { ...buttonStyle, ...buttonHoverStyle } : buttonStyle;
+    };
+
     console.log("rendered");
     useEffect(() => {
         fetchData();
@@ -251,14 +278,11 @@ const StaffTable: React.FC = () => {
                     <Button
                         variant="ghost"
                         onClick={handleDropdownToggle}
-                        style={{
-                            color: '#2C297D',
-                            borderColor: '#2C297D',
-                            marginRight: '10px',
-                            backgroundColor: "#fff",
-                        }}
+                        style={getButtonStyle("addNew")}
+                        onMouseEnter={() => handleMouseEnter("addNew")}
+                        onMouseLeave={handleMouseLeave}
                     >
-                        <FaPlus style={{ marginRight: "8px", color: '#2C297D' }} />
+                        <FaPlus style={{ marginRight: "8px" }} />
                         Add New
                     </Button>
 
@@ -274,12 +298,16 @@ const StaffTable: React.FC = () => {
                                 boxShadow: "0px 0px 15px rgba(228, 225, 225, 0.5)",
                             }}
                         >
-                            <Button className="hover-effect" style={{ width: "100%", textDecoration: "none" }} onClick={handleOpenAddCreatorModal}>
+                            <Button className="w-full" style={getButtonStyle("addNewCreator")}
+                                onMouseEnter={() => handleMouseEnter("addNewCreator")}
+                                onMouseLeave={handleMouseLeave} onClick={handleOpenAddCreatorModal}>
                                 <FaPlus style={{ marginRight: "8px" }} />
                                 Add Creator
                             </Button>
 
-                            <Button className="hover-effect" style={{ width: "100%", textDecoration: "none" }} onClick={handleAddManagerClick}>
+                            <Button className="w-full" style={getButtonStyle("addNewManager")}
+                                onMouseEnter={() => handleMouseEnter("addNewManager")}
+                                onMouseLeave={handleMouseLeave} onClick={handleAddManagerClick}>
                                 <FaPlus style={{ marginRight: "8px" }} />
                                 Add Manager
                             </Button>
@@ -293,64 +321,66 @@ const StaffTable: React.FC = () => {
                         placeholder="Search staff..."
                         onChange={(e: { target: { value: string; }; }) => setColumnFilters([{ id: 'name', value: e.target.value }])}
                     />
-                    <Button
-                        variant="ghost"
+                    <div
                         onClick={handleClick}
-                        style={{ marginLeft: "10px", color: '#2C297D', borderColor: '#2C297D', backgroundColor: "#fff" }}
+                        className='ml-3'
+                        style={getButtonStyle("view")}
+                        onMouseEnter={() => handleMouseEnter("view")}
+                        onMouseLeave={handleMouseLeave}
                     >
-                        <FaTable style={{ marginRight: "8px", color: '#2C297D' }} />
+                        <FaTable
+                            className='mx-2'
+                            style={getButtonStyle("tableIcon")}
+                            onMouseEnter={() => handleMouseEnter("tableIcon")}
+                            onMouseLeave={handleMouseLeave} />
                         View
-                    </Button>
-                    <div className="dropdown">
-                        <button
-                            className="dropdown-trigger"
-                            style={{ border: "none", background: "none" }}
-                            onClick={() => setIsOpen(!isOpen)}
-                        >
-                            <DotsHorizontalIcon />
-                        </button>
-                        {isOpen && (
-                            <div
-                                className="dropdown-content"
-                                style={{
-                                    position: "absolute",
-                                    backgroundColor: "#fff",
-                                    boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
-                                    borderRadius: "4px",
-                                    padding: "8px",
-                                    marginTop: "4px",
-                                }}
+                        <div className="dropdown">
+                            <button
+                                className="dropdown-trigger"
+                                style={{ border: "none", background: "none" }}
+                                onClick={() => setIsOpen(!isOpen)}
                             >
+                                <DotsHorizontalIcon />
+                            </button>
+                            {isOpen && (
                                 <div
-                                    className="table-dropdown-item"
+                                    className="dropdown-content"
                                     style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        padding: "8px 12px",
-                                        cursor: "pointer",
+                                        position: "absolute",
+                                        backgroundColor: "#fff",
+                                        boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
+                                        borderRadius: "4px",
+                                        padding: "8px",
+                                        marginTop: "4px",
+                                         width: "7rem",
                                     }}
-                                    onClick={() => setIsOpen(false)}
                                 >
-                                    <FaListUl className='table-dropdown-item' style={{ marginRight: "8px" }} />
-                                    View
-                                </div>
-                                <Link href='/admin/staff/cards'>
                                     <div
-                                        className="table-dropdown-item"
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            padding: "8px 12px",
-                                            cursor: "pointer",
-                                        }}
+                                        className="d-flex justify-content-evenly fs-6 py-1 items-center"
+                                        style={getButtonStyle("viewIcon")}
+                                        onMouseEnter={() => handleMouseEnter("viewIcon")}
+                                        onMouseLeave={handleMouseLeave}
+                                        onClick={() => setIsOpen(false)}
                                     >
-                                        <FaIdCard className='table-dropdown-item' style={{ marginRight: "8px" }} />
-                                        Cards
+                                        <FaListUl className='' style={{ marginRight: "px" }} />
+                                        View
                                     </div>
-                                </Link>
-                            </div>
-                        )}
+                                    <Link href='/admin/staff/cards'>
+                                        <div
+                                            className="d-flex justify-content-evenly fs-6 py-1 items-center"
+                                            style={getButtonStyle("cardIcon")}
+                                            onMouseEnter={() => handleMouseEnter("cardIcon")}
+                                            onMouseLeave={handleMouseLeave}
+                                        >
+                                            <FaIdCard className='' style={{ marginRight: "px" }} />
+                                            Cards
+                                        </div>
+                                    </Link>
+                                </div>
+                            )}
+                        </div>
                     </div>
+
                 </div>
             </div>
 
@@ -375,13 +405,13 @@ const StaffTable: React.FC = () => {
                         const detailPath = `/admin/staff/cards/${id}?role=${encodeURIComponent(role)}`;
 
                         return (
-                            <TableRow  onClick={() => router.push(detailPath)} key={row.id} style={{ height: "20px" }}>
+                            <TableRow onClick={() => router.push(detailPath)} key={row.id} style={{ height: "20px" }}>
                                 {row.getVisibleCells().map((cell) => {
                                     return (
                                         <TableCell key={cell.id} style={{ padding: "8px" }}>
-                                                <div style={{ textDecoration: 'none', color: 'inherit' }}>
-                                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                                </div>
+                                            <div style={{ textDecoration: 'none', color: 'inherit' }}>
+                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                            </div>
                                         </TableCell>
                                     );
                                 })}

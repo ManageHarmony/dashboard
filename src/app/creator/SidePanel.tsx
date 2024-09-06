@@ -32,7 +32,6 @@ const SidePanel: React.FC<SidePanelProps> = ({ onPanelHover, isPanelHovered }) =
 
   const menuItems = [
     { text: 'Dashboard', icon: <DashboardIcon hovered={hoveredItem === '/creator'} selected={pathname === '/creator'} />, href: '/creator' },
-    { text: 'Staff', icon: <StaffIcon hovered={hoveredItem === '/creator/staff'} selected={pathname === '/creator/staff'} />, href: '/creator/staff' },
     { text: 'Doctors', icon: <DoctorsIcon hovered={hoveredItem === '/creator/doctors'} selected={pathname === '/creator/doctors'} />, href: '/creator/doctors' },
     { text: 'Services', icon: <ServicesIcon hovered={hoveredItem === '/creator/services'} selected={pathname === '/creator/services'} />, href: '/creator/services' },
     { text: 'Appointments', icon: <AppointmentsIcon hovered={hoveredItem === '/creator/appointments'} selected={pathname === '/creator/appointments'} />, href: '/creator/appointments' },

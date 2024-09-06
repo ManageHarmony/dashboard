@@ -47,7 +47,7 @@ const AssignedConsultantsCard = styled(Card)(({ theme }) => ({
 }));
 
 const StaffDetail: React.FC = () => {
-    const [status, setStatus] = useState<'Active' | 'Inactive' | 'Temporary off' | null>(null);
+    const [status, setStatus] = useState<'active' | 'inactive' | 'temporaryoff' | null>(null);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [staffData, setStaffData] = useState<any>(null);
     const [assignedCreators, setAssignedCreators] = useState<any>(null);
@@ -170,13 +170,13 @@ const StaffDetail: React.FC = () => {
         }
     };
 
-    const handleStatusChange = async (newStatus: 'Active' | 'Inactive' | 'Temporary off') => {
+    const handleStatusChange = async (newStatus: 'active' | 'inactive' | 'temporaryoff') => {
         try {
             let endpoint = '';
             if (role === 'Manager') {
-                endpoint = `https://harmony-backend-z69j.onrender.com/api/admin/manager/status/${newStatus.toLowerCase()}/${staffId}`;
+                endpoint = `https://harmony-backend-z69j.onrender.com/api/admin/manager/status/${newStatus}/${staffId}`;
             } else if (role === 'Creator') {
-                endpoint = `https://harmony-backend-z69j.onrender.com/api/admin/creator/starus/${newStatus.toLowerCase()}/${staffId}`;
+                endpoint = `https://harmony-backend-z69j.onrender.com/api/admin/creator/status/${newStatus}/${staffId}`;
             } 
             const response = await fetch(endpoint, { method: "PUT" });
 
@@ -206,20 +206,20 @@ const StaffDetail: React.FC = () => {
 
     const getStatusTextAndIcon = () => {
         switch (status) {
-            case 'Active':
+            case 'active':
                 return { 
                     icon: faCircle, 
-                    iconColor: 'green' 
+                    iconColor: '#4AF120' 
                 };
-            case 'Inactive':
+            case 'inactive':
                 return { 
                     icon: faCircle, 
-                    iconColor: 'red' 
+                    iconColor: '#EC1114' 
                 };
-            case 'Temporary off':
+            case 'temporaryoff':
                 return { 
                     icon: faCircle, 
-                    iconColor: 'orange' 
+                    iconColor: '#908787' 
                 };
             default:
                 return {  
@@ -247,29 +247,29 @@ const StaffDetail: React.FC = () => {
                         className="flex items-center border-1 rounded-2 bg-white px-2 py-1"
                         style={{ color: "#2C297E", fontSize: "1.2rem" }}
                     >
-                        {status} <FontAwesomeIcon icon={icon} className="w-4 h-4 mx-1" style={{ color: iconColor }} />
+                        {status} <FontAwesomeIcon icon={icon} className="w-4 h-4 mx-2" style={{ color: iconColor }} />
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu className="p-0 shadow-lg" style={{ width: 'auto', minWidth: '120px' }}>
                         <Dropdown.Item
-                            className={`flex items-center p-2 ${status === 'Active' ? 'bg-gray-200' : ''}`}
-                            onClick={() => handleStatusChange('Active')}
+                            className={`flex items-center p-2 ${status === 'active' ? 'bg-gray-200' : ''}`}
+                            onClick={() => handleStatusChange('active')}
                             style={{ color: "#2C297E", fontSize: "1rem" }}
                         >
                             <FontAwesomeIcon icon={faEdit} className="mr-2" style={{ color: '#2C297E' }} />
-                            Active
+                            active
                         </Dropdown.Item>
                         <Dropdown.Item
-                            className={`flex items-center p-2 ${status === 'Inactive' ? 'bg-gray-200' : ''}`}
-                            onClick={() => handleStatusChange('Inactive')}
+                            className={`flex items-center p-2 ${status === 'inactive' ? 'bg-gray-200' : ''}`}
+                            onClick={() => handleStatusChange('inactive')}
                             style={{ color: "#2C297E", fontSize: "1rem" }}
                         >
                             <FontAwesomeIcon icon={faTrash} className="mr-2" style={{ color: '#2C297E' }} />
-                            Inactive
+                            inactive
                         </Dropdown.Item>
                         <Dropdown.Item
-                            className={`flex items-center p-2 ${status === 'Temporary off' ? 'bg-gray-200' : ''}`}
-                            onClick={() => handleStatusChange('Temporary off')}
+                            className={`flex items-center p-2 ${status === 'temporaryoff' ? 'bg-gray-200' : ''}`}
+                            onClick={() => handleStatusChange('temporaryoff')}
                             style={{ color: "#2C297E", fontSize: "1rem" }}
                         >
                             <FontAwesomeIcon icon={faPause} className="mr-2" style={{ color: '#2C297E' }} />

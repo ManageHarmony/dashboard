@@ -581,12 +581,14 @@ body {
   top: 40px;
   right: 12px;
   z-index: 99;
-  
+ 
+}
+.table-dropdown-item {
+ display: "flex";
+ justify-content: flex-start;
 }
 .table-dropdown-item:hover{
-  background-color: #2C297E;
-  color: white;
-  
+  width: "100%";
 }
 
 
