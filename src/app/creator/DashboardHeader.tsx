@@ -1,13 +1,14 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Navbar, Form, FormControl } from 'react-bootstrap';
+import { Navbar, Form, FormControl, Button } from 'react-bootstrap';
 import { FaBell, FaSearch, FaUser, FaCog, FaSignOutAlt } from 'react-icons/fa';
 import Image from 'next/image';
 import profilePic from "../../../public/assets/avatar.jpg";
 import HeaderNotificationCard from './HeaderNotification';
 import { ChevronDownIcon } from '@radix-ui/react-icons';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 const DashboardHeader = ({ isPanelHovered, onShowNotifications, showNotifications, onShowDropdown, showDropdown }: any) => {
   const router = useRouter();
@@ -109,23 +110,21 @@ const DashboardHeader = ({ isPanelHovered, onShowNotifications, showNotification
             {/* Dropdown Card */}
             {showCard && (
               <div className="custom-dropdown dropdown-card absolute top-8 right-5 mt-2 w-48 bg-white shadow-lg rounded-lg p-4 z-10">
-                <a href="#profile" className="dropdown-item flex items-center py-2 px-3">
+                <Link href="/profile" className="dropdown-item flex items-center py-2 px-3">
                   <FaUser className="me-2" /> My Profile
-                </a>
-                <a href="#settings" className="dropdown-item flex items-center py-2 px-3">
+                </Link>
+                <Link href="/settings" className="dropdown-item flex items-center py-2 px-3">
                   <FaCog className="me-2" /> Settings
-                </a>
+                </Link>
                 <hr className="my-2" />
-                <a href="#logout" onClick={() => {
+                <Button onClick={() => {
                   // Clear the localStorage to log the user out
-                  localStorage.removeItem('token');
-                  localStorage.removeItem('isAuthenticated');
-
-                  // Optionally, you can redirect the user to the login page or home page after logout
-                  router.push('/login'); // or '/' for home page
+                  localStorage.removeItem('creator_token');
+                  localStorage.removeItem('creator_isAuthenticated');       
+                  router.push('/creatorLogin');
                 }} className="dropdown-item flex items-center py-2 px-3">
                   <FaSignOutAlt className="me-2" /> Logout
-                </a>
+                </Button>
               </div>
             )}
           </div>

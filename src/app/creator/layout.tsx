@@ -28,10 +28,10 @@ export default function RootLayout({
     const router = useRouter();
     const pathname = usePathname();
     useEffect(() => {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('creator_token');
         
         if (!token) {
-            router.push('/login');
+            router.push('/creatorLogin');
         } else {
             setIsAuthenticated(true);
 
