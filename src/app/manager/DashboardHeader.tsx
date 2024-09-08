@@ -123,7 +123,7 @@ const DashboardHeader = ({ isPanelHovered, onShowNotifications, showNotification
                   localStorage.removeItem('manager_isAuthenticated');
 
                   // Optionally, you can redirect the user to the login page or home page after logout
-                  router.push('/ManagerLogin'); // or '/' for home page
+                  router.push('/managerLogin'); // or '/' for home page
                 }} className="dropdown-item flex items-center py-2 px-3">
                   <FaSignOutAlt className="me-2" /> Logout
                 </Button>

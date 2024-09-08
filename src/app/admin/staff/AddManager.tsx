@@ -5,6 +5,8 @@ import { Container, Form, Button, Card, Image, Spinner } from 'react-bootstrap';
 import { Poppins } from 'next/font/google';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FiFilePlus, FiUser } from 'react-icons/fi';
+import { AiOutlineUserAdd } from 'react-icons/ai';
 
 const poppins = Poppins({
     weight: '400',
@@ -153,20 +155,25 @@ const AddManager = () => {
                 className="d-flex justify-content-center align-items-center"
                 style={{ width: '100%', minHeight: '60vh', backgroundColor: 'transparent' }}
             >
-                <div style={{ maxWidth: '800px', width: '100%', borderRadius: '10px', backgroundColor: "rgba(0,0,0,0.4)" }}>
+                <div style={{ maxWidth: '800px', width: '100%', borderRadius: '10px', backgroundColor: "#fff" }}>
                     <Card className="p-4 shadow-sm" style={{ borderRadius: '10px', fontFamily: poppins.style.fontFamily, backgroundColor: 'transparent' }}>
-                        <h1 className="text-center mb-4">Add Manager</h1>
+                        <h1 className="text-center fs-2 mb-4" style={{color: "#ff6600"}}>Add Manager</h1>
                         <Form onSubmit={handleSubmit}>
                             <Form.Group controlId="formProfileImage" className="mb-3">
                                 <Form.Label>Manager Profile</Form.Label>
-                                <Form.Control
-                                    type="file"
-                                    name="managerProfile"
-                                    ref={fileInputRef}                                    
-
-                                    onChange={handleImageUpload}
-                                    accept="image/*"
-                                />
+                                <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+                                    <Form.Control
+                                       type="file"
+                                       name="managerProfile"
+                                       ref={fileInputRef}                                      
+                                       onChange={handleImageUpload}
+                                       accept="image/*"
+                                        style={{ paddingRight: "40px" }}
+                                    />
+                                    <div style={{ position: "absolute", right: "10px" }}>
+                                        <FiFilePlus style={{ fontSize: "30px", color: "#ff6600" }} />
+                                    </div>
+                                </div>
                                 {profilePreview && (
                                     <div className="text-center mt-3">
                                         <Image
@@ -181,34 +188,52 @@ const AddManager = () => {
                             <div style={{ display: "flex", justifyContent: "space-between", gap: "20px" }}>
                                 <Form.Group controlId="formName" className="mb-3" style={{ width: "100%" }}>
                                     <Form.Label>Name</Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        placeholder="Enter name"
-                                        name="name"
-                                        value={name}
-                                        onChange={handleChange}
-                                    />
+                                    <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+                                        <Form.Control
+                                            type="text"
+                                            placeholder="Enter name"
+                                            name="name"
+                                            value={name}
+                                            onChange={handleChange}
+                                            style={{ paddingRight: "40px" }}
+                                        />
+                                        <div style={{ position: "absolute", right: "10px" }}>
+                                            <FiUser style={{ fontSize: "30px", color: "#ff6600"}} />
+                                        </div>
+                                    </div>
                                 </Form.Group>
                                 <Form.Group controlId="formUsername" className="mb-3" style={{ width: "100%" }}>
                                     <Form.Label>Username</Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        placeholder="Enter username"
-                                        name="username"
-                                        value={username}
-                                        onChange={handleChange}
-                                    />
+                                    <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+                                        <Form.Control
+                                           type="text"
+                                           placeholder="Enter username"
+                                           name="username"
+                                           value={username}
+                                           onChange={handleChange}
+                                            style={{ paddingRight: "40px" }}
+                                        />
+                                        <div style={{ position: "absolute", right: "10px" }}>
+                                            <FiUser style={{ fontSize: "30px", color: "#ff6600"}} />
+                                        </div>
+                                    </div>
                                 </Form.Group>
                             </div>
                             <Form.Group controlId="formEmail" className="mb-3">
                                 <Form.Label>Email</Form.Label>
-                                <Form.Control
-                                    type="email"
-                                    placeholder="Enter email"
-                                    name="email"
-                                    value={email}
-                                    onChange={handleChange}
-                                />
+                                <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+                                        <Form.Control
+                                           type="email"
+                                           placeholder="Enter email"
+                                           name="email"
+                                           value={email}
+                                           onChange={handleChange}
+                                            style={{ paddingRight: "40px" }}
+                                        />
+                                        <div style={{ position: "absolute", right: "10px" }}>
+                                            <FiUser style={{ fontSize: "30px", color: "#ff6600"}} />
+                                        </div>
+                                    </div>
                             </Form.Group>
                             <Form.Group controlId="formStates" className="mb-3">
                                 <Form.Label>States</Form.Label>
@@ -252,14 +277,15 @@ const AddManager = () => {
                                     />
                                 </Form.Group>
                             </div>
-                            <div className="text-center">
+                            <div className="d-flex justify-content-center text-center mt-3">
                                 <Button
                                     type="submit"
                                     variant="primary"
-                                    style={{ backgroundColor: '#ff6600', borderColor: '#ff6600' }}
+                                    style={{ backgroundColor: '#ff6600', borderColor: '#ff6600', display: "flex", }}
                                     disabled={loading}
                                 >
                                     {loading ? <Spinner animation="border" size="sm" /> : 'Add Manager'}
+                                    <AiOutlineUserAdd style={{ fontSize: '1.5rem', marginLeft: "5px" }} />
                                 </Button>
                             </div>
                         </Form>

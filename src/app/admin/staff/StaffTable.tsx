@@ -405,7 +405,7 @@ const StaffTable: React.FC = () => {
                         const detailPath = `/admin/staff/cards/${id}?role=${encodeURIComponent(role)}`;
 
                         return (
-                            <TableRow onClick={() => router.push(detailPath)} key={row.id} style={{ height: "20px" }}>
+                            <TableRow onClick={() => router.push(detailPath)} key={row.id}>
                                 {row.getVisibleCells().map((cell) => {
                                     return (
                                         <TableCell key={cell.id} style={{ padding: "8px" }}>

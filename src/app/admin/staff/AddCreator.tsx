@@ -5,6 +5,8 @@ import { Container, Form, Button, Card, Image, Spinner, Dropdown } from 'react-b
 import { Poppins } from 'next/font/google';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FiFilePlus, FiUser } from 'react-icons/fi';
+import { AiOutlineUserAdd } from 'react-icons/ai';
 
 const poppins = Poppins({
     weight: '400',
@@ -22,7 +24,7 @@ const AddCreator = () => {
     const [state, setState] = useState('');
     const [languages, setLanguages] = useState<string>();
     const [password, setPassword] = useState('');
-    console.log("PASSWORD",password)
+    console.log("PASSWORD", password)
 
     const [assignedManager, setAssignedManager] = useState('');
     const [loading, setLoading] = useState(false);
@@ -42,7 +44,7 @@ const AddCreator = () => {
 
                 const data = await response.json();
                 console.log("data", data?.staff?.managers);
-    
+
                 const managers = data?.staff?.managers || [];
                 const managerNames = managers.map((manager: { username: any; name: any; }) => manager.username || manager.name);
                 setFetchedManagers(managerNames);
@@ -86,7 +88,7 @@ const AddCreator = () => {
             setPicturePreview(URL.createObjectURL(e.target.files[0]));
         }
     };
-    const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         if (name === 'u') setUsername(value);
         if (name === 'email') setEmail(value);
@@ -95,7 +97,7 @@ const AddCreator = () => {
         if (name === 'state') setState(value);
         if (name === 'p') setPassword(value);
         if (name === 'assignedManager') setAssignedManager(value);
-        if (name === 'languages')  setLanguages(value);
+        if (name === 'languages') setLanguages(value);
     };
 
 
@@ -191,7 +193,7 @@ const AddCreator = () => {
                 setLanguages('');
                 setPicturePreview(null);
                 if (fileInputRef.current) {
-                    fileInputRef.current.value = ''; 
+                    fileInputRef.current.value = '';
                 }
             } else {
                 showToastError("Something went wrong");
@@ -213,19 +215,27 @@ const AddCreator = () => {
                 className="d-flex justify-content-center align-items-center"
                 style={{ width: '100%', minHeight: '60vh', backgroundColor: 'transparent' }}
             >
-                <div style={{ maxWidth: '800px', width: '100%', backgroundColor: "rgba(0,0,0,0.4)" }}>
-                    <Card className="p-4 shadow-sm" style={{ borderRadius: '10px', fontFamily: poppins.style.fontFamily, backgroundColor: "transparent", color: "#fff" }}>
-                        <h1 className="text-center mb-4">Add Creator</h1>
+                <div style={{ maxWidth: '800px', width: '100%', backgroundColor: "#fff", borderRadius: '10px' }}>
+                    <Card className="p-4 shadow-sm" style={{ borderRadius: '10px', fontFamily: poppins.style.fontFamily, backgroundColor: "transparent" }}>
+                        <h1 className="text-center fs-2 mb-4" style={{color: "#ff6600"}}>Add Creator</h1>
                         <Form onSubmit={handleSubmit}>
                             <Form.Group controlId="formCreatorPicture" className="mb-3">
                                 <Form.Label>Creator Picture</Form.Label>
-                                <Form.Control
-                                    type="file"
-                                    name="creatorPicture"
-                                    ref={fileInputRef}                                    
-                                    onChange={handleImageUpload}
-                                    accept="image/*"
-                                />
+                                <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+                                    <Form.Control
+                                        type="file"
+                                        name="creatorPicture"
+                                        ref={fileInputRef}
+                                        onChange={handleImageUpload}
+                                        accept="image/*"
+                                        style={{ paddingRight: "40px" }}
+                                    />
+                                    <div style={{ position: "absolute", right: "10px" }}>
+                                        <FiFilePlus style={{ fontSize: "30px", color: "#ff6600" }} />
+                                    </div>
+                                </div>
+
+
                                 {picturePreview && (
                                     <div className="text-center mt-3">
                                         <Image
@@ -240,23 +250,35 @@ const AddCreator = () => {
                             <div style={{ display: "flex", justifyContent: "space-between", gap: "20px" }}>
                                 <Form.Group controlId="formUsername" className="mb-3" style={{ width: "100%" }}>
                                     <Form.Label>Username</Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        placeholder="Enter username"
-                                        name="u"
-                                        value={username}
-                                        onChange={handleChange}
-                                    />
+                                    <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+                                        <Form.Control
+                                            type="text"
+                                            placeholder="Enter username"
+                                            name="u"
+                                            value={username}
+                                            onChange={handleChange}
+                                            style={{ paddingRight: "40px" }}
+                                        />
+                                        <div style={{ position: "absolute", right: "10px" }}>
+                                            <FiUser style={{ fontSize: "30px", color: "#ff6600"}} />
+                                        </div>
+                                    </div>
                                 </Form.Group>
                                 <Form.Group controlId="formEmail" className="mb-3" style={{ width: "100%" }}>
                                     <Form.Label>Email</Form.Label>
-                                    <Form.Control
-                                        type="email"
-                                        placeholder="Enter email"
-                                        name="email"
-                                        value={email}
-                                        onChange={handleChange}
-                                    />
+                                    <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+                                        <Form.Control
+                                            type="email"
+                                            placeholder="Enter email"
+                                            name="email"
+                                            value={email}
+                                            onChange={handleChange}
+                                            style={{ paddingRight: "40px" }}
+                                        />
+                                        <div style={{ position: "absolute", right: "10px" }}>
+                                            <FiUser style={{ fontSize: "30px", color: "#ff6600" }} />
+                                        </div>
+                                    </div>
                                 </Form.Group>
                             </div>
                             <div style={{ display: "flex", justifyContent: "space-between", gap: "20px" }}>
@@ -293,13 +315,19 @@ const AddCreator = () => {
                             </Form.Group>
                             <Form.Group controlId="formContactNumber" className="mb-3">
                                 <Form.Label>Contact Number</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    placeholder="Enter contact number"
-                                    name="contact_number"
-                                    value={contactNumber}
-                                    onChange={handleChange}
-                                />
+                                <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+                                        <Form.Control
+                                            type="text"
+                                            placeholder="Enter contact number"
+                                            name="contact_number"
+                                            value={contactNumber}
+                                            onChange={handleChange}
+                                            style={{ paddingRight: "40px" }}
+                                        />
+                                        <div style={{ position: "absolute", right: "10px" }}>
+                                            <FiUser style={{ fontSize: "30px", color: "#ff6600" }} />
+                                        </div>
+                                    </div>
                             </Form.Group>
                             <Form.Group controlId="formPassword" className="mb-3">
                                 <Form.Label>Password</Form.Label>
@@ -314,14 +342,14 @@ const AddCreator = () => {
                             <Form.Group controlId="formAssignedManager" className="mb-3">
                                 <Form.Label>Assign Manager</Form.Label>
                                 <Dropdown onSelect={handleManagerSelect}>
-                                    <Dropdown.Toggle variant="outline-secondary" className="w-100 text-left text-white">
+                                    <Dropdown.Toggle variant="outline-secondary" className="w-100 text-left">
                                         {assignedManager || 'Select a manager'}
                                     </Dropdown.Toggle>
                                     <Dropdown.Menu>
                                         {fetchedManagers.length > 0 ? (
                                             fetchedManagers.map((manager, index) => (
                                                 <Dropdown.Item key={index} eventKey={manager}>
-                                                     {manager}
+                                                    {manager}
                                                 </Dropdown.Item>
                                             ))
                                         ) : (
@@ -330,14 +358,15 @@ const AddCreator = () => {
                                     </Dropdown.Menu>
                                 </Dropdown>
                             </Form.Group>
-                            <div className="text-center">
+                            <div className="d-flex justify-content-center text-center">
                                 <Button
                                     type="submit"
                                     variant="primary"
-                                    style={{ backgroundColor: '#ff6600', borderColor: '#ff6600' }}
+                                    style={{ backgroundColor: '#ff6600', borderColor: '#ff6600', display: "flex", }}
                                     disabled={loading}
                                 >
                                     {loading ? <Spinner animation="border" size="sm" /> : 'Add Creator'}
+                                    <AiOutlineUserAdd style={{ fontSize: '1.5rem', marginLeft: "5px" }} />
                                 </Button>
                             </div>
                         </Form>
