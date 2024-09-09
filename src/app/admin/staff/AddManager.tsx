@@ -136,6 +136,7 @@ const AddManager = () => {
                     fileInputRef.current.value = ''; 
                 }
             } else {
+                console.log("Result",result)
                 showToastError(`Failed to add manager: ${result.message}`);
             }
         } catch (error) {

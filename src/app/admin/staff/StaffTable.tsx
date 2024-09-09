@@ -321,20 +321,22 @@ const StaffTable: React.FC = () => {
                         placeholder="Search staff..."
                         onChange={(e: { target: { value: string; }; }) => setColumnFilters([{ id: 'name', value: e.target.value }])}
                     />
-                    <div
-                        onClick={handleClick}
-                        className='ml-3'
-                        style={getButtonStyle("view")}
-                        onMouseEnter={() => handleMouseEnter("view")}
-                        onMouseLeave={handleMouseLeave}
-                    >
-                        <FaTable
-                            className='mx-2'
-                            style={getButtonStyle("tableIcon")}
-                            onMouseEnter={() => handleMouseEnter("tableIcon")}
-                            onMouseLeave={handleMouseLeave} />
-                        View
-                        <div className="dropdown">
+                    <Link href='/admin/staff/cards'>
+
+                        <div
+                            onClick={handleClick}
+                            className='ml-3 p-2'
+                            style={getButtonStyle("view")}
+                            onMouseEnter={() => handleMouseEnter("view")}
+                            onMouseLeave={handleMouseLeave}
+                        >
+                            <FaTable
+                                className='mx-2'
+                                style={getButtonStyle("tableIcon")}
+                                onMouseEnter={() => handleMouseEnter("tableIcon")}
+                                onMouseLeave={handleMouseLeave} />
+                            View
+                            {/* <div className="dropdown">
                             <button
                                 className="dropdown-trigger"
                                 style={{ border: "none", background: "none" }}
@@ -378,8 +380,9 @@ const StaffTable: React.FC = () => {
                                     </Link>
                                 </div>
                             )}
+                        </div> */}
                         </div>
-                    </div>
+                    </Link>
 
                 </div>
             </div>
