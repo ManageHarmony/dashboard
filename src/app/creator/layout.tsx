@@ -49,6 +49,8 @@ export default function RootLayout({
             pageTitle = 'New Service';
         } else if (pathname === '/creator/services/new-service-category') {
             pageTitle = 'New Service Category';
+        } else if (pathname === '/creator/content/ytVideo') {
+            pageTitle = 'Create Yt Content';
         } else if (pathname === '/creator/content/allBlogs') {
             pageTitle = 'All Blogs'
         } else if (pathname === '/creator/content/allVideos') {

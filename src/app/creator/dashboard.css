@@ -691,3 +691,48 @@ body {
   height: 40px;
   
 }
+
+/* Smooth transition for input fields */
+.input-transition input,
+.input-transition select {
+    transition: border-color 0.7s ease-in-out, color 0.7s ease-in-out, transform 0.3s ease-in-out;
+    box-shadow: none; /* Remove box-shadow */
+    border-radius: 10px; /* Optional: Add border radius for rounded corners */
+    box-shadow: none;
+}
+
+.input-transition input:focus,
+.input-transition select:focus {
+    border-color: purple;
+    color: purple;
+    transform: scale(1.02); /* Slightly increase the size */
+    box-shadow: none;
+}
+
+.input-transition input:focus ~ .icon-transition,
+.input-transition select:focus ~ .icon-transition {
+    color: purple;
+}
+
+.icon-transition {
+    transition: color 0.3s ease-in-out;
+}
+
+/* Smooth transition for input fields */
+.input-transition {
+  transition: border-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.input-transition:focus {
+  border-color: purple;
+  transform: scale(1.02); /* Slightly increase the size */
+}
+
+/* Transition for the icon */
+.icon-transition {
+  transition: color 0.3s ease-in-out;
+}
+
+.input-transition:focus .icon-transition ~ .icon-transition {
+  color: purple;
+}

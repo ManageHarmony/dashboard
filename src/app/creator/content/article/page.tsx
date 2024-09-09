@@ -3,39 +3,41 @@
 import { useEffect, useState } from 'react';
 import { Key } from '@react-types/shared'; // Ensure you import the correct type
 import { FiFilePlus } from 'react-icons/fi';
-import { Spinner } from 'react-bootstrap';
+import { Spinner, Form, Button, Image, Card, Dropdown} from 'react-bootstrap';
 import { toast, ToastContainer } from 'react-toastify';
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
 import 'react-toastify/dist/ReactToastify.css';
 import React from 'react';
+import { MdOutlineArticle, MdOutlineCreateNewFolder } from 'react-icons/md';
+import { LuHeading, LuTags } from 'react-icons/lu';
+import { BiSolidBookContent } from 'react-icons/bi';
 
 const NewArticlePage = () => {
+    const [focusState, setFocusState] = useState<{ [key: string]: boolean }>({});
     const [articleImage, setArticleImage] = useState<File | string>('');
     const [heading, setHeading] = useState<string>('');
     const [content, setContent] = useState<string>('');
     const [tags, setTags] = useState<string>(''); // Store as a comma-separated string
-    const [fetchedCategories, setFetchedCategories] = useState<string[]>([])
+    const [fetchedCategories, setFetchedCategories] = useState<string[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [creatorId, setCreatorId] = useState<string | null>(null);
     const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
+    const [picturePreview, setPicturePreview] = useState<string | null>(null);
     const selectedValue = React.useMemo(
         () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
         [selectedKeys]
     );
 
-    const handleSelectionChange = (keys: "all" | Set<Key>) => {
-        if (keys === "all") {
-            // Handle 'all' case, depending on your logic, maybe select all items?
-            setSelectedKeys(fetchedCategories.map((category: any) => category.category));
-        } else {
-            setSelectedKeys(Array.from(keys) as string[]);
-        }
+
+    const handleChangeCategory = (category: string) => {
+        setSelectedKeys(prev =>
+            prev.includes(category)
+                ? prev.filter(key => key !== category)
+                : [...prev, category]
+        );
     };
-    console.log("FC", fetchedCategories)
 
     useEffect(() => {
         const id = localStorage.getItem('creator id');
-        console.log("id", id)
         setCreatorId(id);
         const getCategories = async () => {
             try {
@@ -55,7 +57,7 @@ const NewArticlePage = () => {
             } finally {
                 setLoading(false);
             }
-        }
+        };
         getCategories();
     }, []);
 
@@ -86,11 +88,12 @@ const NewArticlePage = () => {
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
             setArticleImage(e.target.files[0]);
+            setPicturePreview(URL.createObjectURL(e.target.files[0]));
         }
     };
 
-    const handleSubmit = async () => {
-        console.log("clicked")
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
         setLoading(true);
 
         // Convert comma-separated strings to arrays
@@ -127,7 +130,6 @@ const NewArticlePage = () => {
             const result = await response.json();
             if (response.ok) {
                 showToastSuccess('Article created successfully!');
-                setLoading(false);
                 setArticleImage('');
                 setHeading('');
                 setContent('');
@@ -144,224 +146,145 @@ const NewArticlePage = () => {
         }
     };
 
+    const handleFocus = (field: string) => {
+        setFocusState(prev => ({ ...prev, [field]: true }));
+    };
+
+    const handleBlur = (field: string) => {
+        setFocusState(prev => ({ ...prev, [field]: false }));
+    };
+
     return (
         <>
-            <div style={styles.formContainer}>
-                <div style={styles.row}>
-                    <div style={styles.inputGroup}>
-                        <input
-                            type="text"
-                            placeholder="Heading"
-                            value={heading}
-                            onChange={(e) => setHeading(e.target.value)}
-                            style={styles.input}
-                        />
-                    </div>
-                    <div style={styles.inputGroup}>
-                        <label style={styles.fileInputLabel}>
-                            <input
-                                type="file"
-                                onChange={handleImageUpload}
-                                style={{ display: 'none' }}
-                            />
-                            {articleImage === '' ? 'Choose an image' : (typeof articleImage === 'string' ? articleImage : articleImage.name)}
-                            <FiFilePlus style={styles.icon} />
-                        </label>
-                    </div>
-                </div>
+            <div style={{ width: "100%", padding: "20px 40px" }}>
+                <Card className="p-4 shadow-sm" style={{ width: "100%", borderRadius: '10px', backgroundColor: "#fff" }}>
+                    <Form onSubmit={handleSubmit} className="input-transition">
+                        <div style={{ display: "flex", gap: "30px" }}>
+                            <div style={{ width: "50%", display: "flex", flexDirection: "column", }}>
+                                <Form.Group controlId="formHeading" className="mb-4"  >
+                                    <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+                                        <Form.Control
+                                            type="text"
+                                            placeholder="Heading"
+                                            value={heading}
+                                            onChange={(e) => setHeading(e.target.value)}
+                                            style={{ paddingRight: "40px", height: "50px" }}
+                                            onFocus={() => handleFocus('heading')}
+                                            onBlur={() => handleBlur('heading')}
+                                        />
+                                        <div style={{ position: "absolute", right: "10px" }}>
+                                            <LuHeading style={{ fontSize: "20px", color: focusState["heading"] ? 'purple' : '#ff6600', }} />
+                                        </div>
+                                    </div>
+                                </Form.Group>
 
-                <div style={styles.textareaContainer}>
-                    <textarea
-                        placeholder="Content"
-                        value={content}
-                        onChange={(e) => setContent(e.target.value)}
-                        style={styles.textarea}
-                    />
-                </div>
+                                <Form.Group controlId="formFile" className="mb-4" >
 
-                <div style={{ display: "flex", gap: '100px' }}>
-                    <div className="form-group">
-                        <label>Tags:</label>
-                        <input
-                            style={{
-                                position: 'relative',
-                                display: 'flex',
-                                width: '100%',
-                                alignItems: 'center',
-                                border: '1px solid gray',
-                                borderRadius: '12px',
-                                padding: '8px',
-                                backgroundColor: 'white',
-                            }}
-                            type="text"
-                            value={tags}
-                            onChange={(e) => setTags(e.target.value)}
-                            placeholder="Enter tags separated by commas"
-                        />
-                    </div>
+                                    <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+                                        <Form.Control
+                                            type="file"
+                                            onChange={handleImageUpload}
+                                            style={{ paddingRight: "40px", height: "200px" }}
+                                            onFocus={() => handleFocus('file')}
+                                            onBlur={() => handleBlur('file')}
+                                        />
+                                        {picturePreview && (
+                                            <div className="text-center mt-3" style={{ position: "absolute", left: "50px" }}>
+                                                <Image
+                                                    src={picturePreview}
+                                                    roundedCircle
+                                                    alt="Creator Picture Preview"
+                                                    style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+                                                />
+                                            </div>
+                                        )}
+                                        <div style={{ position: "absolute", right: "10px" }}>
+                                            <FiFilePlus style={{ fontSize: "30px", color: focusState["file"] ? 'purple' : '#ff6600', }} />
+                                        </div>
+                                    </div>
+                                </Form.Group>
+                                <Form.Group controlId="formTags" className="mb-4" >
 
-                    <div className="form-group">
-                        <label>Categories:</label>
+                                    <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+                                        <Form.Control
+                                            type="text"
+                                            value={tags}
+                                            onChange={(e) => setTags(e.target.value)}
+                                            placeholder="Enter tags separated by commas"
+                                            style={{ paddingRight: "40px", height: "50px" }}
+                                            onFocus={() => handleFocus('tags')}
+                                            onBlur={() => handleBlur('tags')}
+                                        />
+                                        <div style={{ position: "absolute", right: "10px" }}>
+                                            <LuTags style={{ fontSize: "30px", color: focusState["tags"] ? 'purple' : '#ff6600', }} />
+                                        </div>
+                                    </div>
+                                </Form.Group>
+                            </div>
+                            <div style={{ display: "flex", flexDirection: "column", width: "50%" }}>
+                                <Form.Group controlId="formContent" className="mb-4" >
+                                    <div style={{ position: "relative", display: "flex" }}>
+                                        <Form.Control
+                                            as="textarea"
+                                            rows={5}
+                                            placeholder="Content"
+                                            value={content}
+                                            onChange={(e) => setContent(e.target.value)}
+                                            style={{ paddingRight: "40px", height: "275px", boxShadow: "none" }}
+                                            className="input-transition"
+                                            onFocus={() => handleFocus('content')}
+                                            onBlur={() => handleBlur('content')}
+                                        />
+                                        <div style={{ position: "absolute", right: "10px", marginTop: "5px" }}>
+                                            <BiSolidBookContent style={{ fontSize: "30px", color: focusState["content"] ? 'purple' : '#ff6600', }} />
+                                        </div>
+                                    </div>
+                                </Form.Group>
 
-                        <div
-                            style={{
-                                position: 'relative',
-                                display: 'flex',
-                                width: '100%',
-                                alignItems: 'center',
-                                border: '1px solid gray',
-                                borderRadius: '12px',
-                                backgroundColor: 'white',
-                            }}
-                        >
-                            <Dropdown style={{ backgroundColor: 'white', border: '1px solid gray' }}>
-                                <DropdownTrigger>
+                                <Form.Group controlId="formCategory">
+
+                                <Dropdown style={{ display: "flex", justifyContent: "flex-start" }}>
+                                    <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                                        {selectedKeys.length > 0 ? selectedKeys.join(', ') : 'Select categories'}
+                                    </Dropdown.Toggle>
+
+                                    <Dropdown.Menu>
+                                        {fetchedCategories.map((category: any) => (
+                                            <Dropdown.Item
+                                                key={category.category}
+                                                onClick={() => handleChangeCategory(category.category)}
+                                                active={selectedKeys.includes(category.category)}
+                                            >
+                                                {category.category}
+                                            </Dropdown.Item>
+                                        ))}
+                                    </Dropdown.Menu>
+                                </Dropdown>
+                            </Form.Group>
+                                <div className="text-center mt-3" style={{ display: "flex", justifyContent: "flex-end", marginRight: "50px" }}>
                                     <Button
-                                        variant="bordered"
-                                        style={{
-                                            textAlign: 'left',
-                                            width: "100%",
-                                            border: 'none',
-                                            boxShadow: 'none',
-                                            padding: 0,
-                                        }}
+                                        type="submit"
+                                        variant="primary"
+                                        style={{ backgroundColor: '#ff6600', borderColor: '#ff6600', display: "flex", height: "50px", alignItems: "center" }}
+                                    // disabled={loading || !isFormValid()}
                                     >
-                                        {selectedKeys.length > 0 ? Array.from(selectedKeys).join(', ') : 'Select categories'}
+                                        {loading ? <Spinner animation="border" size="sm" /> : 'Create Article'}
+                                        <MdOutlineArticle style={{ fontSize: '1.5rem', marginLeft: "10px" }} />
                                     </Button>
-                                </DropdownTrigger>
-
-                                <DropdownMenu
-                                    aria-label="Multiple selection example"
-                                    style={{ alignSelf: 'center', cursor: 'pointer' }}
-                                    variant="flat"
-                                    closeOnSelect={false}
-                                    disallowEmptySelection
-                                    selectionMode="multiple"
-                                    selectedKeys={selectedKeys}
-                                    onSelectionChange={handleSelectionChange}
-                                >
-                                    {fetchedCategories.map((category: any) => (
-                                        <DropdownItem key={category.category}>
-                                            {category.category}
-                                        </DropdownItem>
-                                    ))}
-                                </DropdownMenu>
-                            </Dropdown>
+                                </div>
+                            </div>
                         </div>
-                    </div>
 
-                </div>
 
-                <button
-                    style={{
-                        width: "150px",
-                        padding: "10px 20px",
-                        backgroundColor: "#ff6600",
-                        color: "white",
-                        border: "none",
-                        borderRadius: "10px",
-                        cursor: "pointer"
-                    }}
-                    onClick={handleSubmit} // Change onSubmit to onClick
-                >
-                    {!loading ?
-                        <div style={{ display: 'flex' }}>Create Article</div> :
-                        <Spinner className='' animation="border" role="status">
-                            <span className="visually-hidden">Loading...</span>
-                        </Spinner>
-                    }
-                </button>
+                    </Form>
 
-            </div >
+                </Card>
+
+            </div>
+
             <ToastContainer />
         </>
     );
 }
-
-const styles: { [key: string]: React.CSSProperties } = {
-    formContainer: {
-        backgroundColor: '#fff',
-        borderRadius: '15px',
-        margin: "20px 25px",
-        padding: '20px',
-        width: '95%',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: "space-evenly",
-        minHeight: '60vh',
-    },
-    row: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        gap: "40px",
-        width: '100%',
-    },
-    inputGroup: {
-        display: 'flex',
-        alignItems: 'center',
-        backgroundColor: '#fff',
-        border: '1px solid #ddd',
-        borderRadius: '10px',
-        marginBottom: '20px',
-        padding: '0 10px',
-        width: '50%',
-    },
-    fileInputLabel: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        width: '100%',
-        cursor: 'pointer',
-    },
-    input: {
-        flex: 1,
-        padding: '10px 15px',
-        border: 'none',
-        borderRadius: '10px',
-        fontSize: '1rem',
-        outline: 'none',
-    },
-    textareaContainer: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#fff',
-        border: '1px solid #ddd',
-        borderRadius: '10px',
-        marginBottom: '20px',
-        padding: '10px',
-        width: '100%',
-    },
-    textarea: {
-        flex: 1,
-        height: '150px',
-        padding: '10px 15px',
-        border: 'none',
-        borderRadius: '10px',
-        fontSize: '1rem',
-        outline: 'none',
-        resize: 'none',
-    },
-    saveButton: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        alignSelf: 'center',
-        backgroundColor: '#007bff',
-        color: '#fff',
-        border: 'none',
-        borderRadius: '15px',
-        padding: '10px 20px',
-        cursor: 'pointer',
-    },
-    buttonIcon: {
-        marginLeft: '10px',
-        fontSize: '1.2rem',
-    },
-    icon: {
-        fontSize: '1.5rem',
-        marginLeft: '10px',
-    },
-};
 
 export default NewArticlePage;

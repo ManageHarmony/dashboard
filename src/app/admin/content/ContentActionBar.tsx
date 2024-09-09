@@ -7,6 +7,9 @@ import TopBlogs from "./TopBlogs";
 import Link from "next/link";
 import Button from "react-bootstrap/Button";
 import { Spinner } from "react-bootstrap";
+import { FaBlogger, FaYoutube } from "react-icons/fa";
+import { MdOutlineArticle, MdPendingActions } from "react-icons/md";
+import { BiSolidCategoryAlt } from "react-icons/bi";
 
 export default function ContentActionBar() {
     const [hoveredButton, setHoveredButton] = useState<string | null>(null);
@@ -62,7 +65,7 @@ export default function ContentActionBar() {
                                 style={getButtonStyle("allBlogs")}
                                 disabled={loadingButton === 'allBlogs'}
                             >
-                                {loadingButton === 'allBlogs' ? <Spinner animation="border" size="sm" /> : 'All Blogs'} <FiBell className="ml-2" />
+                                {loadingButton === 'allBlogs' ? <Spinner animation="border" size="sm" /> : 'All Blogs'} <FaBlogger className="ml-2 fs-5" />
                             </Button>
                         </Link>
 
@@ -75,7 +78,7 @@ export default function ContentActionBar() {
                                 style={getButtonStyle("allVideos")}
                                 disabled={loadingButton === 'allYtVideos'}
                             >
-                                {loadingButton === 'allYtVideos' ? <Spinner animation="border" size="sm" /> : 'All Videos'} <FiBell className="ml-2" />
+                                {loadingButton === 'allYtVideos' ? <Spinner animation="border" size="sm" /> : 'All Videos'} <FaYoutube className="ml-2 fs-5" />
                             </Button>
                         </Link>
                         <Link href='/admin/content/allArticles' style={{ textDecoration: "none" }}>
@@ -87,7 +90,7 @@ export default function ContentActionBar() {
                                 style={getButtonStyle("allArticles")}
                                 disabled={loadingButton === 'allArticles'}
                             >
-                                {loadingButton === 'allArticles' ? <Spinner animation="border" size="sm" /> : 'All Articles'} <FiBell className="ml-2" />
+                                {loadingButton === 'allArticles' ? <Spinner animation="border" size="sm" /> : 'All Articles'} <MdOutlineArticle className="ml-2 fs-5" />
                             </Button>
                         </Link>
                         </div>
@@ -102,7 +105,7 @@ export default function ContentActionBar() {
                                     style={getButtonStyle("pendingPosts")}
                                     disabled={loadingButton === "pendingPosts"}
                                 >
-                                    {loadingButton === 'pendingPosts' ? <Spinner animation="border" size="sm" /> : 'All Pending Posts'} <FiBell className="ml-2" />
+                                    {loadingButton === 'pendingPosts' ? <Spinner animation="border" size="sm" /> : 'All Pending Posts'} <MdPendingActions className="ml-2 fs-5" />
                                 </Button>
                             </Link>
 
@@ -115,7 +118,7 @@ export default function ContentActionBar() {
                                     style={getButtonStyle("addNewCategory")}
                                     disabled={loadingButton === "addNewCategory"}
                                 >
-                                    {loadingButton === 'addNewCategory' ? <Spinner animation="border" size="sm" /> : 'Add New Category'} <FiBell className="ml-2" />
+                                    {loadingButton === 'addNewCategory' ? <Spinner animation="border" size="sm" /> : 'Add New Category'} <BiSolidCategoryAlt  className="ml-2 fs-5" />
                                 </Button>
                             </Link>
                     </div>
