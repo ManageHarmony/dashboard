@@ -1,7 +1,6 @@
 'use client';
 
-import { useState} from 'react';
-
+import { useState } from 'react';
 import { TextField, Button, Typography, Container, Box, Paper, Avatar } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useRouter } from 'next/navigation';
@@ -9,70 +8,67 @@ import { Spinner } from 'react-bootstrap';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const LoginPage = () => {
+interface LoginPageProps {
+  userType: 'manager' | 'creator';
+}
+
+const LoginPage: React.FC<LoginPageProps> = ({ userType }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loading,setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const showToastError = (message: string) => {
     toast.error(message, {
-        position: "bottom-center",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
+      position: 'top-center',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
     });
-};
- 
+  };
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+
+    const apiEndpoint =
+      userType === 'manager'
+        ? 'https://harmony-backend-z69j.onrender.com/api/manager/login'
+        : 'https://harmony-backend-z69j.onrender.com/api/login/creator';
 
     try {
-      setLoading(true);
-        const response = await fetch('https://harmony-backend-z69j.onrender.com/api/login/creator', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                email,
-                password,
-            }),
-        });
+      const response = await fetch(apiEndpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
 
-        if (!response.ok) {
-            throw new Error('Login failed');
-        }
+      const data = await response.json();
 
-        const data = await response.json();
-        console.log("login data", data)
-
-        if (data.token) {
-            // Store token in localStorage
-            setLoading(false);
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('creator id', data.id);
-            localStorage.setItem('isAuthenticated', 'true');
-
-            // Redirect to /creator page
-            router.push('/creator');
-        } else {
-            console.error('Login failed');
-            setLoading(false);
-            showToastError(`Login Failed`)
-
-        }
+      if (response.ok && data.token) {
+        localStorage.setItem(`${userType}_token`, data.token);
+        localStorage.setItem(`${userType}_id`, data.id);
+        localStorage.setItem(`${userType}_isAuthenticated`, 'true');
+        router.push(userType === 'manager' ? '/manager' : '/creator');
+      } else {
+        showToastError(data.message || 'Login failed. Please check your credentials.');
+      }
     } catch (error) {
-        console.error('Error during login:', error);
-        setLoading(false);
-        showToastError(`Login Failed`)
+      console.error(error)
+      showToastError('An error occurred. Please try again later.');
+    } finally {
+      setLoading(false);
     }
-};
+  };
 
-  
   return (
     <Container component="main" maxWidth="xs">
       <Paper elevation={3} sx={{ padding: 4, mt: 8, borderRadius: 2 }}>
@@ -87,7 +83,7 @@ const LoginPage = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5" sx={{ color: '#ff6600' }}>
-            Login
+            {userType === 'manager' ? 'Manager Login' : 'Creator Login'}
           </Typography>
           <Box component="form" onSubmit={handleLogin} noValidate sx={{ mt: 1 }}>
             <TextField
@@ -102,18 +98,18 @@ const LoginPage = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               InputLabelProps={{
-                style: { color: '#ff6600' }, // Customize label color
+                style: { color: '#ff6600' }, 
               }}
               sx={{
                 '& .MuiOutlinedInput-root': {
                   '& fieldset': {
-                    borderColor: '#ff6600', // Customize border color
+                    borderColor: '#ff6600', 
                   },
                   '&:hover fieldset': {
-                    borderColor: '#ff6600', // Customize hover border color
+                    borderColor: '#ff6600', 
                   },
                   '&.Mui-focused fieldset': {
-                    borderColor: '#ff6600', // Customize focused border color
+                    borderColor: '#ff6600', 
                   },
                 },
               }}
@@ -130,18 +126,18 @@ const LoginPage = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               InputLabelProps={{
-                style: { color: '#ff6600' }, // Customize label color
+                style: { color: '#ff6600' }, 
               }}
               sx={{
                 '& .MuiOutlinedInput-root': {
                   '& fieldset': {
-                    borderColor: '#ff6600', // Customize border color
+                    borderColor: '#ff6600', 
                   },
                   '&:hover fieldset': {
-                    borderColor: '#ff6600', // Customize hover border color
+                    borderColor: '#ff6600', 
                   },
                   '&.Mui-focused fieldset': {
-                    borderColor: '#ff6600', // Customize focused border color
+                    borderColor: '#ff6600', 
                   },
                 },
               }}
@@ -159,14 +155,13 @@ const LoginPage = () => {
                 },
               }}
             >
-              { loading ? <Spinner /> :'Log In'}
+              {loading ? <Spinner animation="border" /> : 'Log In'}
             </Button>
           </Box>
         </Box>
       </Paper>
       <ToastContainer />
     </Container>
-    
   );
 };
 

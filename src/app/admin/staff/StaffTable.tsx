@@ -1,8 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react';
-import { Modal, Spinner } from 'react-bootstrap';
-import AddManager from './AddManager';
+import { Spinner } from 'react-bootstrap';
 
 import "../dashboard.css"
 import {
@@ -44,7 +43,6 @@ import { FaIdCard, FaListUl, FaPlus, FaTable } from 'react-icons/fa';
 
 import Link from 'next/link';
 
-import AddCreator from './AddCreator';
 import { ButtonGroup } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
 
@@ -298,19 +296,30 @@ const StaffTable: React.FC = () => {
                                 boxShadow: "0px 0px 15px rgba(228, 225, 225, 0.5)",
                             }}
                         >
-                            <Button className="w-full" style={getButtonStyle("addNewCreator")}
-                                onMouseEnter={() => handleMouseEnter("addNewCreator")}
-                                onMouseLeave={handleMouseLeave} onClick={handleOpenAddCreatorModal}>
-                                <FaPlus style={{ marginRight: "8px" }} />
-                                Add Creator
-                            </Button>
+                            <Link href="/admin/staff/addCreator" style={{ textDecoration: "none" }}>
+                                <Button
+                                    className="w-full"
+                                    style={getButtonStyle("addNewCreator")}
+                                    onMouseEnter={() => handleMouseEnter("addNewCreator")}
+                                    onMouseLeave={handleMouseLeave}
+                                >
+                                    <FaPlus style={{ marginRight: "8px" }} />
+                                    Add Creator
+                                </Button>
+                            </Link>
 
-                            <Button className="w-full" style={getButtonStyle("addNewManager")}
-                                onMouseEnter={() => handleMouseEnter("addNewManager")}
-                                onMouseLeave={handleMouseLeave} onClick={handleAddManagerClick}>
-                                <FaPlus style={{ marginRight: "8px" }} />
-                                Add Manager
-                            </Button>
+                            <Link href="/admin/staff/addManager">
+                                <Button
+                                    className="w-full"
+                                    style={getButtonStyle("addNewManager")}
+                                    onMouseEnter={() => handleMouseEnter("addNewManager")}
+                                    onMouseLeave={handleMouseLeave}
+
+                                >
+                                    <FaPlus style={{ marginRight: "8px" }} />
+                                    Add Manager
+                                </Button>
+                            </Link>
                         </ButtonGroup>
                     )}
                 </div>
@@ -354,7 +363,7 @@ const StaffTable: React.FC = () => {
                                         borderRadius: "4px",
                                         padding: "8px",
                                         marginTop: "4px",
-                                         width: "7rem",
+                                        width: "7rem",
                                     }}
                                 >
                                     <div
@@ -408,7 +417,7 @@ const StaffTable: React.FC = () => {
                         const detailPath = `/admin/staff/cards/${id}?role=${encodeURIComponent(role)}`;
 
                         return (
-                            <TableRow onClick={() => router.push(detailPath)} key={row.id} style={{ height: "20px" }}>
+                            <TableRow onClick={() => router.push(detailPath)} key={row.id}>
                                 {row.getVisibleCells().map((cell) => {
                                     return (
                                         <TableCell key={cell.id} style={{ padding: "8px" }}>
@@ -447,76 +456,6 @@ const StaffTable: React.FC = () => {
                 </div>
 
             </div>
-
-
-            <Modal
-                show={showModal}
-                onHide={handleCloseModal}
-                fullscreen={true}
-                style={{
-                    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-                }}
-            >
-                <Modal.Body style={{
-                    backgroundColor: '#daf7fd7e',
-                    position: "relative",
-                    height: "100%",
-                    padding: "40px"
-                }}>
-                    <Button
-
-                        style={{
-                            position: "absolute",
-                            top: "20px",
-                            right: "20px",
-                            backgroundColor: "transparent",
-                            color: "#000000",
-                            border: "none",
-                            fontSize: "1.5rem",
-                            fontWeight: "bold"
-                        }}
-                        onClick={handleCloseModal}
-                    >
-                        &times;
-                    </Button>
-                    <AddManager />
-                </Modal.Body>
-            </Modal>
-
-            <Modal
-                show={showAddCreatorModal}
-                onHide={handleCloseAddCreatorModal}
-                fullscreen={true}
-                style={{
-                    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-                }}
-            >
-                <Modal.Body style={{
-                    backgroundColor: '#daf7fd7e',
-                    position: "relative",
-                    height: "100%",
-                    padding: "40px"
-                }}>
-                    <Button
-
-                        style={{
-                            position: "absolute",
-                            top: "20px",
-                            right: "20px",
-                            backgroundColor: "transparent",
-                            color: "#000000",
-                            border: "none",
-                            fontSize: "1.5rem",
-                            fontWeight: "bold"
-                        }}
-                        onClick={handleCloseAddCreatorModal}
-                    >
-                        &times;
-                    </Button>
-                    <AddCreator />
-                </Modal.Body>
-            </Modal>
-
         </div>
     );
 };

@@ -6,7 +6,9 @@ import TopBlogs from "./TopBlogs";
 import Link from "next/link";
 import { useState } from "react";
 import { Spinner, Modal, Button } from "react-bootstrap";
-import CreateYTContent from "./YtContent";
+import { FaBlogger, FaYoutube } from "react-icons/fa";
+import { MdOutlineArticle } from "react-icons/md";
+
 
 export default function ContentActionBar() {
     const [loadingButton, setLoadingButton] = useState<string | null>(null);
@@ -24,7 +26,7 @@ export default function ContentActionBar() {
         setLoadingButton(buttonType);
     };
 
-   
+
     const buttonStyle = {
         background: "#fff",
         border: "1px dashed orange",
@@ -64,7 +66,7 @@ export default function ContentActionBar() {
                                     style={getButtonStyle(hoveredButton === 'allBlogs')}
                                     disabled={loadingButton === 'allBlogs'}
                                 >
-                                    {loadingButton === 'allBlogs' ? <Spinner animation="border" size="sm" /> : 'All Blogs'} <FiBell className="ml-2" />
+                                    {loadingButton === 'allBlogs' ? <Spinner animation="border" size="sm" /> : 'All Blogs'} <FaBlogger className="ml-2 fs-5" />
                                 </Button>
                             </Link>
                             <Link href="/creator/content/allArticles" style={{ textDecoration: "none" }}>
@@ -77,7 +79,7 @@ export default function ContentActionBar() {
                                     style={getButtonStyle(hoveredButton === 'allArticles')}
                                     disabled={loadingButton === 'allArticles'}
                                 >
-                                    {loadingButton === 'allArticles' ? <Spinner animation="border" size="sm" /> : 'All Articles'} <FiBell className="ml-2" />
+                                    {loadingButton === 'allArticles' ? <Spinner animation="border" size="sm" /> : 'All Articles'} <MdOutlineArticle className="ml-2 fs-5" />
                                 </Button>
                             </Link>
                             <Link href="/creator/content/allVideos" style={{ textDecoration: "none" }}>
@@ -90,22 +92,24 @@ export default function ContentActionBar() {
                                     style={getButtonStyle(hoveredButton === 'allYtVideos')}
                                     disabled={loadingButton === 'allYtVideos'}
                                 >
-                                    {loadingButton === 'allYtVideos' ? <Spinner animation="border" size="sm" /> : 'All Videos'} <FiBell className="ml-2" />
+                                    {loadingButton === 'allYtVideos' ? <Spinner animation="border" size="sm" /> : 'All Videos'} <FaYoutube className="ml-2 fs-5" />
                                 </Button>
                             </Link>
                         </div>
                     </div>
                     <div className="flex space-x-3 mt-2">
-                        <Button
-                            type="submit"
-                            variant="primary"
-                            onClick={handleCreateYTContentClick}
-                            onMouseEnter={() => setHoveredButton('createYtContent')}
-                            onMouseLeave={() => setHoveredButton(null)}
-                            style={getButtonStyle(hoveredButton === 'createYtContent')}
-                        >
-                            Create Yt Content <FiBell className="ml-2" />
-                        </Button>
+                        <Link href="/creator/content/ytVideo"  style={{ textDecoration: "none" }}>
+                            <Button
+                                type="submit"
+                                variant="primary"
+                                onMouseEnter={() => setHoveredButton('createYtContent')}
+                                onMouseLeave={() => setHoveredButton(null)}
+                                style={getButtonStyle(hoveredButton === 'createYtContent')}
+                                disabled={loadingButton === 'createYtContent'}
+                            >
+                               {loadingButton === 'createYtContent' ? <Spinner animation="border" size="sm" /> : 'Create Yt Content'} <FaYoutube className="ml-2 fs-5" />
+                            </Button>
+                        </Link>
                         <Link href='/creator/content/blog' style={{ textDecoration: "none" }}>
                             <Button
                                 type="submit"
@@ -116,7 +120,7 @@ export default function ContentActionBar() {
                                 style={getButtonStyle(hoveredButton === 'newBlog')}
                                 disabled={loadingButton === 'newBlog'}
                             >
-                                {loadingButton === 'newBlog' ? <Spinner animation="border" size="sm" /> : 'Add New Blog'} <FiBell className="ml-2" />
+                                {loadingButton === 'newBlog' ? <Spinner animation="border" size="sm" /> : 'Add New Blog'} <FaBlogger className="ml-2 fs-5" />
                             </Button>
                         </Link>
                         <Link href='/creator/content/article' style={{ textDecoration: "none" }}>
@@ -129,7 +133,7 @@ export default function ContentActionBar() {
                                 style={getButtonStyle(hoveredButton === 'newArticle')}
                                 disabled={loadingButton === 'newArticle'}
                             >
-                                {loadingButton === 'newArticle' ? <Spinner animation="border" size="sm" /> : 'Add New Article'} <FiBell className="ml-2" />
+                                {loadingButton === 'newArticle' ? <Spinner animation="border" size="sm" /> : 'Add New Article'} <MdOutlineArticle className="ml-2 fs-5" />
                             </Button>
                         </Link>
                     </div>
@@ -137,38 +141,6 @@ export default function ContentActionBar() {
 
                 <TopBlogs />
                 <MostCategories />
-
-                <Modal
-                    show={showModal} onHide={handleCloseModal}
-                    fullscreen={true}
-                    style={{
-                        backgroundColor: 'rgba(0, 0, 0, 0.6)',
-                    }}
-                >
-                    <Modal.Body style={{
-                        backgroundColor: '#daf7fd7e',
-                        position: "relative",
-                        height: "100%",
-                        padding: "40px"
-                    }}>
-                        <Button
-                            style={{
-                                position: "absolute",
-                                top: "20px",
-                                right: "20px",
-                                backgroundColor: "transparent",
-                                color: "#000000",
-                                border: "none",
-                                fontSize: "1.5rem",
-                                fontWeight: "bold"
-                            }}
-                            onClick={handleCloseModal}
-                        >
-                            &times;
-                        </Button>
-                        <CreateYTContent />
-                    </Modal.Body>
-                </Modal>
             </div>
         </>
     )

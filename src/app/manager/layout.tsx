@@ -30,9 +30,9 @@ export default function RootLayout({
 
     useEffect(() => {
         // Check authentication status
-        const authStatus = localStorage.getItem('isAuthenticated');
+        const authStatus = localStorage.getItem('manager_isAuthenticated');
         if (authStatus !== 'true') {
-            router.push('/login'); // Redirect to login if not authenticated
+            router.push('/managerLogin'); // Redirect to login if not authenticated
         } else {
             setIsAuthenticated(true);
         }

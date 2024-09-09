@@ -44,10 +44,11 @@ export default function RootLayout({
             pageTitle = 'All Videos' 
         } else if (pathname === '/admin/content/allArticles') {
             pageTitle = 'All Articles' 
-        } else if (pathname.startsWith('/admin/content/allblogs/')) {
-            const lastPart = pathParts[pathParts.length - 1];
-            pageTitle = 'Blog ' + lastPart?.charAt(0).toUpperCase() + lastPart?.slice(1);}
-        else {
+        } else if (pathname === '/admin/staff/addCreator') {
+            pageTitle = 'Add Creator' 
+        } else if (pathname === '/admin/staff/addManager') {
+            pageTitle = 'Add Manager' 
+        } else {
             pageTitle = pathParts[pathParts.length - 1]?.charAt(0).toUpperCase() + pathParts[pathParts.length - 1]?.slice(1);
         }
 
