@@ -48,6 +48,12 @@ export default function RootLayout({
             pageTitle = 'Add Creator' 
         } else if (pathname === '/admin/staff/addManager') {
             pageTitle = 'Add Manager' 
+        } else if (pathname === '/admin/consultantData') {
+            pageTitle = 'All Consultants' 
+        } else if (pathname === '/admin/recentTickets') {
+            pageTitle = 'All Tickets' 
+        } else if (pathname === '/admin/sessionData') {
+            pageTitle = 'All Sessions' 
         } else {
             pageTitle = pathParts[pathParts.length - 1]?.charAt(0).toUpperCase() + pathParts[pathParts.length - 1]?.slice(1);
         }
