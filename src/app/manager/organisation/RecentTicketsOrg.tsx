@@ -1,14 +1,6 @@
-'use client';
 
-import { useState } from "react";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/components/ui/card";
-import { FiBell, FiPlus } from "react-icons/fi"; // Assuming you're using react-icons for the icons
+import Link from 'next/link';
+
 
 const ticketsData = [
   {
@@ -35,59 +27,38 @@ const ticketsData = [
     message: "I booked a Session with Doctor Sushmita Singh but she cancelled it just before the session timing starts.",
     avatar: "/assets/avatar.jpg",
   },
-  // {
-  //   id: 4,
-  //   name: "Rashmi Sharma",
-  //   description: "My Payment Done Appointment Cancelled by Doctor",
-  //   date: "11:25AM, June 28, 2024",
-  //   message: "I booked a Session with Doctor Sushmita Singh but she cancelled it just before the session timing starts.",
-  //   avatar: "/assets/avatar.jpg",
-  // },
+  {
+    id: 4,
+    name: "Rashmi Sharma",
+    description: "My Payment Done Appointment Cancelled by Doctor",
+    date: "11:25AM, June 28, 2024",
+    message: "I booked a Session with Doctor Sushmita Singh but she cancelled it just before the session timing starts.",
+    avatar: "/assets/avatar.jpg",
+  },
   // Add more ticket objects here
 ];
 
-export default function RecentTicketsOrg() {
-  const [showAll, setShowAll] = useState(false);
+export default function RecentTickets() {
 
   return (
-    <>
-      <div>
-        <div className="action-bar text-lg font-semibold mb-2">Action Bar</div>
-        <div className="flex space-x-4 mb-4">
-          <button className="text-orange-600 py-2 px-4 rounded flex items-center" style={{ background: "#fff" }}>
-            All Notifications <FiBell className="ml-2" />
-          </button>
-          <button className="text-orange-600 py-2 px-4 rounded flex items-center" style={{ background: "#fff" }}>
-            <FiPlus className="mr-2" /> Add New Notifications
-          </button>
-        </div>
-      </div>
-      <div style={{ width: "100%", height: "350px", backgroundColor: "white", borderRadius: "20px", padding: "20px", overflow: "hidden", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px", paddingBottom: "8px" }}>
-        <h2 style={{ fontSize: "1.4rem", fontWeight: "600" }}>Recent <span style={{ color: "#ff6500" }}>Tickets</span></h2>
-        <button
-          onClick={() => setShowAll(!showAll)}
-          style={{ fontSize: "0.875rem", color: "#ff6500", display: "flex", alignItems: "center", background: "none", cursor: "pointer", border: "1px dashed #ffecd4", padding: "5px 10px", borderRadius: "8px" }}
-        >
-          {showAll ? "Show Less" : "See All"}{" "}
-          <svg
-            style={{ marginLeft: "4px", width: "16px", height: "16px" }}
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
+    <div style={{ width: "100%", height: "350px", backgroundColor: "white", borderRadius: "20px", padding: "18px 20px", overflow: "hidden", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+        <h2 style={{ fontSize: "1.4rem", fontWeight: "600" }}>Recent <span style={{ color: "#FFA05D" }}>Tickets</span></h2>
+        <Link href="/manager/organisation/recentTickets" style={{textDecoration: "none"}}>
+          <button
+            style={{ fontSize: "1rem", color: "#FFA05D", display: "flex", alignItems: "center", background: "none", cursor: "pointer", border: "1px dashed #ffecd4", padding: "5px 10px", borderRadius: "8px" }}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d={showAll ? "M5 15l7-7 7 7" : "M19 9l-7 7-7-7"}
-            ></path>
-          </svg>
-        </button>
+            See All
+            <svg xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: "5px" }} width="16" height="17" viewBox="0 0 16 17" fill="none">
+              <path d="M8 2.875H2.75C2.28587 2.875 1.84075 3.07254 1.51256 3.42417C1.18437 3.77581 1 4.25272 1 4.75V14.125C1 14.6223 1.18437 15.0992 1.51256 15.4508C1.84075 15.8025 2.28587 16 2.75 16H11.5C11.9641 16 12.4092 15.8025 12.7374 15.4508C13.0656 15.0992 13.25 14.6223 13.25 14.125V8.5" stroke="#FFA05D" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M5 12.6504L12.875 4.21289" stroke="#FFA05D" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M10.625 1H15V5.6875" stroke="#FFA05D" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+        </Link>
       </div>
-      <div style={{ maxHeight: "calc(100% - 48px)", overflowY: "auto", paddingRight: "4px" }} className="scrollable-content">
-        {(showAll ? ticketsData : ticketsData.slice(0, 3)).map(
+      <div style={{ maxHeight: "calc(100% - 10px)", overflowY: "auto", paddingRight: "16px" }}>
+        {ticketsData.slice(0, 3).map(
           (ticket) => (
             <div key={ticket.id} style={{ display: "flex", alignItems: "start", marginBottom: "8px", paddingBottom: "8px", borderBottom: "1px solid #ffecd4" }}>
               <img
@@ -96,10 +67,10 @@ export default function RecentTicketsOrg() {
                 style={{ width: "50px", height: "50px", borderRadius: "50%", marginRight: "8px" }}
               />
               <div style={{ flexGrow: 1 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "-2px" }}>
                   <h3 style={{ fontSize: "0.875rem", fontWeight: "500", margin: "0" }}>{ticket.name}</h3>
                   <span style={{ margin: "0 4px" }}>~</span>
-                  <p style={{ fontSize: "0.75rem", color: "#ff6500", margin: "0" }}>{ticket.description}</p>
+                  <p style={{ fontSize: "0.75rem", color: "#FFA05D", margin: "0" }}>{ticket.description}</p>
                 </div>
                 <p style={{ color: "#6b7280", fontSize: "0.75rem", margin: "0" }}>{ticket.date}</p>
                 <p style={{ fontSize: "0.875rem", margin: "0" }}>{ticket.message}</p>
@@ -109,6 +80,5 @@ export default function RecentTicketsOrg() {
         )}
       </div>
     </div>
-    </>
   );
 }

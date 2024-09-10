@@ -24,16 +24,19 @@ body {
 
 /* header */
 .header-notification-card {
+  width: 320px;
+  height: 456px;
   background-color: #fff;
-  border-radius: 10px;
-  padding: 20px;
+  border-radius: 20px;
+  padding: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 350px;
+
   position: absolute;
   top: 50px;
   right: 0;
   z-index: 1000;
-  overflow: hidden; /* Add this line to remove sharp corners */
+  overflow: hidden;
+  /* Add this line to remove sharp corners */
 }
 
 .notification-card-header {
@@ -43,42 +46,72 @@ body {
 }
 
 .header-notification-card-title {
-  font-size: 1.25rem;
+  font-size: 1rem;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-top: 8px;
+  position: relative;
+  /* Make sure the ::after is positioned relative to the h2 */
+}
+
+.header-notification-card-title::after {
+  content: '';
+  display: flex;
+  width: 60px;
+  height: 2px;
+  margin-top: 0px;
+  background-color: #FFA05D;
+  position: absolute;
+  left: 0;
 }
 
 .see-all {
-  font-size: 0.875rem;
-  color: #ff6600;
+  width: 96px;
+  height: 40px;
+  font-size: 16px;
+  color: #FFA05D;
   text-decoration: none;
 }
 
 .header-notification-filters {
   display: flex;
-  margin-bottom: 15px;
+  margin-top: 5px;
+  gap: 10px;
 }
 
 .filter-button {
   background: none;
   border: none;
-  font-size: 0.875rem;
-  padding: 5px 10px;
+  font-size: 14px;
+  padding: 3px 8px;
   cursor: pointer;
-  background-color: #daf7fd7e;
+  background-color: #ebf9ff;
 }
 
-.filter-button.active {
+.filter-button.active,
+.filter-button-unread.active {
   font-weight: bold;
   color: #fff;
   background-color: #2C297E;
   border-radius: 5px;
 }
 
-.header-notification-item {
+.notification-box {
+  width: 300px;
+  height: 350px;
+}
+
+.notification-box>.notification-item {
   display: flex;
   align-items: center;
-  margin-bottom: 15px;
+  width: 300px;
+  height: 80px;
+  margin-bottom: 8px;
+  box-shadow: 2px 2px 2px rgba(235, 249, 255, 0.9);
+}
+
+.notification-box>.notification-item:hover {
+  background-color: #ebf9ff;
+  cursor: pointer;
 }
 
 .header-notification-image {
@@ -95,53 +128,65 @@ body {
 }
 
 .notification-content p {
-  font-size: 0.875rem;
+  font-size: 12px;
   margin: 0;
   color: #6c757d;
+}
+
+.custom-dropdown {
+  width: 200px;
+  /* Adjust width as needed */
+  height: 200px;
 }
 
 .custom-dropdown .dropdown-menu {
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 25px;
+  padding: 20px;
   position: absolute;
+
   right: 0;
   z-index: 1000;
-  width: 220px; /* Adjust width as needed */
-  top: 70px; /* Increased space from the top */
+  top: 70px;
+  /* Increased space from the top */
 }
 
 
 .dropdown-card {
-  border-radius: 10px 10px 0 10px;
+  border-radius: 10px 0px 10px 10px;
 }
 
 .custom-dropdown .dropdown-item {
   display: flex;
   align-items: center;
-  padding: 12px 16px; /* Adjust padding for more space */
+  margin-top: 12px;
+  width: 180px;
+  height: 50px;
+
   color: #000;
   font-weight: bold;
-  border-radius: 10px; /* Initial border-radius */
+  border-radius: 10px;
+  /* Initial border-radius */
+  margin-left: 10px;
 }
 
 .custom-dropdown .dropdown-item {
   margin-right: 10px;
-  color: #FF6600;
+  color: #222222;
+  font-size: "16px";
 }
 
 .custom-dropdown .dropdown-item:hover {
-  background-color: #FF6600;
-  color: white;
-  border-radius: 10px; /* Border-radius on hover */
+  background-color: #FFE3D0;
+  color: #222222;
+  border-radius: 10px;
+  /* Border-radius on hover */
 }
 
 .custom-dropdown .dropdown-item:hover .me-2 {
   color: white;
 }
-
-
 
 /*.......*/
 

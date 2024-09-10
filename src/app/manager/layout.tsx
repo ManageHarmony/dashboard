@@ -41,7 +41,28 @@ export default function RootLayout({
     // Function to generate the page title and breadcrumb based on the route
     const generatePageInfo = (pathname: string) => {
         const pathParts = pathname.split('/').filter(Boolean); // Split and filter out empty parts
-        const pageTitle = pathParts[pathParts.length - 1]?.charAt(0).toUpperCase() + pathParts[pathParts.length - 1]?.slice(1);
+       
+        let pageTitle;
+        if (pathname === '/manager/consultantData') {
+            pageTitle = 'All Consultants';
+        } else if (pathname === '/manager/recentTickets') {
+            pageTitle = 'All Tickets' 
+        } else if (pathname === '/manager/sessionData') {
+            pageTitle = 'All Sessions' 
+        } else if (pathname === '/manager/doctors/allApplications') {
+            pageTitle = 'All Applications' 
+        } else if (pathname === '/manager/doctors/allDoctors') {
+            pageTitle = 'All Doctors' 
+        } else if (pathname === '/manager/doctors/allRatings') {
+            pageTitle = 'All Ratings' 
+        } else if (pathname === '/manager/organisation/recentTickets') {
+            pageTitle = 'All Tickets' 
+        } else if (pathname === '/manager/organisation/allRatingsAndWords') {
+            pageTitle = 'All Ratings and Words' 
+        } else {
+            pageTitle = pathParts[pathParts.length - 1]?.charAt(0).toUpperCase() + pathParts[pathParts.length - 1]?.slice(1);
+        }
+        
 
         const breadcrumb = pathParts.map((part, index) => {
             const path = '/' + pathParts.slice(0, index + 1).join('/');
@@ -87,7 +108,6 @@ export default function RootLayout({
                         isPanelHovered={isPanelHovered}
                     />
                     <DashboardHeader
-                        isPanelHovered={isPanelHovered}
                         onShowNotifications={handleShowNotifications}
                         showNotifications={showNotifications}
                         onShowDropdown={handleShowDropdown}
@@ -97,8 +117,8 @@ export default function RootLayout({
                     <div 
                         style={{ 
                             marginLeft: "7%",
-                            filter: isPanelHovered || showNotifications || showDropdown ? 'blur(3px)' : 'none',
-                            transition: 'filter 0.2s ease-in-out'
+                            // filter: isPanelHovered || showNotifications || showDropdown ? 'blur(3px)' : 'none',
+                            // transition: 'filter 0.2s ease-in-out'
                         }}
                     >
                         <div className="page-info" style={{marginLeft: "20px"}}>
