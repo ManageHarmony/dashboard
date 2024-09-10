@@ -37,18 +37,19 @@ const NewArticlePage = () => {
     };
 
     useEffect(() => {
-        const id = localStorage.getItem('creator id');
+        const id = localStorage.getItem('creator_id');
         setCreatorId(id);
         const getCategories = async () => {
             try {
-                const response = await fetch('https://harmony-backend-z69j.onrender.com/api/all/content/categories', {
+                const response = await fetch('https://harmony-backend-z69j.onrender.com/api/get/all/category', {
                     method: 'GET',
                 });
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-                setFetchedCategories(data?.data?.allCategory || []);
+                console.log("data", data)
+                setFetchedCategories(data?.msg?.allCategory || []);
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -251,11 +252,11 @@ const NewArticlePage = () => {
                                     <Dropdown.Menu>
                                         {fetchedCategories.map((category: any) => (
                                             <Dropdown.Item
-                                                key={category.category}
-                                                onClick={() => handleChangeCategory(category.category)}
-                                                active={selectedKeys.includes(category.category)}
+                                                key={category.name}
+                                                onClick={() => handleChangeCategory(category.name)}
+                                                active={selectedKeys.includes(category.name)}
                                             >
-                                                {category.category}
+                                                {category.name}
                                             </Dropdown.Item>
                                         ))}
                                     </Dropdown.Menu>

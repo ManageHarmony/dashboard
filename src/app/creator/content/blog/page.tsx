@@ -37,7 +37,7 @@ const CreateBlog = () => {
         }
     };
     useEffect(() => {
-        const id = localStorage.getItem('creator id');
+        const id = localStorage.getItem('creator_id');
         setCreatorId(id);
     
         // Get categories from Redux instead of making an API call
@@ -50,15 +50,15 @@ const CreateBlog = () => {
             console.log("making api call")
             const getCategories = async () => {
                 try {
-                    const response = await fetch('https://harmony-backend-z69j.onrender.com/api/all/content/categories', {
+                    const response = await fetch('https://harmony-backend-z69j.onrender.com/api/get/all/category', {
                         method: 'GET',
                     });
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
                     }
                     const data = await response.json();
-                    setFetchedCategories(data?.data?.allCategory || []);
-                    dispatch(saveCategory(data?.data?.allCategory))
+                    setFetchedCategories(data?.msg?.allCategory || []);
+                    dispatch(saveCategory(data?.msg?.allCategory))
                     setLoading(false);
     
                 } catch (error) {
@@ -247,8 +247,8 @@ const CreateBlog = () => {
                                 onSelectionChange={handleSelectionChange}
                             >
                                 {fetchedCategories.map((category: any) => (
-                                    <DropdownItem key={category.category}>
-                                        {category.category}
+                                    <DropdownItem key={category.name}>
+                                        {category.name}
                                     </DropdownItem>
                                 ))}
                             </DropdownMenu>

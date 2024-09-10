@@ -89,7 +89,7 @@ export default function RootLayout({
                         isPanelHovered={isPanelHovered}
                     />
                     <DashboardHeader
-                        isPanelHovered={isPanelHovered}
+                        
                         onShowNotifications={handleShowNotifications}
                         showNotifications={showNotifications}
                         onShowDropdown={handleShowDropdown}
@@ -99,8 +99,8 @@ export default function RootLayout({
                     <div
                         style={{
                             marginLeft: "7%",
-                            filter: isPanelHovered || showNotifications || showDropdown ? 'blur(3px)' : 'none',
-                            transition: 'filter 0.2s ease-in-out'
+                            // filter: isPanelHovered ? 'blur(3px)' : 'none',
+                            // transition: 'filter 0.2s ease-in-out'
                         }}
                     >
                         <div className="page-info" style={{ marginLeft: "20px" }}>
