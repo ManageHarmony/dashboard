@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FiFilePlus } from 'react-icons/fi';
 import { AiOutlineUserAdd } from 'react-icons/ai';
 import { Spinner } from 'react-bootstrap';
@@ -19,7 +19,27 @@ const NewServicePage = () => {
     const [duration, setDuration] = useState<number | ''>('');
     const [price, setPrice] = useState<number | ''>('');
     const [loading, setLoading] = useState<boolean>(false);
+    const [categories, setCategories] = useState([]);
+    const [categoryId, setCategoryId] = useState('');
 
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await fetch('https://harmony-backend-z69j.onrender.com/api/get/all/category');
+                const data = await response.json();
+
+                // Access the array of categories inside 'msg.allCategory'
+                setCategories(data.msg.allCategory);
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        };
+
+        fetchCategories();
+    }, []);
+    const handleCategoryChange = (e: any) => {
+        setCategoryId(e.target.value); // Set the categoryId when user selects a category
+    };
     const showToastError = (message: string) => {
         toast.error(message, {
             position: "top-center",
@@ -51,36 +71,44 @@ const NewServicePage = () => {
     };
 
     const handleSubmit = async () => {
+        if (!categoryId) {
+            showToastError('Please select a category.');
+            return;
+        }
         setLoading(true);
         const formData = new FormData();
-    
+
         // Split the strings into arrays
         const tagsArray = tags.split(',').map(tag => tag.trim());
         const subtitleArray = subtitle.split(',').map(sub => sub.trim());
         const discussArray = whatWeWillDiscuss.split(',').map(item => item.trim());
         const benefitsArray = benefits.split(',').map(benefit => benefit.trim());
         const languagesArray = languages.split(',').map(lang => lang.trim());
-    
+
         // Append form fields
-        formData.append('serviceImage', serviceImage);
         formData.append('title', title);
+        formData.append('serviceImage', serviceImage);
         formData.append('description', description);
-    
+        formData.append('language', languages);
+
+        formData.append('price', price.toString());
+
         // Append arrays to FormData (converting each array element to string or other accepted format)
         tagsArray.forEach(tag => formData.append('tags[]', tag));
         subtitleArray.forEach(sub => formData.append('subtitle[]', sub));
         discussArray.forEach(item => formData.append('what_we_will_discuss[]', item));
         benefitsArray.forEach(benefit => formData.append('benefits[]', benefit));
-        languagesArray.forEach(lang => formData.append('languages[]', lang));
-    
+
         formData.append('duration', duration.toString());
-    
+        console.log("FD", formData)
+        console.log("CID", categoryId)
+
         try {
-            const response = await fetch('https://harmony-backend-z69j.onrender.com/api/admin/create/service', {
+            const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/admin/create/service/${categoryId}`, {
                 method: 'POST',
                 body: formData,
             });
-    
+
             const result = await response.json();
             console.log(result);
             if (response.ok) {
@@ -94,6 +122,7 @@ const NewServicePage = () => {
                 setDuration('');
                 setLanguages('');
                 setWhatWeWillDiscuss('');
+                setPrice('');
                 setSubtitle('');
             } else {
                 showToastError(`Failed to create service: ${result.message}`);
@@ -108,6 +137,8 @@ const NewServicePage = () => {
     return (
         <>
             <div style={styles.formContainer}>
+
+
                 <div style={styles.row}>
                     <div style={styles.inputGroup}>
                         <input
@@ -118,6 +149,25 @@ const NewServicePage = () => {
                             style={styles.input}
                         />
                     </div>
+                    <div style={styles.inputGroup}>
+                        <select value={categoryId} onChange={handleCategoryChange} style={{
+                            border: 'none',         
+                            outline: 'none',        
+                            padding: '8px',         
+                            backgroundColor: '#f9f9f9', 
+                            borderRadius: '4px',     
+                            fontSize: '16px',       
+                            width: '100%'           
+                        }} >
+                            <option value="">Select a category</option>
+                            {categories.map((category: any) => (
+                                <option key={category?.id} value={category.id}>
+                                    {category?.name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
                     <div style={styles.inputGroup}>
                         <label style={styles.fileInputLabel}>
                             <input
@@ -130,6 +180,7 @@ const NewServicePage = () => {
                         </label>
                     </div>
                 </div>
+
 
                 <div style={styles.textareaContainer}>
                     <textarea
@@ -171,7 +222,15 @@ const NewServicePage = () => {
                             style={styles.input}
                         />
                     </div>
-
+                    <div style={styles.inputGroup}>
+                        <input
+                            type="number"
+                            placeholder="Price"
+                            value={price}
+                            onChange={(e) => setPrice(Number(e.target.value))}
+                            style={styles.input}
+                        />
+                    </div>
                     <div style={styles.inputGroup}>
                         <input
                             type="text"
