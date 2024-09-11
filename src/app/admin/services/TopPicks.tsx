@@ -1,17 +1,12 @@
 'use client'
-
-import React, { useEffect, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
-import Dropdown from 'react-bootstrap/Dropdown';
-
-import ServiceStats from "./ServiceStats";
-import { Spinner } from "react-bootstrap";
-import { toast, ToastContainer } from "react-toastify";
-import { FaPlus } from "react-icons/fa";
-import { useRouter } from "next/navigation";
-
-
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faEye } from '@fortawesome/free-solid-svg-icons';
+import { Dropdown, Spinner } from 'react-bootstrap';
+import { FaPlus } from 'react-icons/fa';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function TopPicks() {
     const [showAll, setShowAll] = useState(false);
@@ -22,23 +17,19 @@ export default function TopPicks() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('https://harmony-backend-z69j.onrender.com/api/admin/get/service/stats', {
+                const response = await fetch('https://harmony-backend-z69j.onrender.com/api/get/all/service', {
                     method: 'GET',
                 });
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-                console.log("data recieved", data)
-                setTopPicksByUser(data?.data?.allServices || []);
+                console.log("data received", data);
+                setTopPicksByUser(data?.msg?.allService || []);
                 setLoading(false);
-
             } catch (error) {
                 console.error('Error fetching data:', error);
                 setTopPicksByUser([]);
-                setLoading(false);
-
-            } finally {
                 setLoading(false);
             }
         };
@@ -47,15 +38,14 @@ export default function TopPicks() {
     }, []);
 
     const addCategory = (data: any) => {
-        // Store data in sessionStorage before navigating
-        console.log('data we are getting to be saved', data);
+        console.log('data to be saved', data);
         sessionStorage.setItem('serviceCategoryData', JSON.stringify(data));
         router.push('/admin/services/new-service-category');
-    }
+    };
 
     const handleDelete = async (id: string) => {
         try {
-            const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/admin/delete/service/${id}`, {
+            const response = await fetch(`https://harmony-backend-z69j.onrender.com/ /api/admin/delete/service/${id}`, {
                 method: "DELETE",
             });
 
@@ -99,12 +89,11 @@ export default function TopPicks() {
         });
     };
 
-
     return (
         <>
             <div style={{ display: "flex", flexDirection: "column", gap: "20px", width: "100%" }}>
                 <div>
-                    <ServiceStats />
+                    {/* You can add the <ServiceStats /> component here if needed */}
                 </div>
                 <div style={{
                     width: "100%",
@@ -184,11 +173,9 @@ export default function TopPicks() {
                                                 </Dropdown.Toggle>
 
                                                 <Dropdown.Menu className="p-0 shadow-lg" style={{ width: 'auto', minWidth: '120px' }}>
-
                                                     <Dropdown.Item className="flex items-center text-sm p-2" onClick={() => addCategory(service)} >
                                                         <FaPlus style={{ marginRight: "6px", color: '#2C297D' }} />
                                                         Add Category
-
                                                     </Dropdown.Item>
                                                     <Dropdown.Item
                                                         className="flex items-center text-sm p-2"
@@ -204,12 +191,10 @@ export default function TopPicks() {
                                 </tbody>
                             </table>
                         </div>
-                    )
-                    }
+                    )}
                     <ToastContainer />
                 </div>
             </div>
         </>
     );
 }
-
