@@ -260,7 +260,7 @@ const AddManager = () => {
                                     style={{ backgroundColor: '#ff6600', borderColor: '#ff6600' }}
                                     disabled={loading}
                                 >
-                                    {loading ? <Spinner animation="border" size="sm" /> : 'Add Manager'}
+                                    {loading ? <Spinner animation="border"  size="sm" /> : 'Add Manager'}
                                 </Button>
                             </div>
                         </Form>

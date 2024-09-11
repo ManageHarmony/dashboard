@@ -1,26 +1,23 @@
 'use client'
 
 import React, { useEffect, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
+import { CardTitle } from "react-bootstrap";
 
-
-interface topBlogs {
+interface topArticles {
     id: number;
     heading: string;
     views: number;
 }
 
-export default function TopBlogs() {
-    const [topBlogs, setTopBlogs] = useState<topBlogs[]>([]);
+export default function AllConsultants() {
+    const [topArticles, setTopArticles] = useState<topArticles[]>([]);
     const [loading, setLoading] = useState(true);
-
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch("https://harmony-backend-z69j.onrender.com/api/admin/get/top/blogs", {
+                const response = await fetch("https://harmony-backend-z69j.onrender.com/api/admin/get/top/articles", {
                     method: "GET"
                 })
                 if (!response.ok) {
@@ -28,8 +25,8 @@ export default function TopBlogs() {
                 }
 
                 const data = await response.json();
-                console.log("data", data?.blogs);
-                setTopBlogs(data?.blogs);
+                console.log("data", data?.article)
+                setTopArticles(data?.article)
                 setLoading(false)
             } catch (error) {
                 console.error("something went wrong", error)
@@ -39,25 +36,35 @@ export default function TopBlogs() {
         fetchData();
     }, []);
 
+    if (loading) {
+        return (
+            <div className="text-center p-4">
+                <p>Loading...</p>
+            </div>
+        );
+    }
+
 
 
     return (
-        <>
-            <div style={{
-                width: "100%",
-                height: "330px",
-                backgroundColor: "white",
-                borderRadius: "20px",
-                padding: "20px",
-                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-            }}>
-                <div className="flex justify-between items-center mb-4">
-                    <span className="font-bold text-lg">Top Blog</span>
-                    <Link href="/admin/content/allBlogsTable" style={{ textDecoration: "none" }}>
+        <div style={{ padding: "20px 30px" }}>
+            <div style={{ width: "100%", height: "100vh", backgroundColor: "white", borderRadius: "20px", padding: "20px 20px", overflow: "hidden", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}>
+                <div className="flex justify-between items-center" style={{ marginBottom: "10px" }}>
+                    <CardTitle>
+                        <span className="font-bold text-lg">All Consultants Picks</span>{" "}
+                        <span className="font-normal text-lg">by Users</span>
+                        <div style={{
+                            width: "40%",
+                            height: "2px",
+                            backgroundColor: "#ff6600",
+                            display: "block"
+                        }}></div>
+                    </CardTitle>
+                    <Link href="/admin/content" style={{ textDecoration: "none" }}>
                         <button
                             style={{ fontSize: "1rem", color: "#FFA05D", display: "flex", alignItems: "center", background: "none", cursor: "pointer", border: "1px dashed #ffecd4", padding: "5px 10px", borderRadius: "8px" }}
                         >
-                            See All
+                            Go Back{" "}
                             <svg xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: "5px" }} width="16" height="17" viewBox="0 0 16 17" fill="none">
                                 <path d="M8 2.875H2.75C2.28587 2.875 1.84075 3.07254 1.51256 3.42417C1.18437 3.77581 1 4.25272 1 4.75V14.125C1 14.6223 1.18437 15.0992 1.51256 15.4508C1.84075 15.8025 2.28587 16 2.75 16H11.5C11.9641 16 12.4092 15.8025 12.7374 15.4508C13.0656 15.0992 13.25 14.6223 13.25 14.125V8.5" stroke="#FFA05D" strokeLinecap="round" strokeLinejoin="round" />
                                 <path d="M5 12.6504L12.875 4.21289" stroke="#FFA05D" strokeLinecap="round" strokeLinejoin="round" />
@@ -66,11 +73,8 @@ export default function TopBlogs() {
                         </button>
                     </Link>
                 </div>
-                {!loading ? (<div style={{
-                    height: "calc(270px - 40px)",
-                    overflowY: "hidden",
-                    borderRadius: "10px"
-                }}>
+
+                <div style={{ maxHeight: "calc(100% - 20px)", overflowY: "auto" }} className="scrollable-content">
                     <table className="table-auto w-full border-collapse">
                         <thead className="bg-orange-100 rounded-t-lg">
                             <tr>
@@ -81,11 +85,11 @@ export default function TopBlogs() {
                             </tr>
                         </thead>
                         <tbody>
-                            {topBlogs.map((blog, index) => (
-                                <tr key={blog.id} className="border-b border-gray-300">
+                            {topArticles.map((article, index) => (
+                                <tr key={article.id} className="border-b border-gray-300">
                                     <td className="p-2 text-black">{index + 1}</td>
-                                    <td className="p-2 text-black">{blog?.heading}</td>
-                                    <td className="p-2 text-black">{blog?.views}</td>
+                                    <td className="p-2 text-black">{article?.heading}</td>
+                                    <td className="p-2 text-black">{article?.views}</td>
                                     <td className="p-2">
                                         <button className="text-orange-600 flex items-center">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
@@ -98,10 +102,8 @@ export default function TopBlogs() {
                             ))}
                         </tbody>
                     </table>
-                </div>) : (<div className="text-center p-4">
-                    <p>Loading...</p>
-                </div>)}
+                </div>
             </div>
-        </>
+        </div>
     );
 }

@@ -395,7 +395,8 @@ const AddCreator = () => {
                         <div style={{ display: "flex", justifyContent: "", gap: "20px" }}>
 
                             <Form.Group controlId="formAssignedManager" className="mb-3" style={{ width: "50%" }}>
-                                <Dropdown onSelect={handleManagerSelect}>
+                                <Dropdown onSelect={handleManagerSelect}  onFocus={() => handleFocus('manager')}
+                                    onBlur={() => handleBlur('manager')}>
                                     <Dropdown.Toggle variant="outline-secondary" className="w-100 text-left">
                                         {assignedManager || 'Select a manager'}
                                     </Dropdown.Toggle>
@@ -411,7 +412,7 @@ const AddCreator = () => {
                                         )}
                                     </Dropdown.Menu>
                                     <div style={{ position: "absolute", right: "20px" }}>
-                                        <FiUser  style={{ fontSize: "30px", color: focusState["creatorPicture"] ? 'purple' : '#ff6600', }} />
+                                        <FiUser  style={{ fontSize: "30px", color: focusState["manager"] ? 'purple' : '#ff6600', }} />
                                     </div>
                                 </Dropdown>
 
@@ -423,7 +424,7 @@ const AddCreator = () => {
                                     style={{ backgroundColor: '#ff6600', borderColor: '#ff6600', display: "flex", height: "50px", alignItems: "center" }}
                                     disabled={loading}
                                 >
-                                    {loading ? <Spinner animation="border" size="sm" /> : 'Add Creator'}
+                                    {loading ? <Spinner animation="border"  size="sm" /> : 'Add Creator'}
                                     <AiOutlineUserAdd style={{ fontSize: '1.5rem', marginLeft: "5px" }} />
                                 </Button>
                             </div>

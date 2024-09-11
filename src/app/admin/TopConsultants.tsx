@@ -1,23 +1,43 @@
-import React, { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
+import React, { useEffect, useState } from "react";
 import { CardTitle } from "@/components/ui/card";
 import './customScrollbar.css';
 import Link from "next/link";
 
-const topConsultantsData = [
-  { id: 1, name: "Dr. Naseem Ahmad", times: 45 },
-  { id: 2, name: "Kanika Jindal", times: 35 },
-  { id: 3, name: "Shubham Solanki", times: 31 },
-  { id: 4, name: "Mikakshi Sisodia", times: 28 },
-  { id: 5, name: "Rishi Kumar", times: 18 },
-  { id: 6, name: "Another Consultant", times: 16 },
-  { id: 7, name: "More Consultants", times: 12 },
-  // Add more data as needed to test scrolling
-];
+
+interface topConsultant {
+  id: number;
+  doctor_name: string;
+  noOfBooking: number;
+}
+
 
 export default function TopConsultants() {
-  const displayedData = topConsultantsData.slice(0, 5);
+
+  const [topConsultants, setTopConsultants] = useState<topConsultant[]>([]);
+  const [loading, setLoading] = useState(true);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("https://harmony-backend-z69j.onrender.com/api/trending/consultant", {
+          method: "GET"
+        })
+        if (!response.ok) {
+          throw new Error("Failed to fetching data")
+        }
+  
+        const data = await response.json();
+        console.log("data", data?.consultants);
+        setTopConsultants(data?.consultants);
+        setLoading(false)
+      } catch (error) {
+        console.error("something went wrong", error)
+        setLoading(false)
+      }
+    } 
+     fetchData();
+  }, []);
 
   return (
     <div style={{ width: "100%", height: "350px", backgroundColor: "white", borderRadius: "20px", padding: "18px 20px", overflow: "hidden", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}>
@@ -41,22 +61,22 @@ export default function TopConsultants() {
         </Link>
       </div>
 
-      <div style={{ maxHeight: "calc(100% - 20px)", overflowY: "auto" }} className="scrollable-content">
+      {!loading ? (<div style={{ maxHeight: "calc(100% - 20px)", overflowY: "auto" }} className="scrollable-content">
         <table className="table-auto w-full border-collapse">
           <thead className="bg-orange-100 rounded-t-lg">
             <tr>
               <th className="text-left p-2 text-gray-600 rounded-tl-lg">Sr. No</th>
               <th className="text-left p-2 text-gray-600">Therapist Name</th>
-              <th className="text-left p-2 text-gray-600">Applied on</th>
+              <th className="text-left p-2 text-gray-600">Times</th>
               <th className="text-left p-2 text-gray-600 rounded-tr-lg">Action</th>
             </tr>
           </thead>
           <tbody>
-            {displayedData.map((consultant, index) => (
+            {topConsultants.slice(0, 5).map((consultant, index) => (
               <tr key={consultant.id} className="border-b border-gray-300" style={{ fontSize: "16px" }}>
                 <td className="p-2 text-black">{index + 1}</td>
-                <td className="p-2 text-black">{consultant.name}</td>
-                <td className="p-2 text-black">{consultant.times}</td>
+                <td className="p-2 text-black">{consultant.doctor_name}</td>
+                <td className="p-2 text-black">{consultant.noOfBooking}</td>
                 <td className="p-2">
                   <button className="text-orange-600 flex items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
@@ -69,7 +89,9 @@ export default function TopConsultants() {
             ))}
           </tbody>
         </table>
-      </div>
+      </div>) :   (<div className="text-center p-4">
+            <p>Loading...</p>
+        </div>)}
     </div>
   );
 }

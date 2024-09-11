@@ -22,14 +22,15 @@ export default function ServiceActionBar() {
         setLoadingButton(buttonType);
     };
 
-    const buttonStyle = {
+   const buttonStyle = {
         background: "#fff",
         border: "1px dashed orange",
         color: "#ff5500",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        transition: "background-color 0.3s, color 0.3s, border 0.3s"
+        transition: "background-color 0.3s, color 0.3s, border 0.3s",
+        minWidth: "130px"
     };
 
     const buttonHoverStyle = {
@@ -54,7 +55,7 @@ export default function ServiceActionBar() {
                     style={getButtonStyle("allServiceCategory")}
                     disabled={loadingButton === "allServiceCategory"}
                 >
-                    {loadingButton === 'allServiceCategory' ? <Spinner animation="border" size="sm" /> : 'All Service Category'} <FiBell className="ml-2" />
+                    {loadingButton === 'allServiceCategory' ? <Spinner animation="border"  size="sm" /> : 'All Service Category'} <FiBell className="ml-2" />
                 </Button>
             </div>
             <div className="flex space-x-3 mt-2">
@@ -66,7 +67,7 @@ export default function ServiceActionBar() {
                     style={getButtonStyle("allServices")}
                     disabled={loadingButton === "allServices"}
                 >
-                    {loadingButton === 'allServices' ? <Spinner animation="border" size="sm" /> : 'All Services'} <FiBell className="ml-2" />
+                    {loadingButton === 'allServices' ? <Spinner animation="border"  size="sm" /> : 'All Services'} <FiBell className="ml-2" />
                 </Button>
 
                 <Link href='/admin/services/new-service' style={{ textDecoration: "none" }}>
@@ -78,7 +79,7 @@ export default function ServiceActionBar() {
                         style={getButtonStyle("addNewService")}
                         disabled={loadingButton === "addNewService"}
                     >
-                        {loadingButton === 'addNewService' ? <Spinner animation="border" size="sm" /> : 'Add New Service'} <FiBell className="ml-2" />
+                        {loadingButton === 'addNewService' ? <Spinner animation="border"  size="sm" /> : 'Add New Service'} <FiBell className="ml-2" />
                     </Button>
                 </Link>
 
@@ -90,7 +91,7 @@ export default function ServiceActionBar() {
                     style={getButtonStyle("allCategories")}
                     disabled={loadingButton === "allCategories"}
                 >
-                    {loadingButton === 'allCategories' ? <Spinner animation="border" size="sm" /> : 'All Categories'} <FiBell className="ml-2" />
+                    {loadingButton === 'allCategories' ? <Spinner animation="border"  size="sm" /> : 'All Categories'} <FiBell className="ml-2" />
                 </Button>
             </div>
         </div>

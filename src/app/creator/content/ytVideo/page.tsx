@@ -325,7 +325,7 @@ const CreateYTContent: React.FC = () => {
                                     style={{ backgroundColor: '#ff6600', borderColor: '#ff6600', display: "flex", height: "50px", alignItems: "center" }}
                                 // disabled={loading || !isFormValid()}
                                 >
-                                    {loading ? <Spinner animation="border" size="sm" /> : 'Create YouTube Content'}
+                                    {loading ? <Spinner animation="border"  size="sm" /> : 'Create YouTube Content'}
                                     <FaYoutube style={{ fontSize: '1.5rem', marginLeft: "10px" }} />
                                 </Button>
                             </div>

@@ -333,7 +333,7 @@ const AddManager = () => {
                                 style={{ backgroundColor: '#ff6600', borderColor: '#ff6600', display: "flex", }}
                                 disabled={loading}
                             >
-                                {loading ? <Spinner animation="border" size="sm" /> : 'Add Manager'}
+                                {loading ? <Spinner animation="border"  size="sm" /> : 'Add Manager'}
                                 <AiOutlineUserAdd style={{ fontSize: '1.5rem', marginLeft: "5px" }} />
                             </Button>
                         </div>

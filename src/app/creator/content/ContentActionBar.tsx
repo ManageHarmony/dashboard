@@ -27,14 +27,15 @@ export default function ContentActionBar() {
     };
 
 
-    const buttonStyle = {
+   const buttonStyle = {
         background: "#fff",
         border: "1px dashed orange",
         color: "#ff5500",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        transition: "background-color 0.3s, color 0.3s, border 0.3s"
+        transition: "background-color 0.3s, color 0.3s, border 0.3s",
+        minWidth: "130px"
     };
 
     const buttonHoverStyle = {
@@ -66,7 +67,7 @@ export default function ContentActionBar() {
                                     style={getButtonStyle(hoveredButton === 'allBlogs')}
                                     disabled={loadingButton === 'allBlogs'}
                                 >
-                                    {loadingButton === 'allBlogs' ? <Spinner animation="border" size="sm" /> : 'All Blogs'} <FaBlogger className="ml-2 fs-5" />
+                                    {loadingButton === 'allBlogs' ? <Spinner animation="border"  size="sm" /> : 'All Blogs'} <FaBlogger className="ml-2 fs-5" />
                                 </Button>
                             </Link>
                             <Link href="/creator/content/allArticles" style={{ textDecoration: "none" }}>
@@ -79,7 +80,7 @@ export default function ContentActionBar() {
                                     style={getButtonStyle(hoveredButton === 'allArticles')}
                                     disabled={loadingButton === 'allArticles'}
                                 >
-                                    {loadingButton === 'allArticles' ? <Spinner animation="border" size="sm" /> : 'All Articles'} <MdOutlineArticle className="ml-2 fs-5" />
+                                    {loadingButton === 'allArticles' ? <Spinner animation="border"  size="sm" /> : 'All Articles'} <MdOutlineArticle className="ml-2 fs-5" />
                                 </Button>
                             </Link>
                             <Link href="/creator/content/allVideos" style={{ textDecoration: "none" }}>
@@ -92,7 +93,7 @@ export default function ContentActionBar() {
                                     style={getButtonStyle(hoveredButton === 'allYtVideos')}
                                     disabled={loadingButton === 'allYtVideos'}
                                 >
-                                    {loadingButton === 'allYtVideos' ? <Spinner animation="border" size="sm" /> : 'All Videos'} <FaYoutube className="ml-2 fs-5" />
+                                    {loadingButton === 'allYtVideos' ? <Spinner animation="border"  size="sm" /> : 'All Videos'} <FaYoutube className="ml-2 fs-5" />
                                 </Button>
                             </Link>
                         </div>
@@ -107,7 +108,7 @@ export default function ContentActionBar() {
                                 style={getButtonStyle(hoveredButton === 'createYtContent')}
                                 disabled={loadingButton === 'createYtContent'}
                             >
-                               {loadingButton === 'createYtContent' ? <Spinner animation="border" size="sm" /> : 'Create Yt Content'} <FaYoutube className="ml-2 fs-5" />
+                               {loadingButton === 'createYtContent' ? <Spinner animation="border"  size="sm" /> : 'Create Yt Content'} <FaYoutube className="ml-2 fs-5" />
                             </Button>
                         </Link>
                         <Link href='/creator/content/blog' style={{ textDecoration: "none" }}>
@@ -120,7 +121,7 @@ export default function ContentActionBar() {
                                 style={getButtonStyle(hoveredButton === 'newBlog')}
                                 disabled={loadingButton === 'newBlog'}
                             >
-                                {loadingButton === 'newBlog' ? <Spinner animation="border" size="sm" /> : 'Add New Blog'} <FaBlogger className="ml-2 fs-5" />
+                                {loadingButton === 'newBlog' ? <Spinner animation="border"  size="sm" /> : 'Add New Blog'} <FaBlogger className="ml-2 fs-5" />
                             </Button>
                         </Link>
                         <Link href='/creator/content/article' style={{ textDecoration: "none" }}>
@@ -133,7 +134,7 @@ export default function ContentActionBar() {
                                 style={getButtonStyle(hoveredButton === 'newArticle')}
                                 disabled={loadingButton === 'newArticle'}
                             >
-                                {loadingButton === 'newArticle' ? <Spinner animation="border" size="sm" /> : 'Add New Article'} <MdOutlineArticle className="ml-2 fs-5" />
+                                {loadingButton === 'newArticle' ? <Spinner animation="border"  size="sm" /> : 'Add New Article'} <MdOutlineArticle className="ml-2 fs-5" />
                             </Button>
                         </Link>
                     </div>

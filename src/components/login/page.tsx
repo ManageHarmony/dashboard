@@ -155,7 +155,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ userType }) => {
                 },
               }}
             >
-              {loading ? <Spinner animation="border" /> : 'Log In'}
+              {loading ? <Spinner animation="border"  size="sm" /> : 'Log In'}
             </Button>
           </Box>
         </Box>

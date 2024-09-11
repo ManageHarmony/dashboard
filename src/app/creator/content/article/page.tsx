@@ -269,7 +269,7 @@ const NewArticlePage = () => {
                                         style={{ backgroundColor: '#ff6600', borderColor: '#ff6600', display: "flex", height: "50px", alignItems: "center" }}
                                     // disabled={loading || !isFormValid()}
                                     >
-                                        {loading ? <Spinner animation="border" size="sm" /> : 'Create Article'}
+                                        {loading ? <Spinner animation="border"  size="sm" /> : 'Create Article'}
                                         <MdOutlineArticle style={{ fontSize: '1.5rem', marginLeft: "10px" }} />
                                     </Button>
                                 </div>

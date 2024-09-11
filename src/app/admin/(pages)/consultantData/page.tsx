@@ -1,33 +1,52 @@
-import React from "react";
+'use client'
+
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { CardTitle } from "react-bootstrap";
 
-const topConsultantsData = [
-    { id: 1, name: "Dr. Naseem Ahmad", times: 45 },
-    { id: 2, name: "Kanika Jindal", times: 35 },
-    { id: 3, name: "Shubham Solanki", times: 31 },
-    { id: 4, name: "Mikakshi Sisodia", times: 28 },
-    { id: 5, name: "Rishi Kumar", times: 18 },
-    { id: 6, name: "Another Consultant", times: 16 },
-    { id: 7, name: "More Consultants", times: 12 },
-    { id: 1, name: "Dr. Naseem Ahmad", times: 45 },
-    { id: 2, name: "Kanika Jindal", times: 35 },
-    { id: 3, name: "Shubham Solanki", times: 31 },
-    { id: 4, name: "Mikakshi Sisodia", times: 28 },
-    { id: 5, name: "Rishi Kumar", times: 18 },
-    { id: 6, name: "Another Consultant", times: 16 },
-    { id: 7, name: "More Consultants", times: 12 },
-    { id: 1, name: "Dr. Naseem Ahmad", times: 45 },
-    { id: 2, name: "Kanika Jindal", times: 35 },
-    { id: 3, name: "Shubham Solanki", times: 31 },
-    { id: 4, name: "Mikakshi Sisodia", times: 28 },
-    { id: 5, name: "Rishi Kumar", times: 18 },
-    { id: 6, name: "Another Consultant", times: 16 },
-    { id: 7, name: "More Consultants", times: 12 },
-    // Add more data as needed to test scrolling
-];
+interface topConsultant {
+    id: number;
+    doctor_name: string;
+    noOfBooking: number;
+}
 
 export default function AllConsultants() {
+    const [topConsultants, setTopConsultants] = useState<topConsultant[]>([]);
+    const [loading, setLoading] = useState(true);
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch("https://harmony-backend-z69j.onrender.com/api/trending/consultant", {
+                    method: "GET"
+                })
+                if (!response.ok) {
+                    throw new Error("Failed to fetching data")
+                }
+
+                const data = await response.json();
+                console.log("data", data?.consultants);
+                setTopConsultants(data?.consultants);
+                setLoading(false)
+            } catch (error) {
+                console.error("something went wrong", error)
+                setLoading(false);
+            }
+        }
+        fetchData();
+    }, []);
+
+    if (loading) {
+        return (
+            <div className="text-center p-4">
+                <p>Loading...</p>
+            </div>
+        );
+    }
+
+
+
     return (
         <div style={{ padding: "20px 30px" }}>
             <div style={{ width: "100%", height: "100vh", backgroundColor: "white", borderRadius: "20px", padding: "20px 20px", overflow: "hidden", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}>
@@ -42,17 +61,17 @@ export default function AllConsultants() {
                             display: "block"
                         }}></div>
                     </CardTitle>
-                    <Link href="/admin" style={{textDecoration: "none"}}>
-                    <button
-                        style={{ fontSize: "1rem", color: "#FFA05D", display: "flex", alignItems: "center", background: "none", cursor: "pointer", border: "1px dashed #ffecd4", padding: "5px 10px", borderRadius: "8px" }}
-                    >
-                        Go Back{" "}
-                        <svg xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: "5px" }} width="16" height="17" viewBox="0 0 16 17" fill="none">
-                            <path d="M8 2.875H2.75C2.28587 2.875 1.84075 3.07254 1.51256 3.42417C1.18437 3.77581 1 4.25272 1 4.75V14.125C1 14.6223 1.18437 15.0992 1.51256 15.4508C1.84075 15.8025 2.28587 16 2.75 16H11.5C11.9641 16 12.4092 15.8025 12.7374 15.4508C13.0656 15.0992 13.25 14.6223 13.25 14.125V8.5" stroke="#FFA05D" strokeLinecap="round" strokeLinejoin="round" />
-                            <path d="M5 12.6504L12.875 4.21289" stroke="#FFA05D" strokeLinecap="round" strokeLinejoin="round" />
-                            <path d="M10.625 1H15V5.6875" stroke="#FFA05D" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                    </button>
+                    <Link href="/admin" style={{ textDecoration: "none" }}>
+                        <button
+                            style={{ fontSize: "1rem", color: "#FFA05D", display: "flex", alignItems: "center", background: "none", cursor: "pointer", border: "1px dashed #ffecd4", padding: "5px 10px", borderRadius: "8px" }}
+                        >
+                            Go Back{" "}
+                            <svg xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: "5px" }} width="16" height="17" viewBox="0 0 16 17" fill="none">
+                                <path d="M8 2.875H2.75C2.28587 2.875 1.84075 3.07254 1.51256 3.42417C1.18437 3.77581 1 4.25272 1 4.75V14.125C1 14.6223 1.18437 15.0992 1.51256 15.4508C1.84075 15.8025 2.28587 16 2.75 16H11.5C11.9641 16 12.4092 15.8025 12.7374 15.4508C13.0656 15.0992 13.25 14.6223 13.25 14.125V8.5" stroke="#FFA05D" strokeLinecap="round" strokeLinejoin="round" />
+                                <path d="M5 12.6504L12.875 4.21289" stroke="#FFA05D" strokeLinecap="round" strokeLinejoin="round" />
+                                <path d="M10.625 1H15V5.6875" stroke="#FFA05D" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                        </button>
                     </Link>
                 </div>
 
@@ -67,11 +86,11 @@ export default function AllConsultants() {
                             </tr>
                         </thead>
                         <tbody>
-                            {topConsultantsData.map((consultant, index) => (
+                            {topConsultants.map((consultant, index) => (
                                 <tr key={consultant.id} className="border-b border-gray-300" style={{ fontSize: "16px" }}>
                                     <td className="p-2 text-black">{index + 1}</td>
-                                    <td className="p-2 text-black">{consultant.name}</td>
-                                    <td className="p-2 text-black">{consultant.times}</td>
+                                    <td className="p-2 text-black">{consultant.doctor_name}</td>
+                                    <td className="p-2 text-black">{consultant.noOfBooking}</td>
                                     <td className="p-2">
                                         <button className="text-orange-600 flex items-center">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">

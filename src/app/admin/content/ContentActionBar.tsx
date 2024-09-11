@@ -34,7 +34,8 @@ export default function ContentActionBar() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        transition: "background-color 0.3s, color 0.3s, border 0.3s"
+        transition: "background-color 0.3s, color 0.3s, border 0.3s",
+        minWidth: "130px"
     };
 
     const buttonHoverStyle = {
@@ -54,73 +55,73 @@ export default function ContentActionBar() {
                     <div style={{ display: "flex", justifyContent: "space-between" }}>
                         <div className="action-bar fs-4 font-semibold mb-2">Action Bar</div>
                         <div className="bar" style={{ display: "flex", gap: "10px" }}>
-                            
+
 
                             <Link href='/admin/content/allblogs' style={{ textDecoration: "none" }}>
-                            <Button
-                                variant="outline-warning"
-                                onClick={() => handleClick("allBlogs")}
-                                onMouseEnter={() => handleMouseEnter("allBlogs")}
-                                onMouseLeave={handleMouseLeave}
-                                style={getButtonStyle("allBlogs")}
-                                disabled={loadingButton === 'allBlogs'}
-                            >
-                                {loadingButton === 'allBlogs' ? <Spinner animation="border" size="sm" /> : 'All Blogs'} <FaBlogger className="ml-2 fs-5" />
-                            </Button>
-                        </Link>
+                                <Button
+                                    variant="outline-warning"
+                                    onClick={() => handleClick("allBlogs")}
+                                    onMouseEnter={() => handleMouseEnter("allBlogs")}
+                                    onMouseLeave={handleMouseLeave}
+                                    style={getButtonStyle("allBlogs")}
+                                    disabled={loadingButton === 'allBlogs'}
+                                >
+                                    {loadingButton === 'allBlogs' ? <Spinner animation="border"  size="sm" /> : 'All Blogs'} <FaBlogger className="ml-2 fs-5" />
+                                </Button>
+                            </Link>
 
-                        <Link href='/admin/content/allVideos' style={{ textDecoration: "none" }}>
-                            <Button
-                                variant="outline-warning"
-                                onClick={() => handleClick("allVideos")}
-                                onMouseEnter={() => handleMouseEnter("allVideos")}
-                                onMouseLeave={handleMouseLeave}
-                                style={getButtonStyle("allVideos")}
-                                disabled={loadingButton === 'allYtVideos'}
-                            >
-                                {loadingButton === 'allYtVideos' ? <Spinner animation="border" size="sm" /> : 'All Videos'} <FaYoutube className="ml-2 fs-5" />
-                            </Button>
-                        </Link>
-                        <Link href='/admin/content/allArticles' style={{ textDecoration: "none" }}>
-                            <Button
-                                variant="outline-warning"
-                                onClick={() => handleClick("allArticles")}
-                                onMouseEnter={() => handleMouseEnter("allArticles")}
-                                onMouseLeave={handleMouseLeave}
-                                style={getButtonStyle("allArticles")}
-                                disabled={loadingButton === 'allArticles'}
-                            >
-                                {loadingButton === 'allArticles' ? <Spinner animation="border" size="sm" /> : 'All Articles'} <MdOutlineArticle className="ml-2 fs-5" />
-                            </Button>
-                        </Link>
+                            <Link href='/admin/content/allVideos' style={{ textDecoration: "none" }}>
+                                <Button
+                                    variant="outline-warning"
+                                    onClick={() => handleClick("allVideos")}
+                                    onMouseEnter={() => handleMouseEnter("allVideos")}
+                                    onMouseLeave={handleMouseLeave}
+                                    style={getButtonStyle("allVideos")}
+                                    disabled={loadingButton === 'allVideos'}
+                                >
+                                    {loadingButton === 'allVideos' ? <Spinner animation="border"  size="sm" /> : 'All Videos'} <FaYoutube className="ml-2 fs-5" />
+                                </Button>
+                            </Link>
+                            <Link href='/admin/content/allArticles' style={{ textDecoration: "none" }}>
+                                <Button
+                                    variant="outline-warning"
+                                    onClick={() => handleClick("allArticles")}
+                                    onMouseEnter={() => handleMouseEnter("allArticles")}
+                                    onMouseLeave={handleMouseLeave}
+                                    style={getButtonStyle("allArticles")}
+                                    disabled={loadingButton === 'allArticles'}
+                                >
+                                    {loadingButton === 'allArticles' ? <Spinner animation="border"  size="sm" /> : 'All Articles'} <MdOutlineArticle className="ml-2 fs-5" />
+                                </Button>
+                            </Link>
                         </div>
                     </div>
                     <div className="flex space-x-3 mt-2">
-                    <Link href="#" style={{ textDecoration: "none" }}>
-                                <Button
-                                    variant="outline-warning"
-                                    onClick={() => handleClick("pendingPosts")}
-                                    onMouseEnter={() => handleMouseEnter("pendingPosts")}
-                                    onMouseLeave={handleMouseLeave}
-                                    style={getButtonStyle("pendingPosts")}
-                                    disabled={loadingButton === "pendingPosts"}
-                                >
-                                    {loadingButton === 'pendingPosts' ? <Spinner animation="border" size="sm" /> : 'All Pending Posts'} <MdPendingActions className="ml-2 fs-5" />
-                                </Button>
-                            </Link>
+                        <Link href="#" style={{ textDecoration: "none" }}>
+                            <Button
+                                variant="outline-warning"
+                                onClick={() => handleClick("pendingPosts")}
+                                onMouseEnter={() => handleMouseEnter("pendingPosts")}
+                                onMouseLeave={handleMouseLeave}
+                                style={getButtonStyle("pendingPosts")}
+                                disabled={loadingButton === "pendingPosts"}
+                            >
+                                {loadingButton === 'pendingPosts' ? <Spinner animation="border"  size="sm" /> : 'All Pending Posts'} <MdPendingActions className="ml-2 fs-5" />
+                            </Button>
+                        </Link>
 
-                            <Link href="/admin/content/newCategory" style={{ textDecoration: "none" }}>
-                                <Button
-                                    variant="outline-warning"
-                                    onClick={() => handleClick("addNewCategory")}
-                                    onMouseEnter={() => handleMouseEnter("addNewCategory")}
-                                    onMouseLeave={handleMouseLeave}
-                                    style={getButtonStyle("addNewCategory")}
-                                    disabled={loadingButton === "addNewCategory"}
-                                >
-                                    {loadingButton === 'addNewCategory' ? <Spinner animation="border" size="sm" /> : 'Add New Category'} <BiSolidCategoryAlt  className="ml-2 fs-5" />
-                                </Button>
-                            </Link>
+                        <Link href="/admin/content/newCategory" style={{ textDecoration: "none" }}>
+                            <Button
+                                variant="outline-warning"
+                                onClick={() => handleClick("addNewCategory")}
+                                onMouseEnter={() => handleMouseEnter("addNewCategory")}
+                                onMouseLeave={handleMouseLeave}
+                                style={getButtonStyle("addNewCategory")}
+                                disabled={loadingButton === "addNewCategory"}
+                            >
+                                {loadingButton === 'addNewCategory' ? <Spinner animation="border"  size="sm" /> : 'Add New Category'} <BiSolidCategoryAlt className="ml-2 fs-5" />
+                            </Button>
+                        </Link>
                     </div>
                 </div>
 

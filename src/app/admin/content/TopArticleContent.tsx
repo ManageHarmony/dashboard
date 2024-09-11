@@ -1,31 +1,43 @@
 'use client'
 
-import React, { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 
 
 
-const topConsultantsData = [
-    { id: 1, name: "Dr. Naseem Ahmad", times: 45 },
-    { id: 2, name: "Kanika Jindal", times: 35 },
-    { id: 3, name: "Shubham Solanki", times: 31 },
-    { id: 4, name: "Mikakshi Sisodia", times: 28 },
-    { id: 5, name: "Rishi Kumar", times: 18 },
-    { id: 3, name: "Shubham Solanki", times: 31 },
-    { id: 4, name: "Mikakshi Sisodia", times: 28 },
-    { id: 5, name: "Rishi Kumar", times: 18 },
-
-    { id: 5, name: "Rishi Kumar", times: 18 },
-    { id: 3, name: "Shubham Solanki", times: 31 },
-    { id: 4, name: "Mikakshi Sisodia", times: 28 },
-    { id: 5, name: "Rishi Kumar", times: 18 },
-
-];
+interface topArticles {
+    id: number;
+    heading: string;
+    views: number;
+}
 
 export default function TopArticleContent() {
-    const [showAll, setShowAll] = useState(false)
+    const [topArticles, setTopArticles] = useState<topArticles[]>([]);
+    const [loading, setLoading] = useState(true);
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch("https://harmony-backend-z69j.onrender.com/api/admin/get/top/articles", {
+                    method: "GET"
+                })
+                if (!response.ok) {
+                    throw new Error("Failed to fetching data")
+                }
+
+                const data = await response.json();
+                console.log("data", data?.article);
+                setTopArticles(data?.article);
+                setLoading(false)
+            } catch (error) {
+                console.error("something went wrong", error)
+                setLoading(false)
+            }
+        }
+        fetchData();
+    }, []);
+
     return (
         <div style={{
             width: "100%",
@@ -37,7 +49,7 @@ export default function TopArticleContent() {
         }}>
             <div className="flex justify-between items-center mb-2">
                 <span className="font-bold text-lg">Top Article Content</span>
-                <Link href="#" style={{ textDecoration: "none" }}>
+                <Link href="/admin/content/allArticlesTable" style={{ textDecoration: "none" }}>
                     <button
                         style={{ fontSize: "1rem", color: "#FFA05D", display: "flex", alignItems: "center", background: "none", cursor: "pointer", border: "1px dashed #ffecd4", padding: "5px 10px", borderRadius: "8px" }}
                     >
@@ -50,7 +62,7 @@ export default function TopArticleContent() {
                     </button>
                 </Link>
             </div>
-            <div style={{
+            {!loading ? (<div style={{
                 height: "calc(100% - 30px)",
                 overflowY: "hidden",
                 borderRadius: "10px"
@@ -59,18 +71,18 @@ export default function TopArticleContent() {
                     <thead className="bg-orange-100 rounded-t-lg">
                         <tr>
                             <th className="text-left p-2 text-gray-600 rounded-tl-lg">Sr. No</th>
-                            <th className="text-left p-2 text-gray-600">Therapist Name</th>
-                            <th className="text-left p-2 text-gray-600">Applied on</th>
+                            <th className="text-left p-2 text-gray-600">Title</th>
+                            <th className="text-left p-2 text-gray-600">Reads</th>
                             <th className="text-left p-2 text-gray-600 rounded-tr-lg">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {topConsultantsData.map((consultant, index) => (
-                            <tr key={consultant.id} className="border-b border-gray-300">
+                        {topArticles.map((article, index) => (
+                            <tr key={article.id} className="border-b border-gray-300">
                                 <td className="p-2 text-black">{index + 1}</td>
-                                <td className="p-2 text-black">{consultant.name}</td>
-                                <td className="p-2 text-black">{consultant.times}</td>
-                                <td className="p-2" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                <td className="p-2 text-black">{article?.heading}</td>
+                                <td className="p-2 text-black">{article?.views}</td>
+                                <td className="p-2">
                                     <button className="text-orange-600 flex items-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
                                             <rect width="32" height="32" rx="6" fill="#FFE3D0" />
@@ -82,7 +94,9 @@ export default function TopArticleContent() {
                         ))}
                     </tbody>
                 </table>
-            </div>
+            </div>) : (<div className="text-center p-4">
+                <p>Loading...</p>
+            </div>)}
         </div>
     );
 }
