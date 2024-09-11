@@ -6,6 +6,7 @@ import { faEye } from "@fortawesome/free-solid-svg-icons";
 
 
 import ServiceStats from "./ServiceStats";
+import Link from "next/link";
 
 
 const doctorApplicationData = [
