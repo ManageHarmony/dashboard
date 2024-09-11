@@ -6,6 +6,7 @@ import { faEye } from "@fortawesome/free-solid-svg-icons";
 
 import DoctorStats from "./DoctorStats";
 import ActionBarDoctors from "./ActionBarDoctors";
+import Link from "next/link";
 
 const doctorApplicationData = [
     { id: 1, name: "Dr. Naseem Ahmad", times: 45 },
@@ -40,8 +41,8 @@ export default function DoctorApplication() {
                     boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)"
                 }}>
                     <div className="flex justify-between items-center mb-4">
-                        <span className="font-bold text-lg">Top Picks</span>
-                        <Link href="#" style={{ textDecoration: "none" }}>
+                        <span className="font-bold text-lg">Top Applications</span>
+                        <Link href="/manager/doctors/allApplications" style={{ textDecoration: "none" }}>
                         <button
                             style={{ fontSize: "1rem", color: "#FFA05D", display: "flex", alignItems: "center", background: "none", cursor: "pointer", border: "1px dashed #ffecd4", padding: "5px 10px", borderRadius: "8px" }}
                         >
