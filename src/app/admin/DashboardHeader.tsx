@@ -1,13 +1,14 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { Navbar, Form, FormControl } from 'react-bootstrap';
+import { Navbar, Form, FormControl, InputGroup, Button } from 'react-bootstrap';
 import { FaBell, FaSearch, FaUser, FaCog, FaSignOutAlt } from 'react-icons/fa';
 import Image from 'next/image';
 import profilePic from "../../../public/assets/avatar.jpg";
 import HeaderNotificationCard from './HeaderNotification';
 import { ChevronDownIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
+import SearchBar from '@/components/Search';
 
 const DashboardHeader = ({ isPanelHovered, onShowNotifications, showNotifications, onShowDropdown, showDropdown }: any) => {
   const [notifications] = useState([
@@ -65,6 +66,9 @@ const notificationRef = useRef<HTMLDivElement>(null);
     }
   };
   
+  const handleSearch = (query: string) => {
+    console.log('Search query:', query);
+  };
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
@@ -74,23 +78,10 @@ const notificationRef = useRef<HTMLDivElement>(null);
 
   return (
     <Navbar bg='transparent' className="d-flex justify-content-between w-100 p-3 header bg-white">
-      <Form style={{
-        width: '250px',
-        marginLeft: "110px",
-        transform: isPanelHovered ? 'translateX(160px)' : 'translateX(0)',
-        transition: 'transform 0.3s ease-in-out',
-      }}>
-        <FormControl
-          type="search"
-          placeholder="Search anything..."
-          className="me-2 search"
-          aria-label="Search"
-        />
-        <FaSearch
-          size={20}
-          style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', color: '#6c757d' }}
-        />
-      </Form>
+      <div style={{marginLeft:'7.5%'}}>
+      <SearchBar onSearch={handleSearch} />
+
+      </div>
       <div className="d-flex align-items-center">
         <div ref={notificationRef} style={{ position: 'relative', marginRight: '10px' }}>
           <FaBell
