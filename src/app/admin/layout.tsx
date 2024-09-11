@@ -54,6 +54,16 @@ export default function RootLayout({
             pageTitle = 'All Tickets' 
         } else if (pathname === '/admin/sessionData') {
             pageTitle = 'All Sessions' 
+        } else if (pathname === '/admin/doctors/allApplications') {
+            pageTitle = 'All Applications' 
+        } else if (pathname === '/admin/doctors/allDoctors') {
+            pageTitle = 'All Doctors' 
+        } else if (pathname === '/admin/doctors/allRatings') {
+            pageTitle = 'All Ratings' 
+        } else if (pathname === '/admin/organisation/recentTickets') {
+            pageTitle = 'All Tickets' 
+        } else if (pathname === '/admin/organisation/allRatingsAndWords') {
+            pageTitle = 'All Ratings and Words' 
         } else {
             pageTitle = pathParts[pathParts.length - 1]?.charAt(0).toUpperCase() + pathParts[pathParts.length - 1]?.slice(1);
         }

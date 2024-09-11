@@ -4,9 +4,10 @@
 
 /* SidePanel.module.css */
 body {
-  background-color:  #daf7fd7e !important;
+  background-color: #daf7fd7e !important;
   margin: 0;
 }
+
 .breadcrumb {
   display: flex;
   align-items: center;
@@ -18,22 +19,27 @@ body {
 }
 
 .breadcrumb-separator {
-  margin: 0 5px; /* Adjust the value for desired spacing */
-  color: #666; /* Optional: change the color of the separator */
+  margin: 0 5px;
+  /* Adjust the value for desired spacing */
+  color: #666;
+  /* Optional: change the color of the separator */
 }
 
 /* header */
 .header-notification-card {
+  width: 320px;
+  height: 456px;
   background-color: #fff;
-  border-radius: 10px;
-  padding: 20px;
+  border-radius: 20px;
+  padding: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 350px;
+
   position: absolute;
   top: 50px;
   right: 0;
   z-index: 1000;
-  overflow: hidden; /* Add this line to remove sharp corners */
+  overflow: hidden;
+  /* Add this line to remove sharp corners */
 }
 
 .notification-card-header {
@@ -43,42 +49,72 @@ body {
 }
 
 .header-notification-card-title {
-  font-size: 1.25rem;
+  font-size: 1rem;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-top: 8px;
+  position: relative;
+  /* Make sure the ::after is positioned relative to the h2 */
+}
+
+.header-notification-card-title::after {
+  content: '';
+  display: flex;
+  width: 60px;
+  height: 2px;
+  margin-top: 0px;
+  background-color: #FFA05D;
+  position: absolute;
+  left: 0;
 }
 
 .see-all {
-  font-size: 0.875rem;
-  color: #ff6600;
+  width: 96px;
+  height: 40px;
+  font-size: 16px;
+  color: #FFA05D;
   text-decoration: none;
 }
 
 .header-notification-filters {
   display: flex;
-  margin-bottom: 15px;
+  margin-top: 5px;
+  gap: 10px;
 }
 
 .filter-button {
   background: none;
   border: none;
-  font-size: 0.875rem;
-  padding: 5px 10px;
+  font-size: 14px;
+  padding: 3px 8px;
   cursor: pointer;
-  background-color: #daf7fd7e;
+  background-color: #ebf9ff;
 }
 
-.filter-button.active {
+.filter-button.active,
+.filter-button-unread.active {
   font-weight: bold;
   color: #fff;
   background-color: #2C297E;
   border-radius: 5px;
 }
 
-.header-notification-item {
+.notification-box {
+  width: 300px;
+  height: 350px;
+}
+
+.notification-box>.notification-item {
   display: flex;
   align-items: center;
-  margin-bottom: 15px;
+  width: 300px;
+  height: 80px;
+  margin-bottom: 8px;
+  box-shadow: 2px 2px 2px rgba(235, 249, 255, 0.9);
+}
+
+.notification-box>.notification-item:hover {
+  background-color: #ebf9ff;
+  cursor: pointer;
 }
 
 .header-notification-image {
@@ -95,70 +131,86 @@ body {
 }
 
 .notification-content p {
-  font-size: 0.875rem;
+  font-size: 12px;
   margin: 0;
   color: #6c757d;
+}
+
+.custom-dropdown {
+  width: 200px;
+  /* Adjust width as needed */
+  height: 200px;
 }
 
 .custom-dropdown .dropdown-menu {
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 25px;
+  padding: 20px;
   position: absolute;
+
   right: 0;
   z-index: 1000;
-  width: 220px; /* Adjust width as needed */
-  top: 70px; /* Increased space from the top */
+  top: 70px;
+  /* Increased space from the top */
 }
 
 
 .dropdown-card {
-  border-radius: 10px 10px 0 10px;
+  border-radius: 10px 0px 10px 10px;
 }
 
 .custom-dropdown .dropdown-item {
   display: flex;
   align-items: center;
-  padding: 12px 16px; /* Adjust padding for more space */
+  margin-top: 12px;
+  width: 180px;
+  height: 50px;
+
   color: #000;
   font-weight: bold;
-  border-radius: 10px; /* Initial border-radius */
+  border-radius: 10px;
+  /* Initial border-radius */
+  margin-left: 10px;
 }
 
 .custom-dropdown .dropdown-item {
   margin-right: 10px;
-  color: #FF6600;
+  color: #222222;
+  font-size: "16px";
 }
 
 .custom-dropdown .dropdown-item:hover {
-  background-color: #FF6600;
-  color: white;
-  border-radius: 10px; /* Border-radius on hover */
+  background-color: #FFE3D0;
+  color: #222222;
+  border-radius: 10px;
+  /* Border-radius on hover */
 }
 
 .custom-dropdown .dropdown-item:hover .me-2 {
   color: white;
 }
 
-
 .listItem {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #2C297E; 
-  cursor: pointer;                      
+  color: #2C297E;
+  cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
   margin-bottom: 0px;
 }
 
 .listItem.selected {
-  background-color: #2C297E; /* Navy blue background for selected items */
-  color: #fff; /* White text for selected items */
+  background-color: #2C297E;
+  /* Navy blue background for selected items */
+  color: #fff;
+  /* White text for selected items */
 }
 
 .listItem:hover {
-  background-color: #2C297E; /* Navy blue background on hover */
+  background-color: #2C297E;
+  /* Navy blue background on hover */
   color: #fff;
 }
 
@@ -177,7 +229,8 @@ body {
 
 .listItemIcon.selected,
 .listItemIcon:hover {
-  color: white; /* White icon color for selected items and on hover */
+  color: white;
+  /* White icon color for selected items and on hover */
 }
 
 .listItemText {
@@ -205,17 +258,24 @@ body {
 
 .stats-row {
   display: grid;
-  grid-template-columns: repeat(6, 1fr); /* Create 6 equal columns */
-  gap: 20px; /* Equal gaps between cards */
+  grid-template-columns: repeat(6, 1fr);
+  /* Create 6 equal columns */
+  gap: 20px;
+  /* Equal gaps between cards */
   padding-right: 10px;
-  justify-content: center; /* Center the grid */
-  margin-left: 25px; /* Center the grid horizontally */
-  width: 100%; /* Ensure the grid takes up the full width */
-  max-width: 1440px; /* Set a maximum width for larger screens */
+  justify-content: center;
+  /* Center the grid */
+  margin-left: 25px;
+  /* Center the grid horizontally */
+  width: 100%;
+  /* Ensure the grid takes up the full width */
+  max-width: 1440px;
+  /* Set a maximum width for larger screens */
 }
 
 .stat-card {
-  height: 80px; /* Fixed height */
+  height: 80px;
+  /* Fixed height */
   min-width: 180px;
   display: flex;
   flex-direction: column;
@@ -258,25 +318,29 @@ body {
 /* Responsive styles */
 @media (max-width: 1200px) {
   .stats-row {
-    grid-template-columns: repeat(6, 1fr); /* Still 6 cards per row */
+    grid-template-columns: repeat(6, 1fr);
+    /* Still 6 cards per row */
   }
 }
 
 @media (max-width: 992px) {
   .stats-row {
-    grid-template-columns: repeat(3, 1fr); /* 3 cards per row on smaller screens */
+    grid-template-columns: repeat(3, 1fr);
+    /* 3 cards per row on smaller screens */
   }
 }
 
 @media (max-width: 768px) {
   .stats-row {
-    grid-template-columns: repeat(2, 1fr); /* 2 cards per row on mobile screens */
+    grid-template-columns: repeat(2, 1fr);
+    /* 2 cards per row on mobile screens */
   }
 }
 
 @media (max-width: 576px) {
   .stats-row {
-    grid-template-columns: 1fr; /* 1 card per row on very small screens */
+    grid-template-columns: 1fr;
+    /* 1 card per row on very small screens */
   }
 }
 
@@ -293,7 +357,7 @@ body {
   grid-template-columns: repeat(2, 1fr);
 
   padding: 10px 20px;
- padding-bottom: 20px;
+  padding-bottom: 20px;
   gap: 20px;
 }
 
@@ -313,31 +377,35 @@ body {
   margin: 0px 0;
   border-radius: 20px;
 }
-.recent-rating-container {
-    width: 100%;
-    height: 450px;
 
-    background-color: #fff;
+.recent-rating-container {
+  width: 100%;
+  height: 450px;
+
+  background-color: #fff;
 }
 
 
 .doctor-ratings-container {
   width: 100%;
-    height: 550px;
+  height: 550px;
 
-    background-color: #fff;
+  background-color: #fff;
 }
+
 .recent-doctors-container {
- 
+
   margin-top: 20px;
 }
 
 .top-article-container {
   margin-top: 20px;
 }
+
 .most-posted-container {
   margin-top: 20px;
 }
+
 .top-blogs-container {
   margin-top: 20px;
 }
@@ -369,7 +437,8 @@ body {
   text-decoration: underline;
 }
 
-.welcome-container, .heading-container {
+.welcome-container,
+.heading-container {
   position: relative;
   display: inline-block;
 }
@@ -377,9 +446,11 @@ body {
 .heading-underline {
   width: 50%;
   height: 2px;
-  background-color: #ff6600; /* Red color */
+  background-color: #ff6600;
+  /* Red color */
   position: absolute;
-  bottom: 0; /* Adjust based on the spacing you need */
+  bottom: 0;
+  /* Adjust based on the spacing you need */
   left: 0;
   margin-bottom: 4px;
 }
@@ -387,14 +458,14 @@ body {
 .notification-card {
   background-color: #fff;
   border-radius: 15px;
-  
+
   margin: 15px 0px;
   padding-left: 15px;
   padding-right: 15px;
   padding-top: 5px;
   padding-bottom: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
- 
+
 }
 
 .notification-card-title {
@@ -407,21 +478,22 @@ body {
 .heading-underline-org {
   width: 25%;
   height: 2px;
-  background-color: #ff6600; /* Red color */
+  background-color: #ff6600;
+  /* Red color */
   position: absolute;
   bottom: 0;
   left: 0;
-  
+
 }
 
 .notification-item {
   display: flex;
   align-items: center;
- 
+
   display: flex;
-   padding: 8px;
-   border-radius: 15px;
-   margin-top: 12px;
+  padding: 8px;
+  border-radius: 15px;
+  margin-top: 12px;
 
 }
 
@@ -557,6 +629,7 @@ body {
     gap: 2px;
   }
 }
+
 /* staff's table dropdown to show number of rows */
 .select-item {
   display: flex;
@@ -566,27 +639,31 @@ body {
   cursor: pointer;
   transition: color 0.3s ease, background-color 0.3s ease;
 }
+
 .select-item:hover {
   color: white;
   background-color: #343a40;
 }
-.dropdown{
+
+.dropdown {
   display: flex;
   align-items: center;
-  justify-content:center;
+  justify-content: center;
   padding: 12px;
 }
-.dropdown-content{
+
+.dropdown-content {
   position: absolute;
   top: 40px;
   right: 12px;
   z-index: 99;
-  
+
 }
-.table-dropdown-item:hover{
+
+.table-dropdown-item:hover {
   background-color: #2C297E;
   color: white;
-  
+
 }
 
 /*..... blog.......*/
@@ -633,7 +710,7 @@ body {
   border: 1px solid #ddd;
   border-radius: 8px;
   background-color: #f9f9f9;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .preview-section h2 {
@@ -677,45 +754,51 @@ body {
   transform: translateY(-5px);
   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2), 0 15px 25px rgba(0, 0, 0, 0.1);
 }
-.each-blog{
+
+.each-blog {
   background-color: #fff;
   padding: 32px;
   width: 70%;
   border-radius: 12px;
 }
-.blog-status{
+
+.blog-status {
   width: 25%;
 }
-.status-dropdown{
+
+.status-dropdown {
   width: 90%;
   height: 40px;
-  
+
 }
 
 /* Smooth transition for input fields */
 .input-transition input,
 .input-transition select {
-    transition: border-color 0.7s ease-in-out, color 0.7s ease-in-out, transform 0.3s ease-in-out;
-    box-shadow: none; /* Remove box-shadow */
-    border-radius: 10px; /* Optional: Add border radius for rounded corners */
-    box-shadow: none;
+  transition: border-color 0.7s ease-in-out, color 0.7s ease-in-out, transform 0.3s ease-in-out;
+  box-shadow: none;
+  /* Remove box-shadow */
+  border-radius: 10px;
+  /* Optional: Add border radius for rounded corners */
+  box-shadow: none;
 }
 
 .input-transition input:focus,
 .input-transition select:focus {
-    border-color: purple;
-    color: purple;
-    transform: scale(1.02); /* Slightly increase the size */
-    box-shadow: none;
+  border-color: purple;
+  color: purple;
+  transform: scale(1.02);
+  /* Slightly increase the size */
+  box-shadow: none;
 }
 
-.input-transition input:focus ~ .icon-transition,
-.input-transition select:focus ~ .icon-transition {
-    color: purple;
+.input-transition input:focus~.icon-transition,
+.input-transition select:focus~.icon-transition {
+  color: purple;
 }
 
 .icon-transition {
-    transition: color 0.3s ease-in-out;
+  transition: color 0.3s ease-in-out;
 }
 
 /* Smooth transition for input fields */
@@ -725,7 +808,8 @@ body {
 
 .input-transition:focus {
   border-color: purple;
-  transform: scale(1.02); /* Slightly increase the size */
+  transform: scale(1.02);
+  /* Slightly increase the size */
 }
 
 /* Transition for the icon */
@@ -733,6 +817,6 @@ body {
   transition: color 0.3s ease-in-out;
 }
 
-.input-transition:focus .icon-transition ~ .icon-transition {
+.input-transition:focus .icon-transition~.icon-transition {
   color: purple;
 }

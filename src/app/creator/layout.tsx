@@ -57,6 +57,22 @@ export default function RootLayout({
             pageTitle = 'All Videos' 
         } else if (pathname === '/creator/content/allArticles') {
             pageTitle = 'All Articles' 
+        }  else if (pathname === '/creator/consultantData') {
+            pageTitle = 'All Consultants' 
+        } else if (pathname === '/creator/recentTickets') {
+            pageTitle = 'All Tickets' 
+        } else if (pathname === '/creator/sessionData') {
+            pageTitle = 'All Sessions' 
+        } else if (pathname === '/creator/doctors/allApplications') {
+            pageTitle = 'All Applications' 
+        } else if (pathname === '/creator/doctors/allDoctors') {
+            pageTitle = 'All Doctors' 
+        } else if (pathname === '/creator/doctors/allRatings') {
+            pageTitle = 'All Ratings' 
+        } else if (pathname === '/creator/organisation/recentTickets') {
+            pageTitle = 'All Tickets' 
+        } else if (pathname === '/creator/organisation/allRatingsAndWords') {
+            pageTitle = 'All Ratings and Words' 
         } else {
             pageTitle = pathParts[pathParts.length - 1]?.charAt(0).toUpperCase() + pathParts[pathParts.length - 1]?.slice(1);
         }
@@ -103,7 +119,6 @@ export default function RootLayout({
                         isPanelHovered={isPanelHovered}
                     />
                     <DashboardHeader
-                        isPanelHovered={isPanelHovered}
                         onShowNotifications={handleShowNotifications}
                         showNotifications={showNotifications}
                         onShowDropdown={handleShowDropdown}
@@ -113,8 +128,8 @@ export default function RootLayout({
                     <div
                         style={{
                             marginLeft: "7%",
-                            filter: isPanelHovered || showNotifications || showDropdown ? 'blur(3px)' : 'none',
-                            transition: 'filter 0.2s ease-in-out'
+                            // filter: isPanelHovered ? 'blur(3px)' : 'none',
+                            // transition: 'filter 0.2s ease-in-out'
                         }}
                     >
                         <div className="page-info" style={{ marginLeft: "20px" }}>

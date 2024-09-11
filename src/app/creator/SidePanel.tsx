@@ -56,6 +56,7 @@ const SidePanel: React.FC<SidePanelProps> = ({ onPanelHover, isPanelHovered }) =
         zIndex: 1000,
         display: 'flex',
         flexDirection: 'column',
+        boxShadow: isPanelHovered ? "0 4px 8px rgba(0, 0, 0, 0.2)" : "none"
       }}
     >
       <div className="logoContainer">
