@@ -19,11 +19,11 @@ interface NotificationCardProps {
 const NotificationCard: React.FC<NotificationCardProps> = ({ title, notifications }) => {
     return (
         <>
-            <div style={{marginLeft: "30px"}}>
+            <div className='notification' style={{marginLeft: "30px"}}>
                 <h2 className="notification-card-title">
                     {title} <span className="heading-underline-org"></span>
                 </h2>
-                <div className="notification-card">
+                <div className="notification-box">
                     {notifications.map((notification, index) => (
                         
                             <Card key={index} className="notification-item">

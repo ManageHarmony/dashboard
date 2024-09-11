@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import RecentDoctors from "./RecentDoctors";
+import Link from "next/link";
 
 const ratingsData = [
     {
@@ -48,62 +49,53 @@ const ratingsData = [
 ];
 
 export default function DoctorRatings() {
-    const [showAll, setShowAll] = useState(false);
 
     const averageRating = 4.2; // Assuming you have a way to calculate this
 
     return (
         <>
-         <div style={{ width: "100%", backgroundColor: "white", borderRadius: "20px", padding: "20px", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px", paddingBottom: "8px" }}>
-                <div>
-                    <h2 style={{ fontSize: "1.4rem", fontWeight: "600" }}>Ratings & Words</h2>
-                </div>
-                <div style={{ fontSize: "1rem", color: "#101010", fontWeight: "600" }}>Average Rating: {averageRating}/5</div>
-                <button
-                            onClick={() => setShowAll(!showAll)}
-                            style={{ fontSize: "0.875rem", color: "#ff6500", display: "flex", alignItems: "center", background: "none", cursor: "pointer", border: "1px dashed #ffecd4", padding: "5px 10px", borderRadius: "8px" }}
+            <div style={{ width: "100%", backgroundColor: "white", borderRadius: "20px", padding: "20px", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px", paddingBottom: "8px" }}>
+                    <div>
+                        <h2 style={{ fontSize: "1.4rem", fontWeight: "600" }}>Ratings & Words</h2>
+                    </div>
+                    <div style={{ fontSize: "1rem", color: "#101010", fontWeight: "600" }}>Average Rating: {averageRating}/5</div>
+                    <Link href="/creator/doctors/allRatings" style={{ textDecoration: "none" }}>
+                        <button
+                            style={{ fontSize: "1rem", color: "#FFA05D", display: "flex", alignItems: "center", background: "none", cursor: "pointer", border: "1px dashed #ffecd4", padding: "5px 10px", borderRadius: "8px" }}
                         >
-                            {showAll ? "Show Less" : "See All"}{" "}
-                            <svg
-                                style={{ marginLeft: "4px", width: "16px", height: "16px" }}
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d={showAll ? "M5 15l7-7 7 7" : "M19 9l-7 7-7-7"}
-                                ></path>
+                            See All
+                            <svg xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: "5px" }} width="16" height="17" viewBox="0 0 16 17" fill="none">
+                                <path d="M8 2.875H2.75C2.28587 2.875 1.84075 3.07254 1.51256 3.42417C1.18437 3.77581 1 4.25272 1 4.75V14.125C1 14.6223 1.18437 15.0992 1.51256 15.4508C1.84075 15.8025 2.28587 16 2.75 16H11.5C11.9641 16 12.4092 15.8025 12.7374 15.4508C13.0656 15.0992 13.25 14.6223 13.25 14.125V8.5" stroke="#FFA05D" strokeLinecap="round" strokeLinejoin="round" />
+                                <path d="M5 12.6504L12.875 4.21289" stroke="#FFA05D" strokeLinecap="round" strokeLinejoin="round" />
+                                <path d="M10.625 1H15V5.6875" stroke="#FFA05D" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                         </button>
-            </div>
-            <div style={{ maxHeight: "300px", overflowY: "auto", paddingRight: "4px" }} className="scrollable-content">
-                {(showAll ? ratingsData : ratingsData.slice(0, 5)).map(
-                    (rating) => (
-                        <div key={rating.id} style={{ display: "flex", alignItems: "start", marginBottom: "8px", paddingBottom: "8px", borderBottom: "1px solid #ffecd4" }}>
-                            <img
-                                src={rating.avatar}
-                                alt={rating.name}
-                                style={{ width: "40px", height: "40px", borderRadius: "50%", marginRight: "8px" }}
-                            />
-                            <div style={{ flexGrow: 1 }}>
-                                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
-                                    <h3 style={{ fontSize: "0.875rem", fontWeight: "500", margin: "0" }}>{rating.name} - <span style={{ color: "#ff6500" }}>{rating.reviewer}</span></h3>
+                    </Link>
+                </div>
+                <div style={{ maxHeight: "300px", overflowY: "auto", paddingRight: "4px" }} className="scrollable-content">
+                    {(ratingsData.slice(0, 5)).map(
+                        (rating) => (
+                            <div key={rating.id} style={{ display: "flex", alignItems: "start", marginBottom: "8px", paddingBottom: "8px", borderBottom: "1px solid #ffecd4" }}>
+                                <img
+                                    src={rating.avatar}
+                                    alt={rating.name}
+                                    style={{ width: "40px", height: "40px", borderRadius: "50%", marginRight: "8px" }}
+                                />
+                                <div style={{ flexGrow: 1 }}>
+                                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
+                                        <h3 style={{ fontSize: "0.875rem", fontWeight: "500", margin: "0" }}>{rating.name} - <span style={{ color: "#ff6500" }}>{rating.reviewer}</span></h3>
+                                    </div>
+                                    <p style={{ color: "#6b7280", fontSize: "0.75rem", margin: "0" }}>{rating.date}</p>
+                                    <p style={{ fontSize: "0.875rem", margin: "0" }}>{rating.feedback}</p>
                                 </div>
-                                <p style={{ color: "#6b7280", fontSize: "0.75rem", margin: "0" }}>{rating.date}</p>
-                                <p style={{ fontSize: "0.875rem", margin: "0" }}>{rating.feedback}</p>
                             </div>
-                        </div>
-                    )
-                )}
+                        )
+                    )}
+                </div>
+
             </div>
-           
-        </div>
-         <RecentDoctors />
+            <RecentDoctors />
         </>
     );
 }
