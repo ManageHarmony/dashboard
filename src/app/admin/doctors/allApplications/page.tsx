@@ -40,7 +40,7 @@ export default function AllDoctors() {
             }}>
                 <div className="flex justify-between items-center mb-4">
                     <span className="font-bold text-lg">All Applications</span>
-                    <Link href="/admin/doctors">
+                    <Link href="/admin/doctors" style={{textDecoration: "none"}}>
                         <button
                             style={{ fontSize: "1rem", color: "#FFA05D", display: "flex", alignItems: "center", background: "none", cursor: "pointer", border: "1px dashed #ffecd4", padding: "5px 10px", borderRadius: "8px" }}
                         >
