@@ -75,11 +75,11 @@ export default function RecentDoctors() {
                                                     </svg>
                                                 </Dropdown.Toggle>
                                                 <Dropdown.Menu className="p-0 shadow-lg" style={{ width: 'auto', minWidth: '120px' }}>
-                                                    <Dropdown.Item onClick={() => handleEdit(data)}>
+                                                    <Dropdown.Item>
                                                         <FontAwesomeIcon icon={faEdit} className="mr-2" style={{ color: '#ff6600' }} />
                                                         Edit
                                                     </Dropdown.Item>
-                                                    <Dropdown.Item onClick={() => handleDelete(data.id)}>
+                                                    <Dropdown.Item>
                                                         <FontAwesomeIcon icon={faTrash} className="mr-2" style={{ color: '#ff6600' }} />
                                                         Delete
                                                     </Dropdown.Item>
