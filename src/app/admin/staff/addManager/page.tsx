@@ -164,7 +164,6 @@ const AddManager = () => {
         <>
             <div style={{ width: "100%", padding: "20px 40px" }}>
                 <Card className="p-4 shadow-sm" style={{ borderRadius: '10px', fontFamily: poppins.style.fontFamily, backgroundColor: '#fff' }}>
-                    <h1 className="text-center fs-2 mb-4" style={{ color: "#ff6600" }}>Add Manager</h1>
                     <Form onSubmit={handleSubmit} className="input-transition">
                         <div style={{ display: "flex", gap: "20px" }}>
                             <Form.Group controlId="formProfileImage" className="mb-3" style={{ width: "50%" }}>

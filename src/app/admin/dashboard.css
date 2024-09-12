@@ -748,10 +748,12 @@ body {
 /* Transition for the icon */
 .icon-transition {
   transition: color 0.3s ease-in-out;
+  font-size: 1.2rem;
 }
 
 .input-transition:focus .icon-transition~.icon-transition {
   color: purple;
+  transform: scale(1.2);
 }
 
 /* organisation notification */

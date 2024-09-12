@@ -91,7 +91,7 @@ const StaffDetail: React.FC = () => {
             const fetchData = async () => {
                 try {
                     let apiUrl = '';
-                    if (role === 'Creator') {
+                    if (role === 'creator') {
                         apiUrl = `https://harmony-backend-z69j.onrender.com/api/get/creator/profile/${staffId}`;
                         console.log("API URL: ", apiUrl);
 
@@ -100,7 +100,7 @@ const StaffDetail: React.FC = () => {
                         console.log("Details: ", data);
                         setStaffData(data?.creator);
                         if (data?.creator) setStatus(data?.creator.status);
-                    } else if (role === 'Manager') {
+                    } else if (role === 'manager') {
                         apiUrl = `https://harmony-backend-z69j.onrender.com/api/get/manager/profile/${staffId}`;
                         console.log("API URL: ", apiUrl);
 
@@ -111,7 +111,7 @@ const StaffDetail: React.FC = () => {
                         setAssignedCreators(data?.manager.creators);
                         setAssignedServices(data?.manager.assignedCategory)
                         if (data?.manager) setStatus(data?.manager.status);
-                    } else if (role === 'Doctor') {
+                    } else if (role === 'doctor') {
                         apiUrl = `https://harmony-backend-z69j.onrender.com/api/get/doctor/profile/${staffId}`;
                         console.log("API URL: ", apiUrl);
 
@@ -143,11 +143,11 @@ const StaffDetail: React.FC = () => {
         try {
             let apiUrl = '';
 
-            if (role === 'Creator') {
+            if (role === 'creator') {
                 apiUrl = `https://harmony-backend-z69j.onrender.com/api/admin/delete/creator/${staffId}`;
-            } else if (role === 'Manager') {
+            } else if (role === 'manager') {
                 apiUrl = `https://harmony-backend-z69j.onrender.com/api/admin/delete/manager/${staffId}`;
-            } else if (role === 'Doctor') {
+            } else if (role === 'doctor') {
                 apiUrl = `https://harmony-backend-z69j.onrender.com/api/admin/delete/doctor/${staffId}`;
             } else {
                 alert('Unknown role');
@@ -173,16 +173,16 @@ const StaffDetail: React.FC = () => {
     const handleStatusChange = async (newStatus: 'active' | 'inactive' | 'temporaryoff') => {
         try {
             let endpoint = '';
-            if (role === 'Manager') {
+            if (role === 'manager') {
                 endpoint = `https://harmony-backend-z69j.onrender.com/api/admin/manager/status/${newStatus}/${staffId}`;
-            } else if (role === 'Creator') {
+            } else if (role === 'creator') {
                 endpoint = `https://harmony-backend-z69j.onrender.com/api/admin/creator/status/${newStatus}/${staffId}`;
             } 
             const response = await fetch(endpoint, { method: "PUT" });
 
             if (!response.ok) throw new Error(`Failed Updating ${newStatus}`);
             setStatus(newStatus);
-            showToastSuccess(`Manager is set as ${newStatus}`);
+            showToastSuccess(`manager is set as ${newStatus}`);
         } catch (error) {
             console.error(`Failed to set as ${newStatus}: `, error);
             showToastError(`Failed to set as ${newStatus}`);
@@ -320,7 +320,7 @@ const StaffDetail: React.FC = () => {
                             <Typography variant="body2" component="p" sx={{ color: '#606060', fontSize: "16px" }}>
                                 {staffData.contact_number}
                             </Typography>
-                            {role === 'Creator' ? <>
+                            {role === 'creator' ? <>
                                 <Typography variant="body2" component="p" sx={{ color: 'black', fontWeight: 'bold', fontSize: "16px" }}>
                                     Language:
                                 </Typography>
@@ -356,7 +356,7 @@ const StaffDetail: React.FC = () => {
                     <DetailCard sx={{ maxWidth: '350px' }}>
                         <CardContent>
                             <Typography variant="h6" component="div" sx={{ color: '#101010', fontWeight: 'bold', marginBottom: "10px" }}>
-                                Manager for
+                                manager for
                             </Typography>
                             <Typography variant="body2" component="p" sx={{ color: '#101010', fontWeight: "bold", fontSize: "1.06rem", marginBottom: "8px" }}>
                                 Service Categories
