@@ -20,6 +20,7 @@ const RecentBlogsData = [
 
 export default function RecentBlogs() {
   const displayedData = RecentBlogsData.slice(0, 5);
+  //COPY THIS ANMOL
   const articleContent = useSelector((state: any) => state.example.articleContent);
   const ytContents = useSelector((state: any) => state.example.ytContents);
   const data = useSelector((state: any) => state.example.blogData);
