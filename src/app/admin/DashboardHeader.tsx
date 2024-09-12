@@ -117,7 +117,7 @@ const notificationRef = useRef<HTMLDivElement>(null);
             className=""
             style={{ marginRight: '10px', borderRadius: "10px" }}
           />
-          <span className="mx-1" style={{ color: '#000', fontWeight: 'bold' }}>Kanika</span>
+          <span className="mx-1" style={{ color: '#000', fontWeight: 'bold' }}>Shubham</span>
           <div className="relative"  >
             {/* Button with Dropdown Icon */}
             <button

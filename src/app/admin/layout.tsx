@@ -123,7 +123,7 @@ export default function RootLayout({
                             {pathname === '/admin' ? (
                                 <div className="welcome-container">
                                     <h1 className="mb-4" style={{ fontSize: "1.5rem" }}>
-                                        Welcome Back, <span style={{ color: '#ff6600' }}>Kanika</span>
+                                        Welcome Back, <span style={{ color: '#ff6600' }}>Shubham</span>
                                     </h1>
                                 </div>
                             ) : (

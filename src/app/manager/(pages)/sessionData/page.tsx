@@ -8,7 +8,7 @@ import { Dropdown } from "react-bootstrap";
 export default function AllSessions() {
     const topSessionsData = [
         { id: 1, name: "Dr. Naseem Ahmad", times: 45 },
-        { id: 2, name: "Kanika Jindal", times: 35 },
+        { id: 2, name: "Shubham Jindal", times: 35 },
         { id: 3, name: "Shubham Solanki", times: 31 },
         { id: 4, name: "Mikakshi Sisodia", times: 28 },
         { id: 5, name: "Rishi Kumar", times: 18 },
@@ -16,7 +16,7 @@ export default function AllSessions() {
         { id: 4, name: "Mikakshi Sisodia", times: 28 },
         { id: 5, name: "Rishi Kumar", times: 18 },
         { id: 1, name: "Dr. Naseem Ahmad", times: 45 },
-        { id: 2, name: "Kanika Jindal", times: 35 },
+        { id: 2, name: "Shubham Jindal", times: 35 },
         { id: 3, name: "Shubham Solanki", times: 31 },
         { id: 4, name: "Mikakshi Sisodia", times: 28 },
         { id: 5, name: "Rishi Kumar", times: 18 },
@@ -24,7 +24,7 @@ export default function AllSessions() {
         { id: 4, name: "Mikakshi Sisodia", times: 28 },
         { id: 5, name: "Rishi Kumar", times: 18 },
         { id: 1, name: "Dr. Naseem Ahmad", times: 45 },
-        { id: 2, name: "Kanika Jindal", times: 35 },
+        { id: 2, name: "Shubham Jindal", times: 35 },
         { id: 3, name: "Shubham Solanki", times: 31 },
         { id: 4, name: "Mikakshi Sisodia", times: 28 },
         { id: 5, name: "Rishi Kumar", times: 18 },

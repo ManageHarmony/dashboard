@@ -9,7 +9,7 @@ const AllArticlePage = () => {
     const [loading, setLoading] = useState(true);
    
     useEffect(() => {
-        const userId = localStorage.getItem("creator id");
+        const userId = localStorage.getItem("creator_id");
 
         const fetchData = async () => {
             try {

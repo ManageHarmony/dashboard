@@ -10,7 +10,7 @@ function AllBlogsPage() {
 
     useEffect(() => {
 
-        const id = localStorage.getItem("creator id")
+        const id = localStorage.getItem("creator_id")
         if (!id) {
             throw new Error("Creator Id Not Found")
         }

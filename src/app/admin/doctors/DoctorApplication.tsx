@@ -10,12 +10,12 @@ import Link from "next/link";
 
 const doctorApplicationData = [
     { id: 1, name: "Dr. Naseem Ahmad", times: 45 },
-    { id: 2, name: "Kanika Jindal", times: 35 },
+    { id: 2, name: "Shubham Jindal", times: 35 },
     { id: 3, name: "Shubham Solanki", times: 31 },
     { id: 4, name: "Mikakshi Sisodia", times: 28 },
     { id: 5, name: "Rishi Kumar", times: 18 },
     { id: 6, name: "Dr. Naseem Ahmad", times: 45 },
-    { id: 7, name: "Kanika Jindal", times: 35 },
+    { id: 7, name: "Shubham Jindal", times: 35 },
     { id: 8, name: "Shubham Solanki", times: 31 },
     { id: 9, name: "Mikakshi Sisodia", times: 28 },
     { id: 10, name: "Rishi Kumar", times: 18 },
