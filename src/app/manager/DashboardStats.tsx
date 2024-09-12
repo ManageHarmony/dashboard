@@ -10,8 +10,8 @@ const DashboardStats = ({ isPanelHovered }: any) => {
     { value: '22', label: 'Certified Consultants', icon: '' },
     { value: '4000', label: 'Registered Users', icon: '' },
     { value: '40', label: 'Blog Posts', icon: '' },
-    { value: '383,821 Rs.', label: 'Earning this Month', icon: ""},
-    { value: '10.4 M Rs.', label: 'Total Earnings till Now', icon: '' },
+    // { value: '383,821 Rs.', label: 'Earning this Month', icon: ""},
+    // { value: '10.4 M Rs.', label: 'Total Earnings till Now', icon: '' },
   ];
 
   return (

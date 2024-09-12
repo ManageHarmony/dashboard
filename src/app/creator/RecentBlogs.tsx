@@ -5,8 +5,9 @@ import { CardTitle } from "@/components/ui/card";
 import './customScrollbar.css';
 import Link from "next/link";
 import { Dropdown } from "react-bootstrap";
+import { useSelector } from "react-redux";
 
-const topConsultantsData = [
+const RecentBlogsData = [
   { id: 1, name: "Dr. Naseem Ahmad", times: 45 },
   { id: 2, name: "Shubham Jindal", times: 35 },
   { id: 3, name: "Shubham Solanki", times: 31 },
@@ -17,14 +18,17 @@ const topConsultantsData = [
   // Add more data as needed to test scrolling
 ];
 
-export default function TopConsultants() {
-  const displayedData = topConsultantsData.slice(0, 5);
-
+export default function RecentBlogs() {
+  const displayedData = RecentBlogsData.slice(0, 5);
+  const articleContent = useSelector((state: any) => state.example.articleContent);
+  const ytContents = useSelector((state: any) => state.example.ytContents);
+  const data = useSelector((state: any) => state.example.blogData);
+  console.log(data);
   return (
     <div style={{ width: "100%", height: "350px", backgroundColor: "white", borderRadius: "20px", padding: "18px 20px", overflow: "hidden", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}>
       <div className="flex justify-between items-center" style={{ marginBottom: "10px" }}>
         <CardTitle>
-          <span className="font-bold text-lg">Top 5 Consultants Picks</span>{" "}
+          <span className="font-bold text-lg">Recent Blog Posts</span>{" "}
           <span className="font-normal text-lg">by Users</span>
           <div style={{ width: "40%", height: "2px", backgroundColor: "#ff6600", display: "block" }}></div>
         </CardTitle>
@@ -47,46 +51,36 @@ export default function TopConsultants() {
           <thead className="bg-orange-100 rounded-t-lg">
             <tr>
               <th className="text-left p-2 text-gray-600 rounded-tl-lg">Sr. No</th>
-              <th className="text-left p-2 text-gray-600">Therapist Name</th>
-              <th className="text-left p-2 text-gray-600">Applied on</th>
-              <th className="text-center p-2 text-gray-600 rounded-tr-lg">Action</th>
+              <th className="text-left p-2 text-gray-600">Category</th>
+              <th className="text-left p-2 text-gray-600">Headings</th>
+              <th className="text-left p-2 text-gray-600">Verified</th>
+
+              <th className="text-left p-2 text-gray-600">Creator ID</th>
             </tr>
           </thead>
           <tbody>
-            {displayedData.map((consultant, index) => (
-              <tr key={consultant.id} className="border-b border-gray-300" style={{ fontSize: "16px" }}>
+            {data?.map(( item:any, index:any ) => {
+              console.log("ITEM", item)
+              return <tr key={item?.id} className="border-b border-gray-300" style={{ fontSize: "16px" }}>
                 <td className="p-2 text-black">{index + 1}</td>
-                <td className="p-2 text-black">{consultant.name}</td>
-                <td className="p-2 text-black">{consultant.times}</td>
-                <Dropdown className="p-2">
-                  <Dropdown.Toggle
-                    as="button"
-                    className="text-orange-600 flex items-center border-0 bg-transparent p-0"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 32 32" fill="none">
-                      <rect width="32" height="32" rx="6" fill="#FFE3D0" />
-                      <path d="M29.0947 16.5733C28.984 16.4147 26.3454 12.648 22.704 10.0733C20.816 8.736 18.4347 8 16 8C13.5667 8 11.1854 8.736 9.29336 10.0733C5.65203 12.648 3.01603 16.4147 2.90536 16.5733C2.58803 17.0307 2.58803 17.6373 2.90536 18.0947C3.01603 18.2533 5.65203 22.02 9.29336 24.5947C11.1854 25.9307 13.5667 26.6667 16 26.6667C18.4347 26.6667 20.816 25.9307 22.704 24.5933C26.3454 22.0187 28.984 18.252 29.0947 18.0933C29.4134 17.6373 29.4134 17.0293 29.0947 16.5733ZM16 22C13.4214 22 11.3334 19.9067 11.3334 17.3333C11.3334 14.7547 13.4214 12.6667 16 12.6667C18.5734 12.6667 20.6667 14.7547 20.6667 17.3333C20.6667 19.9067 18.5734 22 16 22ZM18.6667 17.3333C18.6667 18.8027 17.4694 20 16 20C14.5267 20 13.3334 18.8027 13.3334 17.3333C13.3334 15.86 14.5267 14.6667 16 14.6667C17.4694 14.6667 18.6667 15.86 18.6667 17.3333Z" fill="#FFA05D" />
-                    </svg>
-                  </Dropdown.Toggle>
+                <td className="p-2 text-black">{item?.category.join(', ')}</td>
+                <td className="p-2 text-black">
+                  <div>
+                    <strong>H1:</strong> {item?.data.headings.h1.join(', ')}
+                  </div>
+                  {item?.data.headings.h2.length > 0 && <div>
+                    <strong>H2:</strong> {item?.data.headings.h2.join(', ')}
+                  </div>}
+                  
+                  {/* Repeat for other heading levels if needed */}
+                </td>
 
-                  <Dropdown.Menu className="p-0 shadow-lg" style={{ width: 'auto', minWidth: '120px' }}>
 
-                    <Dropdown.Item className="flex items-center text-sm p-2" >
-                      <FontAwesomeIcon icon={faEdit} className="mr-2" style={{ color: '#ff6600' }} />
-                      Edit
+                <td className="p-2 text-black">{item?.verified}</td>
 
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      className="flex items-center text-sm p-2"
-
-                    >
-                      <FontAwesomeIcon icon={faTrash} className="mr-2" style={{ color: '#ff6600' }} />
-                      Delete
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
+                <td className="p-2 text-black">{item?.blog_creatorId}</td>
               </tr>
-            ))}
+            })}
           </tbody>
         </table>
       </div>
