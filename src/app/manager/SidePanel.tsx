@@ -33,11 +33,11 @@ const SidePanel: React.FC<SidePanelProps> = ({ onPanelHover, isPanelHovered }) =
   const menuItems = [
     { text: 'Dashboard', icon: <DashboardIcon hovered={hoveredItem === '/manager'} selected={pathname === '/manager'} />, href: '/manager' },
     { text: 'Doctors', icon: <DoctorsIcon hovered={hoveredItem === '/manager/doctors'} selected={pathname === '/manager/doctors'} />, href: '/manager/doctors' },
-    { text: 'Services', icon: <ServicesIcon hovered={hoveredItem === '/manager/services'} selected={pathname === '/manager/services'} />, href: '/manager/services' },
+    // { text: 'Services', icon: <ServicesIcon hovered={hoveredItem === '/manager/services'} selected={pathname === '/manager/services'} />, href: '/manager/services' },
     { text: 'Appointments', icon: <AppointmentsIcon hovered={hoveredItem === '/manager/appointments'} selected={pathname === '/manager/appointments'} />, href: '/manager/appointments' },
     { text: 'Content', icon: <ContentIcon hovered={hoveredItem === '/manager/content'} selected={pathname === '/manager/content'} />, href: '/manager/content' },
     { text: 'Stats', icon: <StatsIcon hovered={hoveredItem === '/manager/stats'} selected={pathname === '/manager/stats'} />, href: '/manager/stats' },
-    { text: 'Organization', icon: <OrganizationIcon hovered={hoveredItem === '/manager/organisation'} selected={pathname === '/manager/organisation'} />, href: '/manager/organisation' },
+    // { text: 'Organization', icon: <OrganizationIcon hovered={hoveredItem === '/manager/organisation'} selected={pathname === '/manager/organisation'} />, href: '/manager/organisation' },
   ];
 
   return (
