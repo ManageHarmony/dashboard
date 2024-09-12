@@ -4,10 +4,10 @@ import React, { useState } from 'react';
 
 import RecentTickets from './RecentTickets';
 
-import TopConsultants from './TopConsultants';
+import TopConsultants from './TopArticles';
 import DashboardStats from './DashboardStats';
-import DynamicChart from './DynamicChart';
-import TopSessions from './TopSessions';
+import DynamicChart from './TopYtContent';
+import TopSessions from './TopBlogs';
 
 import './customScrollbar.css'; // Import custom scrollbar styles
 import 'bootstrap/dist/css/bootstrap.min.css';

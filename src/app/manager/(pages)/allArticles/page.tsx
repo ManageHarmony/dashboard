@@ -1,47 +1,75 @@
-import { CardTitle } from "@/components/ui/card";
-import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+'use client'
+
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import { Dropdown } from "react-bootstrap";
 
+interface Article {
+    id: number;
+    heading?: string;
+    article_creatorId?: string;
+}
+// Function to decode base64 URL encoded strings
+const base64UrlDecode = (str: any) => {
+    let base64 = str.replace(/-/g, '+').replace(/_/g, '/');
+    const padding = base64.length % 4;
+    if (padding) {
+        base64 += '='.repeat(4 - padding);
+    }
+    return atob(base64);
+};
 
-export default function AllSessions() {
-    const topSessionsData = [
-        { id: 1, name: "Dr. Naseem Ahmad", times: 45 },
-        { id: 2, name: "Shubham Jindal", times: 35 },
-        { id: 3, name: "Shubham Solanki", times: 31 },
-        { id: 4, name: "Mikakshi Sisodia", times: 28 },
-        { id: 5, name: "Rishi Kumar", times: 18 },
-        { id: 3, name: "Shubham Solanki", times: 31 },
-        { id: 4, name: "Mikakshi Sisodia", times: 28 },
-        { id: 5, name: "Rishi Kumar", times: 18 },
-        { id: 1, name: "Dr. Naseem Ahmad", times: 45 },
-        { id: 2, name: "Shubham Jindal", times: 35 },
-        { id: 3, name: "Shubham Solanki", times: 31 },
-        { id: 4, name: "Mikakshi Sisodia", times: 28 },
-        { id: 5, name: "Rishi Kumar", times: 18 },
-        { id: 3, name: "Shubham Solanki", times: 31 },
-        { id: 4, name: "Mikakshi Sisodia", times: 28 },
-        { id: 5, name: "Rishi Kumar", times: 18 },
-        { id: 1, name: "Dr. Naseem Ahmad", times: 45 },
-        { id: 2, name: "Shubham Jindal", times: 35 },
-        { id: 3, name: "Shubham Solanki", times: 31 },
-        { id: 4, name: "Mikakshi Sisodia", times: 28 },
-        { id: 5, name: "Rishi Kumar", times: 18 },
-        { id: 3, name: "Shubham Solanki", times: 31 },
-        { id: 4, name: "Mikakshi Sisodia", times: 28 },
-        { id: 5, name: "Rishi Kumar", times: 18 },
-        // You can add more data here to test scrolling
-    ];
+const TopArticles = () => {
+    const [allArticles, setAllArticles] = useState<Article[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchContent = async () => {
+            setLoading(true);
+
+            const token = localStorage.getItem('manager_token');
+            console.log("token", token);
+
+            if (token) {
+                try {
+                    // Decode the token
+                    const decodedToken = JSON.parse(base64UrlDecode(token.split('.')[1]));
+                    const managerUsername = decodedToken.username;
+                    console.log("manager", managerUsername)
+
+                    const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/manager/get/content?managerUsername=${managerUsername}`);
+                    const data = await response.json();
+                    console.log("data", data);
+
+                    if (response.ok) {
+                        setAllArticles(data?.msg?.allArticle);
+                    } else {
+                        console.error('Failed to fetch content:', data.message);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            }
+
+            setLoading(false);
+        };
+
+        fetchContent();
+    }, []);
+
+    const displayedData = allArticles.slice(0, 5);
 
 
     return (
         <div style={{ padding: "20px 30px" }}>
-            <div style={{ width: "100%", height: "100vh", backgroundColor: "white", borderRadius: "20px", overflow: "hidden", padding: "20px 20px", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}>
+            <div style={{ width: "100%", height: "100vh", backgroundColor: "white", borderRadius: "20px", padding: "20px 20px", overflow: "hidden", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}>
                 <div className="flex justify-between items-center" style={{ marginBottom: "10px" }}>
                     <CardTitle>
-                        <span className="font-bold text-lg">All Sessions</span>{" "}
-                        <span className="font-normal text-lg">by Users</span>
+                        <span className="font-bold text-lg">All Consultants Picks</span>{" "}
+                        <span className="font-normal text-lg">by Creators</span>
                         <div style={{
                             width: "40%",
                             height: "2px",
@@ -63,7 +91,7 @@ export default function AllSessions() {
                     </Link>
                 </div>
 
-                <div style={{ maxHeight: "calc(100% - 25px)", overflowY: "auto", padding: "5px 10px" }} className="scrollable-content">
+                {!loading ? (<div style={{ maxHeight: "calc(100% - 20px)", overflowY: "auto", padding: "5px 10px" }} className="scrollable-content">
                     <table className="table-auto w-full border-collapse">
                         <thead className="bg-orange-100 rounded-t-lg">
                             <tr>
@@ -74,11 +102,11 @@ export default function AllSessions() {
                             </tr>
                         </thead>
                         <tbody>
-                            {topSessionsData.map((session, index) => (
-                                <tr key={session.id} className="border-b border-gray-300">
+                            {displayedData.map((article, index) => (
+                                <tr key={article.id} className="border-b border-gray-300" style={{ fontSize: "16px" }}>
                                     <td className="p-2 text-black">{index + 1}</td>
-                                    <td className="p-2 text-black">{session.name}</td>
-                                    <td className="p-2 text-black">{session.times}</td>
+                                    <td className="p-2 text-black">{article?.heading}</td>
+                                    <td className="p-2 text-black">{article?.article_creatorId}</td>
                                     <td className="p-2">
                                         <button className="text-orange-600 flex items-center">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
@@ -91,8 +119,14 @@ export default function AllSessions() {
                             ))}
                         </tbody>
                     </table>
-                </div>
+                </div>) : (
+                    <div className="text-center mt-5">
+                        <p className="text-gray-600">Loading Articles...</p>
+                    </div>
+                )}
             </div>
         </div>
     );
-}
+};
+
+export default TopArticles;

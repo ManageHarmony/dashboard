@@ -59,6 +59,12 @@ export default function RootLayout({
             pageTitle = 'All Tickets' 
         } else if (pathname === '/manager/organisation/allRatingsAndWords') {
             pageTitle = 'All Ratings and Words' 
+        } else if (pathname === '/manager/content/allblogs') {
+            pageTitle = 'All Blogs'
+        } else if (pathname === '/manager/content/allVideos') {
+            pageTitle = 'All Videos' 
+        } else if (pathname === '/manager/content/allArticles') {
+            pageTitle = 'All Articles' 
         } else {
             pageTitle = pathParts[pathParts.length - 1]?.charAt(0).toUpperCase() + pathParts[pathParts.length - 1]?.slice(1);
         }
