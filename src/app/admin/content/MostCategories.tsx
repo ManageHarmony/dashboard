@@ -24,16 +24,17 @@ export default function MostCategories() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('https://harmony-backend-z69j.onrender.com/api/all/content/categories', {
+                const response = await fetch('https://harmony-backend-z69j.onrender.com/api/get/all/category', {
                     method: 'GET',
                 });
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-                setTopMostCategories(data?.data?.allCategory || []);
+                console.log("data", data)
+                setTopMostCategories(data?.msg?.allCategory || []);
                 setLoading(false);
-                dispatch(saveCategory(data?.data?.allCategory));
+                dispatch(saveCategory(data?.msg?.allCategory));
 
 
             } catch (error) {
@@ -57,28 +58,25 @@ export default function MostCategories() {
     };
     const handleDelete = async (id: string) => {
         try {
-            const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/admin/delete/category/${id}`, {
+            const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/admin/delete/category/service/${id}`, {
                 method: "DELETE",
             });
 
             if (!response.ok) {
                 throw new Error('Failed to delete the category.');
             }
-
+    
             const updatedCategories = topMostCategories.filter((category) => category.id !== id);
-
+    
             setTopMostCategories(updatedCategories);
-
             dispatch(saveCategory(updatedCategories));
-            console.log("COUNT--->", topCat)
-
             showToastSuccess('Category deleted successfully.');
-
         } catch (error) {
             console.error('Error deleting category:', error);
             showToastError('Failed to delete the category.');
         }
     };
+    
 
     const showToastError = (message: string) => {
         toast.error(message, {
@@ -107,7 +105,7 @@ export default function MostCategories() {
     return (
         <div style={{
             width: "100%",
-            height: "330px",
+            height: "350px",
             backgroundColor: "white",
             borderRadius: "20px",
             padding: "20px",
@@ -115,7 +113,7 @@ export default function MostCategories() {
         }}>
             <div className="flex justify-between items-center mb-4">
                 <span className="font-bold text-lg">Top Category</span>
-                <Link href="#" style={{ textDecoration: "none" }}>
+                <Link href="/admin/content/allCategories" style={{ textDecoration: "none" }}>
                     <button
                         style={{ fontSize: "1rem", color: "#FFA05D", display: "flex", alignItems: "center", background: "none", cursor: "pointer", border: "1px dashed #ffecd4", padding: "5px 10px", borderRadius: "8px" }}
                     >
@@ -129,7 +127,7 @@ export default function MostCategories() {
                 </Link>
             </div>
             {!loading ? (<div style={{
-                height: "calc(280px - 40px)",
+                height: "calc(100% - 30px)",
                 overflowY: "hidden",
                 borderRadius: "10px"
             }}>
@@ -138,7 +136,7 @@ export default function MostCategories() {
                         <tr>
                             <th className="text-left p-2 text-gray-600 rounded-tl-lg">Sr. No</th>
                             <th className="text-left p-2 text-gray-600">Category Name</th>
-                            <th className="text-left p-2 text-gray-600">Description</th>
+                            <th className="text-left p-2 text-gray-600">Assigned Manager</th>
                             <th className="text-left p-2 text-gray-600 rounded-tr-lg">Action</th>
                         </tr>
                     </thead>
@@ -147,8 +145,8 @@ export default function MostCategories() {
                             topCat.map((data: any, index: any) => (
                                 <tr key={data.id} className="border-b border-gray-300">
                                     <td className="p-2 text-black">{index + 1}</td>
-                                    <td className="p-2 text-black">{data.category}</td>
-                                    <td className="p-2 text-black">{data.description}</td>
+                                    <td className="p-2 text-black">{data?.name}</td>
+                                    <td className="p-2 text-black">{data?.assignedManager}</td>
                                     <Dropdown>
                                         <Dropdown.Toggle
                                             as="button"

@@ -77,47 +77,52 @@ const NewCategoryPage: React.FC = () => {
             setAssignedManager(eventKey);
         }
     };
+console.log(assignedManager)
+const handleSubmit = async () => {
+    const missingFields = [];
+    if (!name) missingFields.push('Category');
+    if (!assignedManager) missingFields.push('AssignedManager');
+    if (!categoryImage) missingFields.push('Image');
 
-    const handleSubmit = async () => {
-        const missingFields = [];
-        if (!name) missingFields.push('Category');
-        if (!assignedManager) missingFields.push('AssignedManager');
-        if (!categoryImage) missingFields.push('Image');
+    if (missingFields.length > 0) {
+        showToastError(`Please fill in the following fields: ${missingFields.join(', ')}`);
+        return;
+    }
 
-        if (missingFields.length > 0) {
-            showToastError(`Please fill in the following fields: ${missingFields.join(', ')}`);
-            return;
+    setLoading(true);
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("assignedManager", assignedManager);
+    formData.append("categoryImage", categoryImage);
+
+    try {
+        const response = await fetch('https://harmony-backend-z69j.onrender.com/api/admin/create/category', {
+            method: 'POST',
+            body: formData,
+        });
+
+        const result = await response.json();
+        if (!response.ok) {
+            setLoading(false);
+            return showToastError(result.message);
         }
 
-        setLoading(true);
-        const formData = new FormData();
-        formData.append("name", name);
-        formData.append("assignedManager", assignedManager);
-        formData.append("categoryImage", categoryImage);
-
-        try {
-            const response = await fetch('https://harmony-backend-z69j.onrender.com/api/admin/create/category', {
-                method: 'POST',
-                body: formData,
-            });
-
-            const result = await response.json();
-            if (result.message !== `${name} has been added in Content Categories`) {
-                setLoading(false);
-                return showToastError(result.message);
-            }
-
-            showToastSuccess(result.message);
-            setName('');
-            setAssignedManager('');
-            setCategoryImage('');
-            setLoading(false);
-        } catch (error) {
-            console.error("Error:", error);
-            showToastError(`Error: ${(error as Error).message || 'Something went wrong'}`);
-            setLoading(false);
+        setName('');
+        setAssignedManager('');
+        setCategoryImage('');
+        setPicturePreview(null);
+        if (fileInputRef.current) {
+            fileInputRef.current.value = ''; 
         }
-    };
+        showToastSuccess(`${name} has been added as category`);
+    } catch (error) {
+        console.error("Error:", error);
+        showToastError(`Error: ${(error as Error).message || 'Something went wrong'}`);
+    } finally {
+        setLoading(false);
+    }
+};
+
 
     const handleFocus = (field: string) => {
         setFocusState(prev => ({ ...prev, [field]: true }));

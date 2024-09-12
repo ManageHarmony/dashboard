@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from "react";
-import { FiBell } from "react-icons/fi";
 import MostCategories from "./MostCategories";
 import TopBlogs from "./TopBlogs";
 import Link from "next/link";

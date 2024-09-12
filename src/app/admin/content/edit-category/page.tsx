@@ -1,42 +1,83 @@
 'use client';
 
-
-import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
+import React, { useEffect, useRef, useState } from 'react';
 import { FiUser, FiFilePlus, FiLoader } from 'react-icons/fi';
 import { AiOutlineUserAdd } from 'react-icons/ai'; // Importing a new icon for adding contact
-import { Spinner } from 'react-bootstrap';
+import { Button, Dropdown, Form, Spinner } from 'react-bootstrap';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const EditCategoryPage: React.FC = () => {
-    const [category, setCategory] = useState('');
-    const [description, setDescription] = useState('');
+    const [focusState, setFocusState] = useState<{ [key: string]: boolean }>({});
+    const [name, setName] = useState('');
+    const [assignedManager, setAssignedManager] = useState('');
     const [id, setId] = useState(null);
-    const [contentCategoryImage, setContentCategoryImage] = useState<File | string>('');
+    const [categoryImage, setCategoryImage] = useState<File | string>('');
     const [loading, setLoading] = useState<boolean>(false);
-
-    const [initialCategory, setInitialCategory] = useState('');
-    const [initialDescription, setInitialDescription] = useState('');
+    const [fetchedManagers, setFetchedManagers] = useState<string[]>([]);
+    const [initialName, setInitialName] = useState('');
+    const [initialAssignedManager, setInitialAssignedManager] = useState('');
     const [initialImage, setInitialImage] = useState<File | string>('');
     const [run, setRun] = useState(false);
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
+    const [picturePreview, setPicturePreview] = useState<string | null>(null);
+
     useEffect(() => {
         const storedData = sessionStorage.getItem('editCategoryData');
+        console.log("stored",storedData)
         if (storedData) {
-            const { category, description, image_path, id } = JSON.parse(storedData);
-            setCategory(category);
-            setInitialCategory(category);
+            const { name, assignedManager, imagePath, id } = JSON.parse(storedData);
+            setName(name);
+            setInitialName(name);
             setId(id);
-            setDescription(description);
-            setInitialDescription(description);
-            setContentCategoryImage(image_path);
-            setInitialImage(image_path);
+            setAssignedManager(assignedManager);
+            setInitialAssignedManager(assignedManager);
+            setCategoryImage(imagePath);
+            setInitialImage(imagePath);
+            setPicturePreview(`/${imagePath}`);
             sessionStorage.removeItem('editCategoryData');
         }
     }, [run]);
 
-    const handleImageUpload = (e: any) => {
-        setContentCategoryImage(e.target.files[0]);
+    useEffect(() => {
+        const getManager = async () => {
+            try {
+                const response = await fetch("https://harmony-backend-z69j.onrender.com/api/admin/get/staff", {
+                    method: "GET"
+                });
+
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+
+                const data = await response.json();
+                const managers = data?.staff?.managers || [];
+                const managerNames = managers.map((manager: { username: any; name: any; }) => manager.username || manager.name);
+                setFetchedManagers(managerNames);
+            } catch (error) {
+                console.error("Error getting manager: ", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        getManager();
+    }, []);
+
+    const handleManagerSelect = (eventKey: string | null) => {
+        if (eventKey) {
+            setAssignedManager(eventKey);
+        }
     };
+console.log(assignedManager)
+
+const handleImageUpload = (e: any) => {
+    if (e.target.files && e.target.files[0]) {
+        setCategoryImage(e.target.files[0]);
+        setPicturePreview(URL.createObjectURL(e.target.files[0]));
+    }
+
+};
 
     const showToastError = (message: string) => {
         toast.error(message, {
@@ -64,9 +105,9 @@ const EditCategoryPage: React.FC = () => {
 
     const hasStateChanged = () => {
         return (
-            category !== initialCategory ||
-            description !== initialDescription ||
-            (typeof contentCategoryImage === 'object' && contentCategoryImage !== initialImage)
+            name !== initialName ||
+            assignedManager !== initialAssignedManager ||
+            (typeof categoryImage === 'object' && categoryImage !== initialImage)
         );
     };
 
@@ -78,14 +119,14 @@ const EditCategoryPage: React.FC = () => {
 
         const formData = new FormData();
 
-        if (category !== initialCategory) formData.append("category", category);
-        if (description !== initialDescription) formData.append("description", description);
-        if (contentCategoryImage && contentCategoryImage !== initialImage) formData.append("contentCategoryImage", contentCategoryImage);
+        if (name !== initialName) formData.append("name", name);
+        if (assignedManager !== initialAssignedManager) formData.append("assignedManager", assignedManager);
+        if (categoryImage && categoryImage !== initialImage) formData.append("categoryImage", categoryImage);
         setLoading(true);
         
 
         try {
-            const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/admin/update/category/${categoryId}`, {
+            const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/admin/update/service/category/${categoryId}`, {
                 method: 'PUT',
                 body: formData,
             });
@@ -95,151 +136,146 @@ const EditCategoryPage: React.FC = () => {
         } catch (error) {
             console.error("Error:", error);
         } finally {
-            setInitialCategory(category);
-            setInitialDescription(description);
-            setContentCategoryImage(contentCategoryImage);
+            setInitialName(name);
+            setInitialAssignedManager(assignedManager);
+            setCategoryImage(categoryImage);
             setLoading(false);
         }
     };
 
+    const handleFocus = (field: string) => {
+        setFocusState(prev => ({ ...prev, [field]: true }));
+    };
+
+    const handleBlur = (field: string) => {
+        setFocusState(prev => ({ ...prev, [field]: false }));
+    };
     
     return (
         <>
-            <div style={styles.formContainer}>
-                <div style={styles.row}>
-                    <div style={styles.inputGroup}>
-                        <input
-                            type="text"
-                            placeholder="Category"
-                            value={category}
-                            onChange={(e) => setCategory(e.target.value)}
-                            style={styles.input}
-                        />
-                        <div>
-                            <FiUser style={styles.icon} />
+            <div style={{ display: "flex", justifyContent: "center" }}>
+                <Form style={styles.formContainer} className="input-transition">
+                    <div style={{ display: "flex", gap: "30px" }}>
+                        <Form.Group controlId="categoryImage" className="mb-3" style={{ width: "50%" }}>
+                            <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+                                <Form.Control
+                                    type="file"
+                                    onChange={handleImageUpload}
+                                    ref={fileInputRef}
+                                    accept="image/*"
+                                    style={{ paddingRight: "40px", height: "200px" }}
+                                    onFocus={() => handleFocus('categoryPicture')}
+                                    onBlur={() => handleBlur('categoryPicture')}
+                                />
+                                {picturePreview && (
+                                    <div className="text-center mt-3" style={{ position: "absolute", left: "50px" }}>
+                                        <Image
+                                            src={picturePreview}
+                                            alt="Category Picture Preview"
+                                            width={100}
+                                            height={100}
+                                            style={{ objectFit: 'cover' }}
+                                        />
+                                    </div>
+                                )}
+
+                                <div style={{ position: "absolute", right: "10px" }}>
+                                    <FiFilePlus style={{ fontSize: "30px", color: focusState["categoryPicture"] ? 'purple' : '#ff6600', }} />
+                                </div>
+                            </div>
+                        </Form.Group>
+
+                        <div style={{ display: "flex", flexDirection: "column", width: "50%" }}>
+                            <Form.Group controlId="categoryName" style={styles.formGroup}>
+                                <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Category Name"
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
+                                        onFocus={() => handleFocus('name')}
+                                        onBlur={() => handleBlur('name')}
+                                        className="input-transition"
+                                        style={{ paddingRight: "40px", height: "50px" }}
+                                    />
+                                    <div style={{ position: "absolute", right: "10px" }}>
+                                        <FiUser style={{ color: focusState["name"] ? 'purple' : '#ff6600', fontSize: "30px", }} />
+                                    </div>
+                                </div>
+
+                            </Form.Group>
+
+
+
+                            <Form.Group controlId="assignedManager">
+                                <Dropdown onSelect={handleManagerSelect}>
+                                    <Dropdown.Toggle variant="outline-secondary" className="w-100 text-left">
+                                        {assignedManager || 'Select a manager'}
+                                    </Dropdown.Toggle>
+                                    <Dropdown.Menu>
+                                        {fetchedManagers.length > 0 ? (
+                                            fetchedManagers.map((manager, index) => (
+                                                <Dropdown.Item key={index} eventKey={manager}>
+                                                    {manager}
+                                                </Dropdown.Item>
+                                            ))
+                                        ) : (
+                                            <Dropdown.Item disabled>No managers available</Dropdown.Item>
+                                        )}
+                                    </Dropdown.Menu>
+                                </Dropdown>
+                            </Form.Group>
+
                         </div>
                     </div>
-                    <div style={styles.inputGroup}>
-                        <label style={{ marginLeft: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }} >
-                            <input
-                                type="file"
-                                onChange={handleImageUpload}
-                                style={{ display: 'none' }}
-                            />
-
-                            {contentCategoryImage === '' ? <div>choose a docx</div> : (typeof contentCategoryImage === 'string' ? contentCategoryImage : contentCategoryImage.name)}
-                            <div>
-                                <FiFilePlus style={styles.icon} />
-
-                            </div>
-
-                        </label>
-
-
+                    <div style={{display: "flex", justifyContent: "center"}}>
+                    <Button variant="primary" style={styles.saveButton} onClick={handleSubmit}>
+                        {!loading ? (
+                            <div style={{ display: 'flex', alignItems: 'center' }}>Save <AiOutlineUserAdd style={styles.buttonIcon} /></div>
+                        ) : (
+                            <Spinner animation="border" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </Spinner>
+                        )}
+                    </Button>
                     </div>
-                </div>
-                <div style={{
-                    width: "100%",
-                    height: '300px',
-                    backgroundColor: "#fff",
-                    padding: "10px",
-                    borderRadius: "10px",
-                    border: '1px solid #ddd',
-                    display: "flex",
-                    justifyContent: "space-between",
-                    resize: 'none'
-                }}>
-                    <textarea
-                        placeholder="Description"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        style={styles.input}
-                    />
-                    <div className='flex-end'>
-                        <FiUser style={styles.icon} />
-                    </div>
-                </div>
-                <button style={styles.saveButton} onClick={()=>handleSubmit(id)}>
-                    {!loading ?
-                        <div style={{ display: 'flex' }}>Save <AiOutlineUserAdd style={{ ...styles.buttonIcon, fontSize: '1.5rem' }} /></div> : <Spinner className='' animation="border" role="status">
-                            <span className="visually-hidden">Loading...</span>
-                        </Spinner>
-                    }
-                </button>
-
+                </Form>
+                <ToastContainer />
             </div>
-            <ToastContainer />
         </>
     );
 }
 
 const styles = {
-
     formContainer: {
         backgroundColor: '#fff',
         borderRadius: '15px',
         margin: "20px 25px",
         padding: '20px',
-        width: '56%',
-        // maxWidth: '1200px', // Increase the max-width for the container
-        // boxSizing: 'border-box' as const,
+        width: '70%',
         display: 'flex',
         flexDirection: 'column' as const,
         justifyContent: "space-evenly",
-        minHeight: '60vh', // Increase the height of the main div
+        minHeight: '60vh',
     },
-    row: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        gap: "40px",
+    formGroup: {
         width: '100%',
         marginBottom: '20px',
     },
-    inputGroup: {
-        display: 'flex',
-        justifyContent: "space-between",
-        alignItems: 'center',
-        width: '60%', // Each input group takes half of the available width in the row
-        backgroundColor: '#fff',
-        border: '1px solid #ddd',
-        borderRadius: '10px',
-    },
-    input: {
-        width: '80%', // Leave space for the icon
-        padding: '10px 15px',
-        border: 'none',
-        borderRadius: '10px',
-        fontSize: '1rem',
-        boxSizing: 'border-box' as const,
-        outline: 'none',
-        backgroundColor: 'transparent', // Ensure the input blends with the container
-    },
 
-
-    icon: {
-        color: '#ff8a00',
-        fontSize: '2rem',
-        marginRight: "5px"
-    },
     saveButton: {
-        backgroundColor: '#ff8a00',
+        backgroundColor: '#ff6600',
         color: '#fff',
-
         borderRadius: '10px',
         border: 'none',
-        cursor: 'pointer',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        cursor: 'pointer',      
         fontSize: '1rem',
-        marginTop: '20px',
-        alignSelf: 'center', // Center the button
         width: '100px',
         height: '50px'
     },
     buttonIcon: {
         marginLeft: '10px',
-        fontSize: "2rem"
+        fontSize: "1.5rem"
     },
 };
 
