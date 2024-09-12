@@ -2,110 +2,48 @@
 
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { CardTitle } from "react-bootstrap";
 
+interface Patient {
+  profile_path?: string;
+  patient_name?: string;
+}
+
+interface Ticket {
+  id: number;
+  title?: string;
+  description: string;
+  createdAt?: string;
+  Patient?: Patient;
+}
 
 export default function AllTickets() {
 
-  const ticketsData = [
-    {
-      id: 1,
-      name: "Rashmi Sharma",
-      description: "My Payment Done Appointment Cancelled by Doctor",
-      date: "11:25AM, June 28, 2024",
-      message: "I booked a Session with Doctor Sushmita Singh but she cancelled it just before the session timing starts.",
-      avatar: "/assets/avatar.jpg",
-    },
-    {
-      id: 2,
-      name: "Rashmi Sharma",
-      description: "My Payment Done Appointment Cancelled by Doctor",
-      date: "11:25AM, June 28, 2024",
-      message: "I booked a Session with Doctor Sushmita Singh but she cancelled it just before the session timing starts.",
-      avatar: "/assets/avatar.jpg",
-    },
-    {
-      id: 3,
-      name: "Rashmi Sharma",
-      description: "My Payment Done Appointment Cancelled by Doctor",
-      date: "11:25AM, June 28, 2024",
-      message: "I booked a Session with Doctor Sushmita Singh but she cancelled it just before the session timing starts.",
-      avatar: "/assets/avatar.jpg",
-    },
-    {
-      id: 4,
-      name: "Rashmi Sharma",
-      description: "My Payment Done Appointment Cancelled by Doctor",
-      date: "11:25AM, June 28, 2024",
-      message: "I booked a Session with Doctor Sushmita Singh but she cancelled it just before the session timing starts.",
-      avatar: "/assets/avatar.jpg",
-    },
-    {
-      id: 3,
-      name: "Rashmi Sharma",
-      description: "My Payment Done Appointment Cancelled by Doctor",
-      date: "11:25AM, June 28, 2024",
-      message: "I booked a Session with Doctor Sushmita Singh but she cancelled it just before the session timing starts.",
-      avatar: "/assets/avatar.jpg",
-    },
-    {
-      id: 4,
-      name: "Rashmi Sharma",
-      description: "My Payment Done Appointment Cancelled by Doctor",
-      date: "11:25AM, June 28, 2024",
-      message: "I booked a Session with Doctor Sushmita Singh but she cancelled it just before the session timing starts.",
-      avatar: "/assets/avatar.jpg",
-    },
-    {
-      id: 4,
-      name: "Rashmi Sharma",
-      description: "My Payment Done Appointment Cancelled by Doctor",
-      date: "11:25AM, June 28, 2024",
-      message: "I booked a Session with Doctor Sushmita Singh but she cancelled it just before the session timing starts.",
-      avatar: "/assets/avatar.jpg",
-    },
-    {
-      id: 3,
-      name: "Rashmi Sharma",
-      description: "My Payment Done Appointment Cancelled by Doctor",
-      date: "11:25AM, June 28, 2024",
-      message: "I booked a Session with Doctor Sushmita Singh but she cancelled it just before the session timing starts.",
-      avatar: "/assets/avatar.jpg",
-    },
-    {
-      id: 4,
-      name: "Rashmi Sharma",
-      description: "My Payment Done Appointment Cancelled by Doctor",
-      date: "11:25AM, June 28, 2024",
-      message: "I booked a Session with Doctor Sushmita Singh but she cancelled it just before the session timing starts.",
-      avatar: "/assets/avatar.jpg",
-    },
-    {
-      id: 4,
-      name: "Rashmi Sharma",
-      description: "My Payment Done Appointment Cancelled by Doctor",
-      date: "11:25AM, June 28, 2024",
-      message: "I booked a Session with Doctor Sushmita Singh but she cancelled it just before the session timing starts.",
-      avatar: "/assets/avatar.jpg",
-    },
-    {
-      id: 3,
-      name: "Rashmi Sharma",
-      description: "My Payment Done Appointment Cancelled by Doctor",
-      date: "11:25AM, June 28, 2024",
-      message: "I booked a Session with Doctor Sushmita Singh but she cancelled it just before the session timing starts.",
-      avatar: "/assets/avatar.jpg",
-    },
-    {
-      id: 4,
-      name: "Rashmi Sharma",
-      description: "My Payment Done Appointment Cancelled by Doctor",
-      date: "11:25AM, June 28, 2024",
-      message: "I booked a Session with Doctor Sushmita Singh but she cancelled it just before the session timing starts.",
-      avatar: "/assets/avatar.jpg",
-    },
-    // Add more ticket objects here
-  ];
+  const [recentTickets, setRecentTickets] = useState<Ticket[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("https://harmony-backend-z69j.onrender.com/api/get/all/recent/ticket", {
+          method: "GET"
+        })
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch the data")
+        }
+        const data = await response.json();
+        console.log("data", data)
+        setRecentTickets(data?.tickets);
+        setLoading(false);
+      } catch (error) {
+        console.error("something went wrong", error);
+        setLoading(false);
+      }
+    }
+    fetchData();
+  }, [])
 
 
   return (
@@ -135,28 +73,32 @@ export default function AllTickets() {
           </Link>
         </div>
 
-        <div style={{ maxHeight: "calc(100% - 20px)", overflowY: "auto", paddingRight: "16px" }} className="scrollable-content">
-          {ticketsData.map(
+        {!loading ? (<div style={{ maxHeight: "calc(100% - 20px)", overflowY: "auto", paddingRight: "16px" }} className="scrollable-content">
+          {recentTickets.map(
             (ticket) => (
               <div key={ticket.id} style={{ display: "flex", alignItems: "start", marginBottom: "8px", paddingBottom: "8px", borderBottom: "1px solid #ffecd4" }}>
                 <img
-                  src={ticket.avatar}
-                  alt={ticket.name}
+                  src={'/assets/avatar.jpg'}  // {ticket.Patient?.profile_path } ye use krenge...
+                  alt={ticket.Patient?.patient_name || 'Avatar'}
                   style={{ width: "50px", height: "50px", borderRadius: "50%", marginRight: "20px" }}
                 />
                 <div style={{ flexGrow: 1 }}>
                   <div style={{ display: "flex", gap: "30px", alignItems: "center", marginBottom: "-2px" }}>
-                    <h3 style={{ fontSize: "0.875rem", fontWeight: "500", margin: "0" }}>{ticket.name}</h3>
+                    <h3 style={{ fontSize: "0.875rem", fontWeight: "500", margin: "0" }}>{ticket?.Patient?.patient_name}</h3>
                     <span style={{ margin: "0 4px" }}>~</span>
-                    <p style={{ fontSize: "0.75rem", color: "#FFA05D", margin: "0" }}>{ticket.description}</p>
+                    <p style={{ fontSize: "0.75rem", color: "#FFA05D", margin: "0" }}>{ticket?.title}</p>
                   </div>
-                  <p style={{ color: "#6b7280", fontSize: "0.75rem", margin: "0" }}>{ticket.date}</p>
-                  <p style={{ fontSize: "0.875rem", margin: "0" }}>{ticket.message}</p>
+                  <p style={{ color: "#6b7280", fontSize: "0.75rem", margin: "0" }}>{ticket?.createdAt}</p>
+                  <p style={{ fontSize: "0.875rem", margin: "0" }}>{ticket?.description}</p>
                 </div>
               </div>
             )
           )}
-        </div>
+        </div>) : (
+          <div className="text-center mt-5">
+            <p className="text-gray-600">Loading Tickets...</p>
+          </div>
+        )}
       </div>
     </div>
   );
