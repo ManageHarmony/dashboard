@@ -51,8 +51,7 @@ export default function AllConsultants() {
             <div style={{ width: "100%", height: "100vh", backgroundColor: "white", borderRadius: "20px", padding: "20px 20px", overflow: "hidden", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}>
                 <div className="flex justify-between items-center" style={{ marginBottom: "10px" }}>
                     <CardTitle>
-                        <span className="font-bold text-lg">All Consultants Picks</span>{" "}
-                        <span className="font-normal text-lg">by Users</span>
+                        <span className="font-bold text-lg">All Categories</span>{" "}
                         <div style={{
                             width: "40%",
                             height: "2px",
@@ -79,8 +78,8 @@ export default function AllConsultants() {
                         <thead className="bg-orange-100 rounded-t-lg">
                             <tr>
                                 <th className="text-left p-2 text-gray-600 rounded-tl-lg">Sr. No</th>
-                                <th className="text-left p-2 text-gray-600">Title</th>
-                                <th className="text-left p-2 text-gray-600">Reads</th>
+                                <th className="text-left p-2 text-gray-600">Category Name</th>
+                                <th className="text-left p-2 text-gray-600">Assigned Manager</th>
                                 <th className="text-left p-2 text-gray-600 rounded-tr-lg">Action</th>
                             </tr>
                         </thead>
