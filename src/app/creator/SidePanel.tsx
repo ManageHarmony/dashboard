@@ -32,12 +32,8 @@ const SidePanel: React.FC<SidePanelProps> = ({ onPanelHover, isPanelHovered }) =
 
   const menuItems = [
     { text: 'Dashboard', icon: <DashboardIcon hovered={hoveredItem === '/creator'} selected={pathname === '/creator'} />, href: '/creator' },
-    { text: 'Doctors', icon: <DoctorsIcon hovered={hoveredItem === '/creator/doctors'} selected={pathname === '/creator/doctors'} />, href: '/creator/doctors' },
-    { text: 'Services', icon: <ServicesIcon hovered={hoveredItem === '/creator/services'} selected={pathname === '/creator/services'} />, href: '/creator/services' },
-    { text: 'Appointments', icon: <AppointmentsIcon hovered={hoveredItem === '/creator/appointments'} selected={pathname === '/creator/appointments'} />, href: '/creator/appointments' },
     { text: 'Content', icon: <ContentIcon hovered={hoveredItem === '/creator/content'} selected={pathname === '/creator/content'} />, href: '/creator/content' },
     { text: 'Stats', icon: <StatsIcon hovered={hoveredItem === '/creator/stats'} selected={pathname === '/creator/stats'} />, href: '/creator/stats' },
-    { text: 'Organization', icon: <OrganizationIcon hovered={hoveredItem === '/creator/organisation'} selected={pathname === '/creator/organisation'} />, href: '/creator/organisation' },
   ];
 
   return (
@@ -63,7 +59,7 @@ const SidePanel: React.FC<SidePanelProps> = ({ onPanelHover, isPanelHovered }) =
         <Image src={logo} alt="Logo" width={50} height={50} />
       </div>
 
-      <ul style={{ listStyleType: 'none', padding: 0, height: "80%", display: "flex", flexDirection: "column", justifyContent: "space-evenly" }}>
+      <ul style={{ listStyleType: 'none', padding: 0, height: "80%", display: "flex", flexDirection: "column", gap:20 }}>
         {menuItems.map((item) => (
           <li
             key={item.text}
