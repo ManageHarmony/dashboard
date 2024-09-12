@@ -24,8 +24,8 @@ const EditCategoryPage: React.FC = () => {
     const [picturePreview, setPicturePreview] = useState<string | null>(null);
 
     useEffect(() => {
-        const storedData = sessionStorage.getItem('editCategoryData');
-        console.log("stored",storedData)
+        const storedData = localStorage.getItem('editCategoryData');
+        console.log("stored", storedData)
         if (storedData) {
             const { name, assignedManager, imagePath, id } = JSON.parse(storedData);
             setName(name);
@@ -69,15 +69,15 @@ const EditCategoryPage: React.FC = () => {
             setAssignedManager(eventKey);
         }
     };
-console.log(assignedManager)
+    console.log(assignedManager)
 
-const handleImageUpload = (e: any) => {
-    if (e.target.files && e.target.files[0]) {
-        setCategoryImage(e.target.files[0]);
-        setPicturePreview(URL.createObjectURL(e.target.files[0]));
-    }
+    const handleImageUpload = (e: any) => {
+        if (e.target.files && e.target.files[0]) {
+            setCategoryImage(e.target.files[0]);
+            setPicturePreview(URL.createObjectURL(e.target.files[0]));
+        }
 
-};
+    };
 
     const showToastError = (message: string) => {
         toast.error(message, {
@@ -117,24 +117,44 @@ const handleImageUpload = (e: any) => {
             return;
         }
 
+        if (!categoryId) {
+            showToastError("Invalid category ID.");
+            console.error("Invalid category ID:", categoryId);
+            return;
+        }
+
         const formData = new FormData();
 
         if (name !== initialName) formData.append("name", name);
         if (assignedManager !== initialAssignedManager) formData.append("assignedManager", assignedManager);
         if (categoryImage && categoryImage !== initialImage) formData.append("categoryImage", categoryImage);
+
         setLoading(true);
-        
 
         try {
-            const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/admin/update/service/category/${categoryId}`, {
+            const url = `https://harmony-backend-z69j.onrender.com/api/admin/update/service/category/${categoryId}`;
+            console.log("Request URL:", url);
+
+            const response = await fetch(url, {
                 method: 'PUT',
                 body: formData,
             });
 
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(`Server error: ${errorData.message || 'Unknown error'}`);
+            }
+
             const result = await response.json();
             showToastSuccess(`Category Updated Successfully`);
-        } catch (error) {
-            console.error("Error:", error);
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                showToastError(`Update failed: ${error.message}`);
+                console.error("Error:", error);
+            } else {
+                showToastError('Update failed: An unknown error occurred.');
+                console.error("Error:", error);
+            }
         } finally {
             setInitialName(name);
             setInitialAssignedManager(assignedManager);
@@ -143,6 +163,7 @@ const handleImageUpload = (e: any) => {
         }
     };
 
+
     const handleFocus = (field: string) => {
         setFocusState(prev => ({ ...prev, [field]: true }));
     };
@@ -150,7 +171,7 @@ const handleImageUpload = (e: any) => {
     const handleBlur = (field: string) => {
         setFocusState(prev => ({ ...prev, [field]: false }));
     };
-    
+
     return (
         <>
             <div style={{ display: "flex", justifyContent: "center" }}>
@@ -228,16 +249,17 @@ const handleImageUpload = (e: any) => {
 
                         </div>
                     </div>
-                    <div style={{display: "flex", justifyContent: "center"}}>
-                    <Button variant="primary" style={styles.saveButton} onClick={handleSubmit}>
-                        {!loading ? (
-                            <div style={{ display: 'flex', alignItems: 'center' }}>Save <AiOutlineUserAdd style={styles.buttonIcon} /></div>
-                        ) : (
-                            <Spinner animation="border" role="status">
-                                <span className="visually-hidden">Loading...</span>
-                            </Spinner>
-                        )}
-                    </Button>
+                    <div style={{ display: "flex", justifyContent: "center" }}>
+                        <Button variant="primary" style={styles.saveButton} onClick={() => handleSubmit(id)}>
+                            {!loading ? (
+                                <div style={{ display: 'flex', alignItems: 'center' }}>Save <AiOutlineUserAdd style={styles.buttonIcon} /></div>
+                            ) : (
+                                <Spinner animation="border" role="status">
+                                    <span className="visually-hidden">Loading...</span>
+                                </Spinner>
+                            )}
+                        </Button>
+
                     </div>
                 </Form>
                 <ToastContainer />
@@ -268,7 +290,7 @@ const styles = {
         color: '#fff',
         borderRadius: '10px',
         border: 'none',
-        cursor: 'pointer',      
+        cursor: 'pointer',
         fontSize: '1rem',
         width: '100px',
         height: '50px'

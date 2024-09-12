@@ -51,9 +51,9 @@ export default function MostCategories() {
     }, []);
 
     const handleEdit = (data: any) => {
-        // Store data in sessionStorage before navigating
+        // Store data in LocalStorage before navigating
         console.log('data we are getting to be sqaved', data);
-        sessionStorage.setItem('editCategoryData', JSON.stringify(data));
+        localStorage.setItem('editCategoryData', JSON.stringify(data));
         router.push('/admin/content/edit-category');
     };
     const handleDelete = async (id: string) => {
@@ -111,7 +111,7 @@ export default function MostCategories() {
             padding: "20px",
             boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
         }}>
-            <div className="flex justify-between items-center mb-4">
+            <div className="flex justify-between items-center mb-3">
                 <span className="font-bold text-lg">Top Category</span>
                 <Link href="/admin/content/allCategories" style={{ textDecoration: "none" }}>
                     <button
@@ -127,7 +127,7 @@ export default function MostCategories() {
                 </Link>
             </div>
             {!loading ? (<div style={{
-                height: "calc(100% - 30px)",
+                height: "calc(100% - 40px)",
                 overflowY: "hidden",
                 borderRadius: "10px"
             }}>
@@ -137,7 +137,7 @@ export default function MostCategories() {
                             <th className="text-left p-2 text-gray-600 rounded-tl-lg">Sr. No</th>
                             <th className="text-left p-2 text-gray-600">Category Name</th>
                             <th className="text-left p-2 text-gray-600">Assigned Manager</th>
-                            <th className="text-left p-2 text-gray-600 rounded-tr-lg">Action</th>
+                            <th className="text-center p-2 text-gray-600 rounded-tr-lg">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -147,12 +147,12 @@ export default function MostCategories() {
                                     <td className="p-2 text-black">{index + 1}</td>
                                     <td className="p-2 text-black">{data?.name}</td>
                                     <td className="p-2 text-black">{data?.assignedManager}</td>
-                                    <Dropdown>
+                                    <Dropdown className="p-2">
                                         <Dropdown.Toggle
                                             as="button"
                                             className="text-orange-600 flex items-center border-0 bg-transparent p-0"
                                         >
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 32 32" fill="none">
                                                 <rect width="32" height="32" rx="6" fill="#FFE3D0" />
                                                 <path d="M29.0947 16.5733C28.984 16.4147 26.3454 12.648 22.704 10.0733C20.816 8.736 18.4347 8 16 8C13.5667 8 11.1854 8.736 9.29336 10.0733C5.65203 12.648 3.01603 16.4147 2.90536 16.5733C2.58803 17.0307 2.58803 17.6373 2.90536 18.0947C3.01603 18.2533 5.65203 22.02 9.29336 24.5947C11.1854 25.9307 13.5667 26.6667 16 26.6667C18.4347 26.6667 20.816 25.9307 22.704 24.5933C26.3454 22.0187 28.984 18.252 29.0947 18.0933C29.4134 17.6373 29.4134 17.0293 29.0947 16.5733ZM16 22C13.4214 22 11.3334 19.9067 11.3334 17.3333C11.3334 14.7547 13.4214 12.6667 16 12.6667C18.5734 12.6667 20.6667 14.7547 20.6667 17.3333C20.6667 19.9067 18.5734 22 16 22ZM18.6667 17.3333C18.6667 18.8027 17.4694 20 16 20C14.5267 20 13.3334 18.8027 13.3334 17.3333C13.3334 15.86 14.5267 14.6667 16 14.6667C17.4694 14.6667 18.6667 15.86 18.6667 17.3333Z" fill="#FFA05D" />
                                             </svg>

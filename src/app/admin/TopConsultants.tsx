@@ -41,7 +41,7 @@ export default function TopConsultants() {
 
   return (
     <div style={{ width: "100%", height: "350px", backgroundColor: "white", borderRadius: "20px", padding: "18px 20px", overflow: "hidden", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}>
-      <div className="flex justify-between items-center" style={{ marginBottom: "10px" }}>
+      <div className="flex justify-between items-center" style={{ marginBottom: "20px" }}>
         <CardTitle>
           <span className="font-bold text-lg">Top 5 Consultants Picks</span>{" "}
           <span className="font-normal text-lg">by Users</span>
@@ -61,7 +61,7 @@ export default function TopConsultants() {
         </Link>
       </div>
 
-      {!loading ? (<div style={{ maxHeight: "calc(100% - 20px)", overflowY: "auto" }} className="scrollable-content">
+      {!loading ? (<div style={{ maxHeight: "calc(100% - 35px)", overflowY: "auto" }} className="scrollable-content">
         <table className="table-auto w-full border-collapse">
           <thead className="bg-orange-100 rounded-t-lg">
             <tr>

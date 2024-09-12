@@ -1,5 +1,8 @@
 import { CardTitle } from "@/components/ui/card";
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
+import { Dropdown } from "react-bootstrap";
 
 
 export default function AllSessions() {
@@ -60,7 +63,7 @@ export default function AllSessions() {
                     </Link>
                 </div>
 
-                <div style={{ maxHeight: "calc(100% - 25px)", overflowY: "auto" }} className="scrollable-content">
+                <div style={{ maxHeight: "calc(100% - 25px)", overflowY: "auto", padding: "5px 10px" }} className="scrollable-content">
                     <table className="table-auto w-full border-collapse">
                         <thead className="bg-orange-100 rounded-t-lg">
                             <tr>
