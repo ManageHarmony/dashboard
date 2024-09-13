@@ -11,6 +11,8 @@ interface topBlogs {
     id: number;
     heading: string;
     views: number;
+    data: any;
+    headings: any
 }
 
 export default function TopBlogs() {
@@ -85,7 +87,7 @@ export default function TopBlogs() {
                             {topBlogs.map((blog, index) => (
                                 <tr key={blog.id} className="border-b border-gray-300">
                                     <td className="p-2 text-black">{index + 1}</td>
-                                    <td className="p-2 text-black">{blog?.heading}</td>
+                                    <td className="p-2 text-black">{blog?.data?.headings?.h1[0]}</td>
                                     <td className="p-2 text-black">{blog?.views}</td>
                                     <Dropdown className="p-2">
                                         <Dropdown.Toggle

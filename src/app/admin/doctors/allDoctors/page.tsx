@@ -1,33 +1,44 @@
-// src/pages/admin/doctors/allDoctors.tsx
+'use client'
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 
-const allDoctorData = [
-    { id: 1, name: "Dr. Naseem Ahmad", times: 45 },
-    { id: 2, name: "Shubham Jindal", times: 35 },
-    { id: 3, name: "Shubham Solanki", times: 31 },
-    { id: 4, name: "Mikakshi Sisodia", times: 28 },
-    { id: 5, name: "Rishi Kumar", times: 18 },
-    { id: 6, name: "Rishi Kumar", times: 18 },
-    { id: 1, name: "Dr. Naseem Ahmad", times: 45 },
-    { id: 2, name: "Shubham Jindal", times: 35 },
-    { id: 3, name: "Shubham Solanki", times: 31 },
-    { id: 4, name: "Mikakshi Sisodia", times: 28 },
-    { id: 5, name: "Rishi Kumar", times: 18 },
-    { id: 6, name: "Rishi Kumar", times: 18 },
-    { id: 1, name: "Dr. Naseem Ahmad", times: 45 },
-    { id: 2, name: "Shubham Jindal", times: 35 },
-    { id: 3, name: "Shubham Solanki", times: 31 },
-    { id: 4, name: "Mikakshi Sisodia", times: 28 },
-    { id: 5, name: "Rishi Kumar", times: 18 },
-    { id: 6, name: "Rishi Kumar", times: 18 },
-    // Add more entries as needed
-];
+interface Doctor {
+    id: number,
+    doctor_name: string,
+    noOfBooking: number
+}
 
 export default function AllDoctors() {
+    const [allDoctors, setAllDoctors] = useState<Doctor[]>([]);             //filhal ke liye saare doctors ka data icluding pending rjected inactive active
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                const response = await fetch("https://harmony-backend-z69j.onrender.com/api/admin/get/staff", {
+                    method: "GET"
+                })
+
+                if (!response.ok) {
+                    throw new Error("Faild loading data")
+                }
+
+                const data = await response.json();
+                console.log("data", data)
+                setAllDoctors(data?.staff?.doctors)
+                setLoading(false);
+            } catch (error) {
+                console.error("Somwthing went wrong", error)
+                setLoading(false);
+            }
+        }
+        fetchData();
+    }, [])
+
     return (
         <div style={{ padding: "20px 30px" }}>
             <div style={{
@@ -42,7 +53,7 @@ export default function AllDoctors() {
             }}>
                 <div className="flex justify-between items-center mb-4">
                     <span className="font-bold text-lg">All Doctors</span>
-                    <Link href="/admin/doctors" style={{textDecoration: "none"}}>
+                    <Link href="/admin/doctors" style={{ textDecoration: "none" }}>
                         <button
                             style={{ fontSize: "1rem", color: "#FFA05D", display: "flex", alignItems: "center", background: "none", cursor: "pointer", border: "1px dashed #ffecd4", padding: "5px 10px", borderRadius: "8px" }}
                         >
@@ -55,7 +66,7 @@ export default function AllDoctors() {
                         </button>
                     </Link>
                 </div>
-                <div style={{
+                {!loading ? (<div style={{
                     height: "calc(100vh - 40px)",
                     overflowY: "auto",
                     borderRadius: "10px",
@@ -71,11 +82,11 @@ export default function AllDoctors() {
                             </tr>
                         </thead>
                         <tbody>
-                            {allDoctorData.map((consultant, index) => (
-                                <tr key={consultant.id} className="border-b border-gray-300">
+                            {allDoctors.map((doctor, index) => (
+                                <tr key={doctor.id} className="border-b border-gray-300">
                                     <td className="p-2 text-black">{index + 1}</td>
-                                    <td className="p-2 text-black">{consultant.name}</td>
-                                    <td className="p-2 text-black">{consultant.times}</td>
+                                    <td className="p-2 text-black">{doctor?.doctor_name}</td>
+                                    <td className="p-2 text-black">{doctor?.noOfBooking}</td>
                                     <td className="p-2">
                                         <button className="text-orange-600 flex items-center">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
@@ -88,7 +99,9 @@ export default function AllDoctors() {
                             ))}
                         </tbody>
                     </table>
-                </div>
+                </div>) : (<div className="text-center mt-5">
+                    <p className="text-gray-600">Loading...</p>
+                </div>)}
             </div>
         </div>
     );
