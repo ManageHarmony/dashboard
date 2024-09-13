@@ -1,31 +1,56 @@
 'use client'
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 
+interface Doctor {
+    id: number,
+    doctor_name: string,
+    noOfBooking: number
+}
 
-const doctorApplicationData = [
-    { id: 1, name: "Dr. Naseem Ahmad", times: 45 },
-    { id: 2, name: "Shubham Jindal", times: 35 },
-    { id: 3, name: "Shubham Solanki", times: 31 },
-    { id: 4, name: "Mikakshi Sisodia", times: 28 },
-    { id: 5, name: "Rishi Kumar", times: 18 },
-    { id: 6, name: "Rishi Kumar", times: 18 },
-];
 
 export default function RecentDoctors() {
-    
+
+    const [allDoctors, setAllDoctors] = useState<Doctor[]>([]);             //filhal ke liye saare doctors ka data icluding pending rjected inactive active
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                const response = await fetch("https://harmony-backend-z69j.onrender.com/api/admin/get/staff", {
+                    method: "GET"
+                })
+
+                if (!response.ok) {
+                    throw new Error("Faild loading data")
+                }
+
+                const data = await response.json();
+                console.log("data", data)
+                setAllDoctors(data?.staff?.doctors)
+                setLoading(false);
+            } catch (error) {
+                console.error("Somwthing went wrong", error)
+                setLoading(false);
+            }
+        }
+        fetchData();
+    }, [])
+
+
     return (
         <>
             <div style={{
                 width: "100%",
-                height: "370px", 
+                height: "370px",
                 backgroundColor: "white",
-                borderRadius: "20px", 
-                padding: "20px", 
-                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", 
+                borderRadius: "20px",
+                padding: "20px",
+                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
                 marginTop: "20px"
             }}>
                 <div className="flex justify-between items-center mb-4">
@@ -43,39 +68,41 @@ export default function RecentDoctors() {
                         </button>
                     </Link>
                 </div>
-                <div style={{
-                        height: "calc(320px - 40px)", 
-                        overflowY: "hidden", 
-                        borderRadius: "10px"
-                    }}>
-                        <table className="table-auto w-full border-collapse">
-                            <thead className="bg-orange-100 rounded-t-lg">
-                                <tr>
-                                    <th className="text-left p-2 text-gray-600 rounded-tl-lg">Sr. No</th>
-                                    <th className="text-left p-2 text-gray-600">Therapist Name</th>
-                                    <th className="text-left p-2 text-gray-600">Applied on</th>
-                                    <th className="text-left p-2 text-gray-600 rounded-tr-lg">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {doctorApplicationData.map((consultant, index) => (
-                                    <tr key={consultant.id} className="border-b border-gray-300">
-                                        <td className="p-2 text-black">{index + 1}</td>
-                                        <td className="p-2 text-black">{consultant.name}</td>
-                                        <td className="p-2 text-black">{consultant.times}</td>
-                                        <td className="p-2">
-                                            <button className="text-orange-600 flex items-center">
+                {!loading ? (<div style={{
+                    height: "calc(320px - 40px)",
+                    overflowY: "hidden",
+                    borderRadius: "10px"
+                }}>
+                    <table className="table-auto w-full border-collapse">
+                        <thead className="bg-orange-100 rounded-t-lg">
+                            <tr>
+                                <th className="text-left p-2 text-gray-600 rounded-tl-lg">Sr. No</th>
+                                <th className="text-left p-2 text-gray-600">Therapist Name</th>
+                                <th className="text-left p-2 text-gray-600">No. of Bookings</th>
+                                <th className="text-left p-2 text-gray-600 rounded-tr-lg">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {allDoctors.map((doctor, index) => (
+                                <tr key={doctor.id} className="border-b border-gray-300">
+                                    <td className="p-2 text-black">{index + 1}</td>
+                                    <td className="p-2 text-black">{doctor?.doctor_name}</td>
+                                    <td className="p-2 text-black">{doctor?.noOfBooking}</td>
+                                    <td className="p-2">
+                                        <button className="text-orange-600 flex items-center">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
                                                 <rect width="32" height="32" rx="6" fill="#FFE3D0" />
                                                 <path d="M29.0947 16.5733C28.984 16.4147 26.3454 12.648 22.704 10.0733C20.816 8.736 18.4347 8 16 8C13.5667 8 11.1854 8.736 9.29336 10.0733C5.65203 12.648 3.01603 16.4147 2.90536 16.5733C2.58803 17.0307 2.58803 17.6373 2.90536 18.0947C3.01603 18.2533 5.65203 22.02 9.29336 24.5947C11.1854 25.9307 13.5667 26.6667 16 26.6667C18.4347 26.6667 20.816 25.9307 22.704 24.5933C26.3454 22.0187 28.984 18.252 29.0947 18.0933C29.4134 17.6373 29.4134 17.0293 29.0947 16.5733ZM16 22C13.4214 22 11.3334 19.9067 11.3334 17.3333C11.3334 14.7547 13.4214 12.6667 16 12.6667C18.5734 12.6667 20.6667 14.7547 20.6667 17.3333C20.6667 19.9067 18.5734 22 16 22ZM18.6667 17.3333C18.6667 18.8027 17.4694 20 16 20C14.5267 20 13.3334 18.8027 13.3334 17.3333C13.3334 15.86 14.5267 14.6667 16 14.6667C17.4694 14.6667 18.6667 15.86 18.6667 17.3333Z" fill="#FFA05D" />
                                             </svg>
                                         </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>) : (<div className="text-center mt-5">
+                    <p className="text-gray-600">Loading...</p>
+                </div>)}
             </div>
         </>
     );
