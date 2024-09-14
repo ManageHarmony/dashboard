@@ -56,8 +56,9 @@ const StaffDetail: React.FC = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
     const params = useParams();
-    const staffId = params.staffId as string; // Extract staffId from route params
-    const role = searchParams.get('role'); // Extract role from query params
+    const staffId = params.staffId ; 
+    console.log("staffId",staffId);
+    const role = searchParams.get('role')?.toLowerCase(); // Extract role from query params
 
     const showToastError = (message: string) => {
         toast.error(message, {
@@ -340,12 +341,12 @@ const StaffDetail: React.FC = () => {
                             <Typography variant="body2" component="p" sx={{ color: '#606060', fontSize: "16px" }}>
                                 {staffData.country || staffData.countries.join(', ')}
                             </Typography>
-                            <Typography variant="body2" component="p" sx={{ color: 'black', fontWeight: 'bold', fontSize: "16px" }}>
+                            {/* <Typography variant="body2" component="p" sx={{ color: 'black', fontWeight: 'bold', fontSize: "16px" }}>
                                 Password:
                             </Typography>
                             <Typography variant="body2" component="p" sx={{ color: '#606060', fontSize: "16px" }}>
                                 {staffData.password}
-                            </Typography>
+                            </Typography> */}
                         </CardContent>
                     </DetailCard>
 
