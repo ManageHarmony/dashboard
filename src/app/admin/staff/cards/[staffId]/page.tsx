@@ -341,12 +341,12 @@ const StaffDetail: React.FC = () => {
                             <Typography variant="body2" component="p" sx={{ color: '#606060', fontSize: "16px" }}>
                                 {staffData.country || staffData.countries.join(', ')}
                             </Typography>
-                            <Typography variant="body2" component="p" sx={{ color: 'black', fontWeight: 'bold', fontSize: "16px" }}>
+                            {/* <Typography variant="body2" component="p" sx={{ color: 'black', fontWeight: 'bold', fontSize: "16px" }}>
                                 Password:
                             </Typography>
                             <Typography variant="body2" component="p" sx={{ color: '#606060', fontSize: "16px" }}>
                                 {staffData.password}
-                            </Typography>
+                            </Typography> */}
                         </CardContent>
                     </DetailCard>
 
