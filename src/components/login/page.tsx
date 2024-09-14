@@ -33,12 +33,12 @@ const LoginPage: React.FC<LoginPageProps> = ({ userType }) => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-
+  
     const apiEndpoint =
       userType === 'manager'
         ? 'https://harmony-backend-z69j.onrender.com/api/manager/login'
         : 'https://harmony-backend-z69j.onrender.com/api/login/creator';
-
+  
     try {
       const response = await fetch(apiEndpoint, {
         method: 'POST',
@@ -50,24 +50,37 @@ const LoginPage: React.FC<LoginPageProps> = ({ userType }) => {
           password,
         }),
       });
-
+  
       const data = await response.json();
-
+      console.log('API Response:', data); 
+      
       if (response.ok && data.token) {
         localStorage.setItem(`${userType}_token`, data.token);
-        localStorage.setItem(`${userType}_id`, data.id);
+  
+        if (data.id) {
+          // Ensuring the manager or creator ID is properly stored
+          localStorage.setItem(`${userType}_id`, data.id);
+        } else {
+          // Logging an error message if the ID is missing
+          showToastError('Login successful but user ID is missing.');
+          console.error('User ID is missing from the response.');
+        }
+  
         localStorage.setItem(`${userType}_isAuthenticated`, 'true');
+  
+        // Redirect based on userType
         router.push(userType === 'manager' ? '/manager' : '/creator');
       } else {
         showToastError(data.message || 'Login failed. Please check your credentials.');
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
       showToastError('An error occurred. Please try again later.');
     } finally {
       setLoading(false);
     }
   };
+  
 
   return (
     <Container component="main" maxWidth="xs">

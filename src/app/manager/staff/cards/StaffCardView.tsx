@@ -73,7 +73,7 @@ const StaffCardView: React.FC = () => {
         <div style={{display: "flex"}}>
           <StyledButton variant="contained" className='bg-white mx-0'>Creators</StyledButton>
           <StyledButton variant="contained" className='mx-0 text-white' style={{backgroundColor: "#2C297D"}}>View All</StyledButton>
-          <StyledButton variant="contained" className='bg-white '>Managers</StyledButton>
+          <StyledButton variant="contained" className='bg-white '>Doctors</StyledButton>
         </div>
         <div>
           <Button

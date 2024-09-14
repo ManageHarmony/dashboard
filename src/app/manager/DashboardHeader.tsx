@@ -9,6 +9,7 @@ import HeaderNotificationCard from './HeaderNotification';
 import { ChevronDownIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import SearchBar from './Search';
 
 const DashboardHeader = ({ isPanelHovered, onShowNotifications, showNotifications, onShowDropdown, showDropdown }: any) => {
   const [notifications] = useState([
@@ -67,6 +68,10 @@ const DashboardHeader = ({ isPanelHovered, onShowNotifications, showNotification
     }
   };
 
+  const handleSearch = (query: string) => {
+    console.log('Search query:', query);
+  };
+
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
@@ -76,23 +81,10 @@ const DashboardHeader = ({ isPanelHovered, onShowNotifications, showNotification
 
   return (
     <Navbar bg='transparent' className="d-flex justify-content-between w-100 p-3 header bg-white">
-      <Form style={{
-        width: '250px',
-        marginLeft: "110px",
-        transform: isPanelHovered ? 'translateX(160px)' : 'translateX(0)',
-        transition: 'transform 0.3s ease-in-out',
-      }}>
-        <FormControl
-          type="search"
-          placeholder="Search anything..."
-          className="me-2 search"
-          aria-label="Search"
-        />
-        <FaSearch
-          size={20}
-          style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', color: '#6c757d' }}
-        />
-      </Form>
+      <div style={{ marginLeft: '7.5%' }}>
+        <SearchBar onSearch={handleSearch} />
+
+      </div>
       <div className="d-flex align-items-center">
         <div ref={notificationRef} style={{ position: 'relative', marginRight: '10px' }}>
           <FaBell

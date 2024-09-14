@@ -16,34 +16,34 @@ const DashboardHeader = ({ isPanelHovered, onShowNotifications, showNotification
       title: 'Shankar Sharma as Doctor',
       description: 'is Now Registered on Phoenix and Approved by Jay Rawat',
       image: '/assets/avatar.jpg',
-      isRead: false, 
+      isRead: false,
     },
     {
       title: 'Smriti Sharma as Doctor',
       description: 'on 60 character break the content and need show .............',
       image: '/assets/avatar.jpg',
-      isRead: false, 
+      isRead: false,
     },
     {
       title: 'Shankar Sharma as Doctor',
       description: 'on 60 character break the content and need show .............',
       image: '/assets/avatar.jpg',
-      isRead: false, 
+      isRead: false,
     },
     {
       title: 'Smriti Sharma as Doctor',
       description: 'on 60 character break the content and need show .............',
       image: '/assets/avatar.jpg',
-      isRead: true, 
+      isRead: true,
     },
-  ]);  
+  ]);
 
   const notificationsCount = notifications.length;
 
   const [showCard, setShowCard] = useState(false);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
-const notificationRef = useRef<HTMLDivElement>(null);
+  const notificationRef = useRef<HTMLDivElement>(null);
 
 
 
@@ -57,7 +57,7 @@ const notificationRef = useRef<HTMLDivElement>(null);
 
   const handleClickOutside = (event: MouseEvent) => {
     const target = event.target as HTMLElement | null;
-  
+
     if (dropdownRef.current && target && !dropdownRef.current.contains(target)) {
       setShowCard(false);
     }
@@ -65,7 +65,7 @@ const notificationRef = useRef<HTMLDivElement>(null);
       onShowNotifications(false);
     }
   };
-  
+
   const handleSearch = (query: string) => {
     console.log('Search query:', query);
   };
@@ -78,8 +78,8 @@ const notificationRef = useRef<HTMLDivElement>(null);
 
   return (
     <Navbar bg='transparent' className="d-flex justify-content-between w-100 p-3 header bg-white">
-      <div style={{marginLeft:'7.5%'}}>
-      <SearchBar onSearch={handleSearch} />
+      <div style={{ marginLeft: '7.5%' }}>
+        <SearchBar onSearch={handleSearch} />
 
       </div>
       <div className="d-flex align-items-center">
@@ -141,7 +141,7 @@ const notificationRef = useRef<HTMLDivElement>(null);
                   </svg><span className='ml-3'>Settings</span>
                 </Link>
                 <Link href="/logout" className="dropdown-item py-2 px-3">
-                  <svg style={{marginLeft: "5px"}} xmlns="http://www.w3.org/2000/svg" width="30" height="26" viewBox="0 0 30 26" fill="none">
+                  <svg style={{ marginLeft: "5px" }} xmlns="http://www.w3.org/2000/svg" width="30" height="26" viewBox="0 0 30 26" fill="none">
                     <path d="M8.07707 13C8.07707 12.6866 8.19864 12.386 8.41503 12.1643C8.63142 11.9427 8.92491 11.8182 9.23093 11.8182H19.6157V4.13636C19.6157 1.77273 17.1789 0 15.0003 0H4.03853C2.9678 0.00117312 1.94125 0.437344 1.18412 1.21281C0.427 1.98827 0.00114538 3.03969 0 4.13636V21.8636C0.00114538 22.9603 0.427 24.0117 1.18412 24.7872C1.94125 25.5627 2.9678 25.9988 4.03853 26H15.5772C16.6479 25.9988 17.6745 25.5627 18.4316 24.7872C19.1887 24.0117 19.6146 22.9603 19.6157 21.8636V14.1818H9.23093C8.92491 14.1818 8.63142 14.0573 8.41503 13.8357C8.19864 13.614 8.07707 13.3134 8.07707 13ZM29.6623 12.1646L23.893 6.25551C23.6748 6.04323 23.3843 5.92664 23.0835 5.93058C22.7826 5.93453 22.4951 6.0587 22.2823 6.27663C22.0695 6.49456 21.9483 6.789 21.9444 7.09718C21.9406 7.40535 22.0544 7.70287 22.2617 7.92631L26.0608 11.8182H19.6157V14.1818H26.0608L22.2617 18.0737C22.15 18.1823 22.0607 18.3128 21.9991 18.4573C21.9374 18.6019 21.9046 18.7576 21.9027 18.9154C21.9007 19.0731 21.9296 19.2296 21.9876 19.3758C22.0456 19.5219 22.1316 19.6546 22.2405 19.7662C22.3494 19.8777 22.479 19.9658 22.6217 20.0252C22.7644 20.0846 22.9172 20.1142 23.0712 20.1122C23.2252 20.1102 23.3773 20.0766 23.5184 20.0135C23.6595 19.9503 23.7869 19.8589 23.893 19.7445L29.6623 13.8354C29.8785 13.6138 30 13.3133 30 13C30 12.6867 29.8785 12.3862 29.6623 12.1646Z" fill="#FFA05D" />
                   </svg> <span className='ml-3'>Logout</span>
                 </Link>
