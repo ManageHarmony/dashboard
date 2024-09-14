@@ -43,9 +43,9 @@ export default function AllDoctors() {
             }}>
                 <div className="flex justify-between items-center mb-4">
                     <span className="font-bold text-lg">All Doctors</span>
-                    <Link href="/creator/doctors" style={{textDecoration: "none"}}>
+                    <Link href="/creator/doctors" style={{ textDecoration: "none" }}>
                         <button
-   clasName='see-all w-auto'
+                            className='see-all w-auto'
                         >
                             Back
                             <svg xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: "5px" }} width="16" height="17" viewBox="0 0 16 17" fill="none">
