@@ -415,6 +415,7 @@ const StaffTable: React.FC = () => {
                         const id = row.original.id;
                         const role = row.original.role;
                         const detailPath = `/admin/staff/cards/${id}?role=${encodeURIComponent(role)}`;
+                        console.log("DP",detailPath);
 
                         return (
                             <TableRow onClick={() => router.push(detailPath)} key={row.id}>
