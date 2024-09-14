@@ -119,8 +119,8 @@ const StaffDetail: React.FC = () => {
                         const response = await fetch(apiUrl);
                         const data = await response.json();
                         console.log("Details: ", data);
-                        setStaffData(data?.doctor);
-                        if (data?.doctor) setStatus(data?.doctor.status);
+                        setStaffData(data?.profile);
+                        if (data?.profile) setStatus(data?.profile.status);
                     }
 
 
@@ -301,7 +301,7 @@ const StaffDetail: React.FC = () => {
                                 Full Name:
                             </Typography>
                             <Typography variant="body2" component="p" sx={{ color: '#606060', fontSize: "16px" }}>
-                                {staffData.name}
+                                {staffData.name || staffData.doctor_name}
                             </Typography>
                             <Typography variant="body2" component="p" sx={{ color: 'black', fontWeight: 'bold', fontSize: "16px" }}>
                                 Username:
@@ -341,12 +341,12 @@ const StaffDetail: React.FC = () => {
                             <Typography variant="body2" component="p" sx={{ color: '#606060', fontSize: "16px" }}>
                                 {staffData.country || staffData.countries.join(', ')}
                             </Typography>
-                            {/* <Typography variant="body2" component="p" sx={{ color: 'black', fontWeight: 'bold', fontSize: "16px" }}>
+                            <Typography variant="body2" component="p" sx={{ color: 'black', fontWeight: 'bold', fontSize: "16px" }}>
                                 Password:
                             </Typography>
                             <Typography variant="body2" component="p" sx={{ color: '#606060', fontSize: "16px" }}>
                                 {staffData.password}
-                            </Typography> */}
+                            </Typography>
                         </CardContent>
                     </DetailCard>
 
@@ -383,6 +383,28 @@ const StaffDetail: React.FC = () => {
                                 )}
                             </div>
 
+
+                            <Typography variant="body2" component="p" sx={{ color: '#101010', fontWeight: "bold", fontSize: "1.06rem", marginBottom: "8px", marginTop: "5px" }}>
+                                Assigned Manager:
+                            </Typography>
+                            <div style={{ marginLeft: "10px" }}>
+                                {staffData?.assignedManager.length > 0 ? (
+                                        <Typography
+                                            variant="body2"
+                                            component="p"
+                                            sx={{ color: '#404040', fontSize: "1rem" }}>
+                                             {staffData?.assignedManager}
+                                        </Typography>
+                                    )
+                                 : (
+                                    <Typography
+                                        variant="body2"
+                                        component="p"
+                                        sx={{ color: '#404040', fontSize: "1rem" }}>
+                                        No assigned creators found.
+                                    </Typography>
+                                )}
+                            </div>
 
                             <Typography variant="body2" component="p" sx={{ color: '#101010', fontWeight: "bold", fontSize: "1.06rem", marginBottom: "8px", marginTop: "5px" }}>
                                 Assigned Creators:
