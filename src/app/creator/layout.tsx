@@ -33,9 +33,7 @@ export default function RootLayout({
         if (!token) {
             router.push('/creatorLogin');
         } else {
-            setIsAuthenticated(true);
-
-           
+            setIsAuthenticated(true);      
         }
     }, [router]);
 

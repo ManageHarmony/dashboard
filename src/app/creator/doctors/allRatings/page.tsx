@@ -139,8 +139,7 @@ export default function AllRatings() {
                     </div>
                     <div style={{ fontSize: "1rem", color: "#101010", fontWeight: "600" }}>Average Rating: {averageRating}/5</div>
                     <Link href="/creator/doctors" style={{ textDecoration: "none" }}>
-                        <button
-                            style={{ fontSize: "1rem", color: "#FFA05D", display: "flex", alignItems: "center", background: "none", cursor: "pointer", border: "1px dashed #ffecd4", padding: "5px 10px", borderRadius: "8px" }}
+                       <button className='see-all w-auto'
                         >
                             Go Back{" "}
                             <svg xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: "5px" }} width="16" height="17" viewBox="0 0 16 17" fill="none">

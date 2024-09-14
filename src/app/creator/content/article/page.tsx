@@ -174,7 +174,7 @@ const NewArticlePage = () => {
                                             onBlur={() => handleBlur('heading')}
                                         />
                                         <div style={{ position: "absolute", right: "10px" }}>
-                                            <LuHeading style={{ fontSize: "20px", color: focusState["heading"] ? 'purple' : '#ff6600', }} />
+                                            <LuHeading style={{ fontSize: "20px", color: focusState["heading"] ? '#FFA05D' : '#ff6600', }} />
                                         </div>
                                     </div>
                                 </Form.Group>
@@ -200,7 +200,7 @@ const NewArticlePage = () => {
                                             </div>
                                         )}
                                         <div style={{ position: "absolute", right: "10px" }}>
-                                            <FiFilePlus style={{ fontSize: "30px", color: focusState["file"] ? 'purple' : '#ff6600', }} />
+                                            <FiFilePlus style={{ fontSize: "30px", color: focusState["file"] ? '#FFA05D' : '#ff6600', }} />
                                         </div>
                                     </div>
                                 </Form.Group>
@@ -217,7 +217,7 @@ const NewArticlePage = () => {
                                             onBlur={() => handleBlur('tags')}
                                         />
                                         <div style={{ position: "absolute", right: "10px" }}>
-                                            <LuTags style={{ fontSize: "30px", color: focusState["tags"] ? 'purple' : '#ff6600', }} />
+                                            <LuTags style={{ fontSize: "30px", color: focusState["tags"] ? '#FFA05D' : '#ff6600', }} />
                                         </div>
                                     </div>
                                 </Form.Group>
@@ -237,7 +237,7 @@ const NewArticlePage = () => {
                                             onBlur={() => handleBlur('content')}
                                         />
                                         <div style={{ position: "absolute", right: "10px", marginTop: "5px" }}>
-                                            <BiSolidBookContent style={{ fontSize: "30px", color: focusState["content"] ? 'purple' : '#ff6600', }} />
+                                            <BiSolidBookContent style={{ fontSize: "30px", color: focusState["content"] ? '#FFA05D' : '#ff6600', }} />
                                         </div>
                                     </div>
                                 </Form.Group>

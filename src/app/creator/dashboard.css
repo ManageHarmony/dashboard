@@ -785,8 +785,8 @@ body {
 
 .input-transition input:focus,
 .input-transition select:focus {
-  border-color: purple;
-  color: purple;
+  border-color: #FFA05D;
+  color: #FFA05D;
   transform: scale(1.02);
   /* Slightly increase the size */
   box-shadow: none;
@@ -794,7 +794,7 @@ body {
 
 .input-transition input:focus~.icon-transition,
 .input-transition select:focus~.icon-transition {
-  color: purple;
+  color: #FFA05D;
 }
 
 .icon-transition {
@@ -807,7 +807,7 @@ body {
 }
 
 .input-transition:focus {
-  border-color: purple;
+  border-color: #FFA05D;
   transform: scale(1.02);
   /* Slightly increase the size */
 }
@@ -818,5 +818,33 @@ body {
 }
 
 .input-transition:focus .icon-transition~.icon-transition {
-  color: purple;
+  color: #FFA05D;
+}
+
+.see-all {
+  font-size: 1rem;
+  color: #FFA05D;
+  display: flex;
+  align-items: center;
+  background: none;
+  cursor: pointer;
+  border: 1px dashed #ffecd4;
+  padding: 5px 10px;
+  border-radius: 8px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.see-all svg path {
+  stroke: #FFA05D; /* Set initial icon color */
+  transition: stroke 0.3s; /* Smooth transition for the icon */
+}
+
+.see-all:hover {
+  background-color: #FFA05D;
+  color: white;
+  border: none;
+}
+
+.see-all:hover svg path {
+  stroke: white; /* Change icon color on hover */
 }

@@ -75,7 +75,7 @@ const TopBlogs = () => {
         </CardTitle>
         <Link href="/manager/allBlogs" style={{ textDecoration: "none" }}>
           <button
-            style={{ fontSize: "1rem", color: "#FFA05D", display: "flex", alignItems: "center", background: "none", cursor: "pointer", border: "1px dashed #ffecd4", padding: "5px 10px", borderRadius: "8px" }}
+         className='see-all'
           >
             See All
             <svg xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: "5px" }} width="16" height="17" viewBox="0 0 16 17" fill="none">

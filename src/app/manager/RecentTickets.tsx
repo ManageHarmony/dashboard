@@ -10,9 +10,9 @@ interface Patient {
 
 interface Ticket {
   id: number;
-  title?: string; 
+  title?: string;
   description: string;
-  createdAt?: string; 
+  createdAt?: string;
   Patient?: Patient;
 }
 
@@ -45,12 +45,12 @@ export default function RecentTickets() {
 
 
   return (
-    <div style={{ width: "100%", height: "350px", backgroundColor: "white", borderRadius: "20px", padding: "18px 20px", overflow: "hidden", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+    <div  style={{ width: "100%", height: "350px", backgroundColor: "white", borderRadius: "20px", padding: "18px 20px", overflow: "hidden", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}>
+      <div  style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
         <h2 style={{ fontSize: "1.4rem", fontWeight: "600" }}>Recent <span style={{ color: "#FFA05D" }}>Tickets</span></h2>
         <Link href="/manager/recentTickets" style={{ textDecoration: "none" }}>
           <button
-            style={{ fontSize: "1rem", color: "#FFA05D", display: "flex", alignItems: "center", background: "none", cursor: "pointer", border: "1px dashed #ffecd4", padding: "5px 10px", borderRadius: "8px" }}
+            className='see-all'
           >
             See All
             <svg xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: "5px" }} width="16" height="17" viewBox="0 0 16 17" fill="none">

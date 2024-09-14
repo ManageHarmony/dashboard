@@ -45,7 +45,7 @@ export default function AllDoctors() {
                     <span className="font-bold text-lg">All Applications</span>
                     <Link href="/creator/doctors">
                         <button
-                            style={{ fontSize: "1rem", color: "#FFA05D", display: "flex", alignItems: "center", background: "none", cursor: "pointer", border: "1px dashed #ffecd4", padding: "5px 10px", borderRadius: "8px" }}
+   clasName='see-all w-auto'
                         >
                             Back
                             <svg xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: "5px" }} width="16" height="17" viewBox="0 0 16 17" fill="none">

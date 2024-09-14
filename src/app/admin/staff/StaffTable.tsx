@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 import { Spinner } from 'react-bootstrap';
+import { Button as BootstrapButton } from "react-bootstrap";
+import { Loader2 } from "lucide-react";
 
 import "../dashboard.css"
 import {
@@ -58,19 +60,15 @@ interface StaffData {
     id: number;
 }
 
-const buttonStyle = {
-    background: "#fff",
-    color: "#2C297E",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    transition: "background-color 0.3s, color 0.3s, border 0.3s"
-};
+export function ButtonLoading() {
+    return (
+        <BootstrapButton disabled style={{ backgroundColor: '#fff', width: "auto", color: "#2C297E", display: "flex", alignItems: "center", border: "none" }}>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            <span style={{fontSize: "16px"}}>Please wait...</span>
+        </BootstrapButton>
+    );
+}
 
-const buttonHoverStyle = {
-    background: "#2C297E",
-    color: "white"
-};
 
 const columns: ColumnDef<StaffData>[] = [
     {
@@ -118,7 +116,6 @@ const columns: ColumnDef<StaffData>[] = [
 ];
 
 const StaffTable: React.FC = () => {
-    const [hoveredButton, setHoveredButton] = useState<string | null>(null);
     const [staffData, setStaffData] = useState<StaffData[]>([]);
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
     const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -132,6 +129,55 @@ const StaffTable: React.FC = () => {
     const [showAddCreatorModal, setShowAddCreatorModal] = useState(false);
     const [loading, setLoading] = useState<boolean>(false);
     const router = useRouter();
+    const [loadingButton, setLoadingButton] = useState<string | null>(null);
+    const [hoveredButton, setHoveredButton] = useState<string | null>(null);
+
+    const handleClick = (buttonType: string) => {
+        setLoadingButton(buttonType);
+    };
+
+    const handleClickdiv = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+
+    const handleMouseEnter = (buttonType: string) => {
+        setHoveredButton(buttonType);
+    };
+
+    const handleMouseLeave = () => {
+        setHoveredButton(null);
+    };
+
+    const buttonStyle = {
+        background: "#fff",
+        color: "#2C297E",
+        display: "flex",
+        justifyContent: "flex-start",
+        alignItems: "center",
+        transition: "background-color 0.3s, color 0.3s, border 0.3s",
+        width: "100%",
+        border: "none",
+    };
+
+    const buttonHoverStyle = {
+        background: "#2C297E",
+        color: "white"
+    };
+
+    const loadingButtonStyle = {
+        backgroundColor: "#f7f7f7",
+        color: "#999"
+    };
+
+    const getButtonStyle = (buttonType: string) => {
+        if (loadingButton === buttonType) {
+            return { ...buttonStyle, ...loadingButtonStyle };
+        } else if (hoveredButton === buttonType) {
+            return { ...buttonStyle, ...buttonHoverStyle };
+        }
+        return buttonStyle;
+    };
 
     const fetchData = async () => {
         setLoading(true);
@@ -193,42 +239,14 @@ const StaffTable: React.FC = () => {
         }
     };
 
-    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
 
 
 
-    const handleAddManagerClick = () => {
-        setShowModal(true);
-    };
 
-    const handleCloseModal = () => {
-        setShowModal(false);
-    };
 
-    const handleOpenAddCreatorModal = () => {
-        setShowAddCreatorModal(true);
-    };
-
-    const handleCloseAddCreatorModal = () => {
-        setShowAddCreatorModal(false);
-    };
 
     const handleDropdownToggle = () => {
         setIsDropdownOpen(!isDropdownOpen);
-    };
-
-    const handleMouseEnter = (buttonType: string) => {
-        setHoveredButton(buttonType);
-    };
-
-    const handleMouseLeave = () => {
-        setHoveredButton(null);
-    };
-
-    const getButtonStyle = (buttonType: string) => {
-        return hoveredButton === buttonType ? { ...buttonStyle, ...buttonHoverStyle } : buttonStyle;
     };
 
     console.log("rendered");
@@ -294,31 +312,43 @@ const StaffTable: React.FC = () => {
                                 marginTop: '5px',
                                 backgroundColor: "#fff",
                                 boxShadow: "0px 0px 15px rgba(228, 225, 225, 0.5)",
+                                width: "160px",
                             }}
                         >
                             <Link href="/admin/staff/addCreator" style={{ textDecoration: "none" }}>
-                                <Button
-                                    className="w-full"
-                                    style={getButtonStyle("addNewCreator")}
-                                    onMouseEnter={() => handleMouseEnter("addNewCreator")}
-                                    onMouseLeave={handleMouseLeave}
-                                >
-                                    <FaPlus style={{ marginRight: "8px" }} />
-                                    Add Creator
-                                </Button>
+                                {loadingButton === 'addCreator' ? (
+                                    <ButtonLoading />
+                                ) : (
+                                    <BootstrapButton
+                                        variant="outline-warning"
+                                        onClick={() => handleClick("addCreator")}
+                                        onMouseEnter={() => handleMouseEnter("addCreator")}
+                                        onMouseLeave={handleMouseLeave}
+                                        style={getButtonStyle("addCreator")}
+                                        className='w-auto'
+                                        
+                                    >
+                                        <FaPlus style={{ marginRight: "8px" }} />
+                                        Add Creator
+                                    </BootstrapButton>
+                                )}
                             </Link>
 
                             <Link href="/admin/staff/addManager">
-                                <Button
-                                    className="w-full"
-                                    style={getButtonStyle("addNewManager")}
-                                    onMouseEnter={() => handleMouseEnter("addNewManager")}
-                                    onMouseLeave={handleMouseLeave}
-
-                                >
-                                    <FaPlus style={{ marginRight: "8px" }} />
-                                    Add Manager
-                                </Button>
+                                {loadingButton === 'addManager' ? (
+                                    <ButtonLoading />
+                                ) : (
+                                    <BootstrapButton
+                                        variant="outline-warning"
+                                        onClick={() => handleClick("addManager")}
+                                        onMouseEnter={() => handleMouseEnter("addManager")}
+                                        onMouseLeave={handleMouseLeave}
+                                        style={getButtonStyle("addManager")}
+                                    >
+                                        <FaPlus style={{ marginRight: "8px" }} />
+                                        Add Manager
+                                    </BootstrapButton>
+                                )}
                             </Link>
                         </ButtonGroup>
                     )}
@@ -332,8 +362,8 @@ const StaffTable: React.FC = () => {
                     />
                     <Link href='/admin/staff/cards'>
 
-                        <div
-                            onClick={handleClick}
+                        <Button
+                            onClick={handleClickdiv}
                             className='ml-3 p-2'
                             style={getButtonStyle("view")}
                             onMouseEnter={() => handleMouseEnter("view")}
@@ -390,7 +420,7 @@ const StaffTable: React.FC = () => {
                                 </div>
                             )}
                         </div> */}
-                        </div>
+                        </Button>
                     </Link>
 
                 </div>
@@ -415,7 +445,7 @@ const StaffTable: React.FC = () => {
                         const id = row.original.id;
                         const role = row.original.role;
                         const detailPath = `/admin/staff/cards/${id}?role=${encodeURIComponent(role)}`;
-                        console.log("DP",detailPath);
+                        console.log("DP", detailPath);
 
                         return (
                             <TableRow onClick={() => router.push(detailPath)} key={row.id}>

@@ -26,7 +26,7 @@ export default function TopConsultants() {
         if (!response.ok) {
           throw new Error("Failed to fetching data")
         }
-  
+
         const data = await response.json();
         console.log("data", data?.consultants);
         setTopConsultants(data?.consultants);
@@ -35,21 +35,21 @@ export default function TopConsultants() {
         console.error("something went wrong", error)
         setLoading(false)
       }
-    } 
-     fetchData();
+    }
+    fetchData();
   }, []);
 
   return (
     <div style={{ width: "100%", height: "350px", backgroundColor: "white", borderRadius: "20px", padding: "18px 20px", overflow: "hidden", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}>
-      <div className="flex justify-between items-center" style={{ marginBottom: "20px" }}>
+      <div className="see flex justify-between items-center" style={{ marginBottom: "20px" }}>
         <CardTitle>
           <span className="font-bold text-lg">Top 5 Consultants Picks</span>{" "}
           <span className="font-normal text-lg">by Users</span>
           <div style={{ width: "40%", height: "2px", backgroundColor: "#ff6600", display: "block" }}></div>
         </CardTitle>
-        <Link href="/admin/consultantData" style={{textDecoration: "none"}}>
+        <Link href="/admin/consultantData" style={{ textDecoration: "none" }}>
           <button
-            style={{ fontSize: "1rem", color: "#FFA05D", display: "flex", alignItems: "center", background: "none", cursor: "pointer", border: "1px dashed #ffecd4", padding: "5px 10px", borderRadius: "8px" }}
+            className='see-all'
           >
             See All
             <svg xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: "5px" }} width="16" height="17" viewBox="0 0 16 17" fill="none">
@@ -61,7 +61,7 @@ export default function TopConsultants() {
         </Link>
       </div>
 
-      {!loading ? (<div style={{ maxHeight: "calc(100% - 35px)", overflowY: "auto" }} className="scrollable-content">
+      {!loading ? (topConsultants.length > 0 ? (<div style={{ maxHeight: "calc(100% - 35px)", overflowY: "auto" }} className="scrollable-content">
         <table className="table-auto w-full border-collapse">
           <thead className="bg-orange-100 rounded-t-lg">
             <tr>
@@ -89,9 +89,11 @@ export default function TopConsultants() {
             ))}
           </tbody>
         </table>
-      </div>) :   (<div className="text-center p-4">
-            <p>Loading...</p>
-        </div>)}
+      </div>) : (<div className="text-center mt-5">
+        <p className="text-gray-600">No data found</p>
+      </div>)) : (<div className="text-center p-4">
+        <p>Loading...</p>
+      </div>)}
     </div>
   );
 }

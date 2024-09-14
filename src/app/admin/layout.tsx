@@ -1,14 +1,15 @@
 'use client';
 
 import { Poppins } from 'next/font/google'
-import { useState } from "react";
-import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import SidePanel from "./SidePanel";
 import DashboardHeader from "./DashboardHeader";
 import Link from "next/link";
 
 import './dashboard.css';
 import './customScrollbar.css';
+import { Spinner } from 'react-bootstrap';
 
 const poppins = Poppins({
     weight: '400',
@@ -23,14 +24,23 @@ export default function RootLayout({
     const [isPanelHovered, setIsPanelHovered] = useState(false);
     const [showNotifications, setShowNotifications] = useState(false);
     const [showDropdown, setShowDropdown] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+    const router = useRouter();
     const pathname = usePathname();
+    
+
+    useEffect(() => {
+        const authStatus = localStorage.getItem('admin_isAuthenticated');
+        if (authStatus !== 'true') {
+            router.push('/adminLogin');
+        } else {
+            setIsAuthenticated(true);
+        }
+    }, [router]);
 
     // Function to generate the page title and breadcrumb based on the route
     const generatePageInfo = (pathname: string) => {
         const pathParts = pathname.split('/').filter(Boolean); // Split and filter out empty parts
-        // console.log("--->", pathParts)
-
-        // Custom heading for specific routes
         let pageTitle;
         if (pathname === '/admin/content/newCategory') {
             pageTitle = 'New Category';
@@ -41,29 +51,29 @@ export default function RootLayout({
         } else if (pathname === '/admin/content/allblogs') {
             pageTitle = 'All Blogs'
         } else if (pathname === '/admin/content/allVideos') {
-            pageTitle = 'All Videos' 
+            pageTitle = 'All Videos'
         } else if (pathname === '/admin/content/allArticles') {
-            pageTitle = 'All Articles' 
+            pageTitle = 'All Articles'
         } else if (pathname === '/admin/staff/addCreator') {
-            pageTitle = 'Add Creator' 
+            pageTitle = 'Add Creator'
         } else if (pathname === '/admin/staff/addManager') {
-            pageTitle = 'Add Manager' 
+            pageTitle = 'Add Manager'
         } else if (pathname === '/admin/consultantData') {
-            pageTitle = 'All Consultants' 
+            pageTitle = 'All Consultants'
         } else if (pathname === '/admin/recentTickets') {
-            pageTitle = 'All Tickets' 
+            pageTitle = 'All Tickets'
         } else if (pathname === '/admin/sessionData') {
-            pageTitle = 'All Sessions' 
+            pageTitle = 'All Sessions'
         } else if (pathname === '/admin/doctors/allApplications') {
-            pageTitle = 'All Applications' 
+            pageTitle = 'All Applications'
         } else if (pathname === '/admin/doctors/allDoctors') {
-            pageTitle = 'All Doctors' 
+            pageTitle = 'All Doctors'
         } else if (pathname === '/admin/doctors/allRatings') {
-            pageTitle = 'All Ratings' 
+            pageTitle = 'All Ratings'
         } else if (pathname === '/admin/organisation/recentTickets') {
-            pageTitle = 'All Tickets' 
+            pageTitle = 'All Tickets'
         } else if (pathname === '/admin/organisation/allRatingsAndWords') {
-            pageTitle = 'All Ratings and Words' 
+            pageTitle = 'All Ratings and Words'
         } else {
             pageTitle = pathParts[pathParts.length - 1]?.charAt(0).toUpperCase() + pathParts[pathParts.length - 1]?.slice(1);
         }
@@ -96,6 +106,15 @@ export default function RootLayout({
         setShowDropdown(show);
     };
 
+    if (!isAuthenticated) {
+        return (
+            <div className='vh-100 d-flex items-center justify-content-center'>
+                <Spinner />
+            </div>
+        )
+    }
+
+
     return (
         <html lang="en">
             <body>
@@ -105,7 +124,7 @@ export default function RootLayout({
                         isPanelHovered={isPanelHovered}
                     />
                     <DashboardHeader
-                        
+
                         onShowNotifications={handleShowNotifications}
                         showNotifications={showNotifications}
                         onShowDropdown={handleShowDropdown}

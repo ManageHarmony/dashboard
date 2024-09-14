@@ -10,9 +10,9 @@ interface Patient {
 
 interface Ticket {
   id: number;
-  title?: string; 
+  title?: string;
   description: string;
-  createdAt?: string; 
+  createdAt?: string;
   Patient?: Patient;
 }
 
@@ -50,7 +50,7 @@ export default function RecentTickets() {
         <h2 style={{ fontSize: "1.4rem", fontWeight: "600" }}>Recent <span style={{ color: "#FFA05D" }}>Tickets</span></h2>
         <Link href="/admin/recentTickets" style={{ textDecoration: "none" }}>
           <button
-            style={{ fontSize: "1rem", color: "#FFA05D", display: "flex", alignItems: "center", background: "none", cursor: "pointer", border: "1px dashed #ffecd4", padding: "5px 10px", borderRadius: "8px" }}
+         className='see-all'
           >
             See All
             <svg xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: "5px" }} width="16" height="17" viewBox="0 0 16 17" fill="none">
@@ -62,31 +62,37 @@ export default function RecentTickets() {
         </Link>
       </div>
       {!loading ? (
-        <div style={{ maxHeight: "calc(100% - 10px)", overflowY: "auto", paddingRight: "16px" }}>
-          {recentTickets.slice(0, 3).map(
-            (ticket) => (
+        recentTickets.length > 0 ? (
+          <div style={{ maxHeight: "calc(100% - 10px)", overflowY: "auto", paddingRight: "16px" }}>
+            {recentTickets.slice(0, 3).map((ticket) => (
               <div key={ticket.id} style={{ display: "flex", alignItems: "start", marginBottom: "8px", paddingBottom: "8px", borderBottom: "1px solid #ffecd4" }}>
                 <img
-                  src={'/assets/avatar.jpg'}  // {ticket.Patient?.profile_path } ye use krenge...
+                  src={ticket.Patient?.profile_path || '/assets/avatar.jpg'}
                   alt={ticket.Patient?.patient_name || 'Avatar'}
                   style={{ width: "50px", height: "50px", borderRadius: "50%", marginRight: "12px" }}
                 />
                 <div style={{ flexGrow: 1 }}>
                   <div style={{ display: "flex", gap: "30px", alignItems: "center", marginBottom: "-2px" }}>
-                    <h3 style={{ fontSize: "0.875rem", fontWeight: "500", margin: "0" }}>{ticket?.Patient?.patient_name}</h3>
+                    <h3 style={{ fontSize: "0.875rem", fontWeight: "500", margin: "0" }}>{ticket?.Patient?.patient_name || "Unknown Patient"}</h3>
                     <span style={{ margin: "0 4px" }}>~</span>
-                    <p style={{ fontSize: "0.75rem", color: "#FFA05D", margin: "0" }}>{ticket?.title}</p>
+                    <p style={{ fontSize: "0.75rem", color: "#FFA05D", margin: "0" }}>{ticket?.title || "No Title"}</p>
                   </div>
-                  <p style={{ color: "#6b7280", fontSize: "0.75rem", margin: "0" }}>{ticket?.createdAt}</p>
+                  <p style={{ color: "#6b7280", fontSize: "0.75rem", margin: "0" }}>{ticket?.createdAt || "Unknown Date"}</p>
                   <p style={{ fontSize: "0.875rem", margin: "0" }}>{ticket?.description}</p>
                 </div>
               </div>
-            )
-          )}
+            ))}
+          </div>
+        ) : (
+          <div className="text-center mt-5">
+            <p className="text-gray-600">No data found</p>
+          </div>
+        )
+      ) : (
+        <div className="text-center mt-5">
+          <p className="text-gray-600">Loading Tickets...</p>
         </div>
-      ) : (<div className="text-center mt-5">
-        <p className="text-gray-600">Loading Tickets...</p>
-      </div>)}
+      )}
     </div>
   );
 }

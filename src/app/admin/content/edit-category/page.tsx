@@ -201,7 +201,7 @@ const EditCategoryPage: React.FC = () => {
                                 )}
 
                                 <div style={{ position: "absolute", right: "10px" }}>
-                                    <FiFilePlus style={{ fontSize: "30px", color: focusState["categoryPicture"] ? 'purple' : '#ff6600', }} />
+                                    <FiFilePlus style={{ fontSize: "30px", color: focusState["categoryPicture"] ? '#FFA05D' : '#ff6600', }} />
                                 </div>
                             </div>
                         </Form.Group>
@@ -220,7 +220,7 @@ const EditCategoryPage: React.FC = () => {
                                         style={{ paddingRight: "40px", height: "50px" }}
                                     />
                                     <div style={{ position: "absolute", right: "10px" }}>
-                                        <FiUser style={{ color: focusState["name"] ? 'purple' : '#ff6600', fontSize: "30px", }} />
+                                        <FiUser style={{ color: focusState["name"] ? '#FFA05D' : '#ff6600', fontSize: "30px", }} />
                                     </div>
                                 </div>
 

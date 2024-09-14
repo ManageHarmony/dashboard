@@ -128,7 +128,7 @@ const ratingsData = [
 ];
 
 export default function AllRatings() {
-    const averageRating = 4.2; 
+    const averageRating = 4.2;
 
     return (
         <div style={{ padding: "20px 30px" }}>
@@ -139,8 +139,7 @@ export default function AllRatings() {
                     </div>
                     <div style={{ fontSize: "1rem", color: "#101010", fontWeight: "600" }}>Average Rating: {averageRating}/5</div>
                     <Link href="/manager/doctors" style={{ textDecoration: "none" }}>
-                        <button
-                            style={{ fontSize: "1rem", color: "#FFA05D", display: "flex", alignItems: "center", background: "none", cursor: "pointer", border: "1px dashed #ffecd4", padding: "5px 10px", borderRadius: "8px" }}
+                        <button className='see-all w-auto'
                         >
                             Go Back{" "}
                             <svg xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: "5px" }} width="16" height="17" viewBox="0 0 16 17" fill="none">
@@ -160,7 +159,7 @@ export default function AllRatings() {
                                 style={{ width: "40px", height: "40px", borderRadius: "50%", marginRight: "20px" }}
                             />
                             <div style={{ flexGrow: 1 }}>
-                                <div style={{ display: "flex", justifyContent: "space-between", gap:"40px", alignItems: "center", marginBottom: "4px" }}>
+                                <div style={{ display: "flex", justifyContent: "space-between", gap: "40px", alignItems: "center", marginBottom: "4px" }}>
                                     <h3 style={{ fontSize: "0.875rem", fontWeight: "500", margin: "0" }}>{rating.name} - <span style={{ color: "#ff6500" }}>{rating.reviewer}</span></h3>
                                 </div>
                                 <p style={{ color: "#6b7280", fontSize: "0.75rem", margin: "0" }}>{rating.date}</p>

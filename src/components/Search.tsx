@@ -164,7 +164,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
                     onFocus={() => handleFocus('search')}
                     onBlur={() => handleBlur('search')}
                 />
-                <FaSearch className="icon-transition" style={{ color: focusState["search"] ? 'purple' : '#999', cursor: 'pointer' }} />
+                <FaSearch className="icon-transition" style={{ color: focusState["search"] ? '#FFA05D' : '#999', cursor: 'pointer' }} />
             </div>
 
 

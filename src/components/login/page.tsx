@@ -9,7 +9,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 interface LoginPageProps {
-  userType: 'manager' | 'creator';
+  userType: 'manager' | 'creator' | 'admin';
 }
 
 const LoginPage: React.FC<LoginPageProps> = ({ userType }) => {
@@ -17,6 +17,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ userType }) => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
+  const secretKey = 'jindal';
 
   const showToastError = (message: string) => {
     toast.error(message, {
@@ -36,19 +38,27 @@ const LoginPage: React.FC<LoginPageProps> = ({ userType }) => {
   
     const apiEndpoint =
       userType === 'manager'
-        ? 'https://harmony-backend-z69j.onrender.com/api/manager/login'
-        : 'https://harmony-backend-z69j.onrender.com/api/login/creator';
+        ? 'https://harmony-backend-z69j.onrender.com/api/manager/login' : userType === 'admin' ? 'https://harmony-backend-z69j.onrender.com/api/admin/login' : 'https://harmony-backend-z69j.onrender.com/api/login/creator';
+
   
+        const requestBody = userType === 'admin'
+        ? {
+            email,
+            password,
+            secretKey,
+          }
+        : {
+            email,
+            password,
+          };
+
     try {
       const response = await fetch(apiEndpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
+        body: JSON.stringify(requestBody), 
       });
   
       const data = await response.json();
@@ -58,20 +68,18 @@ const LoginPage: React.FC<LoginPageProps> = ({ userType }) => {
         localStorage.setItem(`${userType}_token`, data.token);
   
         if (data.id) {
-          // Ensuring the manager or creator ID is properly stored
           localStorage.setItem(`${userType}_id`, data.id);
         } else {
-          // Logging an error message if the ID is missing
           showToastError('Login successful but user ID is missing.');
           console.error('User ID is missing from the response.');
         }
   
         localStorage.setItem(`${userType}_isAuthenticated`, 'true');
   
-        // Redirect based on userType
-        router.push(userType === 'manager' ? '/manager' : '/creator');
+        router.push(userType === 'manager' ? '/manager' : userType === 'admin' ? '/admin' : '/creator');
       } else {
         showToastError(data.message || 'Login failed. Please check your credentials.');
+        console.error('Error Data:', data); 
       }
     } catch (error) {
       console.error(error);
@@ -96,7 +104,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ userType }) => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5" sx={{ color: '#ff6600' }}>
-            {userType === 'manager' ? 'Manager Login' : 'Creator Login'}
+            {userType === 'manager' ? 'Manager Login' : userType === 'admin' ? 'Admin Login' : 'Creator Login'}
           </Typography>
           <Box component="form" onSubmit={handleLogin} noValidate sx={{ mt: 1 }}>
             <TextField
@@ -168,7 +176,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ userType }) => {
                 },
               }}
             >
-              {loading ? <Spinner animation="border"  size="sm" /> : 'Log In'}
+              {loading ? <Spinner animation="border"/> : 'Log In'}
             </Button>
           </Box>
         </Box>

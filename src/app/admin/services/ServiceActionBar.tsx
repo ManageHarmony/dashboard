@@ -3,12 +3,26 @@
 import { useState } from "react";
 import { FiBell } from "react-icons/fi";
 import Link from "next/link";
-import Button from "react-bootstrap/Button";
+import { Button as BootstrapButton } from "react-bootstrap";
+import { Loader2 } from "lucide-react";
 import { Spinner } from "react-bootstrap";
 
+export function ButtonLoading() {
+    return (
+        <BootstrapButton disabled style={{ backgroundColor: '#fff', border: "1px dashed orange", width: "auto", color: "#ff6600", display: "flex", alignItems: "center" }}>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            <span>Please wait...</span>
+        </BootstrapButton>
+    );
+}
+
 export default function ServiceActionBar() {
-    const [hoveredButton, setHoveredButton] = useState<string | null>(null);
     const [loadingButton, setLoadingButton] = useState<string | null>(null);
+    const [hoveredButton, setHoveredButton] = useState<string | null>(null);
+
+    const handleClick = (buttonType: string) => {
+        setLoadingButton(buttonType);
+    };
 
     const handleMouseEnter = (buttonType: string) => {
         setHoveredButton(buttonType);
@@ -18,82 +32,98 @@ export default function ServiceActionBar() {
         setHoveredButton(null);
     };
 
-    const handleClick = (buttonType: string) => {
-        setLoadingButton(buttonType);
-    };
-
-   const buttonStyle = {
+    const buttonStyle = {
         background: "#fff",
         border: "1px dashed orange",
-        color: "#ff5500",
+        color: "#ff6600",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
         transition: "background-color 0.3s, color 0.3s, border 0.3s",
-        minWidth: "130px"
+        width: "auto"
     };
 
     const buttonHoverStyle = {
-        background: "#ff5500",
-        border: "1px solid #ff5500",
+        background: "#ff6600",
+        border: "1px solid #ff6600",
         color: "white"
     };
 
+    const loadingButtonStyle = {
+        backgroundColor: "#f7f7f7",
+        borderColor: "#ccc",
+        color: "#999"
+    };
+
     const getButtonStyle = (buttonType: string) => {
-        return hoveredButton === buttonType ? { ...buttonStyle, ...buttonHoverStyle } : buttonStyle;
+        if (loadingButton === buttonType) {
+            return { ...buttonStyle, ...loadingButtonStyle };
+        } else if (hoveredButton === buttonType) {
+            return { ...buttonStyle, ...buttonHoverStyle };
+        }
+        return buttonStyle;
     };
 
     return (
         <div style={{ backgroundColor: "#fff", padding: "10px 15px", borderRadius: "10px", width: "100%" }}>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <div className=" fs-4 font-semibold mb-2">Action Bar</div>
-                <Button
-                    variant="outline-warning"
-                    onClick={() => handleClick("allServiceCategory")}
-                    onMouseEnter={() => handleMouseEnter("allServiceCategory")}
-                    onMouseLeave={handleMouseLeave}
-                    style={getButtonStyle("allServiceCategory")}
-                    disabled={loadingButton === "allServiceCategory"}
-                >
-                    {loadingButton === 'allServiceCategory' ? <Spinner animation="border"  size="sm" /> : 'All Service Category'} <FiBell className="ml-2" />
-                </Button>
+                {/* <Link href='#'>
+                    {loadingButton === 'allServiceCategory' ? (<ButtonLoading />) : (<BootstrapButton
+                        variant="outline-warning"
+                        onClick={() => handleClick("allServiceCategory")}
+                        onMouseEnter={() => handleMouseEnter("allServiceCategory")}
+                        onMouseLeave={handleMouseLeave}
+                        style={getButtonStyle("allServiceCategory")}
+                    >
+                        'All Service Category <FiBell className="ml-2" />
+                    </BootstrapButton>)}
+
+                </Link> */}
             </div>
             <div className="flex space-x-3 mt-2">
-                <Button
-                    variant="outline-warning"
-                    onClick={() => handleClick("allServices")}
-                    onMouseEnter={() => handleMouseEnter("allServices")}
-                    onMouseLeave={handleMouseLeave}
-                    style={getButtonStyle("allServices")}
-                    disabled={loadingButton === "allServices"}
-                >
-                    {loadingButton === 'allServices' ? <Spinner animation="border"  size="sm" /> : 'All Services'} <FiBell className="ml-2" />
-                </Button>
+                {/* <Link href='#'>
+                    {loadingButton === "allServices" ? (<ButtonLoading />) : (<BootstrapButton
+                        variant="outline-warning"
+                        onClick={() => handleClick("allServices")}
+                        onMouseEnter={() => handleMouseEnter("allServices")}
+                        onMouseLeave={handleMouseLeave}
+                        style={getButtonStyle("allServices")}
+                    >
+                        All Services <FiBell className="ml-2" />
+                    </BootstrapButton>)}
+
+                </Link> */}
 
                 <Link href='/admin/services/new-service' style={{ textDecoration: "none" }}>
-                    <Button
-                        variant="outline-warning"
-                        onClick={() => handleClick("addNewService")}
-                        onMouseEnter={() => handleMouseEnter("addNewService")}
-                        onMouseLeave={handleMouseLeave}
-                        style={getButtonStyle("addNewService")}
-                        disabled={loadingButton === "addNewService"}
-                    >
-                        {loadingButton === 'addNewService' ? <Spinner animation="border"  size="sm" /> : 'Add New Service'} <FiBell className="ml-2" />
-                    </Button>
+                    {loadingButton === 'addNewService' ? (
+                        <ButtonLoading />
+                    ) : (
+                        <BootstrapButton
+                            variant="outline-warning"
+                            onClick={() => handleClick("addNewService")}
+                            onMouseEnter={() => handleMouseEnter("addNewService")}
+                            onMouseLeave={handleMouseLeave}
+                            style={getButtonStyle("addNewService")}
+                        >
+                            Add New Service <FiBell className="ml-2" />
+                        </BootstrapButton>
+                    )}
                 </Link>
+                {/* <Link href='#' style={{ textDecoration: "none" }}>
+                    {loadingButton === 'allCategories' ? (<ButtonLoading />) : (<BootstrapButton
+                        variant="outline-warning"
+                        onClick={() => handleClick("allCategories")}
+                        onMouseEnter={() => handleMouseEnter("allCategories")}
+                        onMouseLeave={handleMouseLeave}
+                        style={getButtonStyle("allCategories")}
+                    >
+                        All Categories <FiBell className="ml-2" />
+                    </BootstrapButton>
+                    )}
+                </Link> */}
 
-                <Button
-                    variant="outline-warning"
-                    onClick={() => handleClick("allCategories")}
-                    onMouseEnter={() => handleMouseEnter("allCategories")}
-                    onMouseLeave={handleMouseLeave}
-                    style={getButtonStyle("allCategories")}
-                    disabled={loadingButton === "allCategories"}
-                >
-                    {loadingButton === 'allCategories' ? <Spinner animation="border"  size="sm" /> : 'All Categories'} <FiBell className="ml-2" />
-                </Button>
             </div>
-        </div>
+        </div >
     );
 }
