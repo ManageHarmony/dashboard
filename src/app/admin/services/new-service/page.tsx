@@ -3,9 +3,14 @@
 import { useEffect, useState } from 'react';
 import { FiFilePlus } from 'react-icons/fi';
 import { AiOutlineUserAdd } from 'react-icons/ai';
-import { Spinner } from 'react-bootstrap';
+import { Button, Form, Spinner } from 'react-bootstrap';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { MdOutlineTitle } from 'react-icons/md';
+import { IoPricetagsOutline, IoSaveOutline } from "react-icons/io5";
+import { LuSubtitles } from 'react-icons/lu';
+import { TbMessageLanguage } from 'react-icons/tb';
+import { GiDuration } from "react-icons/gi";
 
 const NewServicePage = () => {
     const [serviceImage, setServiceImage] = useState<File | string>('');
@@ -21,6 +26,7 @@ const NewServicePage = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [categories, setCategories] = useState([]);
     const [categoryId, setCategoryId] = useState('');
+    const [focusState, setFocusState] = useState<{ [key: string]: boolean }>({});
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -70,11 +76,55 @@ const NewServicePage = () => {
         }
     };
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
         if (!categoryId) {
             showToastError('Please select a category.');
             return;
         }
+        if (!title) {
+            showToastError('Please provide a title.');
+            return;
+        }
+        if (!description) {
+            showToastError('Please provide a description.');
+            return;
+        }
+        if (!tags) {
+            showToastError('Please provide tags.');
+            return;
+        }
+        if (!subtitle) {
+            showToastError('Please provide a subtitle.');
+            return;
+        }
+        if (!benefits) {
+            showToastError('Please provide benefits.');
+            return;
+        }
+        if (!languages) {
+            showToastError('Please specify the languages.');
+            return;
+        }
+        if (typeof duration !== 'number' || duration <= 0) {
+            showToastError('Please provide a valid duration.');
+            return;
+        }
+        if (typeof price !== 'number' || price <= 0) {
+            showToastError('Please provide a valid price.');
+            return;
+        }
+        if (!serviceImage) {
+            showToastError('Please upload an image for the service.');
+            return;
+        }
+        if (!whatWeWillDiscuss) {
+            showToastError('Please specify what will be discussed.');
+            return;
+        }
+
+
         setLoading(true);
         const formData = new FormData();
 
@@ -134,235 +184,201 @@ const NewServicePage = () => {
             setLoading(false);
         }
     };
+
+    const handleFocus = (field: string) => {
+        setFocusState(prev => ({ ...prev, [field]: true }));
+    };
+
+    const handleBlur = (field: string) => {
+        setFocusState(prev => ({ ...prev, [field]: false }));
+    };
+
     return (
         <>
-            <div style={styles.formContainer}>
+            <div style={{ padding: "10px 30px" }}>
+                <div style={{ backgroundColor: "#fff", padding: "20px 20px", borderRadius: "20px" }}>
+                    <Form onSubmit={handleSubmit} className="input-transition" style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+                        <div style={{ display: "flex", gap: "20px" }}>
+                            <Form.Group style={{ width: "100%" }}>
+                                <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Title"
+                                        value={title}
+                                        onChange={(e) => setTitle(e.target.value)}
+                                        style={{ height: "50px" }}
+                                        onFocus={() => handleFocus('title')}
+                                        onBlur={() => handleBlur('title')}
+                                    />
+                                    <div style={{ position: "absolute", right: "10px" }}>
+                                        <MdOutlineTitle style={{ fontSize: "30px", color: focusState["title"] ? '#2C297E' : '#ff6600', }} />
+                                    </div>
+                                </div>
+                            </Form.Group>
+                            <Form.Group style={{ width: "100%" }}>
+                                <Form.Select
+                                    value={categoryId}
+                                    onChange={handleCategoryChange}
+                                    style={{ height: "50px" }}>
+                                    <option value="">Select a category</option>
+                                    {categories.map((category: any) => (
+                                        <option key={category?.id} value={category.id}>
+                                            {category?.name}
+                                        </option>
+                                    ))}
+                                </Form.Select>
+                            </Form.Group>
+                            <Form.Group style={{ width: "100%",  borderRadius: "10px", }}>
+                            <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+                                <Form.Control
+                                    type="file"
+                                    onChange={handleImageUpload}
+                                    accept="image/*"
+                                    style={{ height: "50px" }}
+                                    onFocus={() => handleFocus('servicePicture')}
+                                    onBlur={() => handleBlur('servicePicture')}
+                                />
 
+                                <div style={{ position: "absolute", right: "10px" }}>
+                                    <FiFilePlus style={{ fontSize: "30px", color: focusState["servicePicture"] ? '#2C297E' : '#ff6600', }} />
+                                </div>
+                            </div>
+                            </Form.Group>
 
-                <div style={styles.row}>
-                    <div style={styles.inputGroup}>
-                        <input
-                            type="text"
-                            placeholder="Title"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            style={styles.input}
-                        />
-                    </div>
-                    <div style={styles.inputGroup}>
-                        <select value={categoryId} onChange={handleCategoryChange} style={{
-                            border: 'none',         
-                            outline: 'none',        
-                            padding: '8px',         
-                            backgroundColor: '#f9f9f9', 
-                            borderRadius: '4px',     
-                            fontSize: '16px',       
-                            width: '100%'           
-                        }} >
-                            <option value="">Select a category</option>
-                            {categories.map((category: any) => (
-                                <option key={category?.id} value={category.id}>
-                                    {category?.name}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
+                        </div>
 
-                    <div style={styles.inputGroup}>
-                        <label style={styles.fileInputLabel}>
-                            <input
-                                type="file"
-                                onChange={handleImageUpload}
-                                style={{ display: 'none' }}
+                        <Form.Group>
+                            <Form.Control
+                                as="textarea"
+                                placeholder="Description"
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                                style={{ height: "180px", boxShadow: "none" }}
+                                className="input-transition"
                             />
-                            {serviceImage === '' ? 'Choose a file' : (typeof serviceImage === 'string' ? serviceImage : serviceImage.name)}
-                            <FiFilePlus style={styles.icon} />
-                        </label>
-                    </div>
+                        </Form.Group>
+
+                        <div style={{ display: "flex", gap: "20px" }}>
+                            <Form.Group style={{ width: "100%" }}>
+                                <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+                                    <Form.Control
+                                        type="text"
+                                        value={tags}
+                                        placeholder="Tags (comma separated)"
+                                        onChange={(e) => setTags(e.target.value)}
+                                        style={{ height: "50px" }}
+                                        onFocus={() => handleFocus('tag')}
+                                        onBlur={() => handleBlur('tag')}
+                                    />
+                                    <div style={{ position: "absolute", right: "10px" }}>
+                                        <IoPricetagsOutline style={{ fontSize: "30px", color: focusState["tag"] ? '#2C297E' : '#ff6600', }} />
+                                    </div>
+                                </div>
+                            </Form.Group>
+
+                            <Form.Group style={{ width: "100%" }}>
+                                <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+                                    <Form.Control
+                                        type="text"
+                                        value={subtitle}
+                                        placeholder="Subtitle (comma separated)"
+                                        onChange={(e) => setSubtitle(e.target.value)}
+                                        style={{ height: "50px" }}
+                                        onFocus={() => handleFocus('subtitle')}
+                                        onBlur={() => handleBlur('subtitle')}
+                                    />
+                                    <div style={{ position: "absolute", right: "10px" }}>
+                                        <LuSubtitles style={{ fontSize: "30px", color: focusState["subtitle"] ? '#2C297E' : '#ff6600', }} />
+                                    </div>
+                                </div>
+                            </Form.Group>
+
+                        </div>
+                        <div style={{ display: "flex", gap: "20px" }}>
+                            <Form.Group style={{ width: "100%" }}>
+                                <Form.Control
+                                    type="text"
+                                    value={benefits}
+                                    placeholder="Benefits (comma separated)"
+                                    onChange={(e) => setBenefits(e.target.value)}
+                                    style={{ height: "50px" }}
+                                />
+                            </Form.Group>
+
+                            <Form.Group style={{ width: "100%" }}>
+                                <Form.Control
+                                    type="number"
+                                    placeholder="Price"
+                                    value={price}
+                                    onChange={(e) => setPrice(Number(e.target.value))}
+                                    style={{ height: "50px" }}
+                                />
+                            </Form.Group>
+
+                            <Form.Group style={{ width: "100%" }}>
+                                <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Languages (comma separated)"
+                                        value={languages}
+                                        onChange={(e) => setLanguages(e.target.value)}
+                                        style={{ height: "50px" }}
+                                        onFocus={() => handleFocus('language')}
+                                        onBlur={() => handleBlur('language')}
+                                    />
+                                    <div style={{ position: "absolute", right: "10px" }}>
+                                        <TbMessageLanguage style={{ fontSize: "30px", color: focusState["language"] ? '#2C297E' : '#ff6600', }} />
+                                    </div>
+                                </div>
+                            </Form.Group>
+
+                        </div>
+                        <div style={{ display: "flex", gap: "20px" }}>
+                            <Form.Group style={{ width: "100%" }}>
+                                <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+                                    <Form.Control
+                                        type="number"
+                                        placeholder="Duration (in minutes)"
+                                        value={duration}
+                                        onChange={(e) => setDuration(Number(e.target.value))}
+                                        style={{ height: "50px" }}
+                                        onFocus={() => handleFocus('duration')}
+                                        onBlur={() => handleBlur('duration')}
+                                    />
+                                    <div style={{ position: "absolute", right: "30px" }}>
+                                        <GiDuration style={{ fontSize: "30px", color: focusState["duration"] ? '#2C297E' : '#ff6600', }} />
+                                    </div>
+                                </div>
+                            </Form.Group>
+
+                            <Form.Group style={{ width: "100%" }}>
+                                <Form.Control
+                                    type="text"
+                                    value={whatWeWillDiscuss}
+                                    placeholder="What We Will Discuss (comma separated)"
+                                    onChange={(e) => setWhatWeWillDiscuss(e.target.value)}
+                                    style={{ height: "50px" }}
+                                />
+                            </Form.Group>
+
+                        </div>
+                        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
+                            <Button
+                                type="submit"
+                                variant="primary"
+                                style={{ backgroundColor: '#ff6600', borderColor: '#ff6600', display: "flex", height: "50px", alignItems: "center" }}
+                                disabled={loading}
+                            >
+                                {loading ? 'Please wait...' : 'Save'}
+                                <IoSaveOutline style={{ fontSize: '1.5rem', marginLeft: "5px" }} />
+                            </Button>
+                        </div>
+                    </Form>
+                    <ToastContainer />
                 </div>
-
-
-                <div style={styles.textareaContainer}>
-                    <textarea
-                        placeholder="Description"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        style={styles.textarea}
-                    />
-                </div>
-                <div style={styles.row}>
-                    <div style={styles.inputGroup}>
-                        <input
-                            type="text"
-                            value={tags}
-                            placeholder="Tags (comma separated)"
-                            onChange={(e) => setTags(e.target.value)}
-                            style={styles.input}
-                        />
-                    </div>
-
-                    <div style={styles.inputGroup}>
-                        <input
-                            type="text"
-                            value={subtitle}
-                            placeholder="Subtitle (comma separated)"
-                            onChange={(e) => setSubtitle(e.target.value)}
-                            style={styles.input}
-                        />
-                    </div>
-                </div>
-
-                <div style={styles.row}>
-                    <div style={styles.inputGroup}>
-                        <input
-                            type="text"
-                            value={benefits}
-                            placeholder="Benefits (comma separated)"
-                            onChange={(e) => setBenefits(e.target.value)}
-                            style={styles.input}
-                        />
-                    </div>
-                    <div style={styles.inputGroup}>
-                        <input
-                            type="number"
-                            placeholder="Price"
-                            value={price}
-                            onChange={(e) => setPrice(Number(e.target.value))}
-                            style={styles.input}
-                        />
-                    </div>
-                    <div style={styles.inputGroup}>
-                        <input
-                            type="text"
-                            placeholder="Languages (comma separated)"
-                            value={languages}
-                            onChange={(e) => setLanguages(e.target.value)}
-                            style={styles.input}
-                        />
-                    </div>
-                </div>
-
-                <div style={styles.row}>
-                    <div style={styles.inputGroup}>
-                        <input
-                            type="number"
-                            placeholder="Duration (in minutes)"
-                            value={duration}
-                            onChange={(e) => setDuration(Number(e.target.value))}
-                            style={styles.input}
-                        />
-                    </div>
-                    <div style={styles.inputGroup}>
-                        <input
-                            type="text"
-                            value={whatWeWillDiscuss}
-                            placeholder="What We Will Discuss (comma separated)"
-                            onChange={(e) => setWhatWeWillDiscuss(e.target.value)}
-                            style={styles.input}
-                        />
-                    </div>
-                </div>
-
-                <button style={styles.saveButton} onClick={handleSubmit} disabled={loading}>
-                    {!loading ?
-                        <div style={{ display: 'flex' }}>Save <AiOutlineUserAdd style={styles.buttonIcon} /></div> :
-                        <Spinner animation="border" role="status">
-                            <span className="visually-hidden">Loading...</span>
-                        </Spinner>
-                    }
-                </button>
             </div>
-            <ToastContainer />
         </>
     );
 }
-const styles: { [key: string]: React.CSSProperties } = {
-    formContainer: {
-        backgroundColor: '#fff',
-        borderRadius: '15px',
-        margin: "20px 25px",
-        padding: '20px',
-        width: '90%',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: "space-evenly",
-        minHeight: '60vh',
-    },
-    row: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        gap: "40px",
-        width: '100%',
-    },
-    inputGroup: {
-        display: 'flex',
-        alignItems: 'center',
-        backgroundColor: '#fff',
-        border: '1px solid #ddd',
-        borderRadius: '10px',
-        marginBottom: '20px',
-        padding: '0 10px',
-        width: '100%',
-    },
-    fileInputLabel: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        width: '100%',
-        cursor: 'pointer',
-    },
-    input: {
-        flex: 1,
-        padding: '10px 15px',
-        border: 'none',
-        borderRadius: '10px',
-        fontSize: '1rem',
-        outline: 'none',
-        backgroundColor: 'transparent',
-    },
-    textareaContainer: {
-        width: "100%",
-        height: '200px',
-        backgroundColor: "#fff",
-        padding: "10px",
-        borderRadius: "10px",
-        border: '1px solid #ddd',
-        marginBottom: "20px"
-    },
-    textarea: {
-        width: '100%',
-        height: '100%',
-        padding: '10px',
-        borderRadius: '10px',
-        fontSize: '1rem',
-        outline: 'none',
-        border: 'none',
-        backgroundColor: 'transparent',
-        resize: 'none',
-    },
-    icon: {
-        color: '#ff8a00',
-        fontSize: '1.5rem',
-    },
-    saveButton: {
-        backgroundColor: '#ff8a00',
-        color: '#fff',
-        borderRadius: '10px',
-        border: 'none',
-        cursor: 'pointer',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontSize: '1rem',
-        marginTop: '20px',
-        alignSelf: 'center',
-        width: '120px',
-        height: '50px',
-    },
-    buttonIcon: {
-        fontSize: '20px',
-        marginLeft: '10px',
-    },
-};
 
 export default NewServicePage;

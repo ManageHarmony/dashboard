@@ -7,6 +7,7 @@ import { AiOutlineUserAdd } from 'react-icons/ai';
 import { Dropdown, Spinner, Form, Button } from 'react-bootstrap';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { IoSaveOutline } from 'react-icons/io5';
 
 const NewCategoryPage: React.FC = () => {
     const [focusState, setFocusState] = useState<{ [key: string]: boolean }>({});
@@ -161,7 +162,7 @@ const handleSubmit = async () => {
                                 )}
 
                                 <div style={{ position: "absolute", right: "10px" }}>
-                                    <FiFilePlus style={{ fontSize: "30px", color: focusState["categoryPicture"] ? '#FFA05D' : '#ff6600', }} />
+                                    <FiFilePlus style={{ fontSize: "30px", color: focusState["categoryPicture"] ? '#2C297E' : '#ff6600', }} />
                                 </div>
                             </div>
                         </Form.Group>
@@ -180,7 +181,7 @@ const handleSubmit = async () => {
                                         style={{ paddingRight: "40px", height: "50px" }}
                                     />
                                     <div style={{ position: "absolute", right: "10px" }}>
-                                        <FiUser style={{ color: focusState["name"] ? '#FFA05D' : '#ff6600', fontSize: "30px", }} />
+                                        <FiUser style={{ color: focusState["name"] ? '#2C297E' : '#ff6600', fontSize: "30px", }} />
                                     </div>
                                 </div>
 
@@ -212,7 +213,7 @@ const handleSubmit = async () => {
                     <div style={{display: "flex", justifyContent: "center"}}>
                     <Button variant="primary" style={styles.saveButton} onClick={handleSubmit}>
                         {!loading ? (
-                            <div style={{ display: 'flex', alignItems: 'center' }}>Save <AiOutlineUserAdd style={styles.buttonIcon} /></div>
+                            <div style={{ display: 'flex', alignItems: 'center' }}>Save <IoSaveOutline style={styles.buttonIcon} /></div>
                         ) : (
                             <Spinner animation="border" role="status">
                                 <span className="visually-hidden">Loading...</span>

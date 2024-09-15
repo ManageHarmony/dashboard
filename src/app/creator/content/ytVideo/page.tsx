@@ -215,7 +215,7 @@ const CreateYTContent: React.FC = () => {
                                     onBlur={() => handleBlur('youtubeUrl')}
                                 />
                                 <div style={{ position: "absolute", right: "10px" }}>
-                                    <FaLink style={{ fontSize: "20px", color: focusState["youtubeUrl"] ? '#FFA05D' : '#ff6600', }} />
+                                    <FaLink style={{ fontSize: "20px", color: focusState["youtubeUrl"] ? '#2C297E' : '#ff6600', }} />
                                 </div>
                             </div>
                         </Form.Group>
@@ -249,7 +249,7 @@ const CreateYTContent: React.FC = () => {
                                     onBlur={() => handleBlur('heading')}
                                 />
                                 <div style={{ position: "absolute", right: "10px" }}>
-                                    <LuHeading style={{ fontSize: "20px", color: focusState["heading"] ? '#FFA05D' : '#ff6600', }} />
+                                    <LuHeading style={{ fontSize: "20px", color: focusState["heading"] ? '#2C297E' : '#ff6600', }} />
                                 </div>
                             </div>
                         </Form.Group>
@@ -272,7 +272,7 @@ const CreateYTContent: React.FC = () => {
                                     onBlur={() => handleBlur('content')}
                                 />
                                 <div style={{ position: "absolute", right: "10px", marginTop: "5px" }}>
-                                    <BiSolidBookContent style={{ fontSize: "30px", color: focusState["content"] ? '#FFA05D' : '#ff6600', }} />
+                                    <BiSolidBookContent style={{ fontSize: "30px", color: focusState["content"] ? '#2C297E' : '#ff6600', }} />
                                 </div>
                             </div>
                         </Form.Group>
@@ -292,7 +292,7 @@ const CreateYTContent: React.FC = () => {
                                         onBlur={() => handleBlur('tags')}
                                     />
                                     <div style={{ position: "absolute", right: "10px" }}>
-                                        <LuTags style={{ fontSize: "30px", color: focusState["tags"] ? '#FFA05D' : '#ff6600', }} />
+                                        <LuTags style={{ fontSize: "30px", color: focusState["tags"] ? '#2C297E' : '#ff6600', }} />
                                     </div>
                                 </div>
                             </Form.Group>

@@ -251,7 +251,7 @@ const AddCreator = () => {
                                         </div>
                                     )}
                                     <div style={{ position: "absolute", right: "10px" }}>
-                                        <FiFilePlus  style={{ fontSize: "30px", color: focusState["creatorPicture"] ? '#FFA05D' : '#ff6600', }} />
+                                        <FiFilePlus  style={{ fontSize: "30px", color: focusState["creatorPicture"] ? '#2C297E' : '#ff6600', }} />
                                     </div>
                                 </div>
 
@@ -274,7 +274,7 @@ const AddCreator = () => {
                                             style={{ paddingRight: "40px", height: "50px" }}
                                         />
                                         <div  style={{ position: "absolute", right: "10px" }}>
-                                            <FiUser style={{ color: focusState["username"] ? '#FFA05D' : '#ff6600', fontSize: "30px", }} />
+                                            <FiUser style={{ color: focusState["username"] ? '#2C297E' : '#ff6600', fontSize: "30px", }} />
                                         </div>
                                     </div>
                                 </Form.Group>
@@ -293,7 +293,7 @@ const AddCreator = () => {
                                             style={{ paddingRight: "40px", height: "50px" }}
                                         />
                                         <div style={{ position: "absolute", right: "10px" }}>
-                                            <MdOutlineAttachEmail  style={{ fontSize: "30px", color: focusState["email"] ? '#FFA05D' : '#ff6600', }} />
+                                            <MdOutlineAttachEmail  style={{ fontSize: "30px", color: focusState["email"] ? '#2C297E' : '#ff6600', }} />
                                         </div>
                                     </div>
                                 </Form.Group>
@@ -312,7 +312,7 @@ const AddCreator = () => {
                                             style={{ paddingRight: "40px", height: "50px" }}
                                         />
                                         <div style={{ position: "absolute", right: "10px" }}>
-                                            <BsGlobe2  style={{ fontSize: "30px",color: focusState["country"] ? '#FFA05D' : '#ff6600', }} />
+                                            <BsGlobe2  style={{ fontSize: "30px",color: focusState["country"] ? '#2C297E' : '#ff6600', }} />
                                         </div>
                                     </div>
                                 </Form.Group>
@@ -347,7 +347,7 @@ const AddCreator = () => {
                                         style={{ paddingRight: "40px", height: "50px" }}
                                     />
                                     <div style={{ position: "absolute", right: "10px" }}>
-                                        <TbMessageLanguage style={{ fontSize: "30px", color: focusState["languages"] ? '#FFA05D' : '#ff6600', }} />
+                                        <TbMessageLanguage style={{ fontSize: "30px", color: focusState["languages"] ? '#2C297E' : '#ff6600', }} />
                                     </div>
                                 </div>
                             </Form.Group>
@@ -368,7 +368,7 @@ const AddCreator = () => {
                                         style={{ paddingRight: "40px", height: "50px" }}
                                     />
                                     <div style={{ position: "absolute", right: "10px" }}>
-                                        <FaMobileAlt  style={{ fontSize: "30px",color: focusState["contact_number"] ? '#FFA05D' : '#ff6600',}} />
+                                        <FaMobileAlt  style={{ fontSize: "30px",color: focusState["contact_number"] ? '#2C297E' : '#ff6600',}} />
                                     </div>
                                 </div>
                             </Form.Group>
@@ -386,7 +386,7 @@ const AddCreator = () => {
                                         style={{ paddingRight: "40px", height: "50px" }}
                                     />
                                     <div style={{ position: "absolute", right: "10px" }}>
-                                        <TbPasswordUser style={{ fontSize: "30px", color: focusState["password"] ? '#FFA05D' : '#ff6600', }} />
+                                        <TbPasswordUser style={{ fontSize: "30px", color: focusState["password"] ? '#2C297E' : '#ff6600', }} />
                                     </div>
                                 </div>
                             </Form.Group>
@@ -411,7 +411,7 @@ const AddCreator = () => {
                                         )}
                                     </Dropdown.Menu>
                                     <div style={{ position: "absolute", right: "20px" }}>
-                                        <FiUser  style={{ fontSize: "30px", color: focusState["manager"] ? '#FFA05D' : '#ff6600', }} />
+                                        <FiUser  style={{ fontSize: "30px", color: focusState["manager"] ? '#2C297E' : '#ff6600', }} />
                                     </div>
                                 </Dropdown>
 
@@ -423,7 +423,7 @@ const AddCreator = () => {
                                     style={{ backgroundColor: '#ff6600', borderColor: '#ff6600', display: "flex", height: "50px", alignItems: "center" }}
                                     disabled={loading}
                                 >
-                                    {loading ? <Spinner animation="border"  size="sm" /> : 'Add Creator'}
+                                    {loading ? 'Please wait...' : 'Add Creator'}
                                     <AiOutlineUserAdd style={{ fontSize: '1.5rem', marginLeft: "5px" }} />
                                 </Button>
                             </div>

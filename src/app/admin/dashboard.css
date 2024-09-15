@@ -718,8 +718,8 @@ body {
 
 .input-transition input:focus,
 .input-transition select:focus {
-  border-color: #FFA05D;
-  color: #FFA05D;
+  border-color: #2C297E;
+  color: #2C297E;
   transform: scale(1.02);
   /* Slightly increase the size */
   box-shadow: none;
@@ -727,7 +727,7 @@ body {
 
 .input-transition input:focus~.icon-transition,
 .input-transition select:focus~.icon-transition {
-  color: #FFA05D;
+  color: #2C297E;
 }
 
 .icon-transition {
@@ -740,7 +740,7 @@ body {
 }
 
 .input-transition:focus {
-  border-color: #FFA05D;
+  border-color: #2C297E;
   transform: scale(1.02);
   /* Slightly increase the size */
 }
@@ -752,7 +752,7 @@ body {
 }
 
 .input-transition:focus .icon-transition~.icon-transition {
-  color: #FFA05D;
+  color: #2C297E;
   transform: scale(1.2);
 }
 
@@ -802,3 +802,4 @@ body {
 .see-all:hover svg path {
   stroke: white; /* Change icon color on hover */
 }
+

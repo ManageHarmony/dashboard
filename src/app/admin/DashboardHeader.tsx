@@ -10,6 +10,7 @@ import { ChevronDownIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import SearchBar from '@/components/Search';
 import { useRouter } from 'next/navigation';
+import LogoutModal from '@/components/LogoutModal';
 
 const DashboardHeader = ({ isPanelHovered, onShowNotifications, showNotifications, onShowDropdown, showDropdown }: any) => {
   const [notifications] = useState([
@@ -42,6 +43,8 @@ const DashboardHeader = ({ isPanelHovered, onShowNotifications, showNotification
   const notificationsCount = notifications.length;
 
   const [showCard, setShowCard] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -71,6 +74,23 @@ const DashboardHeader = ({ isPanelHovered, onShowNotifications, showNotification
   const handleSearch = (query: string) => {
     console.log('Search query:', query);
   };
+
+  const handleLogoutConfirm = () => {
+    setIsLoading(true);
+    localStorage.removeItem('admin_token');
+    localStorage.removeItem('admin_isAuthenticated');
+    router.push('/adminLogin');
+  };
+
+  const confirmLogout = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  }
+
+
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
@@ -142,12 +162,7 @@ const DashboardHeader = ({ isPanelHovered, onShowNotifications, showNotification
                     <path d="M17.6344 1.96875C16.86 -0.65625 13.14 -0.65625 12.3656 1.96875L12.1781 2.60625C12.0624 2.99924 11.8602 3.36135 11.5864 3.66602C11.3125 3.9707 10.9739 4.21021 10.5954 4.36699C10.2169 4.52378 9.80818 4.59386 9.39909 4.57211C8.99 4.55035 8.59096 4.4373 8.23125 4.24125L7.65 3.9225C5.24437 2.61375 2.61375 5.24438 3.92437 7.64813L4.24125 8.23125C5.0775 9.76875 4.28437 11.6831 2.60625 12.1781L1.96875 12.3656C-0.65625 13.14 -0.65625 16.86 1.96875 17.6344L2.60625 17.8219C2.99924 17.9376 3.36135 18.1398 3.66602 18.4136C3.9707 18.6875 4.21021 19.0261 4.36699 19.4046C4.52378 19.7831 4.59386 20.1918 4.57211 20.6009C4.55035 21.01 4.4373 21.409 4.24125 21.7687L3.9225 22.35C2.61375 24.7556 5.24438 27.3862 7.64813 26.0756L8.23125 25.7587C8.59096 25.5627 8.99 25.4497 9.39909 25.4279C9.80818 25.4061 10.2169 25.4762 10.5954 25.633C10.9739 25.7898 11.3125 26.0293 11.5864 26.334C11.8602 26.6387 12.0624 27.0008 12.1781 27.3937L12.3656 28.0312C13.14 30.6562 16.86 30.6562 17.6344 28.0312L17.8219 27.3937C17.9376 27.0008 18.1398 26.6387 18.4136 26.334C18.6875 26.0293 19.0261 25.7898 19.4046 25.633C19.7831 25.4762 20.1918 25.4061 20.6009 25.4279C21.01 25.4497 21.409 25.5627 21.7687 25.7587L22.35 26.0775C24.7556 27.3862 27.3862 24.7556 26.0756 22.3519L25.7587 21.7687C25.5627 21.409 25.4497 21.01 25.4279 20.6009C25.4061 20.1918 25.4762 19.7831 25.633 19.4046C25.7898 19.0261 26.0293 18.6875 26.334 18.4136C26.6387 18.1398 27.0008 17.9376 27.3937 17.8219L28.0312 17.6344C30.6562 16.86 30.6562 13.14 28.0312 12.3656L27.3937 12.1781C27.0008 12.0624 26.6387 11.8602 26.334 11.5864C26.0293 11.3125 25.7898 10.9739 25.633 10.5954C25.4762 10.2169 25.4061 9.80818 25.4279 9.39909C25.4497 8.99 25.5627 8.59096 25.7587 8.23125L26.0775 7.65C27.3862 5.24437 24.7556 2.61375 22.3519 3.92437L21.7687 4.24125C21.409 4.4373 21.01 4.55035 20.6009 4.57211C20.1918 4.59386 19.7831 4.52378 19.4046 4.36699C19.0261 4.21021 18.6875 3.9707 18.4136 3.66602C18.1398 3.36135 17.9376 2.99924 17.8219 2.60625L17.6344 1.96875ZM15 20.4938C13.543 20.4938 12.1456 19.9149 11.1153 18.8847C10.0851 17.8544 9.50625 16.457 9.50625 15C9.50625 13.543 10.0851 12.1456 11.1153 11.1153C12.1456 10.0851 13.543 9.50625 15 9.50625C16.4565 9.50625 17.8534 10.0849 18.8833 11.1148C19.9133 12.1447 20.4919 13.5416 20.4919 14.9981C20.4919 16.4547 19.9133 17.8515 18.8833 18.8815C17.8534 19.9114 16.4565 20.49 15 20.49V20.4938Z" fill="#FFA05D" />
                   </svg><span className='ml-3'>Settings</span>
                 </Link>
-                <Button onClick={() => {
-                  // Clear the localStorage to log the user out
-                  localStorage.removeItem('admin_token');
-                  localStorage.removeItem('admin_isAuthenticated');
-                  router.push('/adminLogin');
-                }} className="dropdown-item flex items-center py-2 px-3">
+                <Button onClick={confirmLogout} className="dropdown-item flex items-center py-2 px-3">
                   <svg style={{ marginLeft: "5px" }} xmlns="http://www.w3.org/2000/svg" width="30" height="26" viewBox="0 0 30 26" fill="none">
                     <path d="M8.07707 13C8.07707 12.6866 8.19864 12.386 8.41503 12.1643C8.63142 11.9427 8.92491 11.8182 9.23093 11.8182H19.6157V4.13636C19.6157 1.77273 17.1789 0 15.0003 0H4.03853C2.9678 0.00117312 1.94125 0.437344 1.18412 1.21281C0.427 1.98827 0.00114538 3.03969 0 4.13636V21.8636C0.00114538 22.9603 0.427 24.0117 1.18412 24.7872C1.94125 25.5627 2.9678 25.9988 4.03853 26H15.5772C16.6479 25.9988 17.6745 25.5627 18.4316 24.7872C19.1887 24.0117 19.6146 22.9603 19.6157 21.8636V14.1818H9.23093C8.92491 14.1818 8.63142 14.0573 8.41503 13.8357C8.19864 13.614 8.07707 13.3134 8.07707 13ZM29.6623 12.1646L23.893 6.25551C23.6748 6.04323 23.3843 5.92664 23.0835 5.93058C22.7826 5.93453 22.4951 6.0587 22.2823 6.27663C22.0695 6.49456 21.9483 6.789 21.9444 7.09718C21.9406 7.40535 22.0544 7.70287 22.2617 7.92631L26.0608 11.8182H19.6157V14.1818H26.0608L22.2617 18.0737C22.15 18.1823 22.0607 18.3128 21.9991 18.4573C21.9374 18.6019 21.9046 18.7576 21.9027 18.9154C21.9007 19.0731 21.9296 19.2296 21.9876 19.3758C22.0456 19.5219 22.1316 19.6546 22.2405 19.7662C22.3494 19.8777 22.479 19.9658 22.6217 20.0252C22.7644 20.0846 22.9172 20.1142 23.0712 20.1122C23.2252 20.1102 23.3773 20.0766 23.5184 20.0135C23.6595 19.9503 23.7869 19.8589 23.893 19.7445L29.6623 13.8354C29.8785 13.6138 30 13.3133 30 13C30 12.6867 29.8785 12.3862 29.6623 12.1646Z" fill="#FFA05D" />
                   </svg> <span className='ml-3'>Logout</span>
@@ -157,6 +172,12 @@ const DashboardHeader = ({ isPanelHovered, onShowNotifications, showNotification
           </div>
         </div>
       </div>
+      <LogoutModal
+        showModal={showModal}
+        handleClose={handleCloseModal}
+        handleLogoutConfirm={handleLogoutConfirm}
+        isLoading={isLoading}
+      />
     </Navbar>
   );
 };

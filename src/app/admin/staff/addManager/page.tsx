@@ -190,7 +190,7 @@ const AddManager = () => {
                                         </div>
                                     )}
                                     <div style={{ position: "absolute", right: "10px" }}>
-                                        <FiFilePlus style={{ fontSize: "30px", color: focusState["managerPicture"] ? '#FFA05D' : '#ff6600', }} />
+                                        <FiFilePlus style={{ fontSize: "30px", color: focusState["managerPicture"] ? '#2C297E' : '#ff6600', }} />
                                     </div>
                                 </div>
                             </Form.Group>
@@ -209,7 +209,7 @@ const AddManager = () => {
                                             style={{ paddingRight: "40px", height: "50px" }}
                                         />
                                         <div style={{ position: "absolute", right: "10px" }}>
-                                            <FiUser style={{ color: focusState["name"] ? '#FFA05D' : '#ff6600', fontSize: "30px", }} />
+                                            <FiUser style={{ color: focusState["name"] ? '#2C297E' : '#ff6600', fontSize: "30px", }} />
                                         </div>
                                     </div>
                                 </Form.Group>
@@ -228,7 +228,7 @@ const AddManager = () => {
                                             style={{ paddingRight: "40px", height: "50px" }}
                                         />
                                         <div style={{ position: "absolute", right: "10px" }}>
-                                            <FiUser style={{ color: focusState["username"] ? '#FFA05D' : '#ff6600', fontSize: "30px", }} />
+                                            <FiUser style={{ color: focusState["username"] ? '#2C297E' : '#ff6600', fontSize: "30px", }} />
                                         </div>
                                     </div>
                                 </Form.Group>
@@ -247,7 +247,7 @@ const AddManager = () => {
                                             style={{ paddingRight: "40px", height: "50px" }}
                                         />
                                         <div style={{ position: "absolute", right: "10px" }}>
-                                            <MdOutlineAttachEmail style={{ fontSize: "30px", color: focusState["email"] ? '#FFA05D' : '#ff6600', }} />
+                                            <MdOutlineAttachEmail style={{ fontSize: "30px", color: focusState["email"] ? '#2C297E' : '#ff6600', }} />
                                         </div>
                                     </div>
                                 </Form.Group>
@@ -282,7 +282,7 @@ const AddManager = () => {
                                         style={{ paddingRight: "40px", height: "50px" }}
                                     />
                                     <div style={{ position: "absolute", right: "10px" }}>
-                                        <BsGlobe2 style={{ fontSize: "30px", color: focusState["countries"] ? '#FFA05D' : '#ff6600', }} />
+                                        <BsGlobe2 style={{ fontSize: "30px", color: focusState["countries"] ? '#2C297E' : '#ff6600', }} />
                                     </div>
                                 </div>
                             </Form.Group>
@@ -302,7 +302,7 @@ const AddManager = () => {
                                         style={{ paddingRight: "40px", height: "50px" }}
                                     />
                                     <div style={{ position: "absolute", right: "10px" }}>
-                                        <FaMobileAlt style={{ fontSize: "30px", color: focusState["contact_number"] ? '#FFA05D' : '#ff6600', }} />
+                                        <FaMobileAlt style={{ fontSize: "30px", color: focusState["contact_number"] ? '#2C297E' : '#ff6600', }} />
                                     </div>
                                 </div>
                             </Form.Group>
@@ -320,7 +320,7 @@ const AddManager = () => {
                                         style={{ paddingRight: "40px", height: "50px" }}
                                 />
                                 <div style={{ position: "absolute", right: "10px" }}>
-                                        <TbPasswordUser style={{ fontSize: "30px", color: focusState["password"] ? '#FFA05D' : '#ff6600', }} />
+                                        <TbPasswordUser style={{ fontSize: "30px", color: focusState["password"] ? '#2C297E' : '#ff6600', }} />
                                     </div>
                                </div>
                             </Form.Group>
