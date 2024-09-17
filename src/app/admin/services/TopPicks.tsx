@@ -2,13 +2,20 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faEye } from '@fortawesome/free-solid-svg-icons';
-import { Dropdown, Spinner } from 'react-bootstrap';
+import { faTrash, faEye, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { Dropdown } from 'react-bootstrap';
 import { FaPlus } from 'react-icons/fa';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ServiceStats from './ServiceStats';
 import Link from 'next/link';
+
+const truncateText = (text: string, maxLength: number) => {
+    if (text.length > maxLength) {
+        return text.slice(0, maxLength) + '...';
+    }
+    return text;
+};
 
 export default function TopPicks() {
     const [topPicksByUser, setTopPicksByUser] = useState<any[]>([]);
@@ -46,7 +53,7 @@ export default function TopPicks() {
 
     const handleDelete = async (id: string) => {
         try {
-            const response = await fetch(`https://harmony-backend-z69j.onrender.com/ /api/admin/delete/service/${id}`, {
+            const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/admin/delete/service/${id}`, {
                 method: "DELETE",
             });
 
@@ -90,6 +97,14 @@ export default function TopPicks() {
         });
     };
 
+    const handleClick = (id: number) => {
+        router.push(`/admin/content/allArticles/${id}`)
+    }
+
+    const handleDropdownClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
+    };
+
     return (
         <>
             <div style={{ display: "flex", flexDirection: "column", gap: "20px", width: "100%" }}>
@@ -118,15 +133,8 @@ export default function TopPicks() {
                             </button>
                         </Link>
                     </div>
-                    {loading ? (
-                        <div className="d-flex justify-content-center align-items-center">
-                            <Spinner animation="border" role="status">
-                                <span className="visually-hidden">Loading...</span>
-                            </Spinner>
-                            <h4 className="mx-2">Loading..</h4>
-                        </div>
-                    ) : (
-                        <div style={{
+                    {!loading ? (
+                        topPicksByUser.length > 0 ? (<div style={{
                             height: "calc(100% - 40px)",
                             overflowY: "hidden",
                             borderRadius: "10px"
@@ -135,7 +143,7 @@ export default function TopPicks() {
                                 <thead className="bg-orange-100 rounded-t-lg">
                                     <tr>
                                         <th className="text-left p-2 text-gray-600 rounded-tl-lg">Sr. No</th>
-                                        <th className="text-left p-2 text-gray-600">Service Name</th>
+                                        <th className="text-left p-2 w-auto text-gray-600">Service Name</th>
                                         <th className="text-left p-2 text-gray-600">Description</th>
                                         <th className="text-center p-2 text-gray-600 rounded-tr-lg">Action</th>
                                     </tr>
@@ -144,29 +152,25 @@ export default function TopPicks() {
                                     {topPicksByUser.map((service, index) => (
                                         <tr key={service.id} className="border-b border-gray-300">
                                             <td className="p-2 text-black">{index + 1}</td>
-                                            <td className="p-2 text-black">{service.title}</td>
-                                            <td className="p-2 text-black">{service.description}</td>
-                                            <Dropdown className="p-2">
+                                            <td className="p-2 text-black">{truncateText(service.title, 20)}</td>
+                                            <td className="p-2 text-black">{truncateText(service.description, 25)}</td>
+                                            <Dropdown className="p-2" onClick={handleDropdownClick}>
                                                 <Dropdown.Toggle
-                                                    as="button"
                                                     className="text-orange-600 flex items-center border-0 bg-transparent p-0"
+                                                    style={{ padding: '4px', lineHeight: '1', height: '32px' }}
                                                 >
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 32 32" fill="none">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
                                                         <rect width="32" height="32" rx="6" fill="#FFE3D0" />
                                                         <path d="M29.0947 16.5733C28.984 16.4147 26.3454 12.648 22.704 10.0733C20.816 8.736 18.4347 8 16 8C13.5667 8 11.1854 8.736 9.29336 10.0733C5.65203 12.648 3.01603 16.4147 2.90536 16.5733C2.58803 17.0307 2.58803 17.6373 2.90536 18.0947C3.01603 18.2533 5.65203 22.02 9.29336 24.5947C11.1854 25.9307 13.5667 26.6667 16 26.6667C18.4347 26.6667 20.816 25.9307 22.704 24.5933C26.3454 22.0187 28.984 18.252 29.0947 18.0933C29.4134 17.6373 29.4134 17.0293 29.0947 16.5733ZM16 22C13.4214 22 11.3334 19.9067 11.3334 17.3333C11.3334 14.7547 13.4214 12.6667 16 12.6667C18.5734 12.6667 20.6667 14.7547 20.6667 17.3333C20.6667 19.9067 18.5734 22 16 22ZM16 15.3333C14.7847 15.3333 13.6667 16.4513 13.6667 17.6667C13.6667 18.882 14.7847 20 16 20C17.2154 20 18.3334 18.882 18.3334 17.6667C18.3334 16.4513 17.2154 15.3333 16 15.3333Z" fill="#FFA05D" />
                                                     </svg>
                                                 </Dropdown.Toggle>
-
-                                                <Dropdown.Menu className="p-0 shadow-lg" style={{ width: 'auto'}}>
-                                                    <Dropdown.Item className="flex items-center text-sm p-2 w-full" onClick={() => addCategory(service)} >
-                                                        <FaPlus style={{ marginRight: "6px", color: '#ff5500' }} />
+                                                <Dropdown.Menu className="p-0 shadow-lg" style={{ width: 'auto', minWidth: '120px', padding: '4px 0' }}>
+                                                    <Dropdown.Item onClick={() => addCategory(service)}>
+                                                        <FontAwesomeIcon icon={faEdit} className="mr-2" style={{ color: '#ff6600', fontSize: '16px' }} />
                                                         Add Category
                                                     </Dropdown.Item>
-                                                    <Dropdown.Item
-                                                        className="flex items-center text-sm p-2"
-                                                        onClick={() => handleDelete(service.id)}
-                                                    >
-                                                        <FontAwesomeIcon icon={faTrash} className="mr-2" style={{ color: '#ff5500' }} />
+                                                    <Dropdown.Item onClick={() => handleDelete(service.id)}>
+                                                        <FontAwesomeIcon icon={faTrash} className="mr-2" style={{ color: '#ff6600', fontSize: '16px' }} />
                                                         Delete
                                                     </Dropdown.Item>
                                                 </Dropdown.Menu>
@@ -175,6 +179,12 @@ export default function TopPicks() {
                                     ))}
                                 </tbody>
                             </table>
+                        </div>) : (<div className="text-center mt-5">
+                            <p className="text-gray-600">No data found</p>
+                        </div>)
+                    ) : (
+                        <div className="text-center mt-5">
+                            <p className="text-gray-600">Loading Services...</p>
                         </div>
                     )}
                     <ToastContainer />

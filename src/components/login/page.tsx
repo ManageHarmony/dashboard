@@ -176,7 +176,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ userType }) => {
                 },
               }}
             >
-              {loading ? <Spinner animation="border"/> : 'Log In'}
+              {loading ? "Please wait..." : 'Log In'}
             </Button>
           </Box>
         </Box>

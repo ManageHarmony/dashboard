@@ -1,5 +1,6 @@
 import ContentActionBar from "./ContentActionBar";
 import ContentStats from "./ContentStats";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 

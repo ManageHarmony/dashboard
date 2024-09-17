@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import './customScrollbar.css'
 import { useEffect, useState } from 'react';
+import { truncateText } from '@/utils/textUtils';
 
 interface Patient {
   profile_path?: string;
@@ -73,12 +74,12 @@ export default function RecentTickets() {
                 />
                 <div style={{ flexGrow: 1 }}>
                   <div style={{ display: "flex", gap: "30px", alignItems: "center", marginBottom: "-2px" }}>
-                    <h3 style={{ fontSize: "0.875rem", fontWeight: "500", margin: "0" }}>{ticket?.Patient?.patient_name || "Unknown Patient"}</h3>
+                    <h3 style={{ fontSize: "0.875rem", fontWeight: "500", margin: "0" }}>{truncateText(ticket?.Patient?.patient_name || "Unknown Patient", 15)}</h3>
                     <span style={{ margin: "0 4px" }}>~</span>
-                    <p style={{ fontSize: "0.75rem", color: "#FFA05D", margin: "0" }}>{ticket?.title || "No Title"}</p>
+                    <p style={{ fontSize: "0.75rem", color: "#FFA05D", margin: "0" }}>{truncateText(ticket?.title || "No Title", 60)}</p>
                   </div>
                   <p style={{ color: "#6b7280", fontSize: "0.75rem", margin: "0" }}>{ticket?.createdAt || "Unknown Date"}</p>
-                  <p style={{ fontSize: "0.875rem", margin: "0" }}>{ticket?.description}</p>
+                  <p style={{ fontSize: "0.875rem", margin: "0" }}>{truncateText(ticket?.description, 50)}</p>
                 </div>
               </div>
             ))}
