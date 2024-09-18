@@ -66,6 +66,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ userType }) => {
       
       if (response.ok && data.token) {
         localStorage.setItem(`${userType}_token`, data.token);
+        localStorage.setItem("name", data?.profile?.name || data?.profile?.username);
+        localStorage.setItem("photo", data?.profile?.profile_path);
   
         if (data.id) {
           localStorage.setItem(`${userType}_id`, data.id);

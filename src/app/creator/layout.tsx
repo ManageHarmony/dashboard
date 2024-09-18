@@ -27,19 +27,28 @@ export default function RootLayout({
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const router = useRouter();
     const pathname = usePathname();
+
+    const [name, setName] = useState<string | null>(null);
+
     useEffect(() => {
-        const token = localStorage.getItem('creator_token');
-        
-        if (!token) {
-            router.push('/creatorLogin');
+        const storedName = localStorage.getItem('name');
+        if (storedName) setName(storedName);
+    }, []);
+
+
+    useEffect(() => {
+        // Check authentication status
+        const authStatus = localStorage.getItem('creator_isAuthenticated');
+        if (authStatus !== 'true') {
+            router.push('/creatorLogin'); // Redirect to login if not authenticated
         } else {
-            setIsAuthenticated(true);      
+            setIsAuthenticated(true);
         }
     }, [router]);
 
     const generatePageInfo = (pathname: string) => {
         const pathParts = pathname.split('/').filter(Boolean); // Split and filter out empty parts
-       
+
         let pageTitle;
         if (pathname === '/creator/content/newCategory') {
             pageTitle = 'New Category';
@@ -52,25 +61,25 @@ export default function RootLayout({
         } else if (pathname === '/creator/content/allBlogs') {
             pageTitle = 'All Blogs'
         } else if (pathname === '/creator/content/allVideos') {
-            pageTitle = 'All Videos' 
+            pageTitle = 'All Videos'
         } else if (pathname === '/creator/content/allArticles') {
-            pageTitle = 'All Articles' 
-        }  else if (pathname === '/creator/consultantData') {
-            pageTitle = 'All Consultants' 
+            pageTitle = 'All Articles'
+        } else if (pathname === '/creator/consultantData') {
+            pageTitle = 'All Consultants'
         } else if (pathname === '/creator/recentTickets') {
-            pageTitle = 'All Tickets' 
+            pageTitle = 'All Tickets'
         } else if (pathname === '/creator/sessionData') {
-            pageTitle = 'All Sessions' 
+            pageTitle = 'All Sessions'
         } else if (pathname === '/creator/doctors/allApplications') {
-            pageTitle = 'All Applications' 
+            pageTitle = 'All Applications'
         } else if (pathname === '/creator/doctors/allDoctors') {
-            pageTitle = 'All Doctors' 
+            pageTitle = 'All Doctors'
         } else if (pathname === '/creator/doctors/allRatings') {
-            pageTitle = 'All Ratings' 
+            pageTitle = 'All Ratings'
         } else if (pathname === '/creator/organisation/recentTickets') {
-            pageTitle = 'All Tickets' 
+            pageTitle = 'All Tickets'
         } else if (pathname === '/creator/organisation/allRatingsAndWords') {
-            pageTitle = 'All Ratings and Words' 
+            pageTitle = 'All Ratings and Words'
         } else {
             pageTitle = pathParts[pathParts.length - 1]?.charAt(0).toUpperCase() + pathParts[pathParts.length - 1]?.slice(1);
         }
@@ -111,48 +120,48 @@ export default function RootLayout({
     }
 
     return (
-                <div className={poppins.className}>
-                    <SidePanel
-                        onPanelHover={handlePanelHover}
-                        isPanelHovered={isPanelHovered}
-                    />
-                    <DashboardHeader
-                        onShowNotifications={handleShowNotifications}
-                        showNotifications={showNotifications}
-                        onShowDropdown={handleShowDropdown}
-                        showDropdown={showDropdown}
-                    />
+        <div className={poppins.className}>
+            <SidePanel
+                onPanelHover={handlePanelHover}
+                isPanelHovered={isPanelHovered}
+            />
+            <DashboardHeader
+                onShowNotifications={handleShowNotifications}
+                showNotifications={showNotifications}
+                onShowDropdown={handleShowDropdown}
+                showDropdown={showDropdown}
+            />
 
-                    <div
-                        style={{
-                            marginLeft: "7%",
-                            // filter: isPanelHovered ? 'blur(3px)' : 'none',
-                            // transition: 'filter 0.2s ease-in-out'
-                        }}
-                    >
-                        <div className="page-info" style={{ marginLeft: "20px" }}>
-                            {pathname === '/creator' ? (
-                                <div className="welcome-container">
-                                    <h1 className="mb-4" style={{ fontSize: "1.5rem" }}>
-                                        Welcome Back, <span style={{ color: '#ff6600' }}>Creator</span>
-                                    </h1>
-                                </div>
-                            ) : (
-                                <>
-                                    <div className="heading-container">
-                                        <h1>{pageTitle}</h1>
-                                        <div className="heading-underline"></div>
-                                    </div>
-                                    <div className="breadcrumb">
-                                        {breadcrumb}
-                                    </div>
-                                </>
-                            )}
+            <div
+                style={{
+                    marginLeft: "7%",
+                    // filter: isPanelHovered ? 'blur(3px)' : 'none',
+                    // transition: 'filter 0.2s ease-in-out'
+                }}
+            >
+                <div className="page-info" style={{ marginLeft: "20px" }}>
+                    {pathname === '/creator' ? (
+                        <div className="welcome-container">
+                            <h1 className="mb-4" style={{ fontSize: "1.5rem" }}>
+                                Welcome Back, <span style={{ color: '#ff6600' }}>{name}</span>
+                            </h1>
                         </div>
-
-                        {children}
-
-                    </div>
+                    ) : (
+                        <>
+                            <div className="heading-container">
+                                <h1>{pageTitle}</h1>
+                                <div className="heading-underline"></div>
+                            </div>
+                            <div className="breadcrumb">
+                                {breadcrumb}
+                            </div>
+                        </>
+                    )}
                 </div>
+
+                {children}
+
+            </div>
+        </div>
     );
 }

@@ -28,6 +28,13 @@ export default function RootLayout({
     const router = useRouter();
     const pathname = usePathname();
 
+    const [name, setName] = useState<string | null>(null);
+
+    useEffect(() => {
+        const storedName = localStorage.getItem('name');
+        if (storedName) setName(storedName);
+    }, []);
+
     useEffect(() => {
         // Check authentication status
         const authStatus = localStorage.getItem('manager_isAuthenticated');
@@ -41,34 +48,34 @@ export default function RootLayout({
     // Function to generate the page title and breadcrumb based on the route
     const generatePageInfo = (pathname: string) => {
         const pathParts = pathname.split('/').filter(Boolean); // Split and filter out empty parts
-       
+
         let pageTitle;
         if (pathname === '/manager/consultantData') {
             pageTitle = 'All Consultants';
         } else if (pathname === '/manager/recentTickets') {
-            pageTitle = 'All Tickets' 
+            pageTitle = 'All Tickets'
         } else if (pathname === '/manager/sessionData') {
-            pageTitle = 'All Sessions' 
+            pageTitle = 'All Sessions'
         } else if (pathname === '/manager/doctors/allApplications') {
-            pageTitle = 'All Applications' 
+            pageTitle = 'All Applications'
         } else if (pathname === '/manager/doctors/allDoctors') {
-            pageTitle = 'All Doctors' 
+            pageTitle = 'All Doctors'
         } else if (pathname === '/manager/doctors/allRatings') {
-            pageTitle = 'All Ratings' 
+            pageTitle = 'All Ratings'
         } else if (pathname === '/manager/organisation/recentTickets') {
-            pageTitle = 'All Tickets' 
+            pageTitle = 'All Tickets'
         } else if (pathname === '/manager/organisation/allRatingsAndWords') {
-            pageTitle = 'All Ratings and Words' 
+            pageTitle = 'All Ratings and Words'
         } else if (pathname === '/manager/content/allblogs') {
             pageTitle = 'All Blogs'
         } else if (pathname === '/manager/content/allVideos') {
-            pageTitle = 'All Videos' 
+            pageTitle = 'All Videos'
         } else if (pathname === '/manager/content/allArticles') {
-            pageTitle = 'All Articles' 
+            pageTitle = 'All Articles'
         } else {
             pageTitle = pathParts[pathParts.length - 1]?.charAt(0).toUpperCase() + pathParts[pathParts.length - 1]?.slice(1);
         }
-        
+
 
         const breadcrumb = pathParts.map((part, index) => {
             const path = '/' + pathParts.slice(0, index + 1).join('/');
@@ -120,18 +127,18 @@ export default function RootLayout({
                         showDropdown={showDropdown}
                     />
 
-                    <div 
-                        style={{ 
+                    <div
+                        style={{
                             marginLeft: "7%",
                             // filter: isPanelHovered || showNotifications || showDropdown ? 'blur(3px)' : 'none',
                             // transition: 'filter 0.2s ease-in-out'
                         }}
                     >
-                        <div className="page-info" style={{marginLeft: "20px"}}>
+                        <div className="page-info" style={{ marginLeft: "20px" }}>
                             {pathname === '/manager' ? (
                                 <div className="welcome-container">
                                     <h1 className="mb-4" style={{ fontSize: "1.5rem" }}>
-                                        Welcome Back, <span style={{ color: '#ff6600' }}>Manager</span>
+                                        Welcome Back, <span style={{ color: '#ff6600' }}>{name}</span>
                                     </h1>
                                 </div>
                             ) : (
@@ -146,9 +153,9 @@ export default function RootLayout({
                                 </>
                             )}
                         </div>
-                        
+
                         {children}
-                        
+
                     </div>
                 </main>
             </body>

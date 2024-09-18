@@ -48,6 +48,15 @@ const DashboardHeader = ({ isPanelHovered, onShowNotifications, showNotification
 
   const dropdownRef = useRef<HTMLDivElement>(null);
   const notificationRef = useRef<HTMLDivElement>(null);
+  const [name, setName] = useState<string | null>(null);
+
+  useEffect(() => {
+    const storedName = localStorage.getItem('name');
+    if (storedName) {
+      const firstWord = storedName.split(' ')[0];
+      setName(firstWord);
+    }
+  }, []);
 
 
 
@@ -146,7 +155,7 @@ const DashboardHeader = ({ isPanelHovered, onShowNotifications, showNotification
             className=""
             style={{ marginRight: '10px', borderRadius: "10px" }}
           />
-          <span className="mx-1" style={{ color: '#000', fontWeight: 'bold' }}>Shubham</span>
+          <span className="mx-1" style={{ color: '#000', fontWeight: 'bold' }}>{name}</span>
           <div className="relative"  >
             {/* Button with Dropdown Icon */}
             <button
