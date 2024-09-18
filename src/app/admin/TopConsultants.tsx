@@ -3,9 +3,10 @@ import { CardTitle } from "@/components/ui/card";
 import './customScrollbar.css';
 import Link from "next/link";
 import { truncateText } from '@/utils/textUtils';
-import { Dropdown, ToastContainer } from "react-bootstrap";
+import { Button, Dropdown, ToastContainer } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { useRouter } from "next/navigation";
 
 
 interface topConsultant {
@@ -19,6 +20,7 @@ export default function TopConsultants() {
 
   const [topConsultants, setTopConsultants] = useState<topConsultant[]>([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
 
   useEffect(() => {
@@ -42,6 +44,11 @@ export default function TopConsultants() {
     }
     fetchData();
   }, []);
+
+  const handleClick = (id: number) => {
+    router.push(`/admin/content/allArticles/${id}`)
+}
+
 
   return (
     <div style={{
@@ -83,7 +90,7 @@ export default function TopConsultants() {
               <th className="text-left p-2 text-gray-600 rounded-tl-lg">Sr. No</th>
               <th className="text-left p-2 text-gray-600">Therapist Name</th>
               <th className="text-left p-2 text-gray-600">Times</th>
-              <th className="text-center p-2 text-gray-600 rounded-tr-lg">Action</th>
+              <th className="text-left p-2 text-gray-600 rounded-tr-lg">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -93,27 +100,12 @@ export default function TopConsultants() {
                   <td className="p-2 text-black">{index + 1}</td>
                   <td className="p-2 text-black">{consultant.doctor_name}</td>
                   <td className="p-2 text-black">{consultant.noOfBooking}</td>
-                  <Dropdown className="p-2">
-                    <Dropdown.Toggle
-                      className="text-orange-600 flex items-center border-0 bg-transparent p-0"
-                      style={{ padding: '4px', lineHeight: '1', height: '32px' }}
-                    >
+                  <td className="p-2 text-black cursor-pointer">
                       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
                         <rect width="32" height="32" rx="6" fill="#FFE3D0" />
                         <path d="M29.0947 16.5733C28.984 16.4147 26.3454 12.648 22.704 10.0733C20.816 8.736 18.4347 8 16 8C13.5667 8 11.1854 8.736 9.29336 10.0733C5.65203 12.648 3.01603 16.4147 2.90536 16.5733C2.58803 17.0307 2.58803 17.6373 2.90536 18.0947C3.01603 18.2533 5.65203 22.02 9.29336 24.5947C11.1854 25.9307 13.5667 26.6667 16 26.6667C18.4347 26.6667 20.816 25.9307 22.704 24.5933C26.3454 22.0187 28.984 18.252 29.0947 18.0933C29.4134 17.6373 29.4134 17.0293 29.0947 16.5733ZM16 22C13.4214 22 11.3334 19.9067 11.3334 17.3333C11.3334 14.7547 13.4214 12.6667 16 12.6667C18.5734 12.6667 20.6667 14.7547 20.6667 17.3333C20.6667 19.9067 18.5734 22 16 22ZM16 15.3333C14.7847 15.3333 13.6667 16.4513 13.6667 17.6667C13.6667 18.882 14.7847 20 16 20C17.2154 20 18.3334 18.882 18.3334 17.6667C18.3334 16.4513 17.2154 15.3333 16 15.3333Z" fill="#FFA05D" />
                       </svg>
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu className="p-0 shadow-lg" style={{ width: 'auto', minWidth: '120px', padding: '4px 0' }}>
-                      <Dropdown.Item >
-                        <FontAwesomeIcon icon={faEdit} className="mr-2" style={{ color: '#ff6600', fontSize: '16px' }} />
-                        Edit
-                      </Dropdown.Item>
-                      <Dropdown.Item >
-                        <FontAwesomeIcon icon={faTrash} className="mr-2" style={{ color: '#ff6600', fontSize: '16px' }} />
-                        Delete
-                      </Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
+                  </td>
                 </tr>
               ))
             ) : (

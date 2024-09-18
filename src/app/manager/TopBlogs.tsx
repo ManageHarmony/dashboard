@@ -7,6 +7,7 @@ import { CardTitle } from "@/components/ui/card";
 import './customScrollbar.css';
 import Link from "next/link";
 import { Dropdown } from "react-bootstrap";
+import { useRouter } from "next/navigation";
 
 interface Blog {
   data: any;
@@ -27,6 +28,7 @@ const base64UrlDecode = (str: any) => {
 const TopBlogs = () => {
   const [topBlogs, setTopBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchContent = async () => {
@@ -61,6 +63,10 @@ const TopBlogs = () => {
 
     fetchContent();
   }, []);
+
+  const handleClick = (id: number) => {
+    router.push(`/manager/content/allblogs/${id}`)
+}
 
   const displayedData = topBlogs.slice(0, 5);
 
@@ -103,18 +109,16 @@ const TopBlogs = () => {
               </tr>
             </thead>
             <tbody>
-              {displayedData.map((article, index) => (
-                <tr key={article.id} className="border-b border-gray-300" style={{ fontSize: "16px" }}>
+              {displayedData.map((blog, index) => (
+                <tr key={blog.id} className="border-b border-gray-300" style={{ fontSize: "16px" }}>
                   <td className="p-2 text-black">{index + 1}</td>
-                  <td className="p-2 text-black">{article?.data?.headings.h1[0]}</td>
-                  <td className="p-2 text-black">{article?.blog_creatorId}</td>
-                  <td className="p-2">
-                    <button className="text-orange-600 flex items-center">
+                  <td className="p-2 text-black">{blog?.data?.headings.h1[0]}</td>
+                  <td className="p-2 text-black">{blog?.blog_creatorId}</td>
+                  <td className="p-2 text-black cursor-pointer" onClick={() => handleClick(blog.id)}>
                       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
                         <rect width="32" height="32" rx="6" fill="#FFE3D0" />
                         <path d="M29.0947 16.5733C28.984 16.4147 26.3454 12.648 22.704 10.0733C20.816 8.736 18.4347 8 16 8C13.5667 8 11.1854 8.736 9.29336 10.0733C5.65203 12.648 3.01603 16.4147 2.90536 16.5733C2.58803 17.0307 2.58803 17.6373 2.90536 18.0947C3.01603 18.2533 5.65203 22.02 9.29336 24.5947C11.1854 25.9307 13.5667 26.6667 16 26.6667C18.4347 26.6667 20.816 25.9307 22.704 24.5933C26.3454 22.0187 28.984 18.252 29.0947 18.0933C29.4134 17.6373 29.4134 17.0293 29.0947 16.5733ZM16 22C13.4214 22 11.3334 19.9067 11.3334 17.3333C11.3334 14.7547 13.4214 12.6667 16 12.6667C18.5734 12.6667 20.6667 14.7547 20.6667 17.3333C20.6667 19.9067 18.5734 22 16 22ZM18.6667 17.3333C18.6667 18.8027 17.4694 20 16 20C14.5267 20 13.3334 18.8027 13.3334 17.3333C13.3334 15.86 14.5267 14.6667 16 14.6667C17.4694 14.6667 18.6667 15.86 18.6667 17.3333Z" fill="#FFA05D" />
                       </svg>
-                    </button>
                   </td>
                 </tr>
               ))}
