@@ -34,12 +34,17 @@ const BlogPost = () => {
             fetchBlog();
         }
     }, [id]);
+    const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
+    if (!apiKey) {
+      throw new Error('API key is missing.');
+    }
     const handleDelete = async (id: string) => {
         setLoading(true)
         try {
             const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/user/${blog?.blog_creatorId}/deleteBlog/${id}`, {
-                method: "DELETE"
+                method: "DELETE",headers:{'x-api-key':apiKey}
+
             })
 
             if (!response.ok) {

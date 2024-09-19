@@ -180,9 +180,16 @@ const StaffTable: React.FC = () => {
     };
 
     const fetchData = async () => {
+        const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+
+        if (!apiKey) {
+          throw new Error('API key is missing.');
+        }
         setLoading(true);
         try {
-            const response = await fetch('https://harmony-backend-z69j.onrender.com/api/admin/get/staff');
+            const response = await fetch('https://harmony-backend-z69j.onrender.com/api/admin/get/staff',{
+                headers:{'x-api-key':apiKey}
+            });
             const data = await response.json();
 
             console.log("data", data)

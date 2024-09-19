@@ -158,11 +158,18 @@ const CreateYTContent: React.FC = () => {
             category: selectedKeys
         };
 
+        const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+
+        if (!apiKey) {
+          throw new Error('API key is missing.');
+        }
         try {
             const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/user/${userId}/createYtContent`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'x-api-key':apiKey
+
                 },
                 body: JSON.stringify(dataToSend)
             });

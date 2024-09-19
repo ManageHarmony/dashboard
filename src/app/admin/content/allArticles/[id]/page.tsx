@@ -11,7 +11,11 @@ const ArticlePost = () => {
     const [loading, setLoading] = useState(true);
     const [selectedOption, setSelectedOption] = useState('');
     console.log(selectedOption);
+    const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
+    if (!apiKey) {
+      throw new Error('API key is missing.');
+    }
 
     const handleChange = async (event: any) => {
         const value = event.target.value;
@@ -23,7 +27,7 @@ const ArticlePost = () => {
 
         try {
             const response = await fetch(url, {
-                method: 'PUT', // or 'GET', 'POST', etc., depending on your API's requirement
+                method: 'PUT',headers:{'x-api-key':apiKey}
 
             });
 

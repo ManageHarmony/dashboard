@@ -139,12 +139,17 @@ const StaffCardView: React.FC = () => {
   const handleViewMenuClose = () => {
     setAnchorElView(null);
   };
+  const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
+  if (!apiKey) {
+    throw new Error('API key is missing.');
+  }
   const handleMenuOptionClick = async (option: string, role: string | null) => {
     try {
       if (role === 'Manager') {
         const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/admin/get/${option}/manager`, {
-          method: "GET"
+          method: "GET",headers:{'x-api-key':apiKey}
+
         });
 
         if (!response.ok) throw new Error(`Failed Updating ${option} Manager`);
@@ -153,7 +158,8 @@ const StaffCardView: React.FC = () => {
         setStaffData(data?.offManager || data?.data?.inactiveManger)
       } else if (role === 'Creator') {
         const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/admin/get/${option}/creator`, {
-          method: "GET"
+          method: "GET",headers:{'x-api-key':apiKey}
+
         });
 
         if (!response.ok) throw new Error(`Failed Updating ${option} Creator`);

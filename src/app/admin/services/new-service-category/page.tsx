@@ -69,11 +69,16 @@ const NewCategoryPage: React.FC = () => {
 
         // Use serviceData.id for the service ID in the API request
         const serviceId = serviceData?.id;
+        const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
+        if (!apiKey) {
+          throw new Error('API key is missing.');
+        }
         try {
             const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/admin/create/service/${serviceId}/category`, {
                 method: 'POST',
-                body: formData,
+                body: formData,headers:{'x-api-key':apiKey}
+
             });
     
             const result = await response.json();

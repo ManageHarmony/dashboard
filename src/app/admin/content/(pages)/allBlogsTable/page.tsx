@@ -19,12 +19,17 @@ export default function AllConsultants() {
     const [topBlogs, setTopBlogs] = useState<TopBlog[]>([]);
     const [loading, setLoading] = useState(true);
     const router = useRouter();
+    const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
+    if (!apiKey) {
+      throw new Error('API key is missing.');
+    }
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await fetch("https://harmony-backend-z69j.onrender.com/api/admin/get/top/blogs", {
-                    method: "GET"
+                    method: "GET",headers:{'x-api-key':apiKey}
+
                 })
                 if (!response.ok) {
                     throw new Error("Failed to fetching data")
@@ -50,7 +55,8 @@ export default function AllConsultants() {
     const handleDelete = async (id: number) => {
         try {
             const response = await fetch(``, {
-                method: "DELETE",
+                method: "DELETE",headers:{'x-api-key':apiKey}
+
             });
 
             if (!response.ok) {

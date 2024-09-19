@@ -16,12 +16,16 @@ export default function TopCategories() {
     const [topServiceCategory, setTopServiceCategory] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
+    const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
+    if (!apiKey) {
+      throw new Error('API key is missing.');
+    }
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await fetch('https://harmony-backend-z69j.onrender.com/api/admin/get/service/stats', {
-                    method: 'GET',
+                    method: 'GET',headers:{'x-api-key':apiKey}
                 });
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -49,7 +53,7 @@ export default function TopCategories() {
     const handleDelete = async (categoryId: string, serviceId: string) => {
         try {
             const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/admin/delete/category/${serviceId}/${categoryId}`, {
-                method: "DELETE",
+                method: "DELETE",headers:{'x-api-key':apiKey}
             });
 
             if (!response.ok) {
@@ -135,7 +139,7 @@ export default function TopCategories() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {topServiceCategory.map((data, index) => (
+                                {topServiceCategory?.map((data, index) => (
                                     <tr key={data.id} className="border-b border-gray-300">
                                         <td className="p-2 text-black">{index + 1}</td>
                                         <td className="p-2 text-black">{truncateText(data.name, 20)}</td>

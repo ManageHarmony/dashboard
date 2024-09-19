@@ -141,12 +141,17 @@ const CreateBlog = () => {
             setLoading(false);
             return;
         }
+        const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
+        if (!apiKey) {
+          throw new Error('API key is missing.');
+        }
         try {
             const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/user/${creatorId}/createBlogContent`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'x-api-key':apiKey
                 },
                 body: JSON.stringify(data),
             });

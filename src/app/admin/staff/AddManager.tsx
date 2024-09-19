@@ -113,10 +113,14 @@ const AddManager = () => {
 
         statesArray.forEach(state => formData.append('states[]', state));
         countriesArray.forEach(country => formData.append('countries[]', country));
+        const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
+        if (!apiKey) {
+          throw new Error('API key is missing.');
+        }
         try {
             const response = await fetch('https://harmony-backend-z69j.onrender.com/api/admin/create/manager', {
-                method: 'POST',
+                method: 'POST',headers:{'x-api-key':apiKey},
                 body: formData,
             });
 

@@ -44,11 +44,16 @@ export default function AllCategories() {
         localStorage.setItem('editCategoryData', JSON.stringify(data));
         router.push('/admin/content/edit-category');
     };
+    const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
+    if (!apiKey) {
+      throw new Error('API key is missing.');
+    }
     const handleDelete = async (id: string) => {
         try {
             const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/admin/delete/category/service/${id}`, {
-                method: "DELETE",
+                method: "DELETE",headers:{'x-api-key':apiKey}
+
             });
 
             if (!response.ok) {

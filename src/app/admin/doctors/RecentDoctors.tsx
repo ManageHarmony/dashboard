@@ -16,13 +16,17 @@ export default function RecentDoctors() {
 
     const [allDoctors, setAllDoctors] = useState<Doctor[]>([]);             //filhal ke liye saare doctors ka data icluding pending rjected inactive active
     const [loading, setLoading] = useState(false);
+    const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
+    if (!apiKey) {
+      throw new Error('API key is missing.');
+    }
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
             try {
                 const response = await fetch("https://harmony-backend-z69j.onrender.com/api/admin/get/staff", {
-                    method: "GET"
+                    method: "GET",headers:{'x-api-key':apiKey}
                 })
 
                 if (!response.ok) {

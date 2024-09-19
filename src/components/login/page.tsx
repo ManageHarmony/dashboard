@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { Spinner } from 'react-bootstrap';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { KEY } from '@/app/page';
 
 interface LoginPageProps {
   userType: 'manager' | 'creator' | 'admin';
@@ -53,10 +54,17 @@ const LoginPage: React.FC<LoginPageProps> = ({ userType }) => {
           };
 
     try {
+      const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+
+      if (!apiKey) {
+        throw new Error('API key is missing.');
+      }
       const response = await fetch(apiEndpoint, {
+        
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'x-api-key':apiKey,
         },
         body: JSON.stringify(requestBody), 
       });

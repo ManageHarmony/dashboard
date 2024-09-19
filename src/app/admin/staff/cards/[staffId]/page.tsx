@@ -83,7 +83,11 @@ const StaffDetail: React.FC = () => {
             progress: undefined,
         });
     };
+    const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
+    if (!apiKey) {
+      throw new Error('API key is missing.');
+    }
     useEffect(() => {
         console.log("ID: ", staffId); // Debugging ID
         console.log("Role: ", role); // Debugging Role
@@ -96,7 +100,7 @@ const StaffDetail: React.FC = () => {
                         apiUrl = `https://harmony-backend-z69j.onrender.com/api/get/creator/profile/${staffId}`;
                         console.log("API URL: ", apiUrl);
 
-                        const response = await fetch(apiUrl);
+                        const response = await fetch(apiUrl,{headers:{'x-api-key':apiKey}});
                         const data = await response.json();
                         console.log("Details: ", data);
                         setStaffData(data?.creator);
@@ -105,7 +109,7 @@ const StaffDetail: React.FC = () => {
                         apiUrl = `https://harmony-backend-z69j.onrender.com/api/get/manager/profile/${staffId}`;
                         console.log("API URL: ", apiUrl);
 
-                        const response = await fetch(apiUrl);
+                        const response = await fetch(apiUrl,{headers:{'x-api-key':apiKey}});
                         const data = await response.json();
                         console.log("Details: ", data);
                         setStaffData(data?.manager);
@@ -116,7 +120,7 @@ const StaffDetail: React.FC = () => {
                         apiUrl = `https://harmony-backend-z69j.onrender.com/api/get/doctor/profile/${staffId}`;
                         console.log("API URL: ", apiUrl);
 
-                        const response = await fetch(apiUrl);
+                        const response = await fetch(apiUrl,{headers:{'x-api-key':apiKey}});
                         const data = await response.json();
                         console.log("Details: ", data);
                         setStaffData(data?.profile);
@@ -156,7 +160,7 @@ const StaffDetail: React.FC = () => {
             }
 
             const response = await fetch(apiUrl, {
-                method: 'DELETE',
+                method: 'DELETE',headers:{'x-api-key':apiKey}
             });
 
             if (response.ok) {
@@ -173,13 +177,14 @@ const StaffDetail: React.FC = () => {
 
     const handleStatusChange = async (newStatus: 'active' | 'inactive' | 'temporaryoff') => {
         try {
+         
             let endpoint = '';
             if (role === 'manager') {
                 endpoint = `https://harmony-backend-z69j.onrender.com/api/admin/manager/status/${newStatus}/${staffId}`;
             } else if (role === 'creator') {
                 endpoint = `https://harmony-backend-z69j.onrender.com/api/admin/creator/status/${newStatus}/${staffId}`;
             } 
-            const response = await fetch(endpoint, { method: "PUT" });
+            const response = await fetch(endpoint, { method: "PUT",headers:{'x-api-key':apiKey} });
 
             if (!response.ok) throw new Error(`Failed Updating ${newStatus}`);
             setStatus(newStatus);
@@ -278,13 +283,13 @@ const StaffDetail: React.FC = () => {
                         </Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
-                <Button
+                {/* <Button
                     variant="contained"
                     startIcon={<EditIcon />}
                     sx={{ color: '#2C297D', backgroundColor: '#fff' }}
                 >
                     Edit
-                </Button>
+                </Button> */}
 
             </div>
             <Grid container spacing={4}>

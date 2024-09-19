@@ -48,12 +48,17 @@ const NewCategoryPage: React.FC = () => {
             draggable: true,
         });
     };
+    const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
+    if (!apiKey) {
+      throw new Error('API key is missing.');
+    }
     useEffect(() => {
         const getManager = async () => {
             try {
                 const response = await fetch("https://harmony-backend-z69j.onrender.com/api/admin/get/staff", {
-                    method: "GET"
+                    method: "GET",headers:{'x-api-key':apiKey}
+
                 });
 
                 if (!response.ok) {
@@ -99,7 +104,8 @@ const handleSubmit = async () => {
     try {
         const response = await fetch('https://harmony-backend-z69j.onrender.com/api/admin/create/category', {
             method: 'POST',
-            body: formData,
+            body: formData,headers:{'x-api-key':apiKey}
+
         });
 
         const result = await response.json();

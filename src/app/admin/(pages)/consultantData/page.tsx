@@ -13,13 +13,17 @@ interface topConsultant {
 export default function AllConsultants() {
     const [topConsultants, setTopConsultants] = useState<topConsultant[]>([]);
     const [loading, setLoading] = useState(true);
+    const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
+    if (!apiKey) {
+      throw new Error('API key is missing.');
+    }
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await fetch("https://harmony-backend-z69j.onrender.com/api/trending/consultant", {
-                    method: "GET"
+                    method: "GET",headers:{'x-api-key':apiKey}
                 })
                 if (!response.ok) {
                     throw new Error("Failed to fetching data")

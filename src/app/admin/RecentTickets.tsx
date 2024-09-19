@@ -24,9 +24,15 @@ export default function RecentTickets() {
 
   useEffect(() => {
     const fetchData = async () => {
+
       try {
+        const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+
+        if (!apiKey) {
+          throw new Error('API key is missing.');
+        }
         const response = await fetch("https://harmony-backend-z69j.onrender.com/api/get/all/recent/ticket", {
-          method: "GET"
+          method: "GET",headers:{'x-api-key':apiKey}
         })
 
         if (!response.ok) {

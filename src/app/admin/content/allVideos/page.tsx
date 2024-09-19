@@ -19,13 +19,19 @@ const VideoContentList: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [filteredData, setFilteredData] = useState<VideoContent[]>([]);
     const [filter, setFilter] = useState('all'); // 'all', 'publish', 'unpublish', 'rejected'
+    const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
+    if (!apiKey) {
+      throw new Error('API key is missing.');
+    }
     useEffect(() => {
         setLoading(true);
 
         const fetchVideoContents = async () => {
             try {
-                const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/admin/get/all/content`);
+                const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/admin/get/all/content`,{
+                    headers:{'x-api-key':apiKey}
+                });
                 if (!response.ok) {
                     throw new Error('Failed to fetch video content');
                 }

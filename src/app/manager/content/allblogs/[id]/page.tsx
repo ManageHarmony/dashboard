@@ -17,10 +17,15 @@ const BlogPost = () => {
         console.log(value);
 
         const url = `https://harmony-backend-z69j.onrender.com/api/blog/action/${blog?.blog_creatorId}/${id}?action=${encodeURIComponent(value)}`;
+        const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
+        if (!apiKey) {
+          throw new Error('API key is missing.');
+        }
         try {
             const response = await fetch(url, {
-                method: 'PUT', // or 'GET', 'POST', etc., depending on your API's requirement
+                method: 'PUT',headers:{'x-api-key':apiKey}
+                // or 'GET', 'POST', etc., depending on your API's requirement
 
             });
 

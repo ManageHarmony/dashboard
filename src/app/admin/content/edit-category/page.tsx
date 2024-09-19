@@ -22,7 +22,11 @@ const EditCategoryPage: React.FC = () => {
     const [run, setRun] = useState(false);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const [picturePreview, setPicturePreview] = useState<string | null>(null);
+    const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
+    if (!apiKey) {
+      throw new Error('API key is missing.');
+    }
     useEffect(() => {
         const storedData = localStorage.getItem('editCategoryData');
         console.log("stored", storedData)
@@ -44,7 +48,7 @@ const EditCategoryPage: React.FC = () => {
         const getManager = async () => {
             try {
                 const response = await fetch("https://harmony-backend-z69j.onrender.com/api/admin/get/staff", {
-                    method: "GET"
+                    method: "GET",headers:{'x-api-key':apiKey}
                 });
 
                 if (!response.ok) {
@@ -136,7 +140,8 @@ const EditCategoryPage: React.FC = () => {
             console.log("Request URL:", url);
 
             const response = await fetch(url, {
-                method: 'PUT',
+                method: 'PUT',headers:{'x-api-key':apiKey},
+
                 body: formData,
             });
 

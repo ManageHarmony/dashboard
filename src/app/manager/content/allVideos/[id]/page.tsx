@@ -20,9 +20,14 @@ const ArticlePost = () => {
     setSelectedOption(value);
 
     const url = `https://harmony-backend-z69j.onrender.com/api/yt/action/${ytVideo.yt_creatorId}/${id}?action=${encodeURIComponent(value)}`;
+    const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
+    if (!apiKey) {
+      throw new Error('API key is missing.');
+    }
     try {
-      const response = await fetch(url, { method: 'PUT' });
+      const response = await fetch(url, { method: 'PUT',headers:{'x-api-key':apiKey}
+      });
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }

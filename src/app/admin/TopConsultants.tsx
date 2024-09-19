@@ -25,9 +25,14 @@ export default function TopConsultants() {
 
   useEffect(() => {
     const fetchData = async () => {
+      const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+
+      if (!apiKey) {
+        throw new Error('API key is missing.');
+      }
       try {
         const response = await fetch("https://harmony-backend-z69j.onrender.com/api/trending/consultant", {
-          method: "GET"
+          method: "GET",headers:{'x-api-key':apiKey}
         })
         if (!response.ok) {
           throw new Error("Failed to fetching data")

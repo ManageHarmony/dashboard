@@ -27,11 +27,17 @@ const NewServicePage = () => {
     const [categories, setCategories] = useState([]);
     const [categoryId, setCategoryId] = useState('');
     const [focusState, setFocusState] = useState<{ [key: string]: boolean }>({});
+    const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
+    if (!apiKey) {
+      throw new Error('API key is missing.');
+    }
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await fetch('https://harmony-backend-z69j.onrender.com/api/get/all/category');
+                const response = await fetch('https://harmony-backend-z69j.onrender.com/api/get/all/category',{
+                    headers:{'x-api-key':apiKey}
+                });
                 const data = await response.json();
 
                 // Access the array of categories inside 'msg.allCategory'
@@ -155,7 +161,7 @@ const NewServicePage = () => {
 
         try {
             const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/admin/create/service/${categoryId}`, {
-                method: 'POST',
+                method: 'POST',headers:{'x-api-key':apiKey},
                 body: formData,
             });
 

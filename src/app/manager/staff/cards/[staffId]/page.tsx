@@ -121,7 +121,11 @@ const StaffDetail: React.FC = () => {
             fetchData();
         }
     }, [staffId, role]);
+    const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
+    if (!apiKey) {
+      throw new Error('API key is missing.');
+    }
     const handleDelete = async () => {
         if (!staffId || !role) {
             alert('Invalid staff ID or role');
@@ -143,7 +147,8 @@ const StaffDetail: React.FC = () => {
             }
 
             const response = await fetch(apiUrl, {
-                method: 'DELETE',
+                method: 'DELETE',headers:{'x-api-key':apiKey}
+
             });
 
             if (response.ok) {
@@ -157,7 +162,7 @@ const StaffDetail: React.FC = () => {
             showToastError('Failed to delete staff member');
         }
     };
-
+  
     const handleStatusChange = async (newStatus: 'active' | 'inactive' | 'temporaryoff') => {
         try {
             let endpoint = '';
@@ -166,7 +171,7 @@ const StaffDetail: React.FC = () => {
             } else if (role === 'creator') {
                 endpoint = `https://harmony-backend-z69j.onrender.com/api/admin/creator/status/${newStatus}/${staffId}`;
             } 
-            const response = await fetch(endpoint, { method: "PUT" });
+            const response = await fetch(endpoint, { method: "PUT",headers:{'x-api-key':apiKey} });
 
             if (!response.ok) throw new Error(`Failed Updating ${newStatus}`);
             setStatus(newStatus);
