@@ -47,7 +47,10 @@ const BlogPost = () => {
         if (id) {
             const fetchBlog = async () => {
                 try {
-                    const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/get/blog/${id}`);
+                    const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/get/blog/${id}`, {
+                        method: "GET",
+                        headers:{'x-api-key':apiKey}
+                    });
                     const { data } = await response.json();
                     console.log("data verified--->", data?.verified);
                     setBlog(data);

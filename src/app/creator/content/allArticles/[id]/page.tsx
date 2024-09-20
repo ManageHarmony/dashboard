@@ -14,13 +14,21 @@ const ArticlePost = () => {
     const [article, setarticle] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const router = useRouter();
+    const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+
+    if (!apiKey) {
+      throw new Error('API key is missing.');
+    }
 
     useEffect(() => {
 
         if (id) {
             const fetchBlog = async () => {
                 try {
-                    const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/get/article/${id}`);
+                    const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/get/article/${id}`, {
+                        method: "GET",
+                        headers: {'x-api-key':apiKey}
+                    });
                     const { article } = await response.json();
                     console.log(article, "data")
                     setarticle(article);
@@ -34,11 +42,7 @@ const ArticlePost = () => {
             fetchBlog();
         }
     }, [id]);
-    const apiKey = process.env.NEXT_PUBLIC_API_KEY;
-
-    if (!apiKey) {
-      throw new Error('API key is missing.');
-    }
+  
     const handleDelete = async (id: string) => {
         setLoading(true);
         try {

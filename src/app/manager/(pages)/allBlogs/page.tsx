@@ -26,6 +26,11 @@ const base64UrlDecode = (str: any) => {
 const AllBlogs = () => {
   const [allBlogs, setAllBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
+  const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+
+  if (!apiKey) {
+      throw new Error('API key is missing.');
+  }
 
   useEffect(() => {
     const fetchContent = async () => {
@@ -41,7 +46,10 @@ const AllBlogs = () => {
           const managerUsername = decodedToken.username;
           console.log("manager", managerUsername)
 
-          const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/manager/get/content?managerUsername=${managerUsername}`);
+          const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/manager/get/content?managerUsername=${managerUsername}`, {
+            method: "GET",
+            headers: { 'x-api-key': apiKey }
+        });
           const data = await response.json();
           console.log("data", data);
 

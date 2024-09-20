@@ -16,6 +16,11 @@ const VideoContentList: React.FC = () => {
     const [videoContents, setVideoContents] = useState<VideoContent[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+
+    if (!apiKey) {
+      throw new Error('API key is missing.');
+    }
 
     useEffect(() => {
         setLoading(true)
@@ -27,7 +32,10 @@ const VideoContentList: React.FC = () => {
                     throw new Error('User ID not found.');
                 }
 
-                const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/user/${userId}/getAllContent`);
+                const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/user/${userId}/getAllContent`, {
+                    method: "GET",headers:{'x-api-key':apiKey}
+          
+                  });
                 if (!response.ok) {
                     throw new Error('Failed to fetch video content');
                 }

@@ -11,6 +11,12 @@ const BlogPost = () => {
     const [loading, setLoading] = useState(true);
     const [selectedOption, setSelectedOption] = useState('');
     console.log(selectedOption);
+    const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+
+        if (!apiKey) {
+          throw new Error('API key is missing.');
+        }
+        
     const handleChange = async (event: any) => {
         const value = event.target.value;
         setSelectedOption(value);
@@ -47,7 +53,10 @@ const BlogPost = () => {
         if (id) {
             const fetchBlog = async () => {
                 try {
-                    const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/get/blog/${id}`);
+                    const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/get/blog/${id}`, {
+                        method: "GET",
+                        headers: { 'x-api-key': apiKey }
+                    });
                     const { data } = await response.json();
                     console.log("data verified--->", data?.verified);
                     setBlog(data);

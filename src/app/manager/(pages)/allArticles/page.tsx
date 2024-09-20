@@ -1,8 +1,6 @@
 'use client'
 
 import React, { useEffect, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import { Dropdown } from "react-bootstrap";
@@ -35,12 +33,20 @@ const TopArticles = () => {
 
             if (token) {
                 try {
+                    const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+
+                    if (!apiKey) {
+                        throw new Error('API key is missing.');
+                    }
                     // Decode the token
                     const decodedToken = JSON.parse(base64UrlDecode(token.split('.')[1]));
                     const managerUsername = decodedToken.username;
                     console.log("manager", managerUsername)
 
-                    const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/manager/get/content?managerUsername=${managerUsername}`);
+                    const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/manager/get/content?managerUsername=${managerUsername}`, {
+                        method: "GET",
+                        headers: { 'x-api-key': apiKey }
+                    });
                     const data = await response.json();
                     console.log("data", data);
 

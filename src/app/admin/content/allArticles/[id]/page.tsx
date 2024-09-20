@@ -49,7 +49,10 @@ const ArticlePost = () => {
         if (id) {
             const fetcharticle = async () => {
                 try {
-                    const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/get/article/${id}`);
+                    const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/get/article/${id}`, {
+                        method: "GET",
+                        headers:{'x-api-key':apiKey}
+                    });
                     const {article}  = await response.json();
                     console.log(article, "data")
                     console.log("data verified--->", article?.verified);

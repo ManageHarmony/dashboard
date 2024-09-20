@@ -20,6 +20,11 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
     const [focusState, setFocusState] = useState<{ [key: string]: boolean }>({});
     const router = useRouter();
     const pathname = usePathname();
+    const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+
+    if (!apiKey) {
+      throw new Error('API key is missing.');
+    }
 
     const managerId = localStorage.getItem("manager_id")
     console.log("managerId", managerId)
@@ -28,7 +33,10 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
             setLoading(true);
             try {
                 const encodedQuery = encodeURIComponent(searchQuery);
-                const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/manager/${managerId}/search/bar?query=${encodedQuery}`);
+                const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/manager/${managerId}/search/bar?query=${encodedQuery}`, {
+                    method: "GET",headers:{'x-api-key':apiKey}
+          
+                  });
                 if (response.ok) {
                     const data = await response.json();
                     console.log("search data", data)

@@ -16,10 +16,8 @@ const StyledCard = styled(Card)(({ theme }) => ({
   justifyContent: 'space-between',
 }));
 
-const StaffCard: React.FC<{ name: string; role: string; imageUrl: string }> = ({ name, role, imageUrl }) => {
- 
+const StaffCard: React.FC<{ name?: string; role: string; imageUrl?: string }> = ({ name = "Unknown", role, imageUrl }) => {
   const truncatedName = name.length > 20 ? `${name.slice(0, 20)}...` : name;
-
   return (
     <StyledCard>
       <CardMedia

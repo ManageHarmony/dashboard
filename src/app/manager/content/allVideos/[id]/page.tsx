@@ -9,6 +9,11 @@ const ArticlePost = () => {
   const [ytVideo, setYtVideo] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [selectedOption, setSelectedOption] = useState('');
+  const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+
+        if (!apiKey) {
+          throw new Error('API key is missing.');
+        }
 
   const extractVideoId = (iframeHtml: string) => {
     const match = iframeHtml.match(/src="https:\/\/www\.youtube\.com\/embed\/([^"]+)"/);
@@ -42,7 +47,10 @@ const ArticlePost = () => {
     if (id) {
       const fetchVideo = async () => {
         try {
-          const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/get/yt/${id}`);
+          const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/get/yt/${id}`, {
+            method: "GET",
+            headers: { 'x-api-key': apiKey }
+        });
           const data = await response.json();
           console.log("data", data)
           setYtVideo(data.yt);

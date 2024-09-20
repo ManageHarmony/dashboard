@@ -13,6 +13,11 @@ const BlogPost = () => {
     const [blog, setBlog] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const router = useRouter();
+    const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+
+    if (!apiKey) {
+      throw new Error('API key is missing.');
+    }
    
     useEffect(() => {
         console.log('Router ID:', id);
@@ -20,7 +25,10 @@ const BlogPost = () => {
         if (id) {
             const fetchBlog = async () => {
                 try {
-                    const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/get/blog/${id}`);
+                    const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/get/blog/${id}`, {
+                        method: "GET",
+                        headers: {'x-api-key':apiKey}
+                    });
                     const { data } = await response.json();
                     console.log("data", data);
                     setBlog(data);
@@ -34,11 +42,7 @@ const BlogPost = () => {
             fetchBlog();
         }
     }, [id]);
-    const apiKey = process.env.NEXT_PUBLIC_API_KEY;
-
-    if (!apiKey) {
-      throw new Error('API key is missing.');
-    }
+   
     const handleDelete = async (id: string) => {
         setLoading(true)
         try {
