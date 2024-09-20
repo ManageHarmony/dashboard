@@ -75,7 +75,7 @@ export default function ContentActionBar() {
                     <div style={{ display: "flex", justifyContent: "space-between" }}>
                         <div className="action-bar fs-4 font-semibold mb-2">Action Bar</div>
                         <div style={{ display: "flex", gap: "10px" }}>
-                            <Link href='/creator/content/allblogs' style={{ textDecoration: "none" }}>
+                            <Link href='/creator/content/allBlogs' style={{ textDecoration: "none" }}>
                                 {loadingButton === 'allBlogs' ? (
                                     <ButtonLoading />
                                 ) : (
