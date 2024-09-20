@@ -7,7 +7,6 @@ import { useRouter } from 'next/navigation';
 import { Spinner } from 'react-bootstrap';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { KEY } from '@/app/page';
 
 interface LoginPageProps {
   userType: 'manager' | 'creator' | 'admin';
