@@ -29,6 +29,11 @@ const VideoContentList: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [filteredData, setFilteredData] = useState<VideoContent[]>([]);
     const [filter, setFilter] = useState('all'); // 'all', 'publish', 'unpublish', 'rejected'
+    const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+
+    if (!apiKey) {
+        throw new Error('API key is missing.');
+    }
 
     useEffect(() => {
         const fetchContent = async () => {
@@ -44,7 +49,10 @@ const VideoContentList: React.FC = () => {
               const managerUsername = decodedToken.username;
               console.log("manager", managerUsername)
     
-              const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/manager/get/content?managerUsername=${managerUsername}`);
+              const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/manager/get/content?managerUsername=${managerUsername}`, {
+                method: "GET",
+                headers: { 'x-api-key': apiKey }
+            });
               const data = await response.json();
               console.log("data", data);
     

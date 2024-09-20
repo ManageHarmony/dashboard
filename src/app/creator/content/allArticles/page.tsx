@@ -7,6 +7,11 @@ import { Spinner } from 'react-bootstrap';
 const AllArticlePage = () => {
     const [articleData, setArticleData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+
+    if (!apiKey) {
+      throw new Error('API key is missing.');
+    }
 
     useEffect(() => {
         const userId = localStorage.getItem("creator_id");
@@ -14,7 +19,8 @@ const AllArticlePage = () => {
         const fetchData = async () => {
             try {
                 const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/user/${userId}/getAllContent`, {
-                    method: 'GET'
+                    method: 'GET',
+                    headers: {'x-api-key':apiKey}
                 });
                 const data = await response.json();
                 console.log(data)

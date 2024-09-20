@@ -41,7 +41,10 @@ const ArticlePost = () => {
     if (id) {
       const fetchVideo = async () => {
         try {
-          const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/get/yt/${id}`);
+          const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/get/yt/${id}`, {
+            method: "GET",
+            headers:{'x-api-key':apiKey}
+          });
           const data = await response.json();
           setYtVideo(data.yt);
           setSelectedOption(data?.yt?.verified || '');

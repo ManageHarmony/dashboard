@@ -7,6 +7,11 @@ import { Spinner } from 'react-bootstrap';
 function AllBlogsPage() {
     const [blogData, setBlogData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+
+    if (!apiKey) {
+      throw new Error('API key is missing.');
+    }
 
     useEffect(() => {
 
@@ -17,8 +22,9 @@ function AllBlogsPage() {
         const fetchData = async () => {
             try {
                 const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/user/get/blogs/${id}`, {
-                    method: 'GET'
-                });
+                    method: "GET",headers:{'x-api-key':apiKey}
+          
+                  });
                 const data = await response.json();
                 console.log("data", data)
                 setBlogData(data?.blogData);

@@ -58,6 +58,11 @@ const StaffDetail: React.FC = () => {
     const params = useParams();
     const staffId = params.staffId as string; // Extract staffId from route params
     const role = searchParams.get('role'); // Extract role from query params
+    const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+
+    if (!apiKey) {
+      throw new Error('API key is missing.');
+    }
 
     const showToastError = (message: string) => {
         toast.error(message, {
@@ -83,6 +88,8 @@ const StaffDetail: React.FC = () => {
         });
     };
 
+    
+
     useEffect(() => {
         console.log("ID: ", staffId); // Debugging ID
         console.log("Role: ", role); // Debugging Role
@@ -95,7 +102,7 @@ const StaffDetail: React.FC = () => {
                         apiUrl = `https://harmony-backend-z69j.onrender.com/api/get/creator/profile/${staffId}`;
                         console.log("API URL: ", apiUrl);
 
-                        const response = await fetch(apiUrl);
+                        const response = await fetch(apiUrl,{headers:{'x-api-key':apiKey}});
                         const data = await response.json();
                         console.log("Details: ", data);
                         setStaffData(data?.creator);
@@ -104,7 +111,7 @@ const StaffDetail: React.FC = () => {
                         apiUrl = `https://harmony-backend-z69j.onrender.com/api/get/doctor/profile/${staffId}`;
                         console.log("API URL: ", apiUrl);
 
-                        const response = await fetch(apiUrl);
+                        const response = await fetch(apiUrl,{headers:{'x-api-key':apiKey}});
                         const data = await response.json();
                         console.log("Details: ", data);
                         setStaffData(data?.profile);
@@ -121,11 +128,7 @@ const StaffDetail: React.FC = () => {
             fetchData();
         }
     }, [staffId, role]);
-    const apiKey = process.env.NEXT_PUBLIC_API_KEY;
-
-    if (!apiKey) {
-      throw new Error('API key is missing.');
-    }
+   
     const handleDelete = async () => {
         if (!staffId || !role) {
             alert('Invalid staff ID or role');

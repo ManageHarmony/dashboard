@@ -17,11 +17,18 @@ export default function AllCategories() {
     const dispatch = useDispatch();
     const router = useRouter();
 
+
     useEffect(() => {
         const fetchCategories = async () => {
             try {
+                const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+
+                if (!apiKey) {
+                    throw new Error('API key is missing.');
+                }
                 const response = await fetch('https://harmony-backend-z69j.onrender.com/api/get/all/category', {
                     method: 'GET',
+                    headers: { 'x-api-key': apiKey }
                 });
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -47,12 +54,12 @@ export default function AllCategories() {
     const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
     if (!apiKey) {
-      throw new Error('API key is missing.');
+        throw new Error('API key is missing.');
     }
     const handleDelete = async (id: string) => {
         try {
             const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/admin/delete/category/service/${id}`, {
-                method: "DELETE",headers:{'x-api-key':apiKey}
+                method: "DELETE", headers: { 'x-api-key': apiKey }
 
             });
 
@@ -108,7 +115,7 @@ export default function AllCategories() {
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                     <h1 className="text-xl font-bold mb-4">All Categories</h1>
                     <Link href="/admin/content" style={{ textDecoration: "none" }}>
-                       <button className='see-all w-auto'
+                        <button className='see-all w-auto'
                         >
                             Go Back{" "}
                             <svg xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: "5px" }} width="16" height="17" viewBox="0 0 16 17" fill="none">
