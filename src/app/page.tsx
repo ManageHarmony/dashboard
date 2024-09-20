@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Button, Spinner } from "react-bootstrap";
-export const KEY = process.env.API_KEY;
 
 
 export default function Home() {
