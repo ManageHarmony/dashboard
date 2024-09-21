@@ -11,6 +11,7 @@ import TopSessions from './TopSessions';
 
 import './customScrollbar.css'; // Import custom scrollbar styles
 import 'bootstrap/dist/css/bootstrap.min.css';
+import BlogCarousel from './BlogCarousel';
 
 
 export default function Dashboard({sampleData} : any) {
@@ -34,6 +35,7 @@ export default function Dashboard({sampleData} : any) {
             <TopSessions />
           </div>
         </div>
+        <BlogCarousel />
       </div>
   );
 }

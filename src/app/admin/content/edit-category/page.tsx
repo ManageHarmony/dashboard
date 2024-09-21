@@ -40,7 +40,7 @@ const EditCategoryPage: React.FC = () => {
             setCategoryImage(imagePath);
             setInitialImage(imagePath);
             setPicturePreview(`/${imagePath}`);
-            sessionStorage.removeItem('editCategoryData');
+            localStorage.removeItem('editCategoryData');
         }
     }, [run]);
 

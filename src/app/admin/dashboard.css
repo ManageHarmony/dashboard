@@ -679,7 +679,7 @@ body {
   padding-bottom: 12px;
   border: 0.5px solid rgba(11, 11, 11, 0.3);
   border-radius: 16px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1); */
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
@@ -801,5 +801,43 @@ body {
 
 .see-all:hover svg path {
   stroke: white; /* Change icon color on hover */
+}
+
+/* To remove background color */
+.carousel-container {
+  width: 100%;
+  /* margin: 40px; */
+  background-color: none; /* Remove background color */
+}
+
+/* Adjust carousel slide styling */
+.carousel-slide {
+  padding: 5px 5px; /* Adjust padding to remove extra space */
+  background-color: transparent; /* Ensure transparent background */
+  box-shadow: none; /* Remove box shadow */
+}
+
+/* Dots customization */
+.slick-dots li button:before {
+  font-size: 16px; /* Increase dot size */
+  color: #FFA05D !important; /* Set background color to orange */
+  opacity: 1 !important;
+}
+
+/* To customize the selected active dot */
+.slick-dots li.slick-active button:before {
+  color: #2C297E !important; /* Ensure active dot has same color */
+}
+
+/* Custom left and right arrows */
+.slick-prev, .slick-next {
+  background-color: #FFA05D !important; /* Customize arrow background */
+  color: #fff !important;
+  box-shadow: none; /* Remove shadow */
+}
+
+/* Adjusting the right space issue */
+.slick-list {
+  margin-right: 0px !important; /* Remove any extra right margin */
 }
 
