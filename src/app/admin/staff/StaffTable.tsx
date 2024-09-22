@@ -64,7 +64,7 @@ export function ButtonLoading() {
     return (
         <BootstrapButton disabled style={{ backgroundColor: '#fff', width: "auto", color: "#2C297E", display: "flex", alignItems: "center", border: "none" }}>
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            <span style={{fontSize: "16px"}}>Please wait...</span>
+            <span style={{ fontSize: "16px" }}>Please wait...</span>
         </BootstrapButton>
     );
 }
@@ -183,12 +183,12 @@ const StaffTable: React.FC = () => {
         const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
         if (!apiKey) {
-          throw new Error('API key is missing.');
+            throw new Error('API key is missing.');
         }
         setLoading(true);
         try {
-            const response = await fetch('https://harmony-backend-z69j.onrender.com/api/admin/get/staff',{
-                headers:{'x-api-key':apiKey}
+            const response = await fetch('https://harmony-backend-z69j.onrender.com/api/admin/get/staff', {
+                headers: { 'x-api-key': apiKey }
             });
             const data = await response.json();
 
@@ -333,7 +333,7 @@ const StaffTable: React.FC = () => {
                                         onMouseLeave={handleMouseLeave}
                                         style={getButtonStyle("addCreator")}
                                         className='w-auto'
-                                        
+
                                     >
                                         <FaPlus style={{ marginRight: "8px" }} />
                                         Add Creator
@@ -455,17 +455,30 @@ const StaffTable: React.FC = () => {
                         console.log("DP", detailPath);
 
                         return (
-                            <TableRow onClick={() => router.push(detailPath)} key={row.id}>
+                            <TableRow
+                                onClick={() => router.push(detailPath)}
+                                key={row.id}
+                                style={{ cursor: "pointer", backgroundColor: "transparent" }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.backgroundColor = "#2C297E";
+                                    e.currentTarget.style.color = "white";
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.backgroundColor = "transparent";
+                                    e.currentTarget.style.color = "inherit";
+                                }}
+                            >
                                 {row.getVisibleCells().map((cell) => {
                                     return (
                                         <TableCell key={cell.id} style={{ padding: "8px" }}>
-                                            <div style={{ textDecoration: 'none', color: 'inherit' }}>
+                                            <div style={{ textDecoration: "none", color: "inherit" }}>
                                                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                             </div>
                                         </TableCell>
                                     );
                                 })}
                             </TableRow>
+
                         );
                     })}
                 </TableBody>
