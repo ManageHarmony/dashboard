@@ -49,12 +49,6 @@ export default function TopPicks() {
         fetchData();
     }, []);
 
-    const addCategory = (data: any) => {
-        console.log('data to be saved', data);
-        sessionStorage.setItem('serviceCategoryData', JSON.stringify(data));
-        router.push('/admin/services/new-service-category');
-    };
-
     const handleDelete = async (id: string) => {
         try {
             const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/admin/delete/service/${id}`, {
@@ -101,9 +95,16 @@ export default function TopPicks() {
         });
     };
 
-    const handleClick = (id: number) => {
-        router.push(`/admin/content/allArticles/${id}`)
-    }
+    const handleEdit = (data: any) => {
+        // Store data in LocalStorage before navigating
+        console.log('data we are getting to be sqaved', data);
+        localStorage.setItem('editService', JSON.stringify(data));
+        router.push('/admin/services/edit-service');
+    };
+
+    // const handleClick = (id: number) => {
+    //     router.push(`/admin/content/allArticles/${id}`)
+    // }
 
     const handleDropdownClick = (e: React.MouseEvent) => {
         e.stopPropagation();
@@ -169,10 +170,10 @@ export default function TopPicks() {
                                                     </svg>
                                                 </Dropdown.Toggle>
                                                 <Dropdown.Menu className="p-0 shadow-lg" style={{ width: 'auto', minWidth: '120px', padding: '4px 0' }}>
-                                                    {/* <Dropdown.Item onClick={() => addCategory(service)}>
+                                                    <Dropdown.Item onClick={() => handleEdit(service)}>
                                                         <FontAwesomeIcon icon={faEdit} className="mr-2" style={{ color: '#ff6600', fontSize: '16px' }} />
-                                                        Add Category
-                                                    </Dropdown.Item> */}
+                                                        Edit
+                                                    </Dropdown.Item>
                                                     <Dropdown.Item onClick={() => handleDelete(service.id)}>
                                                         <FontAwesomeIcon icon={faTrash} className="mr-2" style={{ color: '#ff6600', fontSize: '16px' }} />
                                                         Delete

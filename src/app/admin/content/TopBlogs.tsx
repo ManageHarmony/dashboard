@@ -1,10 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faEye, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
-import { Dropdown } from "react-bootstrap";
 
 
 interface topBlogs {

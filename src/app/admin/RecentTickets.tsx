@@ -32,7 +32,7 @@ export default function RecentTickets() {
           throw new Error('API key is missing.');
         }
         const response = await fetch("https://harmony-backend-z69j.onrender.com/api/get/all/recent/ticket", {
-          method: "GET",headers:{'x-api-key':apiKey}
+          method: "GET", headers: { 'x-api-key': apiKey }
         })
 
         if (!response.ok) {
@@ -57,7 +57,7 @@ export default function RecentTickets() {
         <h2 style={{ fontSize: "1.4rem", fontWeight: "600" }}>Recent <span style={{ color: "#FFA05D" }}>Tickets</span></h2>
         <Link href="/admin/recentTickets" style={{ textDecoration: "none" }}>
           <button
-         className='see-all'
+            className='see-all'
           >
             See All
             <svg xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: "5px" }} width="16" height="17" viewBox="0 0 16 17" fill="none">

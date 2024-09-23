@@ -43,6 +43,13 @@ const DashboardHeader = ({ isPanelHovered, onShowNotifications, showNotification
   const notificationsCount = notifications.length;
   const router = useRouter();
   const [name, setName] = useState<string | null>(null);
+  const [notification , setNotification] = useState<string[]>([]);
+  const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+
+  if (!apiKey) {
+    throw new Error('API key is missing.');
+  }
+
 
   useEffect(() => {
     const storedName = localStorage.getItem('name');
@@ -51,7 +58,32 @@ const DashboardHeader = ({ isPanelHovered, onShowNotifications, showNotification
       setName(firstWord);
     }
   }, []);
-  
+
+  const managerId = localStorage.getItem("manager_id");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/get/manager/${managerId}/read/notification`, {
+          method: "GET",
+          headers: { "x-api-key": apiKey }
+        })
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          const errorMessage = data.message || `Failed updating the service. Status: ${response.status}`;
+          console.error('Server Error:', data);
+          throw new Error(errorMessage);
+        }
+        setNotification(data || []);
+      } catch (error) {
+        console.error("something went wrong", error)
+      }
+    };
+    fetchData();
+  }, [])
+
 
   const [showCard, setShowCard] = useState(false);
   const [showModal, setShowModal] = useState(false);
