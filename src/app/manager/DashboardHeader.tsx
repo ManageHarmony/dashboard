@@ -83,6 +83,29 @@ const DashboardHeader = ({ isPanelHovered, onShowNotifications, showNotification
   }, []);
 
   const notificationsCount = notifications.length;
+=======
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/get/manager/${managerId}/read/notification`, {
+          method: "GET",
+          headers: { "x-api-key": apiKey }
+        })
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          const errorMessage = data.message || `Failed updating the service. Status: ${response.status}`;
+          console.error('Server Error:', data);
+          throw new Error(errorMessage);
+        }
+        setNotification(data || []);
+      } catch (error) {
+        console.error("something went wrong", error)
+      }
+    };
+    fetchData();
+  }, [])
+
 
   const [showCard, setShowCard] = useState(false);
   const [showModal, setShowModal] = useState(false);
