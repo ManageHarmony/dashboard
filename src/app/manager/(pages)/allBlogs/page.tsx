@@ -1,8 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { truncateText } from "@/utils/textUtils";
 import { CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import { Dropdown } from "react-bootstrap";
@@ -109,11 +108,16 @@ const AllBlogs = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {displayedData.map((article, index) => (
-                                <tr key={article.id} className="border-b border-gray-300" style={{ fontSize: "16px" }}>
+                            {displayedData.map((blog, index) => (
+                                <tr key={blog.id} className="border-b border-gray-300" style={{ fontSize: "16px" }}>
                                     <td className="p-2 text-black">{index + 1}</td>
-                                    <td className="p-2 text-black">{article?.data?.headings.h1[0]}</td>
-                                    <td className="p-2 text-black">{article?.blog_creatorId}</td>
+                                    <td className="p-2 text-black">{truncateText(
+                                        blog?.data?.headings?.h1?.[0] ||
+                                        blog?.data?.headings?.h2?.[0] ||
+                                        'No headings available',
+                                        25
+                                    )}</td>
+                                    <td className="p-2 text-black">{blog?.blog_creatorId}</td>
                                     <td className="p-2">
                                         <button className="text-orange-600 flex items-center">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">

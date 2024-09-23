@@ -11,39 +11,14 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import SearchBar from './Search';
 import LogoutModal from '@/components/LogoutModal';
+import { Notification } from './HeaderNotification';
 
 const DashboardHeader = ({ isPanelHovered, onShowNotifications, showNotifications, onShowDropdown, showDropdown }: any) => {
-  const [notifications] = useState([
-    {
-      title: 'Shankar Sharma as Doctor',
-      description: 'is Now Registered on Phoenix and Approved by Jay Rawat',
-      image: '/assets/avatar.jpg',
-      isRead: false,
-    },
-    {
-      title: 'Smriti Sharma as Doctor',
-      description: 'on 60 character break the content and need show .............',
-      image: '/assets/avatar.jpg',
-      isRead: false,
-    },
-    {
-      title: 'Shankar Sharma as Doctor',
-      description: 'on 60 character break the content and need show .............',
-      image: '/assets/avatar.jpg',
-      isRead: false,
-    },
-    {
-      title: 'Smriti Sharma as Doctor',
-      description: 'on 60 character break the content and need show .............',
-      image: '/assets/avatar.jpg',
-      isRead: true,
-    },
-  ]);
 
-  const notificationsCount = notifications.length;
+ 
   const router = useRouter();
   const [name, setName] = useState<string | null>(null);
-  const [notification , setNotification] = useState<string[]>([]);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
   const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
   if (!apiKey) {
@@ -62,28 +37,52 @@ const DashboardHeader = ({ isPanelHovered, onShowNotifications, showNotification
   const managerId = localStorage.getItem("manager_id");
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchNotifications = async () => {
       try {
-        const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/get/manager/${managerId}/read/notification`, {
+        // Fetch unread notifications
+        const unreadResponse = await fetch(`https://harmony-backend-z69j.onrender.com/api/get/manager/${managerId}/unread/notification`, {
           method: "GET",
           headers: { "x-api-key": apiKey }
-        })
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          const errorMessage = data.message || `Failed updating the service. Status: ${response.status}`;
-          console.error('Server Error:', data);
-          throw new Error(errorMessage);
-        }
-        setNotification(data || []);
+        });
+        const unreadData = await unreadResponse.json();
+    
+        // Fetch read notifications
+        const readResponse = await fetch(`https://harmony-backend-z69j.onrender.com/api/get/manager/${managerId}/read/notification`, {
+          method: "GET",
+          headers: { "x-api-key": apiKey }
+        });
+        const readData = await readResponse.json();
+        
+        // Ensure unreadData and readData are arrays before proceeding
+        const unreadNotifications = Array.isArray(unreadData) ? unreadData : [];
+        const readNotifications = Array.isArray(readData) ? readData : [];
+    
+        const combinedNotifications: Notification[] = [
+          ...unreadNotifications.map((item: any) => ({
+            title: item.title,
+            content: item.content,
+            image: item.data?.creatorProfilePath || '', // Use optional chaining to prevent undefined errors
+            isRead: false,
+          })),
+          ...readNotifications.map((item: any) => ({
+            title: item.title,
+            content: item.content,
+            image: item.data?.creatorProfilePath || '',
+            isRead: true,
+          })),
+        ];
+    
+        setNotifications(combinedNotifications);
       } catch (error) {
-        console.error("something went wrong", error)
+        console.error('Error fetching notifications:', error);
       }
     };
-    fetchData();
-  }, [])
+    
 
+    fetchNotifications();
+  }, []);
+
+  const notificationsCount = notifications.length;
 
   const [showCard, setShowCard] = useState(false);
   const [showModal, setShowModal] = useState(false);
