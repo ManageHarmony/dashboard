@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { useRouter, usePathname } from 'next/navigation';
-import logo from '../../../public/logo.jpg';
+import logo from '../../../public/logo1.png'
 import ContentIcon from '@/components/icons/ContentIcon';
 import DashboardIcon from '@/components/icons/DashboardIcon';
 import OrganizationIcon from '@/components/icons/OrganizationIcon';
@@ -61,7 +61,7 @@ const SidePanel: React.FC<SidePanelProps> = ({ onPanelHover, isPanelHovered }) =
       }}
     >
       <div className="logoContainer">
-        <Image src={logo} alt="Logo" width={50} height={50} />
+        <Image src={logo} alt="Logo" width={60} height={60} />
       </div>
 
       <ul style={{ listStyleType: 'none', padding: 0, height: "80%", display: "flex", flexDirection: "column", justifyContent: "space-evenly" }}>

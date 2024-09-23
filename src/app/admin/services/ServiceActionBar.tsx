@@ -1,11 +1,11 @@
 'use client';
 
 import { useState } from "react";
-import { FiBell } from "react-icons/fi";
 import Link from "next/link";
 import { Button as BootstrapButton } from "react-bootstrap";
 import { Loader2 } from "lucide-react";
-import { Spinner } from "react-bootstrap";
+import { RiServiceLine } from "react-icons/ri";
+import { BiSolidCategoryAlt } from "react-icons/bi";
 
 export function ButtonLoading() {
     return (
@@ -106,22 +106,25 @@ export default function ServiceActionBar() {
                             onMouseLeave={handleMouseLeave}
                             style={getButtonStyle("addNewService")}
                         >
-                            Add New Service <FiBell className="ml-2" />
+                            Add New Service <RiServiceLine  className="ml-2" />
                         </BootstrapButton>
                     )}
                 </Link>
-                {/* <Link href='#' style={{ textDecoration: "none" }}>
-                    {loadingButton === 'allCategories' ? (<ButtonLoading />) : (<BootstrapButton
-                        variant="outline-warning"
-                        onClick={() => handleClick("allCategories")}
-                        onMouseEnter={() => handleMouseEnter("allCategories")}
-                        onMouseLeave={handleMouseLeave}
-                        style={getButtonStyle("allCategories")}
-                    >
-                        All Categories <FiBell className="ml-2" />
-                    </BootstrapButton>
+                <Link href="/admin/content/newCategory" style={{ textDecoration: "none" }}>
+                    {loadingButton === 'addNewCategory' ? (
+                        <ButtonLoading />
+                    ) : (
+                        <BootstrapButton
+                            variant="outline-warning"
+                            onClick={() => handleClick("addNewCategory")}
+                            onMouseEnter={() => handleMouseEnter("addNewCategory")}
+                            onMouseLeave={handleMouseLeave}
+                            style={getButtonStyle("addNewCategory")}
+                        >
+                            Add New Category <BiSolidCategoryAlt className="ml-2 fs-5" />
+                        </BootstrapButton>
                     )}
-                </Link> */}
+                </Link>
 
             </div>
         </div >
