@@ -13,7 +13,7 @@ import SearchBar from './Search';
 import LogoutModal from '@/components/LogoutModal';
 import { Notification } from './HeaderNotification';
 
-const DashboardHeader = ({ isPanelHovered, onShowNotifications, showNotifications, onShowDropdown, showDropdown }: any) => {
+const DashboardHeader = ({ onShowNotifications, showNotifications, onShowDropdown, showDropdown }: any) => {
 
  
   const router = useRouter();
@@ -83,28 +83,28 @@ const DashboardHeader = ({ isPanelHovered, onShowNotifications, showNotification
   }, []);
 
   const notificationsCount = notifications.length;
-=======
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/get/manager/${managerId}/read/notification`, {
-          method: "GET",
-          headers: { "x-api-key": apiKey }
-        })
+ useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const response = await fetch(`https://harmony-backend-z69j.onrender.com/api/get/manager/${managerId}/read/notification`, {
+        method: "GET",
+        headers: { "x-api-key": apiKey }
+      })
 
-        const data = await response.json();
+      const data = await response.json();
 
-        if (!response.ok) {
-          const errorMessage = data.message || `Failed updating the service. Status: ${response.status}`;
-          console.error('Server Error:', data);
-          throw new Error(errorMessage);
-        }
-        setNotification(data || []);
-      } catch (error) {
-        console.error("something went wrong", error)
+      if (!response.ok) {
+        const errorMessage = data.message || `Failed updating the service. Status: ${response.status}`;
+        console.error('Server Error:', data);
+        throw new Error(errorMessage);
       }
-    };
-    fetchData();
-  }, [])
+      setNotifications(data || []);
+    } catch (error) {
+      console.error("something went wrong", error)
+    }
+  };
+  fetchData();
+ })
 
 
   const [showCard, setShowCard] = useState(false);
