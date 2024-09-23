@@ -56,7 +56,7 @@ const SidePanel: React.FC<SidePanelProps> = ({ onPanelHover, isPanelHovered }) =
       }}
     >
       <div className="logoContainer">
-        <Image src={logo} alt="Logo" width={50} height={50} />
+       <Image src={logo} alt="Logo" width={60} height={60} />
       </div>
 
       <ul style={{ listStyleType: 'none', padding: 0, height: "80%", display: "flex", flexDirection: "column", gap:20 }}>
