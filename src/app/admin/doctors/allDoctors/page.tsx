@@ -7,7 +7,7 @@ import Link from "next/link";
 
 interface Doctor {
     id: number,
-    doctor_name: string,
+    doctorName: string,
     noOfBooking: number
 }
 
@@ -90,7 +90,7 @@ export default function AllDoctors() {
                             {allDoctors.map((doctor, index) => (
                                 <tr key={doctor.id} className="border-b border-gray-300">
                                     <td className="p-2 text-black">{index + 1}</td>
-                                    <td className="p-2 text-black">{doctor?.doctor_name}</td>
+                                    <td className="p-2 text-black">{doctor.doctorName || "No name"}</td>
                                     <td className="p-2 text-black">{doctor?.noOfBooking}</td>
                                     <td className="p-2">
                                         <button className="text-orange-600 flex items-center">

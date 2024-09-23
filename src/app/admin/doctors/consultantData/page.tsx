@@ -1,43 +1,62 @@
-import { CardTitle } from "@/components/ui/card";
+'use client'
+
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { CardTitle } from "react-bootstrap";
 
+interface topConsultant {
+    id: number;
+    doctorName: string;
+    noOfBooking: number;
+}
 
-export default function AllSessions() {
-    const topSessionsData = [
-        { id: 1, name: "Dr. Naseem Ahmad", times: 45 },
-        { id: 2, name: "Shubham Jindal", times: 35 },
-        { id: 3, name: "Shubham Solanki", times: 31 },
-        { id: 4, name: "Mikakshi Sisodia", times: 28 },
-        { id: 5, name: "Rishi Kumar", times: 18 },
-        { id: 3, name: "Shubham Solanki", times: 31 },
-        { id: 4, name: "Mikakshi Sisodia", times: 28 },
-        { id: 5, name: "Rishi Kumar", times: 18 },
-        { id: 1, name: "Dr. Naseem Ahmad", times: 45 },
-        { id: 2, name: "Shubham Jindal", times: 35 },
-        { id: 3, name: "Shubham Solanki", times: 31 },
-        { id: 4, name: "Mikakshi Sisodia", times: 28 },
-        { id: 5, name: "Rishi Kumar", times: 18 },
-        { id: 3, name: "Shubham Solanki", times: 31 },
-        { id: 4, name: "Mikakshi Sisodia", times: 28 },
-        { id: 5, name: "Rishi Kumar", times: 18 },
-        { id: 1, name: "Dr. Naseem Ahmad", times: 45 },
-        { id: 2, name: "Shubham Jindal", times: 35 },
-        { id: 3, name: "Shubham Solanki", times: 31 },
-        { id: 4, name: "Mikakshi Sisodia", times: 28 },
-        { id: 5, name: "Rishi Kumar", times: 18 },
-        { id: 3, name: "Shubham Solanki", times: 31 },
-        { id: 4, name: "Mikakshi Sisodia", times: 28 },
-        { id: 5, name: "Rishi Kumar", times: 18 },
-        // You can add more data here to test scrolling
-    ];
+export default function AllConsultants() {
+    const [topConsultants, setTopConsultants] = useState<topConsultant[]>([]);
+    const [loading, setLoading] = useState(true);
+    const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+
+    if (!apiKey) {
+      throw new Error('API key is missing.');
+    }
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch("https://harmony-backend-z69j.onrender.com/api/trending/consultant", {
+                    method: "GET",headers:{'x-api-key':apiKey}
+                })
+                if (!response.ok) {
+                    throw new Error("Failed to fetching data")
+                }
+
+                const data = await response.json();
+                console.log("data", data?.consultants);
+                setTopConsultants(data?.consultants);
+                setLoading(false)
+            } catch (error) {
+                console.error("something went wrong", error)
+                setLoading(false);
+            }
+        }
+        fetchData();
+    }, []);
+
+    if (loading) {
+        return (
+            <div className="text-center p-4">
+                <p>Loading...</p>
+            </div>
+        );
+    }
+
 
 
     return (
         <div style={{ padding: "20px 30px" }}>
-            <div style={{ width: "100%", height: "100vh", backgroundColor: "white", borderRadius: "20px", overflow: "hidden", padding: "20px 20px", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}>
+            <div style={{ width: "100%", height: "100vh", backgroundColor: "white", borderRadius: "20px", padding: "20px 20px", overflow: "hidden", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}>
                 <div className="flex justify-between items-center" style={{ marginBottom: "10px" }}>
                     <CardTitle>
-                        <span className="font-bold text-lg">All Sessions</span>{" "}
+                        <span className="font-bold text-lg">All Consultants Picks</span>{" "}
                         <span className="font-normal text-lg">by Users</span>
                         <div style={{
                             width: "40%",
@@ -46,7 +65,7 @@ export default function AllSessions() {
                             display: "block"
                         }}></div>
                     </CardTitle>
-                    <Link href="/admin" style={{ textDecoration: "none" }}>
+                    <Link href="/admin/doctors" style={{ textDecoration: "none" }}>
                        <button className='see-all w-auto'
                         >
                             Go Back{" "}
@@ -59,7 +78,7 @@ export default function AllSessions() {
                     </Link>
                 </div>
 
-                <div style={{ maxHeight: "calc(100% - 25px)", overflowY: "auto", padding: "5px 10px" }} className="scrollable-content">
+                <div style={{ maxHeight: "calc(100% - 20px)", overflowY: "auto" }} className="scrollable-content">
                     <table className="table-auto w-full border-collapse">
                         <thead className="bg-orange-100 rounded-t-lg">
                             <tr>
@@ -70,11 +89,11 @@ export default function AllSessions() {
                             </tr>
                         </thead>
                         <tbody>
-                            {topSessionsData.map((session, index) => (
-                                <tr key={session.id} className="border-b border-gray-300">
+                            {topConsultants.map((consultant, index) => (
+                                <tr key={consultant.id} className="border-b border-gray-300" style={{ fontSize: "16px" }}>
                                     <td className="p-2 text-black">{index + 1}</td>
-                                    <td className="p-2 text-black">{session.name}</td>
-                                    <td className="p-2 text-black">{session.times}</td>
+                                    <td className="p-2 text-black">{consultant.doctorName || "No name"}</td>
+                                    <td className="p-2 text-black">{consultant.noOfBooking}</td>
                                     <td className="p-2">
                                         <button className="text-orange-600 flex items-center">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">

@@ -7,7 +7,7 @@ import RecentTickets from './RecentTickets';
 import TopConsultants from './TopConsultants';
 import DashboardStats from './DashboardStats';
 import DynamicChart from './DynamicChart';
-import TopSessions from './TopSessions';
+import TopSessions from './TopServices';
 
 import './customScrollbar.css'; // Import custom scrollbar styles
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -28,9 +28,9 @@ export default function Dashboard({sampleData} : any) {
           <div>
             <TopConsultants />
           </div>
-          <div>
+          {/* <div>
             <DynamicChart />
-          </div>
+          </div> */}
           <div>
             <TopSessions />
           </div>

@@ -6,7 +6,7 @@ import { CardTitle } from "react-bootstrap";
 
 interface topConsultant {
     id: number;
-    doctor_name: string;
+    doctorName: string;
     noOfBooking: number;
 }
 
@@ -92,7 +92,7 @@ export default function AllConsultants() {
                             {topConsultants.map((consultant, index) => (
                                 <tr key={consultant.id} className="border-b border-gray-300" style={{ fontSize: "16px" }}>
                                     <td className="p-2 text-black">{index + 1}</td>
-                                    <td className="p-2 text-black">{consultant.doctor_name}</td>
+                                    <td className="p-2 text-black">{consultant.doctorName || "No name"}</td>
                                     <td className="p-2 text-black">{consultant.noOfBooking}</td>
                                     <td className="p-2">
                                         <button className="text-orange-600 flex items-center">
