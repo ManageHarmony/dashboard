@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Grid, Button, Menu, MenuItem, ListItemIcon, ListItemText, IconButton } from '@mui/material';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import IdCardIcon from '@mui/icons-material/Badge'; // Using Badge icon as an example for ID card
-import StaffCard from './StaffCard'; // Adjust the path if needed
+import StaffCard from '../../../../components/StaffCard'; // Adjust the path if needed
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Spinner } from 'react-bootstrap';
@@ -93,7 +93,7 @@ const StaffCardView: React.FC = () => {
           })),
           ...doctors.map((item: any) => ({
             id: item.id,
-            name: item.doctor_name,
+            name: item.doctorName,
             role: 'Doctor',
             imageUrl: "/assets/avatar.jpg",
           })),

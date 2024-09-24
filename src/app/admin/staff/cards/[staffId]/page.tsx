@@ -11,7 +11,7 @@ import {
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { styled } from '@mui/material/styles';
-import StaffCard from '../StaffCard';
+import StaffCard from '../../../../../components/StaffCard';
 
 import EditIcon from '@mui/icons-material/Edit';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
@@ -188,7 +188,7 @@ const StaffDetail: React.FC = () => {
 
             if (!response.ok) throw new Error(`Failed Updating ${newStatus}`);
             setStatus(newStatus);
-            showToastSuccess(`manager is set as ${newStatus}`);
+            showToastSuccess(`${role} is set as ${newStatus}`);
         } catch (error) {
             console.error(`Failed to set as ${newStatus}: `, error);
             showToastError(`Failed to set as ${newStatus}`);
@@ -306,7 +306,7 @@ const StaffDetail: React.FC = () => {
                                 Full Name:
                             </Typography>
                             <Typography variant="body2" component="p" sx={{ color: '#606060', fontSize: "16px" }}>
-                                {staffData.name || staffData.doctor_name}
+                                {staffData.name || staffData.doctorName}
                             </Typography>
                             <Typography variant="body2" component="p" sx={{ color: 'black', fontWeight: 'bold', fontSize: "16px" }}>
                                 Username:
@@ -324,7 +324,7 @@ const StaffDetail: React.FC = () => {
                                 Contact:
                             </Typography>
                             <Typography variant="body2" component="p" sx={{ color: '#606060', fontSize: "16px" }}>
-                                {staffData.contact_number}
+                                {staffData.contact_number || staffData.contactNumber}
                             </Typography>
                             {role === 'creator' ? <>
                                 <Typography variant="body2" component="p" sx={{ color: 'black', fontWeight: 'bold', fontSize: "16px" }}>
