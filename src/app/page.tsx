@@ -1,25 +1,15 @@
+// src/app/page.tsx
 'use client'
 
-import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { Button as BootstrapButton } from "react-bootstrap";
 import { RiAdminLine } from "react-icons/ri";
 import { GrUserManager } from "react-icons/gr";
 import { FaUserDoctor } from "react-icons/fa6";
-
-// Button Loading Component
-export function ButtonLoading() {
-  return (
-    <BootstrapButton disabled style={{ backgroundColor: '#fff', border: "1px dashed orange", width: "auto", color: "#ff6600", display: "flex", alignItems: "center" }}>
-      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-      <span>Please wait...</span>
-    </BootstrapButton>
-  );
-}
+import ButtonLoading from "@/components/ButtonLoading";
 
 export default function Home() {
-
   const [loadingButton, setLoadingButton] = useState<string | null>(null);
   const [hoveredButton, setHoveredButton] = useState<string | null>(null);
 
@@ -84,6 +74,7 @@ export default function Home() {
               Admin <RiAdminLine className="ml-2 fs-5" />
             </BootstrapButton>
           )}</Link>
+
           <Link href='/manager' style={{ textDecoration: "none" }}> {loadingButton === 'manager' ? (
             <ButtonLoading />
           ) : (
@@ -97,6 +88,7 @@ export default function Home() {
               Manager <GrUserManager className="ml-2 fs-5" />
             </BootstrapButton>
           )}</Link>
+
           <Link href='/creator' style={{ textDecoration: "none" }}> {loadingButton === 'creator' ? (
             <ButtonLoading />
           ) : (
@@ -110,6 +102,7 @@ export default function Home() {
               Creator <GrUserManager className="ml-2 fs-5" />
             </BootstrapButton>
           )}</Link>
+
           <Link href='/consultants' style={{ textDecoration: "none" }}> {loadingButton === 'consultants' ? (
             <ButtonLoading />
           ) : (
