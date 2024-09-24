@@ -1,0 +1,27 @@
+.see-all {
+    font-size: 1rem;
+    color: #FFA05D;
+    display: flex;
+    align-items: center;
+    background: #fff;
+    cursor: pointer;
+    border: 1px dashed #ffecd4;
+    padding: 5px 10px;
+    border-radius: 8px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .see-all svg path {
+    stroke: #FFA05D; /* Set initial icon color */
+    transition: stroke 0.3s; /* Smooth transition for the icon */
+  }
+  
+  .see-all:hover {
+    background-color: #FFA05D;
+    color: white;
+    border: none;
+  }
+  
+  .see-all:hover svg path {
+    stroke: white; /* Change icon color on hover */
+  }
