@@ -196,7 +196,7 @@ const StaffCardView: React.FC = () => {
                         <Grid item xs={12} sm={6} md={4} lg={3} key={staff.id} style={{ display: 'flex', justifyContent: 'center' }}>
                             <Link href={detailPath} passHref>
                                 <div style={{ cursor: 'pointer' }}>
-                                    <StaffCard name={staff.name || staff.username} role={staff.role} imageUrl={staff.imageUrl} />
+                                    <StaffCard name={staff.name || staff.username} role={staff.role} imageUrl="/assets/avatar.jpg" />
                                 </div>
                             </Link>
                         </Grid>
