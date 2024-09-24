@@ -46,6 +46,8 @@ export default function RootLayout({
             pageTitle = 'New Category';
         } else if (pathname === '/admin/services/new-service') {
             pageTitle = 'New Service';
+        } else if (pathname === '/admin/doctors/consultantData') {
+            pageTitle = 'Consultant Data';
         } else if (pathname === '/admin/services/new-service-category') {
             pageTitle = 'New Service Category';
         } else if (pathname === '/admin/content/allblogs') {

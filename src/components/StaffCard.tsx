@@ -17,7 +17,7 @@ const StyledCard = styled(Card)(({ theme }) => ({
 }));
 
 const StaffCard: React.FC<{ name?: string; role: string; imageUrl?: string }> = ({ name = "Unknown", role, imageUrl }) => {
-  const truncatedName = name.length > 20 ? `${name.slice(0, 20)}...` : name;
+  const truncatedName = (name && typeof name === 'string' && name.length > 20) ? `${name.slice(0, 20)}...` : name || "Unknown";
   return (
     <StyledCard>
       <CardMedia
