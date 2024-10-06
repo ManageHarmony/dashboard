@@ -24,7 +24,7 @@ const VideoContentList: React.FC = () => {
 
     useEffect(() => {
         setLoading(true)
-        const userId = localStorage.getItem("creator_Id");
+        const userId = localStorage.getItem("creator_id");
 
         const fetchVideoContents = async () => {
             try {

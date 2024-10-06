@@ -37,7 +37,7 @@ const CreateBlog = () => {
         }
     };
     useEffect(() => {
-        const id = localStorage.getItem('creator_Id');
+        const id = localStorage.getItem('creator_id');
         setCreatorId(id);
     
         // Get categories from Redux instead of making an API call

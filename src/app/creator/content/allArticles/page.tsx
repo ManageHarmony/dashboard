@@ -14,7 +14,7 @@ const AllArticlePage = () => {
     }
 
     useEffect(() => {
-        const userId = localStorage.getItem("creator_Id");
+        const userId = localStorage.getItem("creator_id");
 
         const fetchData = async () => {
             try {
