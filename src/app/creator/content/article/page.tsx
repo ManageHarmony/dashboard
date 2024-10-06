@@ -37,7 +37,7 @@ const NewArticlePage = () => {
     };
 
     useEffect(() => {
-        const id = localStorage.getItem('creator_id');
+        const id = localStorage.getItem('creator_Id');
         setCreatorId(id);
         const getCategories = async () => {
             try {

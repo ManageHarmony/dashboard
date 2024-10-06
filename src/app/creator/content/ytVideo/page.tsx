@@ -140,7 +140,7 @@ const CreateYTContent: React.FC = () => {
 
         setLoading(true);
 
-        const userId = localStorage.getItem("creator_id");
+        const userId = localStorage.getItem("creator_Id");
 
         if (!userId) {
             showToastError('User ID not found. Please log in again.');

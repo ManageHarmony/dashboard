@@ -11,7 +11,7 @@ const DashboardStats = ({ isPanelHovered }: any) => {
 
   const [count, setCount] = useState<any>({}); // Initialize count state
   useEffect(() => {
-    const userId = localStorage.getItem("creator_id");
+    const userId = localStorage.getItem("creator_Id");
 
     // Fetch data from the first API
     const fetchAllContent = async () => {
